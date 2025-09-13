@@ -34,7 +34,7 @@ public class ReflectionUI {
 	protected static ReflectionUI defaultInstance;
 
 	protected final Object typeCacheMutex = new Object();
-	protected Map<Object, ITypeInfo> typeCache = createTypeCache();
+	protected Map<ITypeInfoSource, ITypeInfo> typeCache = createTypeCache();
 	protected ValidationErrorRegistry validationErrorRegistry = createValidationErrorRegistry();
 
 	/**
@@ -75,19 +75,18 @@ public class ReflectionUI {
 		return new ValidationErrorRegistry();
 	}
 
-	protected Map<Object, ITypeInfo> createTypeCache() {
+	protected Map<ITypeInfoSource, ITypeInfo> createTypeCache() {
 		return MiscUtils.newStandardCache();
 	}
 
 	/**
 	 * @return the cache that stores {@link ITypeInfo} instances obtained from this
-	 *         {@link ReflectionUI} instance. The {@link ITypeInfo} instances in
-	 *         this cache will be garbage collected once they are weakly reachable.
-	 *         Developers that implement new {@link ITypeInfo} classes are
-	 *         encouraged to use this map to store their instances in order to
-	 *         improve performances.
+	 *         {@link ReflectionUI} instance. Its access should be synchronized on
+	 *         the monitor returned by {@link #getTypeCacheMutex()}. Developers that
+	 *         implement new {@link ITypeInfo} classes are encouraged to use this
+	 *         map to store their instances in order to improve performances.
 	 */
-	public Map<Object, ITypeInfo> getTypeCache() {
+	public Map<ITypeInfoSource, ITypeInfo> getTypeCache() {
 		return typeCache;
 	}
 

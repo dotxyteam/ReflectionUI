@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ITransaction;
@@ -129,20 +128,20 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	protected static final String ITEM_TYPE_CHANGED = InfoCustomizations.class.getName() + ".itemTypeChanged";
 	protected static final String ORIGINAL_ITEM_TYPE = InfoCustomizations.class.getName() + ".originalItemType";
 
-	protected CustomizedUI customizedUI;
+	protected ReflectionUI reflectionUI;
+
+	protected abstract InfoCustomizations accessInfoCustomizations();
+
+	protected abstract InfoProxyFactory getInfoCustomizationsSetupFactory();
 
 	public abstract String getIdentifier();
 
-	public InfoCustomizationsFactory(CustomizedUI customizedUI) {
-		this.customizedUI = customizedUI;
+	public InfoCustomizationsFactory(ReflectionUI reflectionUI) {
+		this.reflectionUI = reflectionUI;
 	}
 
-	public CustomizedUI getCustomizedUI() {
-		return customizedUI;
-	}
-
-	public InfoCustomizations getInfoCustomizations() {
-		return customizedUI.getInfoCustomizations();
+	public ReflectionUI getReflectionUI() {
+		return reflectionUI;
 	}
 
 	protected void traceActiveCustomizations(Map<String, Object> specificProperties) {
@@ -152,7 +151,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			trace = new ArrayList<InfoCustomizations>();
 			specificProperties.put(ACTIVE_CUSTOMIZATIONS_KEY, trace);
 		}
-		trace.add(getInfoCustomizations());
+		trace.add(accessInfoCustomizations());
 	}
 
 	public static boolean areCustomizationsActive(InfoCustomizations infoCustomizations,
@@ -167,8 +166,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	protected void traceListItemTypeChange(Map<String, Object> specificProperties, ITypeInfoFinder customItemTypeFinder,
 			ITypeInfo itemType) {
-		specificProperties.put(ITEM_TYPE_CHANGED + "." + getInfoCustomizations().toString(), Boolean.TRUE);
-		specificProperties.put(ORIGINAL_ITEM_TYPE + "." + getInfoCustomizations(), itemType);
+		specificProperties.put(ITEM_TYPE_CHANGED + "." + accessInfoCustomizations().toString(), Boolean.TRUE);
+		specificProperties.put(ORIGINAL_ITEM_TYPE + "." + accessInfoCustomizations(), itemType);
 	}
 
 	public static boolean isItemTypeChanged(InfoCustomizations infoCustomizations,
@@ -184,7 +183,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	public ITypeInfo wrapTypeInfo(ITypeInfo type) {
 		for (TypeCustomization tc : new ArrayList<TypeCustomization>(
-				InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations().getTypeCustomizations())) {
+				accessInfoCustomizations().getTypeCustomizations())) {
 			if (tc.getBaseTypeName() != null) {
 				if (MiscUtils.containsWord(type.getName(), tc.getTypeName())) {
 					type = getTypeInheritanceFactory(tc.getTypeName(), tc.getBaseTypeName()).wrapTypeInfo(type);
@@ -206,8 +205,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			type = getSpecificitiesFactory(specificitiesIdentifier).unwrapTypeInfo(type);
 		}
 		type = super.unwrapTypeInfo(type);
-		for (TypeCustomization tc : MiscUtils.getReverse(
-				InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations().getTypeCustomizations())) {
+		for (TypeCustomization tc : MiscUtils.getReverse(accessInfoCustomizations().getTypeCustomizations())) {
 			if (tc.getBaseTypeName() != null) {
 				if (MiscUtils.containsWord(type.getName(), tc.getTypeName())) {
 					type = getTypeInheritanceFactory(tc.getTypeName(), tc.getBaseTypeName()).unwrapTypeInfo(type);
@@ -227,7 +225,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected FieldsLayout getFieldsLayout(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getFieldsLayout() != null) {
 				return t.getFieldsLayout();
@@ -238,7 +236,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected CategoriesStyle getCategoriesStyle(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getCategoriesStyle() != null) {
 				return t.getCategoriesStyle();
@@ -249,7 +247,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected MethodsLayout getMethodsLayout(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getMethodsLayout() != null) {
 				return t.getMethodsLayout();
@@ -261,7 +259,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected IFieldInfo getSelectionTargetField(IListTypeInfo listType, ITypeInfo objectType) {
 		ITypeInfo itemType = listType.getItemType();
-		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.getSelectionTargetFieldName() != null) {
@@ -280,7 +278,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected boolean isItemNullValueSupported(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.isItemNullValueAllowed()) {
@@ -293,7 +291,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected ItemCreationMode getItemCreationMode(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.getItemCreationMode() != null) {
@@ -306,7 +304,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected ToolsLocation getToolsLocation(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.getCustomToolsLocation() != null) {
@@ -319,7 +317,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected boolean isItemNodeValidityDetectionEnabled(IListTypeInfo listType, ItemPosition itemPosition) {
 		ITypeInfo itemType = listType.getItemType();
-		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			TreeStructureDiscoverySettings d = l.getTreeStructureDiscoverySettings();
@@ -328,7 +326,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					try {
 						Object item = itemPosition.getItem();
 						if (item != null) {
-							ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
+							ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 							for (IFieldInfo field : actualItemType.getFields()) {
 								if (d.getItemValidabilityStatusFieldNamePattern().matches(field.getName())) {
 									Object fieldValue = field.getValue(item);
@@ -358,7 +356,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected ValueReturnMode getItemReturnMode(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.getCustomItemReturnMode() != null) {
@@ -370,7 +368,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected boolean isConcrete(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.isAbstractForced()) {
 				return false;
@@ -381,7 +379,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected boolean isImmutable(ITypeInfo type) {
-		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
+		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(),
 				type.getName());
 		if (t != null) {
 			if (t.isImmutableForced()) {
@@ -393,7 +391,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected boolean isValidationRequired(ITypeInfo type) {
-		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
+		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(),
 				type.getName());
 		if (t != null) {
 			if (t.isValidationRequirementForced()) {
@@ -405,7 +403,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected boolean canPersist(ITypeInfo type) {
-		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
+		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(),
 				type.getName());
 		if (t != null) {
 			if ((t.getSavingMethodName() != null) && (t.getLoadingMethodName() != null)) {
@@ -417,7 +415,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected void save(ITypeInfo type, Object object, File outputFile) {
-		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
+		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(),
 				type.getName());
 		if (t != null) {
 			if (t.getSavingMethodName() != null) {
@@ -439,7 +437,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected void load(ITypeInfo type, Object object, File inputFile) {
-		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
+		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(),
 				type.getName());
 		if (t != null) {
 			if (t.getLoadingMethodName() != null) {
@@ -461,7 +459,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected boolean canCopy(ITypeInfo type, Object object) {
-		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
+		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(),
 				type.getName());
 		if (t != null) {
 			if (t.isCopyForbidden()) {
@@ -490,7 +488,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected Object copy(ITypeInfo type, Object object) {
-		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
+		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(),
 				type.getName());
 		if (t != null) {
 			if (t.isCopyForbidden()) {
@@ -546,7 +544,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected Object[] toArray(IListTypeInfo listType, Object listValue) {
 		ITypeInfo itemType = listType.getItemType();
-		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.isListSorted()) {
@@ -560,7 +558,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected Object[] getValues(IEnumerationTypeInfo enumType) {
-		EnumerationCustomization e = InfoCustomizations.getEnumerationCustomization(this.getInfoCustomizations(),
+		EnumerationCustomization e = InfoCustomizations.getEnumerationCustomization(this.accessInfoCustomizations(),
 				enumType.getName());
 		if (e != null) {
 			List<Object> result = new ArrayList<Object>();
@@ -598,7 +596,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected boolean isDynamicEnumeration(IEnumerationTypeInfo enumType) {
-		EnumerationCustomization e = InfoCustomizations.getEnumerationCustomization(this.getInfoCustomizations(),
+		EnumerationCustomization e = InfoCustomizations.getEnumerationCustomization(this.accessInfoCustomizations(),
 				enumType.getName());
 		if (e != null) {
 			if (e.isDynamicEnumerationForced()) {
@@ -611,7 +609,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected IEnumerationItemInfo getValueInfo(IEnumerationTypeInfo enumType, Object object) {
 		IEnumerationItemInfo result = super.getValueInfo(enumType, object);
-		EnumerationCustomization e = InfoCustomizations.getEnumerationCustomization(this.getInfoCustomizations(),
+		EnumerationCustomization e = InfoCustomizations.getEnumerationCustomization(this.accessInfoCustomizations(),
 				enumType.getName());
 		if (e != null) {
 			final EnumerationItemCustomization i = InfoCustomizations.getEnumerationItemCustomization(e,
@@ -654,7 +652,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			List<? extends ItemPosition> selection,
 			final Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		ITypeInfo itemType = listType.getItemType();
-		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			List<IDynamicListProperty> result = super.getDynamicProperties(listType, selection,
@@ -666,7 +664,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					final ItemPosition itemPosition = selection.get(0);
 					final Object item = itemPosition.getItem();
 					if (item != null) {
-						final ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
+						final ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 						for (final IFieldInfo itemField : actualItemType.getFields()) {
 							if (itemField.getName().equals(shortcut.getFieldName())) {
 								AbstractDynamicListProperty property = new AbstractDynamicListProperty() {
@@ -703,7 +701,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										}
 
 									};
-									SubFieldInfo delegate = new SubFieldInfo(customizedUI, itemPositionAsField,
+									SubFieldInfo delegate = new SubFieldInfo(reflectionUI, itemPositionAsField,
 											itemField, actualItemType);
 
 									@Override
@@ -902,7 +900,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	protected List<IDynamicListAction> getDynamicActions(IListTypeInfo listType, List<? extends ItemPosition> selection,
 			final Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		ITypeInfo itemType = listType.getItemType();
-		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			List<IDynamicListAction> result = super.getDynamicActions(listType, selection,
@@ -917,7 +915,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					final ItemPosition itemPosition = selection.get(0);
 					final Object item = itemPosition.getItem();
 					if (item != null) {
-						final ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
+						final ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 						for (final IMethodInfo itemMethod : actualItemType.getMethods()) {
 							if (itemMethod.getSignature().equals(shortcut.getMethodSignature())) {
 								AbstractDynamicListAction action = new AbstractDynamicListAction() {
@@ -954,7 +952,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										}
 
 									};
-									SubMethodInfo delegate = new SubMethodInfo(customizedUI, itemPositionAsField,
+									SubMethodInfo delegate = new SubMethodInfo(reflectionUI, itemPositionAsField,
 											itemMethod, actualItemType);
 
 									@Override
@@ -997,7 +995,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										if (delegate.getReturnValueType() == null) {
 											return null;
 										} else {
-											return customizedUI.getTypeInfo(
+											return reflectionUI.getTypeInfo(
 													new TypeInfoSourceProxy(delegate.getReturnValueType().getSource()) {
 														@Override
 														public SpecificitiesIdentifier getSpecificitiesIdentifier() {
@@ -1155,8 +1153,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected IListItemDetailsAccessMode getDetailsAccessMode(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
-				(itemType == null) ? null : itemType.getName());
+		ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.getCustomDetailsAccessMode() != null) {
 				return l.getCustomDetailsAccessMode();
@@ -1168,15 +1166,15 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected Object fromArray(IListTypeInfo listType, Object[] array) {
 		ITypeInfo itemType = listType.getItemType();
-		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
-				(itemType == null) ? null : itemType.getName());
+		ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.getEditOptions() != null) {
 				if (l.getEditOptions().getListInstantiationOption() != null) {
 					Object newListInstance;
 					if (l.getEditOptions().getListInstantiationOption().getCustomInstanceTypeFinder() != null) {
 						ITypeInfo customInstanceType = l.getEditOptions().getListInstantiationOption()
-								.getCustomInstanceTypeFinder().find(customizedUI, null);
+								.getCustomInstanceTypeFinder().find(reflectionUI, null);
 						newListInstance = ReflectionUIUtils.createDefaultInstance(customInstanceType);
 					} else {
 						newListInstance = ReflectionUIUtils.createDefaultInstance(listType);
@@ -1192,8 +1190,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected boolean canInstantiateFromArray(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
-				(itemType == null) ? null : itemType.getName());
+		ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.getEditOptions() == null) {
 				return false;
@@ -1208,8 +1206,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected boolean canReplaceContent(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
-				(itemType == null) ? null : itemType.getName());
+		ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.getEditOptions() == null) {
 				return false;
@@ -1224,8 +1222,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected boolean isInsertionAllowed(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
-				(itemType == null) ? null : itemType.getName());
+		ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if ((l.getEditOptions() == null) || !l.getEditOptions().isItemCreationEnabled()) {
 				return false;
@@ -1237,8 +1235,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected boolean isRemovalAllowed(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
-				(itemType == null) ? null : itemType.getName());
+		ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if ((l.getEditOptions() == null) || !l.getEditOptions().isItemDeletionEnabled()) {
 				return false;
@@ -1250,8 +1248,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected boolean isMoveAllowed(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
-				(itemType == null) ? null : itemType.getName());
+		ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if ((l.getEditOptions() == null) || !l.getEditOptions().isItemMoveEnabled()) {
 				return false;
@@ -1263,8 +1261,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected boolean areItemsAutomaticallyPositioned(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
-				(itemType == null) ? null : itemType.getName());
+		ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.isItemAutomaticPositioningManagementForced()) {
 				return true;
@@ -1279,8 +1277,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected boolean canViewItemDetails(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
-				(itemType == null) ? null : itemType.getName());
+		ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.isItemDetailsViewDisabled()) {
 				return false;
@@ -1291,7 +1289,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected boolean isModificationStackAccessible(ITypeInfo type) {
-		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (tc != null) {
 			if (tc.isUndoManagementHidden()) {
 				return false;
@@ -1302,12 +1300,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
-		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (tc != null) {
 			if (tc.getPolymorphicSubTypeFinders() != null) {
 				List<ITypeInfo> result = new ArrayList<ITypeInfo>(super.getPolymorphicInstanceSubTypes(type));
 				for (ITypeInfoFinder finder : tc.getPolymorphicSubTypeFinders()) {
-					ITypeInfo subType = finder.find(customizedUI, null);
+					ITypeInfo subType = finder.find(reflectionUI, null);
 					result.add(subType);
 				}
 				return result;
@@ -1319,11 +1317,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected IListStructuralInfo getStructuralInfo(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
-				(itemType == null) ? null : itemType.getName());
+		ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			IListStructuralInfo base = super.getStructuralInfo(listType);
-			return new CustomizedListStructuralInfo(customizedUI, base, listType, l);
+			return new CustomizedListStructuralInfo(reflectionUI, base, listType, l);
 		}
 		return super.getStructuralInfo(listType);
 	}
@@ -1331,11 +1329,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected ITypeInfo getItemType(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
-		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
-				(itemType == null) ? null : itemType.getName());
+		ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.getCustomItemTypeFinder() != null) {
-				return l.getCustomItemTypeFinder().find(customizedUI, null);
+				return l.getCustomItemTypeFinder().find(reflectionUI, null);
 			}
 		}
 		return super.getItemType(listType);
@@ -1343,7 +1341,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getIconImagePath(ITypeInfo type, Object object) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			ResourcePath result = t.getIconImagePath();
 			if (result != null) {
@@ -1359,7 +1357,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
 		traceActiveCustomizations(result);
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getSpecificProperties() != null) {
 				if (t.getSpecificProperties().size() > 0) {
@@ -1370,7 +1368,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		if (type instanceof IListTypeInfo) {
 			IListTypeInfo listType = (IListTypeInfo) type;
 			ITypeInfo itemType = listType.getItemType();
-			ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+			ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),
 					listType.getName(), (itemType == null) ? null : itemType.getName());
 			if (l != null) {
 				if (l.getCustomItemTypeFinder() != null) {
@@ -1385,7 +1383,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	protected Map<String, Object> getSpecificProperties(IApplicationInfo appInfo) {
 		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(appInfo));
 		traceActiveCustomizations(result);
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization != null) {
 			if (appCustomization.getSpecificProperties() != null) {
 				if (appCustomization.getSpecificProperties().size() > 0) {
@@ -1401,7 +1399,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			IEnumerationTypeInfo parentEnumType) {
 		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(info, parentEnumType));
 		traceActiveCustomizations(result);
-		EnumerationCustomization e = InfoCustomizations.getEnumerationCustomization(this.getInfoCustomizations(),
+		EnumerationCustomization e = InfoCustomizations.getEnumerationCustomization(this.accessInfoCustomizations(),
 				parentEnumType.getName());
 		if (e != null) {
 			final EnumerationItemCustomization i = InfoCustomizations.getEnumerationItemCustomization(e,
@@ -1444,7 +1442,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	protected List<IFieldInfo> sortFields(List<IFieldInfo> fields, ITypeInfo objectType) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(),
 				objectType.getName());
 		if (t != null) {
 			if (t != null) {
@@ -1459,7 +1457,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	protected List<IMethodInfo> sortMethods(List<IMethodInfo> methods, ITypeInfo objectType) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(),
 				objectType.getName());
 		if (t != null) {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>(methods);
@@ -1473,7 +1471,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected String getCaption(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getCustomTypeCaption() != null) {
 				return t.getCustomTypeCaption();
@@ -1484,7 +1482,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getFormBackgroundImagePath(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getFormBackgroundImagePath() != null) {
 				return t.getFormBackgroundImagePath();
@@ -1495,7 +1493,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getFormBackgroundColor(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getFormBackgroundColor() != null) {
 				return t.getFormBackgroundColor();
@@ -1506,7 +1504,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getFormForegroundColor(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getFormForegroundColor() != null) {
 				return t.getFormForegroundColor();
@@ -1517,7 +1515,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getFormBorderColor(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getFormBorderColor() != null) {
 				return t.getFormBorderColor();
@@ -1528,7 +1526,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getFormEditorForegroundColor(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getFormEditorForegroundColor() != null) {
 				return t.getFormEditorForegroundColor();
@@ -1539,7 +1537,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getFormEditorBackgroundColor(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getFormEditorBackgroundColor() != null) {
 				return t.getFormEditorBackgroundColor();
@@ -1550,7 +1548,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getFormButtonBackgroundColor(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getFormButtonBackgroundColor() != null) {
 				return t.getFormButtonBackgroundColor();
@@ -1561,7 +1559,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getFormButtonForegroundColor(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getFormButtonForegroundColor() != null) {
 				return t.getFormButtonForegroundColor();
@@ -1572,7 +1570,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getFormButtonBorderColor(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getFormButtonBorderColor() != null) {
 				return t.getFormButtonBorderColor();
@@ -1583,7 +1581,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getFormButtonBackgroundImagePath(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getFormButtonBackgroundImagePath() != null) {
 				return t.getFormButtonBackgroundImagePath();
@@ -1594,7 +1592,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getCategoriesBackgroundColor(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getCategoriesBackgroundColor() != null) {
 				return t.getCategoriesBackgroundColor();
@@ -1605,7 +1603,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getCategoriesForegroundColor(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getCategoriesForegroundColor() != null) {
 				return t.getCategoriesForegroundColor();
@@ -1616,7 +1614,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected String getName(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getApplicationName() != null) {
 			return appCustomization.getApplicationName();
 		}
@@ -1625,7 +1623,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected String getCaption(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getCustomApplicationCaption() != null) {
 			return appCustomization.getCustomApplicationCaption();
 		}
@@ -1634,7 +1632,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getIconImagePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getIconImagePath() != null) {
 			return appCustomization.getIconImagePath();
 		}
@@ -1643,7 +1641,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected String getOnlineHelp(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getOnlineHelp() != null) {
 			return appCustomization.getOnlineHelp();
 		}
@@ -1652,7 +1650,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected boolean isSystemIntegrationCrossPlatform(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.isSystemIntegrationCrossPlatform()) {
 			return true;
 		}
@@ -1661,7 +1659,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainBackgroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainBackgroundColor() != null) {
 			return appCustomization.getMainBackgroundColor();
 		}
@@ -1670,7 +1668,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainForegroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainForegroundColor() != null) {
 			return appCustomization.getMainForegroundColor();
 		}
@@ -1679,7 +1677,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainBorderColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainBorderColor() != null) {
 			return appCustomization.getMainBorderColor();
 		}
@@ -1688,7 +1686,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainEditorBackgroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainEditorBackgroundColor() != null) {
 			return appCustomization.getMainEditorBackgroundColor();
 		}
@@ -1697,7 +1695,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainEditorForegroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainEditorForegroundColor() != null) {
 			return appCustomization.getMainEditorForegroundColor();
 		}
@@ -1706,7 +1704,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getMainBackgroundImagePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainBackgroundImagePath() != null) {
 			return appCustomization.getMainBackgroundImagePath();
 		}
@@ -1715,7 +1713,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainButtonBackgroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainButtonBackgroundColor() != null) {
 			return appCustomization.getMainButtonBackgroundColor();
 		}
@@ -1724,7 +1722,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainButtonBorderColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainButtonBorderColor() != null) {
 			return appCustomization.getMainButtonBorderColor();
 		}
@@ -1733,7 +1731,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getMainButtonBackgroundImagePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainButtonBackgroundImagePath() != null) {
 			return appCustomization.getMainButtonBackgroundImagePath();
 		}
@@ -1742,7 +1740,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getButtonCustomFontResourcePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getButtonCustomFontResourcePath() != null) {
 			return appCustomization.getButtonCustomFontResourcePath();
 		}
@@ -1751,7 +1749,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getLabelCustomFontResourcePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getLabelCustomFontResourcePath() != null) {
 			return appCustomization.getLabelCustomFontResourcePath();
 		}
@@ -1760,7 +1758,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getEditorCustomFontResourcePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getEditorCustomFontResourcePath() != null) {
 			return appCustomization.getEditorCustomFontResourcePath();
 		}
@@ -1769,7 +1767,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getTitleCustomFontResourcePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getTitleCustomFontResourcePath() != null) {
 			return appCustomization.getTitleCustomFontResourcePath();
 		}
@@ -1778,7 +1776,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainButtonForegroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainButtonForegroundColor() != null) {
 			return appCustomization.getMainButtonForegroundColor();
 		}
@@ -1787,7 +1785,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getTitleBackgroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getTitleBackgroundColor() != null) {
 			return appCustomization.getTitleBackgroundColor();
 		}
@@ -1796,7 +1794,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getTitleForegroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
+		ApplicationCustomization appCustomization = this.accessInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getTitleForegroundColor() != null) {
 			return appCustomization.getTitleForegroundColor();
 		}
@@ -1805,7 +1803,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected int getFormPreferredWidth(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			FormSizeCustomization size = t.getFormWidth();
 			if (size != null) {
@@ -1824,7 +1822,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected int getFormPreferredHeight(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			FormSizeCustomization size = t.getFormHeight();
 			if (size != null) {
@@ -1843,7 +1841,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected int getFormSpacing(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getFormSpacing() != null) {
 				return t.getFormSpacing();
@@ -1854,7 +1852,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected void validate(ITypeInfo type, Object object, ValidationSession session) throws Exception {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			for (IMethodInfo method : getMethods(type)) {
 				MethodCustomization m = InfoCustomizations.getMethodCustomization(t, method.getSignature(), false);
@@ -1874,7 +1872,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected void onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			for (IMethodInfo method : getMethods(type)) {
 				MethodCustomization m = InfoCustomizations.getMethodCustomization(t, method.getSignature(), false);
@@ -1895,7 +1893,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ITransaction createTransaction(ITypeInfo type, final Object object) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			final Map<TransactionalRole, List<IMethodInfo>> transactionMethodsByRole = new HashMap<InfoCustomizations.TransactionalRole, List<IMethodInfo>>();
 			transactionMethodsByRole.put(TransactionalRole.BEGIN, new ArrayList<IMethodInfo>());
@@ -1946,7 +1944,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected String getOnlineHelp(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getOnlineHelp() != null) {
 				return t.getOnlineHelp();
@@ -1990,7 +1988,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		public MembersCustomizationsFactory(ITypeInfo objectType) {
 			this.objectType = objectType;
-			this.objectTypeCustomization = InfoCustomizations.getTypeCustomization(getInfoCustomizations(),
+			this.objectTypeCustomization = InfoCustomizations.getTypeCustomization(accessInfoCustomizations(),
 					objectType.getName());
 			if (objectTypeCustomization != null) {
 				inheritMembers(inputFields, inputMethods, inputConstructors, menuModel);
@@ -2012,19 +2010,19 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			for (AbstractVirtualFieldDeclaration virtualFieldDeclaration : objectTypeCustomization
 					.getVirtualFieldDeclarations()) {
 				IFieldInfo newField = createVirtualField(virtualFieldDeclaration);
-				newField = customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, objectType);
+				newField = getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, objectType);
 				inputFields.add(newField);
 			}
 			for (ImportedFieldDeclaration importedFieldDeclaration : objectTypeCustomization
 					.getImportedFieldDeclarations()) {
 				IFieldInfo newField = getImportedField(importedFieldDeclaration);
-				newField = customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, objectType);
+				newField = getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, objectType);
 				inputFields.add(newField);
 			}
 			for (ImportedMethodDeclaration importedMethodDeclaration : objectTypeCustomization
 					.getImportedMethodDeclarations()) {
 				IMethodInfo newMethod = getImportedMethod(importedMethodDeclaration);
-				newMethod = customizedUI.getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethod, objectType);
+				newMethod = getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethod, objectType);
 				inputMethods.add(newMethod);
 			}
 			menuModel.importContributions(
@@ -2035,7 +2033,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (virtualFieldDeclaration instanceof VirtualFieldDeclaration) {
 				VirtualFieldDeclaration basicVirtualFieldDeclaration = (VirtualFieldDeclaration) virtualFieldDeclaration;
 				try {
-					ITypeInfo fieldType = basicVirtualFieldDeclaration.getFieldTypeFinder().find(customizedUI,
+					ITypeInfo fieldType = basicVirtualFieldDeclaration.getFieldTypeFinder().find(reflectionUI,
 							new SpecificitiesIdentifier(objectType.getName(),
 									basicVirtualFieldDeclaration.getFieldName()));
 					return new VirtualFieldInfo(basicVirtualFieldDeclaration.getFieldName(), fieldType);
@@ -2046,10 +2044,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			} else if (virtualFieldDeclaration instanceof ImplicitListFieldDeclaration) {
 				ImplicitListFieldDeclaration implicitListFieldDeclaration = (ImplicitListFieldDeclaration) virtualFieldDeclaration;
 				try {
-					ITypeInfo itemType = implicitListFieldDeclaration.getItemTypeFinder().find(customizedUI,
+					ITypeInfo itemType = implicitListFieldDeclaration.getItemTypeFinder().find(reflectionUI,
 							new SpecificitiesIdentifier(objectType.getName(),
 									implicitListFieldDeclaration.getFieldName()));
-					return new ImplicitListFieldInfo(customizedUI, implicitListFieldDeclaration.getFieldName(),
+					return new ImplicitListFieldInfo(reflectionUI, implicitListFieldDeclaration.getFieldName(),
 							objectType, itemType, implicitListFieldDeclaration.getCreateMethodName(),
 							implicitListFieldDeclaration.getGetMethodName(),
 							implicitListFieldDeclaration.getAddMethodName(),
@@ -2068,8 +2066,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		protected IFieldInfo getImportedField(ImportedFieldDeclaration importedFieldDeclaration) {
 			try {
-				ITypeInfo sourceType = importedFieldDeclaration.getSourceTypeFinder().find(customizedUI, null);
-				return new ImportedFieldInfo(customizedUI, sourceType, importedFieldDeclaration.getSourceFieldName(),
+				ITypeInfo sourceType = importedFieldDeclaration.getSourceTypeFinder().find(reflectionUI, null);
+				return new ImportedFieldInfo(reflectionUI, sourceType, importedFieldDeclaration.getSourceFieldName(),
 						objectType, importedFieldDeclaration.getTargetFieldName());
 			} catch (Throwable t) {
 				throw new ReflectionUIError(
@@ -2079,7 +2077,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		protected IMethodInfo getImportedMethod(ImportedMethodDeclaration importedMethodDeclaration) {
 			try {
-				ITypeInfo sourceType = importedMethodDeclaration.getSourceTypeFinder().find(customizedUI, null);
+				ITypeInfo sourceType = importedMethodDeclaration.getSourceTypeFinder().find(reflectionUI, null);
 				return new ImportedMethodInfo(sourceType, importedMethodDeclaration.getSourceMethodSignature(),
 						importedMethodDeclaration.getTargetMethodName());
 			} catch (Throwable t) {
@@ -2100,20 +2098,20 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				List<IMethodInfo> constructors) {
 			for (Method objectMethod : Object.class.getMethods()) {
 				if (GetterFieldInfo.GETTER_PATTERN.matcher(objectMethod.getName()).matches()) {
-					IFieldInfo newField = new GetterFieldInfo(customizedUI, objectMethod, Object.class);
-					newField = customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, objectType);
+					IFieldInfo newField = new GetterFieldInfo(reflectionUI, objectMethod, Object.class);
+					newField = getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, objectType);
 					fields.add(newField);
 				} else {
-					IMethodInfo newMethod = new DefaultMethodInfo(customizedUI, objectMethod, Object.class);
+					IMethodInfo newMethod = new DefaultMethodInfo(reflectionUI, objectMethod, Object.class);
 					if (newMethod.getName().equals("toString")) {
 						newMethod = new MethodInfoProxy(newMethod) {
 							@Override
 							public Object invoke(Object object, InvocationData invocationData) {
-								return ReflectionUIUtils.toString(customizedUI, object);
+								return ReflectionUIUtils.toString(reflectionUI, object);
 							}
 						};
 					}
-					newMethod = customizedUI.getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethod, objectType);
+					newMethod = getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethod, objectType);
 					methods.add(newMethod);
 				}
 			}
@@ -2121,8 +2119,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		protected void addPersistenceMembers(List<IFieldInfo> fields, List<IMethodInfo> methods,
 				List<IMethodInfo> constructors) {
-			methods.add(new SaveToFileMethod(customizedUI, objectType));
-			methods.add(new LoadFromFileMethod(customizedUI, objectType));
+			methods.add(new SaveToFileMethod(reflectionUI, objectType));
+			methods.add(new LoadFromFileMethod(reflectionUI, objectType));
 		}
 
 		protected void evolveMembers() {
@@ -2140,7 +2138,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				transformMethods(inputMethods, outputMethods, newFields, newMethods);
 				transformMethods(inputConstructors, outputConstructors, newFields, newConstructors);
 			} catch (final Throwable t) {
-				customizedUI.logError(t);
+				reflectionUI.logError(t);
 				outputFields.add(createErrorField(new ReflectionUIError(t)));
 				return;
 			}
@@ -2148,16 +2146,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			checkDuplicates(outputFields, outputMethods, outputConstructors);
 
 			for (int i = 0; i < newFields.size(); i++) {
-				newFields.set(i,
-						customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newFields.get(i), objectType));
+				newFields.set(i, getInfoCustomizationsSetupFactory().wrapFieldInfo(newFields.get(i), objectType));
 			}
 			for (int i = 0; i < newMethods.size(); i++) {
-				newMethods.set(i,
-						customizedUI.getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethods.get(i), objectType));
+				newMethods.set(i, getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethods.get(i), objectType));
 			}
 			for (int i = 0; i < newConstructors.size(); i++) {
-				newConstructors.set(i, customizedUI.getInfoCustomizationsSetupFactory()
-						.wrapMethodInfo(newConstructors.get(i), objectType));
+				newConstructors.set(i,
+						getInfoCustomizationsSetupFactory().wrapMethodInfo(newConstructors.get(i), objectType));
 			}
 
 			inputFields = newFields;
@@ -2190,7 +2186,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 				@Override
 				public ITypeInfo getType() {
-					return customizedUI.getTypeInfo(new JavaTypeInfoSource(Object.class,
+					return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class,
 							new SpecificitiesIdentifier(objectType.getName(), "customizationError")));
 				}
 
@@ -2320,7 +2316,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						.get(capsuleFieldName);
 				List<IFieldInfo> encapsulatedFields = encapsulatedMembers.getFirst();
 				List<IMethodInfo> encapsulatedMethods = encapsulatedMembers.getSecond();
-				MembersCapsuleFieldInfo capsuleField = new MembersCapsuleFieldInfo(customizedUI, capsuleFieldName,
+				MembersCapsuleFieldInfo capsuleField = new MembersCapsuleFieldInfo(reflectionUI, capsuleFieldName,
 						encapsulatedFields, encapsulatedMethods, objectType);
 				result.add(capsuleField);
 			}
@@ -2370,7 +2366,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 							@Override
 							public ITypeInfo getType() {
-								return customizedUI.getTypeInfo(new JavaTypeInfoSource(Object.class,
+								return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class,
 										new SpecificitiesIdentifier(objectType.getName(), getName())));
 							}
 
@@ -2787,7 +2783,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					IMenuElementPosition menuItemContainerPosition = ReflectionUIUtils.getMenuElementPosition(
 							objectTypeCustomization.getMenuModelCustomization(), mc.getMenuLocation());
 					if (menuItemContainerPosition != null) {
-						IMenuElementInfo actionMenuItem = new MethodActionMenuItemInfo(customizedUI,
+						IMenuElementInfo actionMenuItem = new MethodActionMenuItemInfo(reflectionUI,
 								wrapMethodInfo(method, objectType));
 						menuModel.importContribution(menuItemContainerPosition, actionMenuItem);
 					}
@@ -2837,7 +2833,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (mc.isReturnValueFieldGenerated()) {
-					newFields.add(new MethodReturnValueAsFieldInfo(customizedUI, method, objectType) {
+					newFields.add(new MethodReturnValueAsFieldInfo(reflectionUI, method, objectType) {
 
 						@Override
 						public boolean isHidden() {
@@ -2877,7 +2873,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						};
 						parameterizedFields.add(field);
 					}
-					method = new ParameterizedFieldsMethodInfo(customizedUI, method, parameterizedFields, objectType) {
+					method = new ParameterizedFieldsMethodInfo(reflectionUI, method, parameterizedFields, objectType) {
 						/*
 						 * The method signature is not modified since it identifies this customization.
 						 * Otherwise it will not be possible to disable the customization.
@@ -2902,7 +2898,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc, param.getName());
 					if (pc != null) {
 						if (pc.isDisplayedAsField()) {
-							ParameterAsFieldInfo methodParameterAsField = new ParameterAsFieldInfo(customizedUI, method,
+							ParameterAsFieldInfo methodParameterAsField = new ParameterAsFieldInfo(reflectionUI, method,
 									param, objectType) {
 
 								@Override
@@ -3192,7 +3188,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isDisplayedAsSingletonList()) {
-					field = new ValueAsListFieldInfo(customizedUI, field, objectType);
+					field = new ValueAsListFieldInfo(reflectionUI, field, objectType);
 				}
 				return field;
 			}
@@ -3205,7 +3201,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isNullStatusFieldExported()) {
-					newFields.add(new ExportedNullStatusFieldInfo(customizedUI, field, objectType) {
+					newFields.add(new ExportedNullStatusFieldInfo(reflectionUI, field, objectType) {
 
 						@Override
 						public boolean isHidden() {
@@ -3249,7 +3245,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							return f.getImportedNullStatusFieldName();
 						}
 					};
-					field = new ImportedNullStatusFieldInfo(customizedUI, field, nullStatusField, objectType);
+					field = new ImportedNullStatusFieldInfo(reflectionUI, field, nullStatusField, objectType);
 				}
 				return field;
 			}
@@ -3262,7 +3258,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isSetterGenerated()) {
-					newMethods.add(new FieldAsSetterInfo(customizedUI, field, objectType) {
+					newMethods.add(new FieldAsSetterInfo(reflectionUI, field, objectType) {
 
 						@Override
 						public boolean isHidden() {
@@ -3300,7 +3296,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 						@Override
 						public ITypeInfo getType() {
-							return customizedUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
+							return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
 								@Override
 								public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 									return new SpecificitiesIdentifier(objectType.getName(), getName());
@@ -3376,7 +3372,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isGetterGenerated()) {
-					newMethods.add(new FieldAsGetterInfo(customizedUI, field, objectType) {
+					newMethods.add(new FieldAsGetterInfo(reflectionUI, field, objectType) {
 
 						@Override
 						public boolean isHidden() {
@@ -3395,7 +3391,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.getTypeConversion() != null) {
-					ITypeInfo newType = f.getTypeConversion().findNewType(customizedUI,
+					ITypeInfo newType = f.getTypeConversion().findNewType(reflectionUI,
 							new SpecificitiesIdentifier(objectType.getName(), field.getName()));
 					Filter<Object> conversionMethod = f.getTypeConversion().buildOverallConversionMethod();
 					Filter<Object> reverseConversionMethod = f.getTypeConversion()
@@ -3489,7 +3485,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected SpecificitiesIdentifier specificitiesIdentifier;
 
 		public SpecificitiesFactory(SpecificitiesIdentifier specificitiesIdentifier) {
-			super(InfoCustomizationsFactory.this.customizedUI);
+			super(InfoCustomizationsFactory.this.reflectionUI);
 			this.specificitiesIdentifier = specificitiesIdentifier;
 		}
 
@@ -3500,14 +3496,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		}
 
 		@Override
-		public IInfoProxyFactory getSpecificitiesFactory(SpecificitiesIdentifier specificitiesIdentifier) {
-			return IInfoProxyFactory.NULL_INFO_PROXY_FACTORY;
+		protected InfoProxyFactory getInfoCustomizationsSetupFactory() {
+			return InfoCustomizationsFactory.this.getInfoCustomizationsSetupFactory();
 		}
 
 		@Override
-		public InfoCustomizations getInfoCustomizations() {
+		protected InfoCustomizations accessInfoCustomizations() {
 			TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(
-					InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations(),
+					InfoCustomizationsFactory.this.accessInfoCustomizations(),
 					specificitiesIdentifier.getObjectTypeName());
 			FieldCustomization fieldCustomization = InfoCustomizations.getFieldCustomization(typeCustomization,
 					specificitiesIdentifier.getFieldName());
@@ -3516,9 +3512,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		}
 
 		@Override
+		public IInfoProxyFactory getSpecificitiesFactory(SpecificitiesIdentifier specificitiesIdentifier) {
+			return IInfoProxyFactory.NULL_INFO_PROXY_FACTORY;
+		}
+
+		@Override
 		public ITypeInfo wrapTypeInfo(ITypeInfo type) {
 			for (TypeCustomization tc : new ArrayList<TypeCustomization>(
-					InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations().getTypeCustomizations())) {
+					InfoCustomizationsFactory.this.accessInfoCustomizations().getTypeCustomizations())) {
 				if (tc.getBaseTypeName() != null) {
 					if (MiscUtils.containsWord(specificitiesIdentifier.getObjectTypeName(), tc.getTypeName())) {
 						type = new SpecificitiesFactory(
@@ -3538,8 +3539,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		@Override
 		public ITypeInfo unwrapTypeInfo(ITypeInfo type) {
 			type = super.unwrapTypeInfo(type);
-			for (TypeCustomization tc : MiscUtils.getReverse(
-					InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations().getTypeCustomizations())) {
+			for (TypeCustomization tc : MiscUtils
+					.getReverse(InfoCustomizationsFactory.this.accessInfoCustomizations().getTypeCustomizations())) {
 				if (tc.getBaseTypeName() != null) {
 					if (MiscUtils.containsWord(specificitiesIdentifier.getObjectTypeName(), tc.getTypeName())) {
 						type = new SpecificitiesFactory(
@@ -3563,7 +3564,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected InfoCustomizations inheritanceInfoCustomizations;
 
 		public TypeInheritanceFactory(String targetTypeName, String baseTypeName) {
-			super(InfoCustomizationsFactory.this.customizedUI);
+			super(InfoCustomizationsFactory.this.reflectionUI);
 			this.targetTypeName = targetTypeName;
 			this.baseTypeName = baseTypeName;
 
@@ -3576,16 +3577,21 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		}
 
 		@Override
-		protected IInfoProxyFactory getTypeInheritanceFactory(String targetTypeName, String baseTypeName) {
-			return IInfoProxyFactory.NULL_INFO_PROXY_FACTORY;
+		protected InfoCustomizations accessInfoCustomizations() {
+			if (inheritanceInfoCustomizations == null) {
+				return InfoCustomizationsFactory.this.accessInfoCustomizations();
+			}
+			return inheritanceInfoCustomizations;
 		}
 
 		@Override
-		public InfoCustomizations getInfoCustomizations() {
-			if (inheritanceInfoCustomizations == null) {
-				return InfoCustomizationsFactory.this.getInfoCustomizations();
-			}
-			return inheritanceInfoCustomizations;
+		protected InfoProxyFactory getInfoCustomizationsSetupFactory() {
+			return InfoCustomizationsFactory.this.getInfoCustomizationsSetupFactory();
+		}
+
+		@Override
+		protected IInfoProxyFactory getTypeInheritanceFactory(String targetTypeName, String baseTypeName) {
+			return IInfoProxyFactory.NULL_INFO_PROXY_FACTORY;
 		}
 
 		@Override
@@ -3593,7 +3599,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (inheritanceInfoCustomizations == null) {
 				if (MiscUtils.containsWord(type.getName(), targetTypeName)) {
 					inheritanceInfoCustomizations = createInheritanceInfoCustomizationsFrom(
-							InfoCustomizationsFactory.this.getInfoCustomizations());
+							InfoCustomizationsFactory.this.accessInfoCustomizations());
 				}
 			}
 			return super.wrapTypeInfo(type);
@@ -3604,7 +3610,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (inheritanceInfoCustomizations == null) {
 				if (MiscUtils.containsWord(type.getName(), targetTypeName)) {
 					inheritanceInfoCustomizations = createInheritanceInfoCustomizationsFrom(
-							InfoCustomizationsFactory.this.getInfoCustomizations());
+							InfoCustomizationsFactory.this.accessInfoCustomizations());
 				}
 			}
 			return super.unwrapTypeInfo(type);

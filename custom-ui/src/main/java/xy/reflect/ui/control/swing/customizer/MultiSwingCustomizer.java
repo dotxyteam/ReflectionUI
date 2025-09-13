@@ -2,6 +2,7 @@
 package xy.reflect.ui.control.swing.customizer;
 
 import java.awt.Component;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -38,7 +39,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 	}
 
 	public Map<String, ? extends SwingCustomizer> getSubCustomizerBySwitch() {
-		return subCustomizerBySwitch;
+		return Collections.unmodifiableMap(subCustomizerBySwitch);
 	}
 
 	protected SubSwingCustomizer switchSubCustomizer(SubSwingCustomizer current, Object object) {

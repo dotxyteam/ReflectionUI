@@ -104,7 +104,7 @@ public class CustomizationController {
 	}
 
 	protected void recustomizeAllForms() {
-		swingCustomizer.getCustomizedUI().clearCustomizationsCache();
+		swingCustomizer.getCustomizedUI().getCustomizedTypeCache().clear();
 		SwingRendererUtils.refreshAllDisplayedForms(swingCustomizer, true);
 	}
 
