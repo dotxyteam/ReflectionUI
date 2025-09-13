@@ -166,6 +166,10 @@ public class Form extends ImagePanel {
 		}
 	}
 
+	public ITypeInfo getFilteredObjectType() {
+		return filteredObjectType;
+	}
+
 	public BetterFutureTask<Boolean> getCurrentValidationTask() {
 		return currentValidationTask;
 	}

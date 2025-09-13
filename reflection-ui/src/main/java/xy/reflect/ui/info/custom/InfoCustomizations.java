@@ -558,6 +558,12 @@ public class InfoCustomizations implements Serializable {
 		return null;
 	}
 
+	public static FieldCustomization getFieldCustomization(InfoCustomizations infoCustomizations, String typeName,
+			String fieldName) {
+		return getFieldCustomization(getTypeCustomization(infoCustomizations, typeName), fieldName,
+				areInfoCustomizationsCreatedIfNotFound());
+	}
+
 	public static FieldCustomization getFieldCustomization(TypeCustomization t, String fieldName) {
 		return getFieldCustomization(t, fieldName, areInfoCustomizationsCreatedIfNotFound());
 	}
@@ -578,6 +584,12 @@ public class InfoCustomizations implements Serializable {
 			}
 		}
 		return null;
+	}
+
+	public static MethodCustomization getMethodCustomization(InfoCustomizations infoCustomizations, String typeName,
+			String methodSignature) {
+		return getMethodCustomization(getTypeCustomization(infoCustomizations, typeName), methodSignature,
+				areInfoCustomizationsCreatedIfNotFound());
 	}
 
 	public static MethodCustomization getMethodCustomization(TypeCustomization t, String methodSignature) {
@@ -1142,7 +1154,6 @@ public class InfoCustomizations implements Serializable {
 		}
 
 	}
-
 
 	public static abstract class AbstractSaveMenuItemCustomization extends AbstractFileMenuItemCustomization {
 
