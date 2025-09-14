@@ -1619,6 +1619,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected String getItemTitle(BufferedItemPosition itemPosition) {
 		BufferedItemPosition fakeItemPosition = itemPosition.getSibling(-1);
+		fakeItemPosition = (BufferedItemPosition) fakeItemPosition.clone();
 		fakeItemPosition.setFakeItem(null);
 		Object capsule = createItemUIBuilder(fakeItemPosition).getNewCapsule();
 		ITypeInfo encapsulatedObjectType = swingRenderer.getReflectionUI()
@@ -1801,7 +1802,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						if (detailsControlItemPosition != null) {
 							scrollTo(detailsControlItemPosition);
 						}
-						if (isShowing()) {
+						if (isDisplayable()) {
 							if (detailsControl != null) {
 								detailsControl.validateFormInBackgroundAndReportOnStatusBar();
 							}
@@ -2948,6 +2949,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		public AnticipatedItemDialogBuilder(BufferedItemPosition bufferedItemPosition, Object item) {
 			super(bufferedItemPosition);
 			BufferedItemPosition fakeItemPosition = bufferedItemPosition.getSibling(-1);
+			fakeItemPosition = (BufferedItemPosition) fakeItemPosition.clone();
 			fakeItemPosition.setFakeItem(item);
 			setPosition(fakeItemPosition);
 		}

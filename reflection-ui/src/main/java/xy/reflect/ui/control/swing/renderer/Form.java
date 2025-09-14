@@ -1653,7 +1653,7 @@ public class Form extends ImagePanel {
 
 	protected void finalizeFormUpdate() {
 		updateMenuBar();
-		if ((statusBar.getParent() != null) && statusBar.getParent().isShowing()) {
+		if ((statusBar.getParent() != null) && statusBar.getParent().isDisplayable()) {
 			validateFormInBackgroundAndReportOnStatusBar();
 		}
 	}
