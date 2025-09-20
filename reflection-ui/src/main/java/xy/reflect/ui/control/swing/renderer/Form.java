@@ -161,7 +161,7 @@ public class Form extends ImagePanel {
 				public void run() {
 					objectType.onFormCreation(object, false);
 				}
-			}, ReflectionUIUtils.composeMessage( swingRenderer.getObjectTitle(object), "Setting up..."));
+			}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Setting up..."));
 
 		}
 	}

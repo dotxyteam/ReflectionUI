@@ -76,7 +76,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 	}
 
 	protected SubCustomizedUI createSubCustomizedUI(String switchIdentifier) {
-		return new SubCustomizedUI(switchIdentifier);
+		return new SubCustomizedUI(this, switchIdentifier);
 	}
 
 	@Override
@@ -124,37 +124,47 @@ public class MultiSwingCustomizer extends SwingRenderer {
 
 	}
 
-	protected class SubCustomizedUI extends CustomizedUI {
+	public static class SubCustomizedUI extends CustomizedUI {
 
+		protected MultiSwingCustomizer parent;
 		protected String switchIdentifier;
 
-		public SubCustomizedUI(String switchIdentifier) {
+		public SubCustomizedUI(MultiSwingCustomizer parent, String switchIdentifier) {
+			this.parent = parent;
 			this.switchIdentifier = switchIdentifier;
+		}
+
+		public MultiSwingCustomizer getParent() {
+			return parent;
+		}
+
+		public String getSwitchIdentifier() {
+			return switchIdentifier;
 		}
 
 		@Override
 		public ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
-			return MultiSwingCustomizer.this.getReflectionUI().getTypeInfoAfterCustomizations(type);
+			return parent.getReflectionUI().getTypeInfoAfterCustomizations(type);
 		}
 
 		@Override
 		public ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
-			return MultiSwingCustomizer.this.getReflectionUI().getTypeInfoBeforeCustomizations(type);
+			return parent.getReflectionUI().getTypeInfoBeforeCustomizations(type);
 		}
 
 		@Override
 		public IApplicationInfo getApplicationInfoAfterCustomizations(IApplicationInfo appInfo) {
-			return MultiSwingCustomizer.this.getReflectionUI().getApplicationInfoAfterCustomizations(appInfo);
+			return parent.getReflectionUI().getApplicationInfoAfterCustomizations(appInfo);
 		}
 
 		@Override
 		public IApplicationInfo getApplicationInfoBeforeCustomizations(IApplicationInfo appInfo) {
-			return MultiSwingCustomizer.this.getReflectionUI().getApplicationInfoBeforeCustomizations(appInfo);
+			return parent.getReflectionUI().getApplicationInfoBeforeCustomizations(appInfo);
 		}
 
 		@Override
 		public InfoProxyFactoryChain getInfoCustomizationsFactory() {
-			return new InfoProxyFactoryChain(MultiSwingCustomizer.this.getReflectionUI().getInfoCustomizationsFactory(),
+			return new InfoProxyFactoryChain(parent.getReflectionUI().getInfoCustomizationsFactory(),
 					getSubInfoCustomizationsFactory());
 
 		}
@@ -165,7 +175,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 
 		@Override
 		public String toString() {
-			return "SubCustomizedUI [of=" + MultiSwingCustomizer.this + ", switchIdentifier=" + switchIdentifier + "]";
+			return "SubCustomizedUI [of=" + parent + ", switchIdentifier=" + switchIdentifier + "]";
 		}
 
 	}

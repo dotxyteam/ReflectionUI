@@ -19,7 +19,6 @@ public abstract class TypeInfoSourceProxy implements ITypeInfoSource {
 	protected abstract String getTypeInfoProxyFactoryIdentifier();
 
 	public TypeInfoSourceProxy(ITypeInfoSource base) {
-		super();
 		this.base = base;
 	}
 
