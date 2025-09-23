@@ -190,10 +190,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		if (result == null) {
 			result = typeOptionsFactory.guessSubType(instance);
 			if (result == null) {
-				throw new ReflectionUIError("Failed to find a compatible sub-type for '" + instance
-						+ "'. Sub-type options: " + typeOptionsFactory.getConcreteTypeOptions());
+				result = swingRenderer.getReflectionUI()
+						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(instance));
+			} else {
+				subTypeInstanceCache.put(result, instance);
 			}
-			subTypeInstanceCache.put(result, instance);
 		}
 		return result;
 	}
@@ -219,7 +220,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 		};
 		ITypeInfo nonRecursivelyPolymorphicInstanceType = typeOptionsFactory.getConcreteTypeOptions().stream()
-				.filter(type -> type.getName().equals(instanceType.getName())).findFirst().get();
+				.filter(type -> type.getName().equals(instanceType.getName())).findFirst().orElse(instanceType);
 		dynamicControlBuilder = new DynamicControlBuilder(swingRenderer, this, input,
 				nonRecursivelyPolymorphicInstanceType, commitExceptionHandler);
 		return dynamicControlBuilder.createEditorForm(true, false);
