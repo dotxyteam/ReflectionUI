@@ -132,7 +132,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	protected abstract InfoCustomizations accessInfoCustomizations();
 
-	protected abstract InfoProxyFactory getInfoCustomizationsSetupFactory();
+	protected abstract IInfoProxyFactory getInfoCustomizationsSetupFactory();
 
 	public abstract String getIdentifier();
 
@@ -3496,8 +3496,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		}
 
 		@Override
-		protected InfoProxyFactory getInfoCustomizationsSetupFactory() {
-			return InfoCustomizationsFactory.this.getInfoCustomizationsSetupFactory();
+		protected IInfoProxyFactory getInfoCustomizationsSetupFactory() {
+			return IInfoProxyFactory.NULL_INFO_PROXY_FACTORY;
 		}
 
 		@Override
@@ -3585,8 +3585,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		}
 
 		@Override
-		protected InfoProxyFactory getInfoCustomizationsSetupFactory() {
-			return InfoCustomizationsFactory.this.getInfoCustomizationsSetupFactory();
+		protected IInfoProxyFactory getInfoCustomizationsSetupFactory() {
+			return IInfoProxyFactory.NULL_INFO_PROXY_FACTORY;
 		}
 
 		@Override

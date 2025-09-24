@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.app.IApplicationInfo;
+import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactoryChain;
 
 public class MultiSwingCustomizer extends SwingRenderer {
@@ -23,21 +23,33 @@ public class MultiSwingCustomizer extends SwingRenderer {
 	public static final String SWITCH_TO_MAIN_CUSTOMIZER = MultiSwingCustomizer.class.getName()
 			+ ".SWITCH_TO_MAIN_CUSTOMIZER";
 
-	protected String infoCustomizationsOutputFilePathPrefix;
+	protected String mainInfoCustomizationsOutputFilePath;
 	protected Function<Object, String> subCustomizationsSwitchSelector;
 
 	protected Map<SubSwingCustomizer, String> switchBySubCustomizer = new WeakHashMap<SubSwingCustomizer, String>();
 
-	public MultiSwingCustomizer(CustomizedUI customizedUI, String infoCustomizationsOutputFilePathPrefix,
+	public MultiSwingCustomizer(String mainInfoCustomizationsOutputFilePath,
 			Function<Object, String> subCustomizationsSwitchSelector) {
-		super(customizedUI);
-		this.infoCustomizationsOutputFilePathPrefix = infoCustomizationsOutputFilePathPrefix;
+		super(null);
+		reflectionUI = createSubCustomizedUI(null);
+		this.mainInfoCustomizationsOutputFilePath = mainInfoCustomizationsOutputFilePath;
 		this.subCustomizationsSwitchSelector = subCustomizationsSwitchSelector;
 	}
 
+	public String getMainInfoCustomizationsOutputFilePath() {
+		return mainInfoCustomizationsOutputFilePath;
+	}
+
+	protected String getSubInfoCustomizationsOutputFilePath(String switchIdentifier) {
+		File mainInfoCustomizationsOutputFile = new File(mainInfoCustomizationsOutputFilePath);
+		String fileNamePrefix = (switchIdentifier == SWITCH_TO_MAIN_CUSTOMIZER) ? "" : "-" + switchIdentifier;
+		return new File(mainInfoCustomizationsOutputFile.getParentFile(),
+				fileNamePrefix + mainInfoCustomizationsOutputFile.getName()).getPath();
+	}
+
 	@Override
-	public CustomizedUI getReflectionUI() {
-		return (CustomizedUI) super.getReflectionUI();
+	public SubCustomizedUI getReflectionUI() {
+		return (SubCustomizedUI) super.getReflectionUI();
 	}
 
 	public Map<String, SubSwingCustomizer> getSubCustomizerBySwitch() {
@@ -66,18 +78,6 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		return new SubSwingCustomizer(switchIdentifier);
 	}
 
-	protected String getSubInfoCustomizationsOutputFilePath(String switchIdentifier) {
-		return (MultiSwingCustomizer.this.infoCustomizationsOutputFilePathPrefix != null)
-				? (MultiSwingCustomizer.this.infoCustomizationsOutputFilePathPrefix
-						+ ((switchIdentifier == SWITCH_TO_MAIN_CUSTOMIZER) ? "" : "-" + switchIdentifier))
-				: null;
-	}
-
-	protected CustomizedUI obtainSubCustomizerUI(String switchIdentifier) {
-		return (switchIdentifier == SWITCH_TO_MAIN_CUSTOMIZER) ? MultiSwingCustomizer.this.getReflectionUI()
-				: createSubCustomizedUI(switchIdentifier);
-	}
-
 	protected SubCustomizedUI createSubCustomizedUI(String switchIdentifier) {
 		return new SubCustomizedUI(this, switchIdentifier);
 	}
@@ -100,10 +100,94 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		return false;
 	}
 
+	public static class SubCustomizedUI extends CustomizedUI {
+
+		protected MultiSwingCustomizer parent;
+		protected String switchIdentifier;
+
+		public SubCustomizedUI(MultiSwingCustomizer parent, String switchIdentifier) {
+			this.parent = parent;
+			this.switchIdentifier = switchIdentifier;
+		}
+
+		public MultiSwingCustomizer getParent() {
+			return parent;
+		}
+
+		public String getSwitchIdentifier() {
+			return switchIdentifier;
+		}
+
+		public CustomizedUI getRoot() {
+			return getParent().getReflectionUI();
+		}
+
+		public boolean isRoot() {
+			return getRoot() == this;
+		}
+
+		@Override
+		public InfoProxyFactoryChain getInfoCustomizationsFactory() {
+			return new InfoProxyFactoryChain(getMainInfoCustomizationsFactory(), getSubInfoCustomizationsFactory());
+
+		}
+
+		protected IInfoProxyFactory getMainInfoCustomizationsFactory() {
+			if (isRoot()) {
+				return IInfoProxyFactory.NULL_INFO_PROXY_FACTORY;
+			}
+			return new InfoCustomizationsFactory(this) {
+
+				@Override
+				public String getIdentifier() {
+					return "MainCustomizationsFactory [of=" + switchIdentifier + "]";
+				}
+
+				@Override
+				protected IInfoProxyFactory getInfoCustomizationsSetupFactory() {
+					return getRoot().getInfoCustomizationsSetupFactory();
+				}
+
+				@Override
+				protected InfoCustomizations accessInfoCustomizations() {
+					return getRoot().getInfoCustomizations();
+				}
+			};
+		}
+
+		protected IInfoProxyFactory getSubInfoCustomizationsFactory() {
+			return new InfoCustomizationsFactory(this) {
+
+				@Override
+				public String getIdentifier() {
+					return "SubInfoCustomizationsFactory [of=" + SubCustomizedUI.this.toString() + "]";
+				}
+
+				@Override
+				protected IInfoProxyFactory getInfoCustomizationsSetupFactory() {
+					return SubCustomizedUI.this.getInfoCustomizationsSetupFactory();
+				}
+
+				@Override
+				protected InfoCustomizations accessInfoCustomizations() {
+					return SubCustomizedUI.this.getInfoCustomizations();
+				}
+
+			};
+		}
+
+		@Override
+		public String toString() {
+			return "SubCustomizedUI [of=" + parent + ", switchIdentifier=" + switchIdentifier + "]";
+		}
+
+	}
+
 	protected class SubSwingCustomizer extends SwingCustomizer {
 
 		public SubSwingCustomizer(String switchIdentifier) {
-			super(MultiSwingCustomizer.this.obtainSubCustomizerUI(switchIdentifier),
+			super((switchIdentifier == SWITCH_TO_MAIN_CUSTOMIZER) ? MultiSwingCustomizer.this.getReflectionUI()
+					: createSubCustomizedUI(switchIdentifier),
 					MultiSwingCustomizer.this.getSubInfoCustomizationsOutputFilePath(switchIdentifier));
 		}
 
@@ -132,62 +216,6 @@ public class MultiSwingCustomizer extends SwingRenderer {
 				return;
 			}
 			super.synchronizeInfoCustomizationsWithFile(filePath);
-		}
-
-	}
-
-	public static class SubCustomizedUI extends CustomizedUI {
-
-		protected MultiSwingCustomizer parent;
-		protected String switchIdentifier;
-
-		public SubCustomizedUI(MultiSwingCustomizer parent, String switchIdentifier) {
-			this.parent = parent;
-			this.switchIdentifier = switchIdentifier;
-		}
-
-		public MultiSwingCustomizer getParent() {
-			return parent;
-		}
-
-		public String getSwitchIdentifier() {
-			return switchIdentifier;
-		}
-
-		@Override
-		public ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
-			return parent.getReflectionUI().getTypeInfoAfterCustomizations(type);
-		}
-
-		@Override
-		public ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
-			return parent.getReflectionUI().getTypeInfoBeforeCustomizations(type);
-		}
-
-		@Override
-		public IApplicationInfo getApplicationInfoAfterCustomizations(IApplicationInfo appInfo) {
-			return parent.getReflectionUI().getApplicationInfoAfterCustomizations(appInfo);
-		}
-
-		@Override
-		public IApplicationInfo getApplicationInfoBeforeCustomizations(IApplicationInfo appInfo) {
-			return parent.getReflectionUI().getApplicationInfoBeforeCustomizations(appInfo);
-		}
-
-		@Override
-		public InfoProxyFactoryChain getInfoCustomizationsFactory() {
-			return new InfoProxyFactoryChain(parent.getReflectionUI().getInfoCustomizationsFactory(),
-					getSubInfoCustomizationsFactory());
-
-		}
-
-		protected IInfoProxyFactory getSubInfoCustomizationsFactory() {
-			return super.getInfoCustomizationsFactory();
-		}
-
-		@Override
-		public String toString() {
-			return "SubCustomizedUI [of=" + parent + ", switchIdentifier=" + switchIdentifier + "]";
 		}
 
 	}

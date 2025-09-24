@@ -126,13 +126,13 @@ public class CustomizedUI extends ReflectionUI {
 			}
 
 			@Override
-			protected InfoCustomizations accessInfoCustomizations() {
-				return CustomizedUI.this.infoCustomizations;
+			protected IInfoProxyFactory getInfoCustomizationsSetupFactory() {
+				return CustomizedUI.this.getInfoCustomizationsSetupFactory();
 			}
 
 			@Override
-			protected InfoProxyFactory getInfoCustomizationsSetupFactory() {
-				return CustomizedUI.this.getInfoCustomizationsSetupFactory();
+			protected InfoCustomizations accessInfoCustomizations() {
+				return CustomizedUI.this.infoCustomizations;
 			}
 
 		};
