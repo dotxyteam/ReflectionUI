@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.util;
 
 import java.lang.annotation.ElementType;
@@ -19,7 +17,7 @@ import xy.reflect.ui.ReflectionUI;
  */
 public class SystemProperties {
 
-	public  static void main(String[] args) {
+	public static void main(String[] args) {
 		System.out.println(describe());
 	}
 
@@ -37,6 +35,13 @@ public class SystemProperties {
 
 	@Usage("The value of this property is used as the maximum size of various caches used to optimize the reflection process")
 	public static final String STANDARD_CACHE_SIZE = PREFIX + ".standardCacheSize";
+
+	@Usage("The value of this property is used as the maximum duration (in seconds) that the idle threads (from the thread pools of the framework) will wait before stopping")
+	public static final String EXECUTOR_IDLE_TIMEOUT_SECONDS = PREFIX + ".executorIdleTimeoutSeconds";
+
+	@Usage("The value of this property is used as the expiration delay (in seconds) of entries in the various caches used to optimize the reflection process")
+	public static final String STANDARD_CACHE_EXEPIRATION_DELAY_SECONDS = PREFIX
+			+ ".standardCacheExpirationDelaySeconds";
 
 	@Usage("If the value of this property is \"true\" then the default customizations are active.")
 	public static final String DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE = PREFIX + ".defaultCustomizationsActive";
@@ -86,6 +91,14 @@ public class SystemProperties {
 
 	public static long getStandardCacheSize() {
 		return Long.valueOf(System.getProperty(SystemProperties.STANDARD_CACHE_SIZE, "1000"));
+	}
+
+	public static long getExecutorIdleTimeoutSeconds() {
+		return Long.valueOf(System.getProperty(SystemProperties.EXECUTOR_IDLE_TIMEOUT_SECONDS, "60"));
+	}
+
+	public static long getStandardCacheExpirationDelaySeconds() {
+		return Long.valueOf(System.getProperty(SystemProperties.STANDARD_CACHE_EXEPIRATION_DELAY_SECONDS, "60"));
 	}
 
 	public static boolean areDefaultInfoCustomizationsActive() {

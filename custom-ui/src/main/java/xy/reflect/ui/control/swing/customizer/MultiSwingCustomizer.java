@@ -2,10 +2,12 @@
 package xy.reflect.ui.control.swing.customizer;
 
 import java.awt.Component;
+import java.io.File;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.renderer.Form;
@@ -24,7 +26,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 	protected String infoCustomizationsOutputFilePathPrefix;
 	protected Function<Object, String> subCustomizationsSwitchSelector;
 
-	protected Map<String, SubSwingCustomizer> subCustomizerBySwitch = new HashMap<String, SubSwingCustomizer>();
+	protected Map<SubSwingCustomizer, String> switchBySubCustomizer = new WeakHashMap<SubSwingCustomizer, String>();
 
 	public MultiSwingCustomizer(CustomizedUI customizedUI, String infoCustomizationsOutputFilePathPrefix,
 			Function<Object, String> subCustomizationsSwitchSelector) {
@@ -38,8 +40,9 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		return (CustomizedUI) super.getReflectionUI();
 	}
 
-	public Map<String, ? extends SwingCustomizer> getSubCustomizerBySwitch() {
-		return Collections.unmodifiableMap(subCustomizerBySwitch);
+	public Map<String, SubSwingCustomizer> getSubCustomizerBySwitch() {
+		return Collections.unmodifiableMap(switchBySubCustomizer.entrySet().stream()
+				.collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey)));
 	}
 
 	protected SubSwingCustomizer switchSubCustomizer(SubSwingCustomizer current, Object object) {
@@ -51,10 +54,10 @@ public class MultiSwingCustomizer extends SwingRenderer {
 				switchIdentifier = SWITCH_TO_MAIN_CUSTOMIZER;
 			}
 		}
-		SubSwingCustomizer result = subCustomizerBySwitch.get(switchIdentifier);
+		SubSwingCustomizer result = getSubCustomizerBySwitch().get(switchIdentifier);
 		if (result == null) {
 			result = createSubCustomizer(switchIdentifier);
-			subCustomizerBySwitch.put(switchIdentifier, result);
+			switchBySubCustomizer.put(result, switchIdentifier);
 		}
 		return result;
 	}
@@ -89,7 +92,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		if (super.isRenderedForm(c)) {
 			return true;
 		}
-		for (SubSwingCustomizer subCustomizer : subCustomizerBySwitch.values()) {
+		for (SubSwingCustomizer subCustomizer : switchBySubCustomizer.keySet()) {
 			if (subCustomizer.isSubRenderedForm(c)) {
 				return true;
 			}
@@ -120,6 +123,15 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		@Override
 		public boolean isRenderedForm(Component c) {
 			return MultiSwingCustomizer.this.isRenderedForm(c);
+		}
+
+		@Override
+		protected void synchronizeInfoCustomizationsWithFile(String filePath) {
+			File file = new File(filePath);
+			if (!file.exists()) {
+				return;
+			}
+			super.synchronizeInfoCustomizationsWithFile(filePath);
 		}
 
 	}

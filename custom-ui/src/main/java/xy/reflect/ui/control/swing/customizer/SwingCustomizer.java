@@ -127,23 +127,26 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 	 */
 	public void setInfoCustomizationsOutputFilePath(String infoCustomizationsOutputFilePath) {
 		if (infoCustomizationsOutputFilePath != null) {
-			File file = new File(infoCustomizationsOutputFilePath);
-			if (file.exists()) {
-				try {
-					getInfoCustomizations().loadFromFile(file,
-							ReflectionUIUtils.getDebugLogListener(getCustomizedUI()));
-				} catch (IOException e) {
-					throw new ReflectionUIError(e);
-				}
-			} else {
-				try {
-					getInfoCustomizations().saveToFile(file, ReflectionUIUtils.getDebugLogListener(getCustomizedUI()));
-				} catch (IOException e) {
-					throw new ReflectionUIError(e);
-				}
-			}
+			synchronizeInfoCustomizationsWithFile(infoCustomizationsOutputFilePath);
 		}
 		this.infoCustomizationsOutputFilePath = infoCustomizationsOutputFilePath;
+	}
+
+	protected void synchronizeInfoCustomizationsWithFile(String filePath) {
+		File file = new File(filePath);
+		if (file.exists()) {
+			try {
+				getInfoCustomizations().loadFromFile(file, ReflectionUIUtils.getDebugLogListener(getCustomizedUI()));
+			} catch (IOException e) {
+				throw new ReflectionUIError(e);
+			}
+		} else {
+			try {
+				getInfoCustomizations().saveToFile(file, ReflectionUIUtils.getDebugLogListener(getCustomizedUI()));
+			} catch (IOException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
 	}
 
 	/**

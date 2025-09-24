@@ -15,7 +15,6 @@ import javax.swing.Timer;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.AbstractFieldControlData;
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
@@ -47,11 +46,11 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ValueOptionsAsEnumerationFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
-import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.source.NewFieldControlPluginTypeInfoSourceProxy;
+import xy.reflect.ui.info.type.source.NewSpecificitiesIdentifierTypeInfoSourceProxy;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
-import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Listener;
@@ -515,18 +514,10 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			final SpecificitiesIdentifier specificitiesIdentifier = controlInput.getControlData().getType().getSource()
 					.getSpecificitiesIdentifier();
 			final ITypeInfo actualValueType = this.swingRenderer.reflectionUI
-					.getTypeInfo(new TypeInfoSourceProxy(this.swingRenderer.reflectionUI.getTypeInfoSource(value)) {
-						@Override
-						public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-							return specificitiesIdentifier;
-						}
-
-						@Override
-						protected String getTypeInfoProxyFactoryIdentifier() {
-							return "ActualFieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", form="
-									+ form.getName() + ", field=" + field.getName() + "]";
-						}
-					});
+					.getTypeInfo(new NewSpecificitiesIdentifierTypeInfoSourceProxy(
+							this.swingRenderer.reflectionUI.getTypeInfoSource(value), specificitiesIdentifier,
+							"ActualFieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", form="
+									+ form.getName() + ", field=" + field.getName() + "]"));
 			if (!controlInput.getControlData().getType().getName().equals(actualValueType.getName())) {
 				controlInput = new FieldControlInputProxy(controlInput) {
 					@Override
@@ -654,39 +645,17 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 								@Override
 								protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
-									return new TypeInfoSourceProxy(super.getEncapsulatedFieldDeclaredTypeSource()) {
-
-										@Override
-										protected String getTypeInfoProxyFactoryIdentifier() {
-											return "FieldControlPluginSettingsCopyingTypeInfoProxyFactory [pluginIdentifier="
+									return new NewFieldControlPluginTypeInfoSourceProxy(
+											super.getEncapsulatedFieldDeclaredTypeSource(),
+											currentPlugin.getIdentifier(),
+											ReflectionUIUtils.getFieldControlPluginConfiguration(
+													input.getControlData().getType().getSpecificProperties(),
+													currentPlugin.getIdentifier()),
+											true,
+											"FieldControlPluginSettingsCopyingTypeInfoProxyFactory [pluginIdentifier="
 													+ currentPlugin.getIdentifier() + ", parentContext="
-													+ getContext().getIdentifier() + "]";
-										}
+													+ getContext().getIdentifier() + "]");
 
-										@Override
-										public ITypeInfo buildTypeInfo(ReflectionUI reflectionUI) {
-											return new InfoProxyFactory() {
-
-												@Override
-												protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
-													Map<String, Object> result = new HashMap<String, Object>(
-															super.getSpecificProperties(type));
-													SwingRendererUtils.setCurrentFieldControlPlugin(swingRenderer,
-															result, currentPlugin);
-													ReflectionUIUtils.setFieldControlPluginConfiguration(result,
-															currentPlugin.getIdentifier(),
-															ReflectionUIUtils.getFieldControlPluginConfiguration(
-																	input.getControlData().getType()
-																			.getSpecificProperties(),
-																	currentPlugin.getIdentifier()));
-													ReflectionUIUtils.setFieldControlPluginManagementDisabled(result,
-															true);
-													return result;
-												}
-											}.wrapTypeInfo(super.buildTypeInfo(reflectionUI));
-										}
-
-									};
 								}
 
 							};
@@ -854,5 +823,4 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 
 	}
-
 }

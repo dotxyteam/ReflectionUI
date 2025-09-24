@@ -79,7 +79,6 @@ import xy.reflect.ui.control.FieldContext;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.builder.DialogBuilder.RenderedDialog;
@@ -1151,25 +1150,7 @@ public class SwingRendererUtils {
 		return null;
 	}
 
-	public static void setCurrentFieldControlPlugin(SwingRenderer swingRenderer, Map<String, Object> specificProperties,
-			IFieldControlPlugin plugin) {
-		String lastPluginId = ReflectionUIUtils.getFieldControlPluginIdentifier(specificProperties);
-		ReflectionUIUtils.setFieldControlPluginIdentifier(specificProperties, null);
-		if (lastPluginId != null) {
-			IFieldControlPlugin lastPlugin = findFieldControlPlugin(swingRenderer, lastPluginId);
-			if (lastPlugin instanceof ICustomizableFieldControlPlugin) {
-				ReflectionUIUtils.setFieldControlPluginConfiguration(specificProperties, lastPlugin.getIdentifier(),
-						null);
-			}
-		}
-		if (plugin != null) {
-			ReflectionUIUtils.setFieldControlPluginIdentifier(specificProperties, plugin.getIdentifier());
-			if (plugin instanceof ICustomizableFieldControlPlugin) {
-				ReflectionUIUtils.setFieldControlPluginConfiguration(specificProperties, plugin.getIdentifier(),
-						((ICustomizableFieldControlPlugin) plugin).getDefaultControlCustomization());
-			}
-		}
-	}
+	
 
 	public static void generateChangeEventsDuringTextFieldEditing(final JSpinner spinner) {
 		spinner.addPropertyChangeListener(new PropertyChangeListener() {

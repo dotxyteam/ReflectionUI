@@ -290,8 +290,9 @@ public class MiscUtils {
 	}
 
 	public static ExecutorService newExecutor(final String threadName, int minimumThreadCount) {
-		ThreadPoolExecutor result = new ThreadPoolExecutor(minimumThreadCount, Integer.MAX_VALUE, 60000,
-				TimeUnit.MILLISECONDS, new SynchronousQueue<Runnable>(), new ThreadFactory() {
+		ThreadPoolExecutor result = new ThreadPoolExecutor(minimumThreadCount, Integer.MAX_VALUE,
+				SystemProperties.getExecutorIdleTimeoutSeconds(), TimeUnit.SECONDS,
+				new SynchronousQueue<Runnable>(), new ThreadFactory() {
 					private int threadNumber = 0;
 
 					@Override
@@ -302,6 +303,7 @@ public class MiscUtils {
 						return result;
 					}
 				});
+		result.allowCoreThreadTimeOut(true);
 		return result;
 	}
 
@@ -310,23 +312,26 @@ public class MiscUtils {
 	}
 
 	public static <K, V> Map<K, V> newWeakValuesEqualityBasedMap() {
-		return newAutoCleanUpCache(false, true, -1, 5000, "WeakValuesEqualityBasedMapCleaner");
+		return newAutoCleanUpCache(false, true, -1, -1, null, 5000, "WeakValuesEqualityBasedMapCleaner");
 	}
 
 	public static <K, V> Map<K, V> newWeakKeysIdentityBasedMap() {
-		return newAutoCleanUpCache(true, false, -1, 5000, "WeakKeysIdentityBasedMapCleaner");
+		return newAutoCleanUpCache(true, false, -1, -1, null, 5000, "WeakKeysIdentityBasedMapCleaner");
 	}
 
 	public static <K, V> Map<K, V> newWeakKeysIdentityBasedCache(int maxSize) {
-		return newAutoCleanUpCache(true, false, maxSize, 5000, "WeakKeysIdentityBasedCacheCleaner");
+		return newAutoCleanUpCache(true, false, maxSize, -1, null, 5000, "WeakKeysIdentityBasedCacheCleaner");
 	}
 
 	public static <K, V> Map<K, V> newStandardCache() {
-		return newAutoCleanUpCache(false, false, SystemProperties.getStandardCacheSize(), 5000, "StandardCacheCleaner");
+		return newAutoCleanUpCache(false, false, SystemProperties.getStandardCacheSize(),
+				SystemProperties.getStandardCacheExpirationDelaySeconds(), TimeUnit.SECONDS, 5000,
+				"StandardCacheCleaner");
 	}
 
 	public static <K, V> Map<K, V> newAutoCleanUpCache(boolean weakKeys, boolean weakValues, long maxSize,
-			final long cleanUpPeriodMilliseconds, String cleanUpThreadNamePrefix) {
+			long expirationDuration, TimeUnit expirationDurationUnit, final long cleanUpPeriodMilliseconds,
+			String cleanUpThreadNamePrefix) {
 		CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
 		if (maxSize != -1) {
 			builder = builder.maximumSize(maxSize);
@@ -336,6 +341,9 @@ public class MiscUtils {
 		}
 		if (weakValues) {
 			builder = builder.weakValues();
+		}
+		if (expirationDuration > 0) {
+			builder = builder.expireAfterAccess(expirationDuration, expirationDurationUnit);
 		}
 		Cache<K, V> cache = builder.<K, V>build();
 		Map<K, V> map = cache.asMap();

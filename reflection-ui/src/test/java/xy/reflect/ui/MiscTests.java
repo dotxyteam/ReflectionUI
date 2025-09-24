@@ -80,7 +80,8 @@ public class MiscTests {
 		Date objectToSave = new Date();
 		ReflectionUI reflectionUI = new ReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(objectToSave));
-		File tmpFile = IOUtils.createTemporaryFile();;
+		File tmpFile = IOUtils.createTemporaryFile();
+		;
 		type.save(objectToSave, tmpFile);
 		Date objectToLoad = new Date(0);
 		type.load(objectToLoad, tmpFile);
@@ -91,7 +92,7 @@ public class MiscTests {
 	@Test
 	public void testAutoCleanUpCache() throws Exception {
 		String cacheName = "testAutoCleanUpWeakKeysCache.map";
-		Map<Object, Object> cache = MiscUtils.newAutoCleanUpCache(true, false, 1, 1000, cacheName);
+		Map<Object, Object> cache = MiscUtils.newAutoCleanUpCache(true, false, 1, -1, null, 1000, cacheName);
 		cache.put(new Object(), new Object());
 		Assert.assertEquals(1, cache.size());
 
@@ -114,7 +115,7 @@ public class MiscTests {
 
 		String referencedCacheName = "testAutoCleanUpWeakKeysCache.referencedCache";
 		Accessor<Map<Object, Object>> cacheReference = Accessor
-				.returning(MiscUtils.newAutoCleanUpCache(true, false, 10, 1000, referencedCacheName), true);
+				.returning(MiscUtils.newAutoCleanUpCache(true, false, 10, -1, null, 1000, referencedCacheName), true);
 		cacheThreadFound = false;
 		for (Thread t : Thread.getAllStackTraces().keySet()) {
 			if (t.getName().contains(referencedCacheName)) {
@@ -204,8 +205,8 @@ public class MiscTests {
 		ReflectionUIUtils.copyFieldValuesAccordingInfos(ReflectionUI.getDefault(), cycle, cycle2, true);
 		Assert.assertTrue(cycle.getOther().getOther() == cycle);
 		Assert.assertTrue(cycle2.getOther().getOther() == cycle2);
-		Assert.assertTrue(ReflectionUIUtils.equalsAccordingInfos(cycle, cycle2, ReflectionUI.getDefault(),
-				IInfoFilter.DEFAULT));
+		Assert.assertTrue(
+				ReflectionUIUtils.equalsAccordingInfos(cycle, cycle2, ReflectionUI.getDefault(), IInfoFilter.DEFAULT));
 	}
 
 	public static class TestObject {
@@ -214,9 +215,11 @@ public class MiscTests {
 		public TestObject(TestObject other) {
 			this.other = other;
 		}
+
 		public TestObject() {
 			this(null);
 		}
+
 		public TestObject getOther() {
 			return other;
 		}

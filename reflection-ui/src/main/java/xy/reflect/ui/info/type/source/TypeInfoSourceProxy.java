@@ -24,19 +24,11 @@ public abstract class TypeInfoSourceProxy implements ITypeInfoSource {
 
 	@Override
 	public ITypeInfo buildTypeInfo(ReflectionUI reflectionUI) {
-		return new InfoProxyFactory() {
+		return createTypeInfoProxyFactory().wrapTypeInfo(base.buildTypeInfo(reflectionUI));
+	}
 
-			@Override
-			protected ITypeInfoSource getSource(ITypeInfo type) {
-				return TypeInfoSourceProxy.this;
-			}
-
-			@Override
-			public String getIdentifier() {
-				return TypeInfoSourceProxy.this.getTypeInfoProxyFactoryIdentifier();
-			}
-
-		}.wrapTypeInfo(base.buildTypeInfo(reflectionUI));
+	protected InfoProxyFactory createTypeInfoProxyFactory() {
+		return new TypeInfoProxyFactory();
 	}
 
 	@Override
@@ -72,6 +64,19 @@ public abstract class TypeInfoSourceProxy implements ITypeInfoSource {
 	@Override
 	public String toString() {
 		return "TypeInfoSourceProxy [base=" + base + "]";
+	}
+
+	protected class TypeInfoProxyFactory extends InfoProxyFactory {
+
+		@Override
+		protected ITypeInfoSource getSource(ITypeInfo type) {
+			return TypeInfoSourceProxy.this;
+		}
+
+		@Override
+		public String getIdentifier() {
+			return TypeInfoSourceProxy.this.getTypeInfoProxyFactoryIdentifier();
+		}
 	}
 
 }

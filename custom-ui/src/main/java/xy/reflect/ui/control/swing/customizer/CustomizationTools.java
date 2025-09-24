@@ -275,8 +275,12 @@ public class CustomizationTools {
 									ftc.getSpecificProperties());
 							IFieldControlPlugin imagePlugin = SwingRendererUtils.findFieldControlPlugin(swingCustomizer,
 									new ImageViewPlugin().getIdentifier());
-							SwingRendererUtils.setCurrentFieldControlPlugin(swingCustomizer, specificProperties,
-									imagePlugin);
+							ReflectionUIUtils.updateFieldControlPluginValues(specificProperties,
+									imagePlugin.getIdentifier(),
+									(imagePlugin instanceof ICustomizableFieldControlPlugin)
+											? ((ICustomizableFieldControlPlugin) imagePlugin)
+													.getDefaultControlCustomization()
+											: null);
 
 							ModificationStack modificationStack = swingCustomizer.getCustomizationController()
 									.getModificationStack();
@@ -1033,7 +1037,7 @@ public class CustomizationTools {
 						public void actionPerformed(ActionEvent e) {
 							Map<String, Object> specificProperties = typeCustomization.getSpecificProperties();
 							specificProperties = new HashMap<String, Object>(specificProperties);
-							SwingRendererUtils.setCurrentFieldControlPlugin(swingCustomizer, specificProperties, null);
+							ReflectionUIUtils.updateFieldControlPluginValues(specificProperties, null, null);
 							changeCustomizationFieldValue(typeCustomization, "specificProperties", specificProperties);
 						}
 					}, currentPlugin == null));
@@ -1046,8 +1050,12 @@ public class CustomizationTools {
 							public void actionPerformed(ActionEvent e) {
 								Map<String, Object> specificProperties = typeCustomization.getSpecificProperties();
 								specificProperties = new HashMap<String, Object>(specificProperties);
-								SwingRendererUtils.setCurrentFieldControlPlugin(swingCustomizer, specificProperties,
-										plugin);
+								ReflectionUIUtils.updateFieldControlPluginValues(specificProperties,
+										plugin.getIdentifier(),
+										(plugin instanceof ICustomizableFieldControlPlugin)
+												? ((ICustomizableFieldControlPlugin) plugin)
+														.getDefaultControlCustomization()
+												: null);
 								changeCustomizationFieldValue(typeCustomization, "specificProperties",
 										specificProperties);
 							}

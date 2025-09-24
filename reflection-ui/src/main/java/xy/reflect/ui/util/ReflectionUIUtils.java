@@ -1205,6 +1205,19 @@ public class ReflectionUIUtils {
 		return (Serializable) IOUtils.deserializeFromHexaText(text);
 	}
 
+	public static void updateFieldControlPluginValues(Map<String, Object> specificProperties, String newPluginId,
+			Serializable newPluginConfig) {
+		String oldPluginId = ReflectionUIUtils.getFieldControlPluginIdentifier(specificProperties);
+		ReflectionUIUtils.setFieldControlPluginIdentifier(specificProperties, null);
+		if (oldPluginId != null) {
+			ReflectionUIUtils.setFieldControlPluginConfiguration(specificProperties, oldPluginId, null);
+		}
+		ReflectionUIUtils.setFieldControlPluginIdentifier(specificProperties, newPluginId);
+		if (newPluginId != null) {
+			ReflectionUIUtils.setFieldControlPluginConfiguration(specificProperties, newPluginId, newPluginConfig);
+		}
+	}
+
 	public static InfoCategory getCategory(IInfo info) {
 		if (info instanceof IFieldInfo) {
 			return ((IFieldInfo) info).getCategory();
