@@ -18,31 +18,78 @@ import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactoryChain;
 
+/**
+ * This class is a subclass of {@link SwingRenderer} that manages and delegates
+ * its essential functions (mainly {@link SwingRenderer#createForm(Object)}) to
+ * multiple internal instances of {@link SwingCustomizer} (actually
+ * {@link SubSwingCustomizer}). It allows to distribute
+ * {@link InfoCustomizations} into separate files that can be edited
+ * independently.
+ * 
+ * During the rendering process, global {@link InfoCustomizations} are applied
+ * before eventual specific {@link InfoCustomizations} provided by a
+ * {@link SubSwingCustomizer} gets applied.
+ * 
+ * A distribution function ({@link #subCustomizationsSwitchSelector}) must
+ * therefore be provided. This function is used to identify from each rendered
+ * object and sub-object, a switch that selects the {@link SubSwingCustomizer}
+ * to use in order to generate the UI components. This
+ * {@link SubSwingCustomizer} is then used to recursively render the object
+ * hierarchy until a new switch associated with a different
+ * {@link SubSwingCustomizer} is returned by the distribution function. Note
+ * that as long as the distribution function returns null, the renderer used
+ * remains the same.
+ * 
+ * @author olitank
+ *
+ */
 public class MultiSwingCustomizer extends SwingRenderer {
 
-	public static final String SWITCH_TO_MAIN_CUSTOMIZER = MultiSwingCustomizer.class.getName()
-			+ ".SWITCH_TO_MAIN_CUSTOMIZER";
+	/**
+	 * Identifier that can be returned by the
+	 * {@link #subCustomizationsSwitchSelector} function in order to apply
+	 * exclusively the global {@link InfoCustomizations} during the rendering
+	 * process.
+	 */
+	public static final String SWITCH_TO_GLOBAL_EXCLUSIVE_CUSTOMIZATIONS = MultiSwingCustomizer.class.getName()
+			+ ".SWITCH_TO_GLOBAL_EXCLUSIVE_CUSTOMIZATIONS";
 
-	protected String mainInfoCustomizationsOutputFilePath;
+	protected String globalInfoCustomizationsOutputFilePath;
 	protected Function<Object, String> subCustomizationsSwitchSelector;
 
 	protected Map<SubSwingCustomizer, String> switchBySubCustomizer = new WeakHashMap<SubSwingCustomizer, String>();
 
-	public MultiSwingCustomizer(String mainInfoCustomizationsOutputFilePath,
+	/**
+	 * The constructor.
+	 * 
+	 * @param globalInfoCustomizationsOutputFilePath The path to the main global
+	 *                                               {@link SubSwingCustomizer}
+	 *                                               {@link InfoCustomizations}
+	 *                                               file.
+	 * @param subCustomizationsSwitchSelector        The object ->
+	 *                                               {@link SubSwingCustomizer}
+	 *                                               distribution function.
+	 */
+	public MultiSwingCustomizer(String globalInfoCustomizationsOutputFilePath,
 			Function<Object, String> subCustomizationsSwitchSelector) {
 		super(null);
 		reflectionUI = createSubCustomizedUI(null);
-		this.mainInfoCustomizationsOutputFilePath = mainInfoCustomizationsOutputFilePath;
+		this.globalInfoCustomizationsOutputFilePath = globalInfoCustomizationsOutputFilePath;
 		this.subCustomizationsSwitchSelector = subCustomizationsSwitchSelector;
 	}
 
-	public String getMainInfoCustomizationsOutputFilePath() {
-		return mainInfoCustomizationsOutputFilePath;
+	/**
+	 * @return The path to the main global {@link SubSwingCustomizer}
+	 *         {@link InfoCustomizations} file.
+	 */
+	public String getGlobalInfoCustomizationsOutputFilePath() {
+		return globalInfoCustomizationsOutputFilePath;
 	}
 
 	protected String getSubInfoCustomizationsOutputFilePath(String switchIdentifier) {
-		File mainInfoCustomizationsOutputFile = new File(mainInfoCustomizationsOutputFilePath);
-		String fileNamePrefix = (switchIdentifier == SWITCH_TO_MAIN_CUSTOMIZER) ? "" : "-" + switchIdentifier;
+		File mainInfoCustomizationsOutputFile = new File(globalInfoCustomizationsOutputFilePath);
+		String fileNamePrefix = (switchIdentifier == SWITCH_TO_GLOBAL_EXCLUSIVE_CUSTOMIZATIONS) ? ""
+				: "-" + switchIdentifier;
 		return new File(mainInfoCustomizationsOutputFile.getParentFile(),
 				fileNamePrefix + mainInfoCustomizationsOutputFile.getName()).getPath();
 	}
@@ -52,9 +99,16 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		return (SubCustomizedUI) super.getReflectionUI();
 	}
 
+	/**
+	 * @return The current map of switch identifiers (returned by
+	 *         {@link #subCustomizationsSwitchSelector}) and their associated
+	 *         {@link SubSwingCustomizer}. Note that the available entries depend on
+	 *         the previously rendered objects. Unused entries may get
+	 *         garbage-collected and then removed over time.
+	 */
 	public Map<String, SubSwingCustomizer> getSubCustomizerBySwitch() {
 		return Collections.unmodifiableMap(switchBySubCustomizer.entrySet().stream()
-				.collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey)));
+				.collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey, (value1, value2) -> value1)));
 	}
 
 	protected SubSwingCustomizer switchSubCustomizer(SubSwingCustomizer current, Object object) {
@@ -63,7 +117,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 			if (current != null) {
 				return current;
 			} else {
-				switchIdentifier = SWITCH_TO_MAIN_CUSTOMIZER;
+				switchIdentifier = SWITCH_TO_GLOBAL_EXCLUSIVE_CUSTOMIZATIONS;
 			}
 		}
 		SubSwingCustomizer result = getSubCustomizerBySwitch().get(switchIdentifier);
@@ -79,7 +133,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 	}
 
 	protected SubCustomizedUI createSubCustomizedUI(String switchIdentifier) {
-		return new SubCustomizedUI(this, switchIdentifier);
+		return new SubCustomizedUI(switchIdentifier);
 	}
 
 	@Override
@@ -100,18 +154,24 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		return false;
 	}
 
-	public static class SubCustomizedUI extends CustomizedUI {
+	/**
+	 * This is a subclass of {@link CustomizedUI} that holds (for its parent
+	 * {@link MultiSwingCustomizer}) the {@link InfoCustomizations} associated with
+	 * a specific {@link SubSwingCustomizer} switch identifier.
+	 * 
+	 * @author olitank
+	 *
+	 */
+	public class SubCustomizedUI extends CustomizedUI {
 
-		protected MultiSwingCustomizer parent;
 		protected String switchIdentifier;
 
-		public SubCustomizedUI(MultiSwingCustomizer parent, String switchIdentifier) {
-			this.parent = parent;
+		public SubCustomizedUI(String switchIdentifier) {
 			this.switchIdentifier = switchIdentifier;
 		}
 
 		public MultiSwingCustomizer getParent() {
-			return parent;
+			return MultiSwingCustomizer.this;
 		}
 
 		public String getSwitchIdentifier() {
@@ -178,15 +238,25 @@ public class MultiSwingCustomizer extends SwingRenderer {
 
 		@Override
 		public String toString() {
-			return "SubCustomizedUI [of=" + parent + ", switchIdentifier=" + switchIdentifier + "]";
+			return "SubCustomizedUI [of=" + getParent() + ", switchIdentifier=" + switchIdentifier + "]";
 		}
 
 	}
 
-	protected class SubSwingCustomizer extends SwingCustomizer {
+	/**
+	 * This class is a subclass of {@link SwingCustomizer} that manages (for its
+	 * parent {@link MultiSwingCustomizer}) the {@link InfoCustomizations}
+	 * associated with a specific switch identifier returned by
+	 * {@link MultiSwingCustomizer#subCustomizationsSwitchSelector}.
+	 * 
+	 * @author olitank
+	 *
+	 */
+	public class SubSwingCustomizer extends SwingCustomizer {
 
 		public SubSwingCustomizer(String switchIdentifier) {
-			super((switchIdentifier == SWITCH_TO_MAIN_CUSTOMIZER) ? MultiSwingCustomizer.this.getReflectionUI()
+			super((switchIdentifier == SWITCH_TO_GLOBAL_EXCLUSIVE_CUSTOMIZATIONS)
+					? MultiSwingCustomizer.this.getReflectionUI()
 					: createSubCustomizedUI(switchIdentifier),
 					MultiSwingCustomizer.this.getSubInfoCustomizationsOutputFilePath(switchIdentifier));
 		}
