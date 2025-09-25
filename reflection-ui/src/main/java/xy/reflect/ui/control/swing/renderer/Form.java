@@ -491,8 +491,15 @@ public class Form extends ImagePanel {
 				.createValidationTask(new Runnable() {
 					@Override
 					public void run() {
-						Icon initialStatusBarIcon = statusBar.getIcon();
-						statusBar.setIcon(getOngoingValidationIcon());
+						final Icon initialStatusBarIcon = statusBar.getIcon();
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								showErrorOnStatusBar(new ReflectionUIError(getOngoingValidationMessage()));
+								statusBar.setIcon(getOngoingValidationIcon());
+							}
+
+						});
 						try {
 							validateForm(new ValidationSession());
 						} catch (Exception e) {
@@ -505,14 +512,14 @@ public class Form extends ImagePanel {
 								}
 							});
 						} finally {
+							currentValidationTask = null;
 							SwingUtilities.invokeLater(new Runnable() {
 								@Override
 								public void run() {
+									statusBar.setIcon(initialStatusBarIcon);
 									refreshValidityComponents();
 								}
 							});
-							statusBar.setIcon(initialStatusBarIcon);
-							currentValidationTask = null;
 						}
 					}
 				});
@@ -521,6 +528,10 @@ public class Form extends ImagePanel {
 
 	protected Icon getOngoingValidationIcon() {
 		return SwingRendererUtils.ERROR_REFRESHING_ICON;
+	}
+
+	protected String getOngoingValidationMessage() {
+		return "Validating...";
 	}
 
 	protected void refreshValidityComponents() {

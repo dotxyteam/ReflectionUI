@@ -103,7 +103,7 @@ public interface IDynamicListAction extends IDynamicListFeauture, IMethodInfo {
 
 		@Override
 		public String getParametersValidationCustomCaption() {
-			return ReflectionUIUtils.formatMethodParametersValidationCaption(this);
+			return null;
 		}
 
 		@Override

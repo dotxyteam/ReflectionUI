@@ -77,7 +77,7 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 
 	@Override
 	public String getParametersValidationCustomCaption() {
-		return ReflectionUIUtils.formatMethodParametersValidationCaption(this);
+		return null;
 	}
 
 	@Override

@@ -149,7 +149,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public String getParametersValidationCustomCaption() {
-		return ReflectionUIUtils.formatMethodParametersValidationCaption(this);
+		return null;
 	}
 
 	@Override

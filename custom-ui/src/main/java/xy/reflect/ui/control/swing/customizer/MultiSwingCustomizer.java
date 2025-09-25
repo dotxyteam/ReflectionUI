@@ -89,7 +89,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 	protected String getSubInfoCustomizationsOutputFilePath(String switchIdentifier) {
 		File mainInfoCustomizationsOutputFile = new File(globalInfoCustomizationsOutputFilePath);
 		String fileNamePrefix = (switchIdentifier == SWITCH_TO_GLOBAL_EXCLUSIVE_CUSTOMIZATIONS) ? ""
-				: "-" + switchIdentifier;
+				: (switchIdentifier + "-");
 		return new File(mainInfoCustomizationsOutputFile.getParentFile(),
 				fileNamePrefix + mainInfoCustomizationsOutputFile.getName()).getPath();
 	}
@@ -120,6 +120,16 @@ public class MultiSwingCustomizer extends SwingRenderer {
 				switchIdentifier = SWITCH_TO_GLOBAL_EXCLUSIVE_CUSTOMIZATIONS;
 			}
 		}
+		return obtainSubCustomizer(switchIdentifier);
+	}
+
+	/**
+	 * @param switchIdentifier
+	 * @return The {@link SubSwingCustomizer} instance associated with the given
+	 *         switch identifier. Note that if this instance does not exists, it
+	 *         will then be created.
+	 */
+	public SubSwingCustomizer obtainSubCustomizer(String switchIdentifier) {
 		SubSwingCustomizer result = getSubCustomizerBySwitch().get(switchIdentifier);
 		if (result == null) {
 			result = createSubCustomizer(switchIdentifier);
@@ -178,12 +188,8 @@ public class MultiSwingCustomizer extends SwingRenderer {
 			return switchIdentifier;
 		}
 
-		public CustomizedUI getRoot() {
+		protected SubCustomizedUI getGlobalSubCustomizedUI() {
 			return getParent().getReflectionUI();
-		}
-
-		public boolean isRoot() {
-			return getRoot() == this;
 		}
 
 		@Override
@@ -193,7 +199,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		}
 
 		protected IInfoProxyFactory getMainInfoCustomizationsFactory() {
-			if (isRoot()) {
+			if (getGlobalSubCustomizedUI() == this) {
 				return IInfoProxyFactory.NULL_INFO_PROXY_FACTORY;
 			}
 			return new InfoCustomizationsFactory(this) {
@@ -205,12 +211,12 @@ public class MultiSwingCustomizer extends SwingRenderer {
 
 				@Override
 				protected IInfoProxyFactory getInfoCustomizationsSetupFactory() {
-					return getRoot().getInfoCustomizationsSetupFactory();
+					return getGlobalSubCustomizedUI().getInfoCustomizationsSetupFactory();
 				}
 
 				@Override
 				protected InfoCustomizations accessInfoCustomizations() {
-					return getRoot().getInfoCustomizations();
+					return getGlobalSubCustomizedUI().getInfoCustomizations();
 				}
 			};
 		}
@@ -283,6 +289,8 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		protected void synchronizeInfoCustomizationsWithFile(String filePath) {
 			File file = new File(filePath);
 			if (!file.exists()) {
+				getReflectionUI().logDebug(
+						"WARNING: " + InfoCustomizations.class.getSimpleName() + " file not found: " + filePath);
 				return;
 			}
 			super.synchronizeInfoCustomizationsWithFile(filePath);

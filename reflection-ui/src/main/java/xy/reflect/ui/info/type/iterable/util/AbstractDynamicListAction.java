@@ -81,7 +81,7 @@ public abstract class AbstractDynamicListAction extends AbstractInfo implements 
 
 	@Override
 	public String getParametersValidationCustomCaption() {
-		return ReflectionUIUtils.formatMethodParametersValidationCaption(this);
+		return null;
 	}
 
 	@Override

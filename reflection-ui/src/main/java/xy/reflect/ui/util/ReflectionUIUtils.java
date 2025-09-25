@@ -969,16 +969,6 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static String formatMethodParametersValidationCaption(IMethodInfo method) {
-		String result = method.getCaption();
-		if (ReflectionUIUtils.requiresParameterValue(method.getParameters())) {
-			if (result.endsWith("...")) {
-				result = result.substring(0, result.length() - 3);
-			}
-		}
-		return result;
-	}
-
 	public static String formatRequiredParameterList(List<IParameterInfo> parameters) {
 		StringBuilder result = new StringBuilder();
 		int iRequiredParam = 0;
