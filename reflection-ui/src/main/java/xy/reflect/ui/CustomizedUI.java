@@ -67,7 +67,7 @@ public class CustomizedUI extends ReflectionUI {
 	}
 
 	protected Map<ITypeInfo, ITypeInfo> createCustomizedTypeCache() {
-		return MiscUtils.newStandardCache();
+		return MiscUtils.newStandardCache(true);
 	}
 
 	/**

@@ -47,7 +47,7 @@ public class ValidationErrorRegistry {
 	 *         errors.
 	 */
 	protected Map<Object, Exception> buildAttributionMap() {
-		return MiscUtils.newStandardCache();
+		return MiscUtils.newStandardCache(false);
 	}
 
 	/**

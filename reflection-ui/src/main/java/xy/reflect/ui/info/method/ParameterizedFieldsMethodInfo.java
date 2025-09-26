@@ -69,12 +69,21 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 	}
 
 	@Override
+	public String getCaption() {
+		String result = super.getCaption();
+		if((super.getParameters().size() == 0) && (generatedParameters.size() > 0) && !result.endsWith("...")) {
+			result += "...";
+		}
+		return result;
+	}
+
+	@Override
 	public boolean isReadOnly() {
-		if(!super.isReadOnly()) {
+		if (!super.isReadOnly()) {
 			return false;
 		}
 		for (IFieldInfo parameterizedField : parameterizedFields) {
-			if(!parameterizedField.isTransient()) {
+			if (!parameterizedField.isTransient()) {
 				return false;
 			}
 		}

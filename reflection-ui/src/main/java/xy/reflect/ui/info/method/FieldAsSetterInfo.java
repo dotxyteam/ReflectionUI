@@ -76,7 +76,7 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public String getCaption() {
-		return "Set " + field.getCaption();
+		return "Set " + field.getCaption() + "...";
 	}
 
 	@Override

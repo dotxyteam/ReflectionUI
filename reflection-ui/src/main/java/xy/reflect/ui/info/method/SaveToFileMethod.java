@@ -29,7 +29,7 @@ public class SaveToFileMethod extends AbstractPersistenceMethod {
 
 	@Override
 	public String getCaption() {
-		return "Save";
+		return "Save...";
 	}
 
 	@Override

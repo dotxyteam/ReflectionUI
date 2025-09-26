@@ -27,7 +27,7 @@ public class LoadFromFileMethod extends AbstractPersistenceMethod {
 
 	@Override
 	public String getCaption() {
-		return "Load";
+		return "Load...";
 	}
 
 	@Override

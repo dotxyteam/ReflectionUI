@@ -52,6 +52,15 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 	}
 
 	@Override
+	public String getCaption() {
+		String result = super.getCaption();
+		if ((super.getParameters().size() > 0) && (getParameters().size() == 0) && result.endsWith("...")) {
+			result = result.substring(0, result.length() - "...".length());
+		}
+		return result;
+	}
+
+	@Override
 	public List<IParameterInfo> getParameters() {
 		if (parameters == null) {
 			try {

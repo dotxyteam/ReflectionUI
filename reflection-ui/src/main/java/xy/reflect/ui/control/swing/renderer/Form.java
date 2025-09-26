@@ -144,7 +144,7 @@ public class Form extends ImagePanel {
 			public void run() {
 				objectType.onFormCreation(object, true);
 			}
-		}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Setting up..."));
+		}, getInitializationJobTitle());
 		try {
 			this.swingRenderer = swingRenderer;
 			setObject(object);
@@ -161,9 +161,17 @@ public class Form extends ImagePanel {
 				public void run() {
 					objectType.onFormCreation(object, false);
 				}
-			}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Setting up..."));
+			}, getInitializationJobTitle());
 
 		}
+	}
+
+	protected String getInitializationJobTitle() {
+		return "Setting up...";
+	}
+
+	protected String getFinalizationJobTitle() {
+		return "Cleaning up...";
 	}
 
 	public ITypeInfo getFilteredObjectType() {
@@ -387,8 +395,6 @@ public class Form extends ImagePanel {
 		try {
 			swingRenderer.getReflectionUI().getValidationErrorRegistry().attributing(object, (sessionArg) -> {
 				ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-				ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-				type.validate(object, session);
 				List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
 						methodControlPlaceHoldersByCategory);
 				boolean categoriesDisplayed = shouldCategoriesBeDisplayed(allCategories);
@@ -466,6 +472,8 @@ public class Form extends ImagePanel {
 						}
 					}
 				}
+				ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+				type.validate(object, session);
 			}, validationError -> swingRenderer.getReflectionUI().logDebug(validationError)).validate(session);
 			if (!swingRenderer.getReflectionUI().getValidationErrorRegistry()
 					.isValidationCancelled(Thread.currentThread())) {
@@ -495,7 +503,9 @@ public class Form extends ImagePanel {
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {
-								showErrorOnStatusBar(new ReflectionUIError(getOngoingValidationMessage()));
+								if (!statusBar.isVisible()) {
+									showErrorOnStatusBar(new ReflectionUIError(getOngoingValidationMessage()));
+								}
 								statusBar.setIcon(getOngoingValidationIcon());
 							}
 
@@ -597,7 +607,7 @@ public class Form extends ImagePanel {
 			public void run() {
 				Form.this.filteredObjectType.onFormVisibilityChange(object, true);
 			}
-		}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Setting up..."));
+		}, getInitializationJobTitle());
 	}
 
 	protected void formHidden() {
@@ -608,7 +618,7 @@ public class Form extends ImagePanel {
 			public void run() {
 				Form.this.filteredObjectType.onFormVisibilityChange(object, false);
 			}
-		}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Cleaning up..."));
+		}, getFinalizationJobTitle());
 	}
 
 	protected boolean isModificationStackSlave() {

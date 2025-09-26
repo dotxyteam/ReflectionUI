@@ -67,7 +67,7 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 
 	@Override
 	public String getCaption() {
-		return "Create " + getReturnValueType().getCaption();
+		return "Create " + getReturnValueType().getCaption() + ((getParameters().size() > 0) ? "..." : "");
 	}
 
 	@Override

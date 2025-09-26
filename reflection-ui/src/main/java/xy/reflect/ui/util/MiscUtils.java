@@ -291,8 +291,8 @@ public class MiscUtils {
 
 	public static ExecutorService newExecutor(final String threadName, int minimumThreadCount) {
 		ThreadPoolExecutor result = new ThreadPoolExecutor(minimumThreadCount, Integer.MAX_VALUE,
-				SystemProperties.getExecutorIdleTimeoutSeconds(), TimeUnit.SECONDS,
-				new SynchronousQueue<Runnable>(), new ThreadFactory() {
+				SystemProperties.getExecutorIdleTimeoutSeconds(), TimeUnit.SECONDS, new SynchronousQueue<Runnable>(),
+				new ThreadFactory() {
 					private int threadNumber = 0;
 
 					@Override
@@ -323,9 +323,9 @@ public class MiscUtils {
 		return newAutoCleanUpCache(true, false, maxSize, -1, null, 5000, "WeakKeysIdentityBasedCacheCleaner");
 	}
 
-	public static <K, V> Map<K, V> newStandardCache() {
+	public static <K, V> Map<K, V> newStandardCache(boolean expiration) {
 		return newAutoCleanUpCache(false, false, SystemProperties.getStandardCacheSize(),
-				SystemProperties.getStandardCacheExpirationDelaySeconds(), TimeUnit.SECONDS, 5000,
+				expiration ? SystemProperties.getStandardCacheExpirationDelaySeconds() : -1, TimeUnit.SECONDS, 5000,
 				"StandardCacheCleaner");
 	}
 

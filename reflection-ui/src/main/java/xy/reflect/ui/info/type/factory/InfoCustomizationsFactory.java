@@ -2649,9 +2649,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						if (mc.getParametersValidationCustomCaption() != null) {
 							return mc.getParametersValidationCustomCaption();
 						}
-						if (mc.getCustomMethodCaption() != null) {
-							return mc.getCustomMethodCaption();
-						}
 						return super.getParametersValidationCustomCaption();
 					}
 

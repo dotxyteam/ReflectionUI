@@ -94,11 +94,11 @@ public class SystemProperties {
 	}
 
 	public static long getExecutorIdleTimeoutSeconds() {
-		return Long.valueOf(System.getProperty(SystemProperties.EXECUTOR_IDLE_TIMEOUT_SECONDS, "60"));
+		return Long.valueOf(System.getProperty(SystemProperties.EXECUTOR_IDLE_TIMEOUT_SECONDS, "300"));
 	}
 
 	public static long getStandardCacheExpirationDelaySeconds() {
-		return Long.valueOf(System.getProperty(SystemProperties.STANDARD_CACHE_EXEPIRATION_DELAY_SECONDS, "60"));
+		return Long.valueOf(System.getProperty(SystemProperties.STANDARD_CACHE_EXEPIRATION_DELAY_SECONDS, "300"));
 	}
 
 	public static boolean areDefaultInfoCustomizationsActive() {

@@ -153,7 +153,7 @@ public class MethodAction extends AbstractAction {
 			protected String getOKCaption() {
 				String invokeButtonText = data.getParametersValidationCustomCaption();
 				if (invokeButtonText == null) {
-					invokeButtonText = "OK";
+					invokeButtonText = getDefaultExecutionSettnigsVaidationCaption();
 				}
 				return invokeButtonText;
 			}
@@ -163,6 +163,10 @@ public class MethodAction extends AbstractAction {
 			return null;
 		}
 		return invocationData;
+	}
+
+	protected String getDefaultExecutionSettnigsVaidationCaption() {
+		return "OK";
 	}
 
 	public String getTitle() {

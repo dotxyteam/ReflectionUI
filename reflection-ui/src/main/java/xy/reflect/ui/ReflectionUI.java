@@ -76,7 +76,7 @@ public class ReflectionUI {
 	}
 
 	protected Map<ITypeInfoSource, ITypeInfo> createTypeCache() {
-		return MiscUtils.newStandardCache();
+		return MiscUtils.newStandardCache(true);
 	}
 
 	/**
