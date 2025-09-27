@@ -602,7 +602,16 @@ public class Form extends ImagePanel {
 	}
 
 	protected void showErrorOnStatusBar(Exception error) {
-		if (!MiscUtils.sameExceptionOrBothNull(error, (Throwable) ((HyperlinkLabel) statusBar).getCustomValue())) {
+		Exception previousError = (Exception) ((HyperlinkLabel) statusBar).getCustomValue();
+		boolean statusUpdateRequired;
+		try {
+			statusUpdateRequired = !MiscUtils.sameExceptionOrBothNull(error, previousError);
+		} catch (Throwable t) {
+			swingRenderer.getReflectionUI().logDebug(
+					"WARNING: Failed to compare exceptions '" + error + "' and '" + previousError + "': " + t);
+			statusUpdateRequired = true;
+		}
+		if (statusUpdateRequired) {
 			String errorMsg;
 			if (error == null) {
 				errorMsg = null;

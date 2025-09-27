@@ -91,8 +91,13 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 	 *              present.
 	 */
 	protected void handleError(final Throwable error) {
-		if (MiscUtils.sameExceptionOrBothNull(error, currentlyDisplayedError)) {
-			return;
+		try {
+			if (MiscUtils.sameExceptionOrBothNull(error, currentlyDisplayedError)) {
+				return;
+			}
+		} catch (Throwable t) {
+			swingRenderer.getReflectionUI().logDebug("WARNING: Failed to compare exceptions '" + error + "' and '"
+					+ currentlyDisplayedError + "': " + t);
 		}
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -108,8 +113,8 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 			errorDialogOwner.setBorder(((CompoundBorder) errorDialogOwner.getBorder()).getOutsideBorder());
 		}
 		if (error != null) {
-			errorDialogOwner.setBorder(BorderFactory.createCompoundBorder(errorDialogOwner.getBorder(),
-					swingRenderer.getErrorBorder()));
+			errorDialogOwner.setBorder(
+					BorderFactory.createCompoundBorder(errorDialogOwner.getBorder(), swingRenderer.getErrorBorder()));
 			showErrorDialog(error);
 		}
 	}

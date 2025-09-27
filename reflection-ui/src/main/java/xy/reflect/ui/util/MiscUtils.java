@@ -33,7 +33,9 @@ import java.util.regex.Pattern;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.info.filter.IInfoFilter;
 
 /**
  * Various utilities.
@@ -431,7 +433,13 @@ public class MiscUtils {
 		if (error2 == null) {
 			return false;
 		}
-		return getPrintedStackTrace(error1).equals(getPrintedStackTrace(error2));
+		if (!getPrintedStackTrace(error1).equals(getPrintedStackTrace(error2))) {
+			return false;
+		}
+		if(!ReflectionUIUtils.equalsAccordingInfos(error1, error2, ReflectionUI.getDefault(), IInfoFilter.DEFAULT)) {
+			return false;
+		}
+		return true;
 	}
 
 }

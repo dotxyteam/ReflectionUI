@@ -892,7 +892,11 @@ public class ReflectionUIUtils {
 			return false;
 		}
 		if (ClassUtils.isPrimitiveClassOrWrapperOrString(o1.getClass())) {
-			return o1.equals(o2);
+			if (o1.equals(o2)) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 		for (Pair<Object, Object> pair : alreadyCompared) {
 			if ((pair.getFirst() == o1) && (pair.getSecond() == o2)) {
@@ -906,7 +910,11 @@ public class ReflectionUIUtils {
 			return false;
 		}
 		if (type1.isPrimitive()) {
-			return o1.equals(o2);
+			if (o1.equals(o2)) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 		for (IFieldInfo field : type1.getFields()) {
 			field = infoFilter.apply(field);
