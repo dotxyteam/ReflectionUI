@@ -25,6 +25,10 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
@@ -497,19 +501,12 @@ public class Form extends ImagePanel {
 		ensureNoCurrentValidationTask();
 		currentValidationTask = swingRenderer.getReflectionUI().getValidationErrorRegistry()
 				.createValidationTask(new Runnable() {
+					boolean completedValidationStatusReported = false;
+
 					@Override
 					public void run() {
 						final Icon initialStatusBarIcon = statusBar.getIcon();
-						SwingUtilities.invokeLater(new Runnable() {
-							@Override
-							public void run() {
-								if (!statusBar.isVisible()) {
-									showErrorOnStatusBar(new ReflectionUIError(getOngoingValidationMessage()));
-								}
-								statusBar.setIcon(getOngoingValidationIcon());
-							}
-
-						});
+						scheduleOngoingValidationStatusDisplay();
 						try {
 							validateForm(new ValidationSession());
 						} catch (Exception e) {
@@ -528,12 +525,49 @@ public class Form extends ImagePanel {
 								public void run() {
 									statusBar.setIcon(initialStatusBarIcon);
 									refreshValidityComponents();
+									completedValidationStatusReported = true;
 								}
 							});
 						}
 					}
+
+					void scheduleOngoingValidationStatusDisplay() {
+						swingRenderer.getDelayedUpdateExecutorService().submit(new Runnable() {
+							BetterFutureTask<Boolean> task = currentValidationTask;
+
+							@Override
+							public void run() {
+								try {
+									task.get(getOngoingValidationStausDisplayDelayMilliseconds(),
+											TimeUnit.MILLISECONDS);
+								} catch (TimeoutException e) {
+									SwingUtilities.invokeLater(new Runnable() {
+										@Override
+										public void run() {
+											if (completedValidationStatusReported) {
+												return;
+											}
+											if (!statusBar.isVisible()) {
+												showErrorOnStatusBar(
+														new ReflectionUIError(getOngoingValidationMessage()));
+											}
+											statusBar.setIcon(getOngoingValidationIcon());
+										}
+									});
+								} catch (CancellationException | ExecutionException e) {
+									return;
+								} catch (InterruptedException e) {
+									throw new ReflectionUIError(e);
+								}
+							}
+						});
+					}
 				});
 		swingRenderer.getFormValidatorService().submit(currentValidationTask);
+	}
+
+	protected long getOngoingValidationStausDisplayDelayMilliseconds() {
+		return 2000;
 	}
 
 	protected Icon getOngoingValidationIcon() {

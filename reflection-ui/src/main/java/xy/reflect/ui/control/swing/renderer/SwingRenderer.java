@@ -201,6 +201,13 @@ public class SwingRenderer {
 	}
 
 	/**
+	 * @return an executor service intended to execute delayed UI update jobs.
+	 */
+	public ExecutorService getDelayedUpdateExecutorService() {
+		return delayedUpdateExecutorService;
+	}
+
+	/**
 	 * @return all displayed forms that were generated using this renderer.
 	 */
 	public List<Form> getAllDisplayedForms() {
@@ -1155,7 +1162,7 @@ public class SwingRenderer {
 		}, true);
 		busyDialogWorkerService.submit(busyDialogJob);
 		try {
-			busyDialogJob.get(1000, TimeUnit.MILLISECONDS);
+			busyDialogJob.get(getBusyDialogDisplayDelayMilliseconds(), TimeUnit.MILLISECONDS);
 		} catch (TimeoutException e1) {
 		} catch (Exception e) {
 			throw new ReflectionUIError(e);
@@ -1225,6 +1232,10 @@ public class SwingRenderer {
 		if (exceptionThrown[0] != null) {
 			throw new ReflectionUIError(exceptionThrown[0]);
 		}
+	}
+
+	protected long getBusyDialogDisplayDelayMilliseconds() {
+		return 1000;
 	}
 
 	/**

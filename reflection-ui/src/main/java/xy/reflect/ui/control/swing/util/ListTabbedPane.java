@@ -179,13 +179,15 @@ public class ListTabbedPane extends JPanel {
 
 			JButton button = createNonSelectedTabHeaderCellRendererComponent();
 			{
-				button.setHorizontalAlignment(SwingConstants.LEFT);
+				button.setHorizontalAlignment(
+						(placement == JTabbedPane.LEFT) ? SwingConstants.LEFT : SwingConstants.CENTER);
 				button.setHorizontalTextPosition(SwingConstants.RIGHT);
 				button.setVerticalTextPosition(SwingConstants.CENTER);
 			}
 			JLabel label = createSelectedTabHeaderCellRendererComponent();
 			{
-				label.setHorizontalAlignment(SwingConstants.LEFT);
+				label.setHorizontalAlignment(
+						(placement == JTabbedPane.LEFT) ? SwingConstants.LEFT : SwingConstants.CENTER);
 				label.setHorizontalTextPosition(SwingConstants.RIGHT);
 				label.setVerticalTextPosition(SwingConstants.CENTER);
 			}
@@ -312,7 +314,6 @@ public class ListTabbedPane extends JPanel {
 			}
 
 		};
-		result.setHorizontalAlignment(SwingConstants.CENTER);
 		result.setOpaque(true);
 		return result;
 	}
