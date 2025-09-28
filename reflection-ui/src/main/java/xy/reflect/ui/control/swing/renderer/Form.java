@@ -606,9 +606,9 @@ public class Form extends ImagePanel {
 		boolean statusUpdateRequired;
 		try {
 			statusUpdateRequired = !MiscUtils.sameExceptionOrBothNull(error, previousError);
-		} catch (Throwable t) {
+		} catch (Exception e) {
 			swingRenderer.getReflectionUI().logDebug(
-					"WARNING: Failed to compare exceptions '" + error + "' and '" + previousError + "': " + t);
+					"WARNING: Failed to compare exceptions '" + error + "' and '" + previousError + "': " + e);
 			statusUpdateRequired = true;
 		}
 		if (statusUpdateRequired) {

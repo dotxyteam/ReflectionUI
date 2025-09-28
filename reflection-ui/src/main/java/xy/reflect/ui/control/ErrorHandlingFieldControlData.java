@@ -95,9 +95,9 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 			if (MiscUtils.sameExceptionOrBothNull(error, currentlyDisplayedError)) {
 				return;
 			}
-		} catch (Throwable t) {
+		} catch (Exception e) {
 			swingRenderer.getReflectionUI().logDebug("WARNING: Failed to compare exceptions '" + error + "' and '"
-					+ currentlyDisplayedError + "': " + t);
+					+ currentlyDisplayedError + "': " + e);
 		}
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override

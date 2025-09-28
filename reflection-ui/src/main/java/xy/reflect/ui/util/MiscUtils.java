@@ -433,9 +433,6 @@ public class MiscUtils {
 		if (error2 == null) {
 			return false;
 		}
-		if (!getPrintedStackTrace(error1).equals(getPrintedStackTrace(error2))) {
-			return false;
-		}
 		if(!ReflectionUIUtils.equalsAccordingInfos(error1, error2, ReflectionUI.getDefault(), IInfoFilter.DEFAULT)) {
 			return false;
 		}
