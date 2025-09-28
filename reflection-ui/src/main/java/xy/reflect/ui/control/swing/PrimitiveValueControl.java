@@ -105,7 +105,7 @@ public class PrimitiveValueControl extends TextControl {
 	}
 
 	protected String toText(Object object) {
-		return ReflectionUIUtils.primitiveToString(object);
+		return object.toString();
 	}
 
 	protected Object fromText(String text, Class<?> dataClass) {

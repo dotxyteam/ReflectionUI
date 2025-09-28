@@ -254,7 +254,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 				javaType = ClassUtils.primitiveToWrapperClass(javaType);
 			}
 			NumberFormat numberFormat = (controlCustomization.customNumberFormat == null)
-					? ReflectionUIUtils.getNativeNumberFormat(javaType)
+					? ReflectionUIUtils.getNativeNumberFormat(javaType.asSubclass(Number.class))
 					: new DecimalFormat(controlCustomization.customNumberFormat);
 			return ReflectionUIUtils.getNumberFormatter(numberClass, numberFormat);
 		}

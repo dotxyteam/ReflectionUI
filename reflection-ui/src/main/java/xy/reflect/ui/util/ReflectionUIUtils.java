@@ -7,6 +7,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -1412,21 +1414,13 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static String primitiveToString(Object object) {
-		Class<?> javaType = object.getClass();
-		if (!ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
-			throw new RuntimeException("Invalid primitive type: '" + javaType.getName() + "'");
-		}
-		return object.toString();
-	}
-
 	public static Object primitiveFromString(String text, Class<?> javaType) {
 		if (javaType.isPrimitive()) {
 			javaType = ClassUtils.primitiveToWrapperClass(javaType);
 		}
 		if (javaType == Character.class) {
 			if (text.length() != 1) {
-				throw new RuntimeException("Invalid value: '" + text + "'. 1 character is expected");
+				throw new ReflectionUIError("Invalid value: '" + text + "'. 1 character is expected");
 			}
 			return text.charAt(0);
 		} else if (javaType == Boolean.class) {
@@ -1436,29 +1430,41 @@ public class ReflectionUIUtils {
 			if (Boolean.FALSE.toString().equals(text)) {
 				return false;
 			}
-			throw new RuntimeException("Invalid value: '" + text + "'. Expected '" + Boolean.TRUE.toString() + "' or '"
-					+ Boolean.FALSE.toString() + "'");
+			throw new ReflectionUIError("Invalid boolean: '" + text + "'. Expected '" + Boolean.TRUE.toString()
+					+ "' or '" + Boolean.FALSE.toString() + "'");
 		} else {
 			try {
-				try {
-					return javaType.getConstructor(new Class[] { String.class }).newInstance(text);
-				} catch (IllegalArgumentException e) {
-					throw new ReflectionUIError(e);
-				} catch (SecurityException e) {
-					throw new ReflectionUIError(e);
-				} catch (InstantiationException e) {
-					throw new ReflectionUIError(e);
-				} catch (IllegalAccessException e) {
-					throw new ReflectionUIError(e);
-				} catch (InvocationTargetException e) {
-					throw new ReflectionUIError(e.getTargetException());
-				} catch (NoSuchMethodException e) {
-					throw new ReflectionUIError(e);
+				return javaType.getConstructor(new Class[] { String.class }).newInstance(text);
+			} catch (IllegalArgumentException e) {
+				throw new ReflectionUIError(e);
+			} catch (SecurityException e) {
+				throw new ReflectionUIError(e);
+			} catch (InstantiationException e) {
+				throw new ReflectionUIError(e);
+			} catch (IllegalAccessException e) {
+				throw new ReflectionUIError(e);
+			} catch (InvocationTargetException e) {
+				if (Number.class.isAssignableFrom(javaType)) {
+					if (e.getTargetException() instanceof NumberFormatException) {
+						throw new ReflectionUIError("(" + javaType.getSimpleName() + ") "
+								+ e.getTargetException().toString() + " (valid example: \""
+								+ getNativeNumberFormat(javaType.asSubclass(Number.class)).format(Math.PI) + "\")",
+								e.getTargetException());
+					}
 				}
-			} catch (Throwable t) {
-				throw new ReflectionUIError(javaType.getSimpleName() + " Inupt Error: " + t.toString(), t);
+				throw new ReflectionUIError(e.getTargetException());
+			} catch (NoSuchMethodException e) {
+				throw new ReflectionUIError(e);
 			}
 		}
+	}
+
+	public static String primitiveToString(Object object) {
+		Class<?> javaType = object.getClass();
+		if (!ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
+			throw new RuntimeException("Invalid primitive type: '" + javaType.getName() + "'");
+		}
+		return object.toString();
 	}
 
 	public static NumberFormatter getNumberFormatter(Class<?> javaType, NumberFormat numberFormat) {
@@ -1467,7 +1473,7 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static NumberFormat getNativeNumberFormat(final Class<?> javaType) {
+	public static NumberFormat getNativeNumberFormat(final Class<? extends Number> javaType) {
 		return new NumberFormat() {
 
 			private static final long serialVersionUID = 1L;
@@ -1481,14 +1487,35 @@ public class ReflectionUIUtils {
 
 			@Override
 			public StringBuffer format(long number, StringBuffer toAppendTo, FieldPosition pos) {
-				return toAppendTo.append(primitiveToString(number));
+				return toAppendTo.append(convertNumber(number, javaType).toString());
 			}
 
 			@Override
 			public StringBuffer format(double number, StringBuffer toAppendTo, FieldPosition pos) {
-				return toAppendTo.append(primitiveToString(number));
+				return toAppendTo.append(convertNumber(number, javaType));
 			}
 		};
+	}
+
+	public static <T extends Number> T convertNumber(Number number, Class<T> targetClass) {
+		if (targetClass == Integer.class)
+			return targetClass.cast(Integer.valueOf(number.intValue()));
+		if (targetClass == Long.class)
+			return targetClass.cast(Long.valueOf(number.longValue()));
+		if (targetClass == Double.class)
+			return targetClass.cast(Double.valueOf(number.doubleValue()));
+		if (targetClass == Float.class)
+			return targetClass.cast(Float.valueOf(number.floatValue()));
+		if (targetClass == Short.class)
+			return targetClass.cast(Short.valueOf(number.shortValue()));
+		if (targetClass == Byte.class)
+			return targetClass.cast(Byte.valueOf(number.byteValue()));
+		if (targetClass == BigInteger.class)
+			return targetClass.cast(BigInteger.valueOf(number.longValue()));
+		if (targetClass == BigDecimal.class)
+			return targetClass.cast(new BigDecimal(number.toString()));
+		throw new IllegalArgumentException(
+				"Unsupported number conversion: " + number + " (" + number.getClass() + ") => " + targetClass);
 	}
 
 	public static String secureNameContent(String s) {
