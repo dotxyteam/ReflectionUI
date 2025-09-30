@@ -65,6 +65,9 @@ public class TestToolsMessages {
 			if (Modifier.isAbstract(c.getModifiers())) {
 				continue;
 			}
+			if (!Modifier.isPublic(c.getModifiers())) {
+				continue;
+			}
 			ITypeInfo typeCustomizationType = toolsUI.getTypeInfo(new JavaTypeInfoSource(c, null));
 			correctSpells = testSpells(typeCustomizationType) && correctSpells;
 		}

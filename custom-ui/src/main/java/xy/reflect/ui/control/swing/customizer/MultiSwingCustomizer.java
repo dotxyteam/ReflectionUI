@@ -66,7 +66,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 	 *                                               {@link SubSwingCustomizer}
 	 *                                               {@link InfoCustomizations}
 	 *                                               file.
-	 * @param customizationsIdentifierSelector       The object ->
+	 * @param customizationsIdentifierSelector       The object -&gt;
 	 *                                               {@link SubSwingCustomizer}
 	 *                                               distribution function.
 	 */

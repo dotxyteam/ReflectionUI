@@ -119858,5 +119858,8 @@ equals
 outputstream
 inputstream
 serializable
-instanciation
-instanciable
+instantiation
+instantiable
+sublist
+subtree
+resize

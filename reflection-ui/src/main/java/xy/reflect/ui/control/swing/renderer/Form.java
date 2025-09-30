@@ -612,22 +612,23 @@ public class Form extends ImagePanel {
 			statusUpdateRequired = true;
 		}
 		if (statusUpdateRequired) {
-			String errorMsg;
+			String errorSummary;
 			if (error == null) {
-				errorMsg = null;
+				errorSummary = null;
 			} else {
-				errorMsg = MiscUtils.getPrettyErrorMessage(error);
-				errorMsg = MiscUtils.multiToSingleLine(errorMsg);
+				errorSummary = MiscUtils.getPrettyErrorMessage(error);
+				errorSummary = MiscUtils.multiToSingleLine(errorSummary);
+				errorSummary = MiscUtils.truncateNicely(errorSummary, getErrorSummaryMaximumLength());
 			}
-			if (errorMsg == null) {
+			if (errorSummary == null) {
 				statusBar.setIcon(null);
 				statusBar.setToolTipText(null);
 				((HyperlinkLabel) statusBar).setRawTextAndLinkOpener(null, null);
 				((HyperlinkLabel) statusBar).setCustomValue(null);
 			} else {
 				statusBar.setIcon(SwingRendererUtils.ERROR_ICON);
-				statusBar.setToolTipText(SwingRendererUtils.adaptToolTipTextToMultiline(errorMsg));
-				((HyperlinkLabel) statusBar).setRawTextAndLinkOpener(errorMsg, new Runnable() {
+				statusBar.setToolTipText(SwingRendererUtils.adaptToolTipTextToMultiline(errorSummary));
+				((HyperlinkLabel) statusBar).setRawTextAndLinkOpener(errorSummary, new Runnable() {
 					@Override
 					public void run() {
 						swingRenderer.openErrorDetailsDialog(statusBar,
@@ -640,6 +641,10 @@ public class Form extends ImagePanel {
 			SwingRendererUtils.handleComponentSizeChange(statusBar);
 		}
 		statusBar.setVisible(statusBar.getText() != null);
+	}
+
+	protected int getErrorSummaryMaximumLength() {
+		return 150;
 	}
 
 	protected void formShown() {
