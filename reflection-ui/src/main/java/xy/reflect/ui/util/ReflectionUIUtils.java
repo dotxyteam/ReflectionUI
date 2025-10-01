@@ -1487,17 +1487,17 @@ public class ReflectionUIUtils {
 
 			@Override
 			public StringBuffer format(long number, StringBuffer toAppendTo, FieldPosition pos) {
-				return toAppendTo.append(convertNumber(number, javaType).toString());
+				return toAppendTo.append(primitiveToString(castNumber(number, javaType)));
 			}
 
 			@Override
 			public StringBuffer format(double number, StringBuffer toAppendTo, FieldPosition pos) {
-				return toAppendTo.append(convertNumber(number, javaType));
+				return toAppendTo.append(primitiveToString(castNumber(number, javaType)));
 			}
 		};
 	}
 
-	public static <T extends Number> T convertNumber(Number number, Class<T> targetClass) {
+	public static <T extends Number> T castNumber(Number number, Class<T> targetClass) {
 		if (targetClass == Integer.class)
 			return targetClass.cast(Integer.valueOf(number.intValue()));
 		if (targetClass == Long.class)

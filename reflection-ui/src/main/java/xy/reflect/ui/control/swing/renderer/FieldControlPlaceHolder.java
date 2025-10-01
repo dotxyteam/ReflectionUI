@@ -372,9 +372,20 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 						refreshUI(refreshStructure);
 					}
 				} catch (Throwable t) {
-					destroyFieldControl();
-					fieldControl = createFieldErrorControl(t);
-					layoutFieldControl();
+					try {
+						destroyFieldControl();
+						fieldControl = createFieldErrorControl(t);
+						layoutFieldControl();
+					} catch (Throwable t2) {
+						try {
+							swingRenderer.handleException(this, t);
+							swingRenderer.handleException(this, t2);
+						} catch (Throwable t3) {
+							swingRenderer.getReflectionUI().logError(t);	
+							swingRenderer.getReflectionUI().logError(t2);	
+							swingRenderer.getReflectionUI().logError(t3);							
+						}
+					}
 				}
 			} else {
 				destroyFieldControl();
@@ -656,8 +667,9 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	}
 
 	public Component createFieldErrorControl(final Throwable t) {
+		ErrorDisplayControl result = new ErrorDisplayControl(swingRenderer, this, t);
 		swingRenderer.getReflectionUI().logError(t);
-		return new ErrorDisplayControl(swingRenderer, this, t);
+		return result;
 	}
 
 	protected Map<String, Object> getFieldControlSelectionCriteria(IFieldControlData controlData) {
