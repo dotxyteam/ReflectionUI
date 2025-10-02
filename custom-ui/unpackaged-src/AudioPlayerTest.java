@@ -1,5 +1,4 @@
 
-
 import java.io.File;
 
 import javax.sound.sampled.AudioInputStream;
@@ -10,8 +9,6 @@ import javax.swing.SwingUtilities;
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.info.custom.InfoCustomizations;
-import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 
 public class AudioPlayerTest {
 
@@ -29,15 +26,7 @@ public class AudioPlayerTest {
 
 	public static void main(String[] args) {
 		InfoCustomizations infoCustomizations = new InfoCustomizations();
-		CustomizedUI reflectionUI = new CustomizedUI(infoCustomizations) {
-			@Override
-			public ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
-				ITypeInfo result = type;
-				return new InfoProxyFactory() {
-
-				}.wrapTypeInfo(result);
-			}
-		};
+		CustomizedUI reflectionUI = new CustomizedUI(infoCustomizations);
 		final SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "unpackaged-src/default.icu");
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override

@@ -193,7 +193,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		}
 
 		@Override
-		public InfoProxyFactoryChain getInfoCustomizationsFactory() {
+		public InfoProxyFactoryChain createInfoCustomizationsFactory() {
 			return new InfoProxyFactoryChain(getMainInfoCustomizationsFactory(), getSubInfoCustomizationsFactory());
 
 		}
@@ -266,6 +266,11 @@ public class MultiSwingCustomizer extends SwingRenderer {
 					? MultiSwingCustomizer.this.getReflectionUI()
 					: createSubCustomizedUI(customizationsIdentifier),
 					MultiSwingCustomizer.this.getSubInfoCustomizationsOutputFilePath(customizationsIdentifier));
+		}
+
+		@Override
+		public SubCustomizedUI getCustomizedUI() {
+			return (SubCustomizedUI)super.getCustomizedUI();
 		}
 
 		protected CustomizingForm subCreateForm(Object object, IInfoFilter infoFilter) {

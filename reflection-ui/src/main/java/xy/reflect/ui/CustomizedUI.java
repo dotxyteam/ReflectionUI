@@ -21,6 +21,11 @@ import xy.reflect.ui.util.ReflectionUIError;
  * This is a subclass of {@link ReflectionUI} that adapts its introspection
  * mechanics according to the given {@link InfoCustomizations} instance.
  * 
+ * It uses in order the proxy factories returned by
+ * {@link #getInfoCustomizationsSetupFactory()},
+ * {@link #getBeforeInfoCustomizationsFactory()}, @{@link #getInfoCustomizationsFactory()}
+ * and {@link #getAfterInfoCustomizationsFactory()}.
+ * 
  * @author olitank
  *
  */
@@ -30,6 +35,11 @@ public class CustomizedUI extends ReflectionUI {
 
 	protected InfoCustomizations infoCustomizations;
 	protected Map<ITypeInfo, ITypeInfo> customizedTypeCache = createCustomizedTypeCache();
+
+	private IInfoProxyFactory infoCustomizationsSetupFactory;
+	private IInfoProxyFactory beforeInfoCustomizationsFactory;
+	private IInfoProxyFactory infoCustomizationsFactory;
+	private IInfoProxyFactory afterInfoCustomizationsFactory;
 
 	/**
 	 * @return the default instance of this class. This instance is constructed with
@@ -90,9 +100,9 @@ public class CustomizedUI extends ReflectionUI {
 				result = cachedResult;
 			} else {
 				result = getInfoCustomizationsSetupFactory().wrapTypeInfo(result);
-				result = getTypeInfoBeforeCustomizations(result);
+				result = getBeforeInfoCustomizationsFactory().wrapTypeInfo(result);
 				result = getInfoCustomizationsFactory().wrapTypeInfo(result);
-				result = getTypeInfoAfterCustomizations(result);
+				result = getAfterInfoCustomizationsFactory().wrapTypeInfo(result);
 				customizedTypeCache.put(customizedTypesCacheKey, result);
 			}
 		}
@@ -103,21 +113,59 @@ public class CustomizedUI extends ReflectionUI {
 	public IApplicationInfo getApplicationInfo() {
 		IApplicationInfo result = super.getApplicationInfo();
 		result = getInfoCustomizationsSetupFactory().wrapApplicationInfo(result);
-		result = getApplicationInfoBeforeCustomizations(result);
+		result = getBeforeInfoCustomizationsFactory().wrapApplicationInfo(result);
 		result = getInfoCustomizationsFactory().wrapApplicationInfo(result);
-		result = getApplicationInfoAfterCustomizations(result);
+		result = getAfterInfoCustomizationsFactory().wrapApplicationInfo(result);
 		return result;
 	}
 
 	/**
 	 * @return the UI model proxy factory that will be used to customize every UI
-	 *         model. This factory will be used after calling
-	 *         {@link #getTypeInfoBeforeCustomizations(ITypeInfo)} |
-	 *         {@link #getApplicationInfoBeforeCustomizations(IApplicationInfo)} and
-	 *         before calling {@link #getTypeInfoAfterCustomizations(ITypeInfo)} |
-	 *         {@link #getApplicationInfoAfterCustomizations(IApplicationInfo)}.
+	 *         model.
 	 */
-	public IInfoProxyFactory getInfoCustomizationsFactory() {
+	public final IInfoProxyFactory getInfoCustomizationsFactory() {
+		if (infoCustomizationsFactory == null) {
+			infoCustomizationsFactory = createInfoCustomizationsFactory();
+		}
+		return infoCustomizationsFactory;
+	}
+
+	/**
+	 * @return the UI model proxy factory that will be used to prepare every UI
+	 *         model for customizations.
+	 */
+	public final IInfoProxyFactory getInfoCustomizationsSetupFactory() {
+		if (infoCustomizationsSetupFactory == null) {
+			infoCustomizationsSetupFactory = createInfoCustomizationsSetupFactory();
+		}
+		return infoCustomizationsSetupFactory;
+	}
+
+	/**
+	 * @return an abstract UI model proxy factory that will be used to eventually
+	 *         adapt some type/application information before customizations are
+	 *         applied.
+	 */
+	public final IInfoProxyFactory getBeforeInfoCustomizationsFactory() {
+		if (beforeInfoCustomizationsFactory == null) {
+			beforeInfoCustomizationsFactory = createBeforeInfoCustomizationsFactory();
+		}
+		return beforeInfoCustomizationsFactory;
+	}
+
+	/**
+	 * @return an abstract UI model proxy factory that will be used to eventually
+	 *         adapt some type/application information after customizations are
+	 *         applied.
+	 */
+	public final IInfoProxyFactory getAfterInfoCustomizationsFactory() {
+		if (afterInfoCustomizationsFactory == null) {
+			afterInfoCustomizationsFactory = createAfterInfoCustomizationsFactory();
+		}
+		return afterInfoCustomizationsFactory;
+	}
+
+	protected IInfoProxyFactory createInfoCustomizationsFactory() {
 		return new InfoCustomizationsFactory(this) {
 
 			@Override
@@ -138,12 +186,7 @@ public class CustomizedUI extends ReflectionUI {
 		};
 	}
 
-	/**
-	 * @return the UI model proxy factory that will be used to prepare every UI
-	 *         model for customizations. This factory will be used before calling
-	 *         {@link #getApplicationInfoBeforeCustomizations(IApplicationInfo)}.
-	 */
-	public InfoProxyFactory getInfoCustomizationsSetupFactory() {
+	protected IInfoProxyFactory createInfoCustomizationsSetupFactory() {
 		return new InfoProxyFactory() {
 
 			@Override
@@ -197,50 +240,12 @@ public class CustomizedUI extends ReflectionUI {
 		};
 	}
 
-	/**
-	 * This method allows to alter the given {@link ITypeInfo} object after applying
-	 * the declarative customizations.
-	 * 
-	 * @param type The UI-oriented type information.
-	 * @return a potentially proxied version of the input argument.
-	 */
-	public ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
-		return type;
+	protected IInfoProxyFactory createBeforeInfoCustomizationsFactory() {
+		return IInfoProxyFactory.NULL_INFO_PROXY_FACTORY;
 	}
 
-	/**
-	 * This method allows to alter the given {@link ITypeInfo} object before
-	 * applying the declarative customizations. Note that the virtual types
-	 * generated by the customizations can also be customized and thus altered by
-	 * this method.
-	 * 
-	 * @param type The UI-oriented type information.
-	 * @return a potentially proxied version of the input argument.
-	 */
-	public ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
-		return type;
-	}
-
-	/**
-	 * This method allows to alter the given {@link IApplicationInfo} object after
-	 * applying the declarative customizations.
-	 * 
-	 * @param appInfo The UI-oriented application information.
-	 * @return a potentially proxied version of the input argument.
-	 */
-	public IApplicationInfo getApplicationInfoAfterCustomizations(IApplicationInfo appInfo) {
-		return appInfo;
-	}
-
-	/**
-	 * This method allows to alter the given {@link IApplicationInfo} object before
-	 * applying the declarative customizations.
-	 * 
-	 * @param appInfo The UI-oriented application information.
-	 * @return a potentially proxied version of the input argument.
-	 */
-	public IApplicationInfo getApplicationInfoBeforeCustomizations(IApplicationInfo appInfo) {
-		return appInfo;
+	protected IInfoProxyFactory createAfterInfoCustomizationsFactory() {
+		return IInfoProxyFactory.NULL_INFO_PROXY_FACTORY;
 	}
 
 	@Override

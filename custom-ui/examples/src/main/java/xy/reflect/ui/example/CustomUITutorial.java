@@ -15,6 +15,7 @@ import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.MoreSystemProperties;
@@ -79,7 +80,7 @@ public class CustomUITutorial {
 		CustomizedUI customizedUI = new CustomizedUI() {
 
 			@Override
-			public ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
+			protected IInfoProxyFactory createBeforeInfoCustomizationsFactory() {
 				return new InfoProxyFactory() {
 
 					@Override
@@ -87,19 +88,19 @@ public class CustomUITutorial {
 						return "(added before customizations) " + super.getCaption(field, objectType);
 					}
 
-				}.wrapTypeInfo(super.getTypeInfoBeforeCustomizations(type));
+				};
 			}
 
 			@Override
-			public ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
+			protected IInfoProxyFactory createAfterInfoCustomizationsFactory() {
 				return new InfoProxyFactory() {
 
 					@Override
 					protected String getCaption(IFieldInfo field, ITypeInfo objectType) {
-						return super.getCaption(field, objectType) + " (added after customizations)";
+						return "(added before customizations) " + super.getCaption(field, objectType);
 					}
 
-				}.wrapTypeInfo(super.getTypeInfoAfterCustomizations(type));
+				};
 			}
 
 		};

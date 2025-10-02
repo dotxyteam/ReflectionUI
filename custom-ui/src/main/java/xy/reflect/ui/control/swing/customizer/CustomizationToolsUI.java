@@ -57,6 +57,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
@@ -97,8 +98,8 @@ public class CustomizationToolsUI extends CustomizedUI {
 	}
 
 	@Override
-	public ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
-		type = new InfoProxyFactory() {
+	protected IInfoProxyFactory createBeforeInfoCustomizationsFactory() {
+	return new InfoProxyFactory() {
 
 			@Override
 			public String toString() {
@@ -503,13 +504,12 @@ public class CustomizationToolsUI extends CustomizedUI {
 				}
 			}
 
-		}.wrapTypeInfo(type);
-		return type;
+		};
 	}
 
 	@Override
-	public ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
-		type = new InfoProxyFactory() {
+	protected IInfoProxyFactory createAfterInfoCustomizationsFactory() {
+		return new InfoProxyFactory() {
 
 			@Override
 			public String toString() {
@@ -578,8 +578,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 				return "<HTML>" + OnlineHelpFix.adaptToHtml(onlineHelp) + "</HTML>";
 			}
 
-		}.wrapTypeInfo(type);
-		return type;
+		};
 	}
 
 	@Override

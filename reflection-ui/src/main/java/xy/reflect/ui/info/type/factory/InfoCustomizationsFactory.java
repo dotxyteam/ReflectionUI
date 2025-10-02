@@ -129,6 +129,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	protected static final String ORIGINAL_ITEM_TYPE = InfoCustomizations.class.getName() + ".originalItemType";
 
 	protected ReflectionUI reflectionUI;
+	protected Map<Pair<String, String>, TypeInheritanceFactory> typeInheritanceFactoryCache = new HashMap<Pair<String, String>, TypeInheritanceFactory>();
 
 	protected abstract InfoCustomizations accessInfoCustomizations();
 
@@ -220,7 +221,13 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	protected IInfoProxyFactory getTypeInheritanceFactory(String targetTypeName, String baseTypeName) {
-		return new TypeInheritanceFactory(targetTypeName, baseTypeName);
+		Pair<String, String> cacheKey = new Pair<String, String>(targetTypeName, baseTypeName);
+		TypeInheritanceFactory result = typeInheritanceFactoryCache.get(cacheKey);
+		if (result == null) {
+			result = new TypeInheritanceFactory(targetTypeName, baseTypeName);
+			typeInheritanceFactoryCache.put(cacheKey, result);
+		}
+		return result;
 	}
 
 	@Override

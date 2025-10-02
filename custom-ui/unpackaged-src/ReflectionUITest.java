@@ -29,6 +29,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
@@ -413,9 +414,9 @@ public class ReflectionUITest {
 	public static void main(String[] args) {
 		InfoCustomizations infoCustomizations = new InfoCustomizations();
 		CustomizedUI reflectionUI = new CustomizedUI(infoCustomizations) {
+
 			@Override
-			public ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
-				ITypeInfo result = type;
+			protected IInfoProxyFactory createBeforeInfoCustomizationsFactory() {
 				return new InfoProxyFactory() {
 
 					@Override
@@ -443,8 +444,9 @@ public class ReflectionUITest {
 						return super.isReadOnly(method, objectType);
 					}
 
-				}.wrapTypeInfo(result);
+				};
 			}
+
 		};
 		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-ui.project.directory", "./") + "unpackaged-src/default.icu");
