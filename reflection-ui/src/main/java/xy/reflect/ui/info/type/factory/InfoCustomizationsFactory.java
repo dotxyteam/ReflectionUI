@@ -427,7 +427,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (t.getSavingMethodName() != null) {
 				Class<?> javaType;
 				try {
-					javaType = reflectionUI.loadClassThroughCache(type.getName());
+					javaType = reflectionUI.getReflectedClass(type.getName());
 					Method method = javaType.getMethod(t.getSavingMethodName(), File.class);
 					method.invoke(object, outputFile);
 					return;
@@ -449,7 +449,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (t.getLoadingMethodName() != null) {
 				Class<?> javaType;
 				try {
-					javaType = reflectionUI.loadClassThroughCache(type.getName());
+					javaType = reflectionUI.getReflectedClass(type.getName());
 					Method method = javaType.getMethod(t.getLoadingMethodName(), File.class);
 					method.invoke(object, inputFile);
 					return;
@@ -478,7 +478,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if ((t.getSavingMethodName() != null) && (t.getLoadingMethodName() != null)) {
 				Class<?> javaType;
 				try {
-					javaType = reflectionUI.loadClassThroughCache(type.getName());
+					javaType = reflectionUI.getReflectedClass(type.getName());
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
@@ -507,7 +507,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if ((t.getSavingMethodName() != null) && (t.getLoadingMethodName() != null)) {
 				Class<?> javaType;
 				try {
-					javaType = reflectionUI.loadClassThroughCache(type.getName());
+					javaType = reflectionUI.getReflectedClass(type.getName());
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}

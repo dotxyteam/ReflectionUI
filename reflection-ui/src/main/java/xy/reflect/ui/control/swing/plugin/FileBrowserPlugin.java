@@ -156,7 +156,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		public static boolean isCompatibleWith(ReflectionUI reflectionUI, ITypeInfo type) {
 			Class<?> fileClass;
 			try {
-				fileClass = reflectionUI.loadClassThroughCache(type.getName());
+				fileClass = reflectionUI.getReflectedClass(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}

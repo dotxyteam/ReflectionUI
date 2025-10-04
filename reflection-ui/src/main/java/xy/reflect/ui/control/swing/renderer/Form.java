@@ -628,14 +628,15 @@ public class Form extends ImagePanel {
 			} else {
 				statusBar.setIcon(SwingRendererUtils.ERROR_ICON);
 				statusBar.setToolTipText(SwingRendererUtils.adaptToolTipTextToMultiline(errorSummary));
-				((HyperlinkLabel) statusBar).setRawTextAndLinkOpener(errorSummary, new Runnable() {
-					@Override
-					public void run() {
-						swingRenderer.openErrorDetailsDialog(statusBar,
-								ValidationErrorWrapper.unwrapValidationError(error));
-					}
+				((HyperlinkLabel) statusBar).setRawTextAndLinkOpener(errorSummary,
+						getOngoingValidationMessage().equals(error.getMessage()) ? null : new Runnable() {
+							@Override
+							public void run() {
+								swingRenderer.openErrorDetailsDialog(statusBar,
+										ValidationErrorWrapper.unwrapValidationError(error));
+							}
 
-				});
+						});
 				((HyperlinkLabel) statusBar).setCustomValue(error);
 			}
 			SwingRendererUtils.handleComponentSizeChange(statusBar);

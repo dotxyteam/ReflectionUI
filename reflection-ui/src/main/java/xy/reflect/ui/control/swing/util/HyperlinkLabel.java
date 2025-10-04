@@ -38,6 +38,7 @@ public class HyperlinkLabel extends JLabel {
 
 	public void setLinkOpener(Runnable linkOpener) {
 		this.linkOpener = linkOpener;
+		refresh();
 	}
 
 	public String getRawText() {
@@ -49,6 +50,12 @@ public class HyperlinkLabel extends JLabel {
 		refresh();
 	}
 
+	public void setRawTextAndLinkOpener(String rawText, Runnable linkOpener) {
+		this.rawText = rawText;
+		this.linkOpener = linkOpener;
+		refresh();
+	}
+
 	@Override
 	public void setText(String text) {
 		if (text == null) {
@@ -56,12 +63,6 @@ public class HyperlinkLabel extends JLabel {
 		} else {
 			throw new UnsupportedOperationException();
 		}
-	}
-
-	public void setRawTextAndLinkOpener(String rawText, Runnable linkOpener) {
-		this.rawText = rawText;
-		this.linkOpener = linkOpener;
-		refresh();
 	}
 
 	public Object getCustomValue() {
@@ -75,14 +76,17 @@ public class HyperlinkLabel extends JLabel {
 	protected void refresh() {
 		if (rawText == null) {
 			super.setText(null);
+			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		} else {
 			if (linkOpener == null) {
 				super.setText(rawText);
+				setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			} else {
 				String htmlText = MiscUtils.escapeHTML(rawText, true);
 				htmlText = underlined ? "<u>" + htmlText + "</u>" : htmlText;
 				htmlText = "<html><span style=\"color: " + getLinkColorCode() + ";\">" + htmlText + "</span></html>";
 				super.setText(htmlText);
+				setCursor(new Cursor(Cursor.HAND_CURSOR));
 			}
 		}
 	}
@@ -94,7 +98,6 @@ public class HyperlinkLabel extends JLabel {
 	}
 
 	protected void setup() {
-		setCursor(new Cursor(Cursor.HAND_CURSOR));
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				openLink();

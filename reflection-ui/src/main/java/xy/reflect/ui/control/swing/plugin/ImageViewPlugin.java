@@ -173,7 +173,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		public static boolean isCompatibleWith(ReflectionUI reflectionUI, ITypeInfo type) {
 			Class<?> imageClass;
 			try {
-				imageClass = reflectionUI.loadClassThroughCache(type.getName());
+				imageClass = reflectionUI.getReflectedClass(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}

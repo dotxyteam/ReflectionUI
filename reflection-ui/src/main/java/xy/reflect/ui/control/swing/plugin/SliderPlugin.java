@@ -88,7 +88,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 			setOpaque(false);
 			try {
 				this.numberClass = swingRenderer.getReflectionUI()
-						.loadClassThroughCache(input.getControlData().getType().getName());
+						.getReflectedClass(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {
 					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
 				}

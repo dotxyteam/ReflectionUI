@@ -195,7 +195,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 			protected List<IFieldInfo> getFields(ITypeInfo type) {
 				Class<?> objectClass;
 				try {
-					objectClass = CustomizationToolsUI.this.loadClassThroughCache(type.getName());
+					objectClass = CustomizationToolsUI.this.getReflectedClass(type.getName());
 				} catch (Exception e) {
 					objectClass = null;
 				}
@@ -359,7 +359,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 			private boolean shouldProvideCustomizedUIAs1stParameter(ITypeInfo type, IMethodInfo targetMethod) {
 				Class<?> objectClass;
 				try {
-					objectClass = CustomizationToolsUI.this.loadClassThroughCache(type.getName());
+					objectClass = CustomizationToolsUI.this.getReflectedClass(type.getName());
 				} catch (Exception e) {
 					objectClass = null;
 				}

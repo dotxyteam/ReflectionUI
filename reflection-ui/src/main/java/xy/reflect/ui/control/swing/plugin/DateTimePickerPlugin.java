@@ -159,7 +159,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		public static boolean isCompatibleWith(ReflectionUI reflectionUI, ITypeInfo type) {
 			Class<?> dateClass;
 			try {
-				dateClass = reflectionUI.loadClassThroughCache(type.getName());
+				dateClass = reflectionUI.getReflectedClass(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}

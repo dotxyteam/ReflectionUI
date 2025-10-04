@@ -121,7 +121,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			this.dataUpdateProcess = createDelayedUpdateProcess();
 			try {
 				this.numberClass = swingRenderer.getReflectionUI()
-						.loadClassThroughCache(input.getControlData().getType().getName());
+						.getReflectedClass(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {
 					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
 				}
@@ -249,7 +249,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			Class<?> javaType;
 			try {
 				javaType = swingRenderer.getReflectionUI()
-						.loadClassThroughCache(input.getControlData().getType().getName());
+						.getReflectedClass(input.getControlData().getType().getName());
 			} catch (ClassNotFoundException e) {
 				throw new ReflectionUIError(e);
 			}

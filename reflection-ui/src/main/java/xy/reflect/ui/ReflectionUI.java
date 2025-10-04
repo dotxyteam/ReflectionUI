@@ -109,7 +109,7 @@ public class ReflectionUI {
 	 *         cached for subsequent calls
 	 * @throws ClassNotFoundException If the target class is not found.
 	 */
-	public Class<?> loadClassThroughCache(String name) throws ClassNotFoundException {
+	public Class<?> getReflectedClass(String name) throws ClassNotFoundException {
 		synchronized (classCacheMutex) {
 			Class<?> c = classCache.get(name);
 			if (c == null) {

@@ -142,7 +142,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 		public static boolean isCompatibleWith(ReflectionUI reflectionUI, ITypeInfo type) {
 			Class<?> colorClass;
 			try {
-				colorClass = reflectionUI.loadClassThroughCache(type.getName());
+				colorClass = reflectionUI.getReflectedClass(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}

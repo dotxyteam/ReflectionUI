@@ -28,7 +28,7 @@ public abstract class AbstractSimpleFieldControlPlugin implements IFieldControlP
 	public boolean handles(ReflectionUI reflectionUI, IFieldControlInput input) {
 		final Class<?> javaType;
 		try {
-			javaType = reflectionUI.loadClassThroughCache(input.getControlData().getType().getName());
+			javaType = reflectionUI.getReflectedClass(input.getControlData().getType().getName());
 		} catch (ClassNotFoundException e) {
 			return false;
 		}

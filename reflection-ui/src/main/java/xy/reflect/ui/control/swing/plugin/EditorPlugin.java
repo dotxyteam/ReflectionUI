@@ -87,7 +87,7 @@ public class EditorPlugin extends StyledTextPlugin {
 			if ((syntaxImplementationClassName == null) || (syntaxImplementationClassName.length() == 0)) {
 				throw new ReflectionUIError("Syntax implementation class name not specified !");
 			}
-			reflectionUI.loadClassThroughCache(syntaxImplementationClassName);
+			reflectionUI.getReflectedClass(syntaxImplementationClassName);
 		}
 
 	}
