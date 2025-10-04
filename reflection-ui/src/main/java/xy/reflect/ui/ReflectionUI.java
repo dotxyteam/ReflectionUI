@@ -4,6 +4,7 @@ package xy.reflect.ui;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
@@ -15,6 +16,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -33,8 +35,18 @@ public class ReflectionUI {
 
 	protected static ReflectionUI defaultInstance;
 
-	protected final Object typeCacheMutex = new Object();
-	protected Map<ITypeInfoSource, ITypeInfo> typeCache = createTypeCache();
+	protected static final Class<?> CACHED_CLASS_NOT_FOUND = (new Object() {
+		@Override
+		public String toString() {
+			return "CACHED_CLASS_NOT_FOUND";
+		}
+	}).getClass();
+
+	protected Map<ITypeInfoSource, ITypeInfo> typeInfoCache = createTypeInfoCache();
+	protected final Object typeInfoCacheMutex = new Object();
+	protected Map<String, Class<?>> classCache = createClassCache();
+	protected final Object classCacheMutex = new Object();
+
 	protected ValidationErrorRegistry validationErrorRegistry = createValidationErrorRegistry();
 
 	/**
@@ -75,8 +87,44 @@ public class ReflectionUI {
 		return new ValidationErrorRegistry();
 	}
 
-	protected Map<ITypeInfoSource, ITypeInfo> createTypeCache() {
+	protected Map<ITypeInfoSource, ITypeInfo> createTypeInfoCache() {
 		return MiscUtils.newStandardCache(true);
+	}
+
+	protected Map<String, Class<?>> createClassCache() {
+		return new HashMap<String, Class<?>>() {
+			private static final long serialVersionUID = 1L;
+
+			{
+				for (Class<?> c : new Class[] { void.class, boolean.class, byte.class, char.class, short.class,
+						int.class, float.class, double.class, long.class })
+					put(c.getName(), c);
+			}
+		};
+	}
+
+	/**
+	 * @param name
+	 * @return The class corresponding to the given name. The result is loaded and
+	 *         cached for subsequent calls
+	 * @throws ClassNotFoundException If the target class is not found.
+	 */
+	public Class<?> loadClassThroughCache(String name) throws ClassNotFoundException {
+		synchronized (classCacheMutex) {
+			Class<?> c = classCache.get(name);
+			if (c == null) {
+				try {
+					c = ClassUtils.forNameEvenIfPrimitive(name);
+				} catch (ClassNotFoundException e) {
+					c = CACHED_CLASS_NOT_FOUND;
+				}
+				classCache.put(name, c);
+			}
+			if (c == CACHED_CLASS_NOT_FOUND) {
+				throw new ClassNotFoundException(name);
+			}
+			return c;
+		}
 	}
 
 	/**
@@ -86,8 +134,8 @@ public class ReflectionUI {
 	 *         implement new {@link ITypeInfo} classes are encouraged to use this
 	 *         map to store their instances in order to improve performances.
 	 */
-	public Map<ITypeInfoSource, ITypeInfo> getTypeCache() {
-		return typeCache;
+	public Map<ITypeInfoSource, ITypeInfo> getTypeInfoCache() {
+		return typeInfoCache;
 	}
 
 	/**
@@ -101,11 +149,11 @@ public class ReflectionUI {
 	/**
 	 * @return the mutual-exclusion object (also called monitor) that should be used
 	 *         to synchronize accesses and updates of the cache returned by
-	 *         {@link #getTypeCache()}. Note that using alternate monitors may lead
-	 *         to dead-lock situations.
+	 *         {@link #getTypeInfoCache()}. Note that using alternate monitors may
+	 *         lead to dead-lock situations.
 	 */
 	public Object getTypeCacheMutex() {
-		return typeCacheMutex;
+		return typeInfoCacheMutex;
 	}
 
 	/**

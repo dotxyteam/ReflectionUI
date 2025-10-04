@@ -1,4 +1,3 @@
-
 package xy.reflect.ui.control.swing.customizer;
 
 import java.awt.Color;
@@ -18,6 +17,7 @@ import javax.swing.SwingUtilities;
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.MethodContext;
+import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin.AbstractConfiguration;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
@@ -47,7 +47,9 @@ import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeConversion;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.FieldInfoProxy;
+import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.MethodReturnValueAsFieldInfo;
 import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.menu.MenuElementKind;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -61,7 +63,6 @@ import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
-import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -99,24 +100,11 @@ public class CustomizationToolsUI extends CustomizedUI {
 
 	@Override
 	protected IInfoProxyFactory createBeforeInfoCustomizationsFactory() {
-	return new InfoProxyFactory() {
+		return new InfoProxyFactory() {
 
 			@Override
 			public String toString() {
 				return "Before" + CustomizationTools.class.getName() + InfoProxyFactory.class.getSimpleName();
-			}
-
-			protected boolean isDerivedTypeInfo(ITypeInfo type, Class<?> baseClass) {
-				Class<?> clazz;
-				try {
-					clazz = ClassUtils.getClassThroughCache(type.getName());
-				} catch (ClassNotFoundException e) {
-					return false;
-				}
-				if (baseClass.isAssignableFrom(clazz)) {
-					return true;
-				}
-				return false;
 			}
 
 			@Override
@@ -205,7 +193,13 @@ public class CustomizationToolsUI extends CustomizedUI {
 
 			@Override
 			protected List<IFieldInfo> getFields(ITypeInfo type) {
-				if (isDerivedTypeInfo(type, AbstractCustomization.class)) {
+				Class<?> objectClass;
+				try {
+					objectClass = CustomizationToolsUI.this.loadClassThroughCache(type.getName());
+				} catch (Exception e) {
+					objectClass = null;
+				}
+				if ((objectClass != null) && AbstractCustomization.class.isAssignableFrom(objectClass)) {
 					List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 					for (IFieldInfo field : super.getFields(type)) {
 						if (field.getName().equals(InfoCustomizations.UID_FIELD_NAME)) {
@@ -254,6 +248,83 @@ public class CustomizationToolsUI extends CustomizedUI {
 
 						});
 					}
+					List<IMethodInfo> baseMethods = super.getMethods(type);
+					for (IMethodInfo targetMethod : baseMethods) {
+						if (shouldProvideCustomizedUIAs1stParameter(type, targetMethod)) {
+							String getterFieldName = GetterFieldInfo.getterToFieldName(targetMethod.getName());
+							if (getterFieldName != null) {
+								String setterName = GetterFieldInfo.fieldToSetterName(getterFieldName);
+								result.add(new MethodReturnValueAsFieldInfo(CustomizationToolsUI.this,
+										provideCustomizedUIAs1stParameter(targetMethod), type) {
+
+									IMethodInfo setter;
+									private boolean setterInitialized = false;
+
+									@Override
+									public String getName() {
+										return getterFieldName;
+									}
+
+									IMethodInfo getSetter() {
+										if (!setterInitialized) {
+											for (IMethodInfo method : baseMethods) {
+												if (method.getName().equals(setterName)) {
+													if (method.getParameters().size() == 2) {
+														if (shouldProvideCustomizedUIAs1stParameter(type, method)) {
+															setter = provideCustomizedUIAs1stParameter(method);
+															break;
+														}
+													}
+												}
+											}
+											setterInitialized = true;
+										}
+										return setter;
+									}
+
+									@Override
+									public boolean isGetOnly() {
+										IMethodInfo setter = getSetter();
+										if (setter == null) {
+											return super.isGetOnly();
+										}
+										return false;
+									}
+
+									@Override
+									public void setValue(Object object, Object value) {
+										IMethodInfo setter = getSetter();
+										if (setter == null) {
+											super.setValue(object, value);
+											return;
+										}
+										setter.invoke(object, new InvocationData(object, setter, value));
+									}
+
+									@Override
+									public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
+										IMethodInfo setter = getSetter();
+										if (setter == null) {
+											return super.getNextUpdateCustomUndoJob(object, value);
+										}
+										return setter.getNextInvocationUndoJob(object,
+												new InvocationData(object, setter, value));
+									}
+
+									@Override
+									public Runnable getPreviousUpdateCustomRedoJob(Object object, Object value) {
+										IMethodInfo setter = getSetter();
+										if (setter == null) {
+											return super.getPreviousUpdateCustomRedoJob(object, value);
+										}
+										return setter.getPreviousInvocationCustomRedoJob(object,
+												new InvocationData(object, setter, value));
+									}
+								});
+							}
+
+						}
+					}
 					return result;
 				} else {
 					return super.getFields(type);
@@ -271,8 +342,76 @@ public class CustomizationToolsUI extends CustomizedUI {
 					result.add(getLastInvocationDataStorageMethod());
 					return result;
 				} else {
-					return super.getMethods(type);
+					List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
+					for (int i = 0; i < result.size(); i++) {
+						IMethodInfo targetMethod = result.get(i);
+						if (shouldProvideCustomizedUIAs1stParameter(type, targetMethod)) {
+							String getterFieldName = GetterFieldInfo.getterToFieldName(targetMethod.getName());
+							if (getterFieldName == null) {
+								result.set(i, provideCustomizedUIAs1stParameter(targetMethod));
+							}
+						}
+					}
+					return result;
 				}
+			}
+
+			private boolean shouldProvideCustomizedUIAs1stParameter(ITypeInfo type, IMethodInfo targetMethod) {
+				Class<?> objectClass;
+				try {
+					objectClass = CustomizationToolsUI.this.loadClassThroughCache(type.getName());
+				} catch (Exception e) {
+					objectClass = null;
+				}
+				final Class<?> finalObjectClass = objectClass;
+				if ((finalObjectClass != null) && Arrays
+						.asList(AbstractConfiguration.class, TypeCustomization.class, ConversionMethodFinder.class,
+								Mapping.class, TextualStorage.class, JavaClassBasedTypeInfoFinder.class,
+								CustomTypeInfoFinder.class)
+						.stream().anyMatch(targetClass -> targetClass.isAssignableFrom(finalObjectClass))) {
+					if (targetMethod.getParameters().size() > 0) {
+						if (targetMethod.getParameters().get(0).getType().getName()
+								.equals(ReflectionUI.class.getName())) {
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+
+			private IMethodInfo provideCustomizedUIAs1stParameter(IMethodInfo base) {
+				return new MethodInfoProxy(base) {
+
+					@Override
+					public String getSignature() {
+						return ReflectionUIUtils.buildMethodSignature(this);
+					}
+
+					@Override
+					public String getCaption() {
+						return ReflectionUIUtils.formatMethodCaption(this, getName(), 0);
+					}
+
+					@Override
+					public List<IParameterInfo> getParameters() {
+						List<IParameterInfo> result = new ArrayList<IParameterInfo>(super.getParameters());
+						result.remove(0);
+						return result;
+					}
+
+					@Override
+					public Object invoke(Object object, InvocationData invocationData) {
+						InvocationData newInvocationData = new InvocationData(invocationData);
+						invocationData.getProvidedParameterValues().forEach(
+								(key, value) -> newInvocationData.getProvidedParameterValues().put(key + 1, value));
+						invocationData.getDefaultParameterValues().forEach(
+								(key, value) -> newInvocationData.getDefaultParameterValues().put(key + 1, value));
+						newInvocationData.getProvidedParameterValues().put(0, swingCustomizer.getReflectionUI());
+						newInvocationData.getDefaultParameterValues().remove(0);
+						return super.invoke(object, newInvocationData);
+					}
+
+				};
 			}
 
 			protected IMethodInfo getLastInvocationDataStorageMethod() {
@@ -312,7 +451,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 							// no need to store the default value if an actual value was provided
 							toStore.getDefaultParameterValues().remove(parameterPosition);
 						}
-						newStorage.save(toStore);
+						newStorage.save(swingCustomizer.getReflectionUI(), toStore);
 						storages.add(newStorage);
 						mc.setSerializedInvocationDatas(storages);
 						return null;
@@ -446,7 +585,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 				} else if (object instanceof CustomTypeInfoFinder) {
 					return "Custom Type Implemented By " + ((CustomTypeInfoFinder) object).getImplementationClassName();
 				} else if (object instanceof TextualStorage) {
-					Object stored = ((TextualStorage) object).load();
+					Object stored = ((TextualStorage) object).load(swingCustomizer.getReflectionUI());
 					String result = ReflectionUIUtils.toString(CustomizationToolsUI.this, stored);
 					if (stored != null) {
 						ITypeInfo storedType = CustomizationToolsUI.this

@@ -35,7 +35,6 @@ import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -101,7 +100,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 		@Override
 		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
-			if (FileConstructor.isCompatibleWith(type)) {
+			if (FileConstructor.isCompatibleWith(reflectionUI, type)) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 				result.add(new FileConstructor(reflectionUI, type));
 				return result;
@@ -111,7 +110,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 		@Override
 		protected boolean isConcrete(ITypeInfo type) {
-			if (FileConstructor.isCompatibleWith(type)) {
+			if (FileConstructor.isCompatibleWith(reflectionUI, type)) {
 				return true;
 			}
 			return super.isConcrete(type);
@@ -154,10 +153,10 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 			return new File("");
 		}
 
-		public static boolean isCompatibleWith(ITypeInfo type) {
+		public static boolean isCompatibleWith(ReflectionUI reflectionUI, ITypeInfo type) {
 			Class<?> fileClass;
 			try {
-				fileClass = ClassUtils.getClassThroughCache(type.getName());
+				fileClass = reflectionUI.loadClassThroughCache(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}
@@ -260,10 +259,22 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 		protected static final long serialVersionUID = 1L;
 
-		protected boolean textChangedByUser = true;
+		protected FileBrowserConfiguration controlConfiguration;
 
 		public FileBrowser(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
+		}
+
+		@Override
+		public boolean refreshUI(boolean refreshStructure) {
+			if (refreshStructure) {
+				updateControlConfiguration();
+			}
+			return super.refreshUI(refreshStructure);
+		}
+
+		protected void updateControlConfiguration() {
+			controlConfiguration = (FileBrowserConfiguration) loadControlCustomization(input);
 		}
 
 		@Override
@@ -321,7 +332,6 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 
 		protected void configureFileChooser(JFileChooser fileChooser, File currentFile) {
-			FileBrowserConfiguration controlConfiguration = (FileBrowserConfiguration) loadControlCustomization(input);
 			if (currentFile != null) {
 				if (currentFile.getPath().length() == 0) {
 					fileChooser.setCurrentDirectory(new File(".").getAbsoluteFile());
@@ -354,7 +364,6 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 
 		protected String getDialogTitle() {
-			FileBrowserConfiguration controlConfiguration = (FileBrowserConfiguration) loadControlCustomization(input);
 			return controlConfiguration.actionTitle;
 		}
 

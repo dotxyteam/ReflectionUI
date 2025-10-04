@@ -106,7 +106,6 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.Mapper;
@@ -428,7 +427,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (t.getSavingMethodName() != null) {
 				Class<?> javaType;
 				try {
-					javaType = ClassUtils.getClassThroughCache(type.getName());
+					javaType = reflectionUI.loadClassThroughCache(type.getName());
 					Method method = javaType.getMethod(t.getSavingMethodName(), File.class);
 					method.invoke(object, outputFile);
 					return;
@@ -450,7 +449,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (t.getLoadingMethodName() != null) {
 				Class<?> javaType;
 				try {
-					javaType = ClassUtils.getClassThroughCache(type.getName());
+					javaType = reflectionUI.loadClassThroughCache(type.getName());
 					Method method = javaType.getMethod(t.getLoadingMethodName(), File.class);
 					method.invoke(object, inputFile);
 					return;
@@ -479,7 +478,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if ((t.getSavingMethodName() != null) && (t.getLoadingMethodName() != null)) {
 				Class<?> javaType;
 				try {
-					javaType = ClassUtils.getClassThroughCache(type.getName());
+					javaType = reflectionUI.loadClassThroughCache(type.getName());
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
@@ -508,7 +507,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if ((t.getSavingMethodName() != null) && (t.getLoadingMethodName() != null)) {
 				Class<?> javaType;
 				try {
-					javaType = ClassUtils.getClassThroughCache(type.getName());
+					javaType = reflectionUI.loadClassThroughCache(type.getName());
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
@@ -2561,7 +2560,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 												return methodParameterAsField.getValue(object);
 											}
 										}
-										Object defaultValue = pc.getDefaultValue().load();
+										Object defaultValue = pc.getDefaultValue().load(reflectionUI);
 										if (defaultValue != null) {
 											return defaultValue;
 										}
@@ -2935,7 +2934,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				for (int i = 0; i < mc.getSerializedInvocationDatas().size(); i++) {
 					final TextualStorage invocationDataStorage = mc.getSerializedInvocationDatas().get(i);
 					final int finalI = i;
-					newMethods.add(new PresetInvocationDataMethodInfo(method,
+					newMethods.add(new PresetInvocationDataMethodInfo(reflectionUI, method,
 							(TextualStorage) ReflectionUIUtils.copy(ReflectionUI.getDefault(), invocationDataStorage)) {
 
 						@Override
@@ -3328,15 +3327,18 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					List<IMethodInfo> newMethods) {
 				if (f.getCustomSetterSignature() != null) {
 					field = new FieldInfoProxy(field) {
+						IMethodInfo customSetter;
 
 						protected IMethodInfo getCustomSetter() {
-							IMethodInfo result = ReflectionUIUtils.findMethodBySignature(outputMethods,
-									f.getCustomSetterSignature());
-							if (result == null) {
-								throw new ReflectionUIError("Field '" + f.getFieldName()
-										+ "': Custom setter not found: '" + f.getCustomSetterSignature() + "'");
+							if (customSetter == null) {
+								customSetter = ReflectionUIUtils.findMethodBySignature(outputMethods,
+										f.getCustomSetterSignature());
+								if (customSetter == null) {
+									throw new ReflectionUIError("Field '" + f.getFieldName()
+											+ "': Custom setter not found: '" + f.getCustomSetterSignature() + "'");
+								}
 							}
-							return result;
+							return customSetter;
 						}
 
 						@Override
@@ -3397,9 +3399,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				if (f.getTypeConversion() != null) {
 					ITypeInfo newType = f.getTypeConversion().findNewType(reflectionUI,
 							new SpecificitiesIdentifier(objectType.getName(), field.getName()));
-					Filter<Object> conversionMethod = f.getTypeConversion().buildOverallConversionMethod();
+					Filter<Object> conversionMethod = f.getTypeConversion().buildOverallConversionMethod(reflectionUI);
 					Filter<Object> reverseConversionMethod = f.getTypeConversion()
-							.buildOverallReverseConversionMethod();
+							.buildOverallReverseConversionMethod(reflectionUI);
 					boolean nullValueConverted = f.getTypeConversion().isNullValueConverted();
 					field = new ChangedTypeFieldInfo(field, newType, conversionMethod, reverseConversionMethod,
 							nullValueConverted);
@@ -3422,7 +3424,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization fc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (fc.getNullReplacement().getData() != null) {
-					field = new NullReplacementFieldInfo(field, (TextualStorage) ReflectionUIUtils
+					field = new NullReplacementFieldInfo(reflectionUI, field, (TextualStorage) ReflectionUIUtils
 							.copy(ReflectionUI.getDefault(), fc.getNullReplacement()));
 				}
 				return field;

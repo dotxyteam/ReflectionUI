@@ -58,7 +58,6 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -118,7 +117,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 		@Override
 		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
-			if (ImageConstructor.isCompatibleWith(type)) {
+			if (ImageConstructor.isCompatibleWith(reflectionUI, type)) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 				result.add(new ImageConstructor(reflectionUI, type));
 				return result;
@@ -128,7 +127,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 		@Override
 		protected boolean isConcrete(ITypeInfo type) {
-			if (ImageConstructor.isCompatibleWith(type)) {
+			if (ImageConstructor.isCompatibleWith(reflectionUI, type)) {
 				return true;
 			}
 			return super.isConcrete(type);
@@ -171,10 +170,10 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			return new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 		}
 
-		public static boolean isCompatibleWith(ITypeInfo type) {
+		public static boolean isCompatibleWith(ReflectionUI reflectionUI, ITypeInfo type) {
 			Class<?> imageClass;
 			try {
-				imageClass = ClassUtils.getClassThroughCache(type.getName());
+				imageClass = reflectionUI.loadClassThroughCache(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}
@@ -473,6 +472,8 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		protected ImagePanel imagePanel;
 		protected JButton browseButton;
 
+		protected ImageViewConfiguration controlConfiguration;
+
 		public ImageView(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
 			this.input = input;
@@ -486,7 +487,9 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
-			ImageViewConfiguration controlCustomization = (ImageViewConfiguration) loadControlCustomization(input);
+			if (refreshStructure) {
+				updateControlConfiguration();
+			}
 			if (refreshStructure) {
 				contentPane.removeAll();
 				browseButton = null;
@@ -513,23 +516,27 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			}
 			if (imagePanel == null) {
 				imagePanel = createImagePanel();
-				if (controlCustomization.sizeConstraint == null) {
+				if (controlConfiguration.sizeConstraint == null) {
 					configureWithoutSizeConstraint(this);
 					updateImagePanelWithoutSizeConstraint(this, imagePanel);
 				} else {
-					controlCustomization.sizeConstraint.configure(this, imagePanelContainer, imagePanel);
-					controlCustomization.sizeConstraint.updateImagePanel(this, imagePanel);
+					controlConfiguration.sizeConstraint.configure(this, imagePanelContainer, imagePanel);
+					controlConfiguration.sizeConstraint.updateImagePanel(this, imagePanel);
 				}
 			} else {
-				if (controlCustomization.sizeConstraint == null) {
+				if (controlConfiguration.sizeConstraint == null) {
 					updateImagePanelWithoutSizeConstraint(this, imagePanel);
 				} else {
-					controlCustomization.sizeConstraint.updateImagePanel(this, imagePanel);
+					controlConfiguration.sizeConstraint.updateImagePanel(this, imagePanel);
 				}
 			}
 			imagePanel.getParent().invalidate();
 			SwingRendererUtils.handleComponentSizeChange(this);
 			return true;
+		}
+
+		protected void updateControlConfiguration() {
+			controlConfiguration = (ImageViewConfiguration) loadControlCustomization(input);
 		}
 
 		protected JButton createBrowseButton() {

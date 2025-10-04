@@ -1142,7 +1142,7 @@ public class SwingRendererUtils {
 		if (chosenPluginId != null) {
 			IFieldControlPlugin plugin = findFieldControlPlugin(swingRenderer, chosenPluginId);
 			if (plugin != null) {
-				if (plugin.handles(input)) {
+				if (plugin.handles(swingRenderer.getReflectionUI(), input)) {
 					return plugin;
 				}
 			}

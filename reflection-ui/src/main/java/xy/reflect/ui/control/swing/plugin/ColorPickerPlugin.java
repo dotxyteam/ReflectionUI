@@ -31,7 +31,6 @@ import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.util.ClassUtils;
 
 /**
  * Field control plugin that allows to display and update adequately
@@ -87,7 +86,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 
 		@Override
 		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
-			if (ColorConstructor.isCompatibleWith(type)) {
+			if (ColorConstructor.isCompatibleWith(reflectionUI, type)) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 				result.add(new ColorConstructor(reflectionUI, type));
 				return result;
@@ -97,7 +96,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 
 		@Override
 		protected boolean isConcrete(ITypeInfo type) {
-			if (ColorConstructor.isCompatibleWith(type)) {
+			if (ColorConstructor.isCompatibleWith(reflectionUI, type)) {
 				return true;
 			}
 			return super.isConcrete(type);
@@ -140,10 +139,10 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 			return Color.GRAY;
 		}
 
-		public static boolean isCompatibleWith(ITypeInfo type) {
+		public static boolean isCompatibleWith(ReflectionUI reflectionUI, ITypeInfo type) {
 			Class<?> colorClass;
 			try {
-				colorClass = ClassUtils.getClassThroughCache(type.getName());
+				colorClass = reflectionUI.loadClassThroughCache(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}

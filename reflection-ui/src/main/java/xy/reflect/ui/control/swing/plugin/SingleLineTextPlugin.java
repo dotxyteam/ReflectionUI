@@ -94,8 +94,22 @@ public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControl
 
 		private static final long serialVersionUID = 1L;
 
+		protected SingleLineTextConfiguration controlConfiguration;
+
 		public SingleLineTextControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
+		}
+
+		@Override
+		public boolean refreshUI(boolean refreshStructure) {
+			if (refreshStructure) {
+				updateControlConfiguration();
+			}
+			return super.refreshUI(refreshStructure);
+		}
+
+		protected void updateControlConfiguration() {
+			controlConfiguration = (SingleLineTextConfiguration) loadControlCustomization(input);
 		}
 
 		@Override
@@ -105,11 +119,9 @@ public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControl
 				@Override
 				public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
 						throws BadLocationException {
-					SingleLineTextConfiguration controlCustomization = (SingleLineTextConfiguration) loadControlCustomization(
-							input);
-					text = text.replace("\r\n", Character.toString(controlCustomization.invalidCharacterReplacement));
-					text = text.replace("\n", Character.toString(controlCustomization.invalidCharacterReplacement));
-					text = text.replace("\r", Character.toString(controlCustomization.invalidCharacterReplacement));
+					text = text.replace("\r\n", Character.toString(controlConfiguration.invalidCharacterReplacement));
+					text = text.replace("\n", Character.toString(controlConfiguration.invalidCharacterReplacement));
+					text = text.replace("\r", Character.toString(controlConfiguration.invalidCharacterReplacement));
 					super.replace(fb, offset, length, text, attrs);
 				}
 			});
@@ -119,10 +131,8 @@ public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControl
 		@Override
 		protected Dimension getScrollPanePreferredSize(Dimension defaultSize) {
 			Dimension result = new Dimension(defaultSize);
-			SingleLineTextConfiguration controlCustomization = (SingleLineTextConfiguration) loadControlCustomization(
-					input);
-			if (controlCustomization.width != null) {
-				result.width = controlCustomization.getWidthInPixels();
+			if (controlConfiguration.width != null) {
+				result.width = controlConfiguration.getWidthInPixels();
 			}
 			return result;
 		}

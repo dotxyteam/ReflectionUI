@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
@@ -45,7 +46,7 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 	}
 
 	@Override
-	public boolean handles(IFieldControlInput input) {
+	public boolean handles(ReflectionUI reflectionUI, IFieldControlInput input) {
 		IFieldControlData data = input.getControlData();
 		if (!data.isNullValueDistinct()) {
 			ITypeInfo fieldType = data.getType();
@@ -114,6 +115,7 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		protected EmbeddedFormControl subControl1;
 		protected EmbeddedFormControl subControl2;
 		protected boolean refreshListenersDisabled = false;
+		protected SplitFormConfiguration controlConfiguration;
 
 		public SplitForm(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -124,27 +126,26 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 		@Override
 		public Dimension getPreferredSize() {
-			SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(input);
 			Dimension result = super.getPreferredSize();
 			if (result == null) {
 				result = new Dimension(100, 100);
 			}
-			if (controlCustomization.width != null) {
-				if (controlCustomization.width.unit == ControlSizeUnit.PIXELS) {
-					result.width = controlCustomization.width.value;
-				} else if (controlCustomization.width.unit == ControlSizeUnit.SCREEN_PERCENT) {
+			if (controlConfiguration.width != null) {
+				if (controlConfiguration.width.unit == ControlSizeUnit.PIXELS) {
+					result.width = controlConfiguration.width.value;
+				} else if (controlConfiguration.width.unit == ControlSizeUnit.SCREEN_PERCENT) {
 					Dimension screenSize = MiscUtils.getDefaultScreenSize();
-					result.width = Math.round((controlCustomization.width.value / 100f) * screenSize.width);
+					result.width = Math.round((controlConfiguration.width.value / 100f) * screenSize.width);
 				} else {
 					throw new ReflectionUIError();
 				}
 			}
-			if (controlCustomization.height != null) {
-				if (controlCustomization.height.unit == ControlSizeUnit.PIXELS) {
-					result.height = controlCustomization.height.value;
-				} else if (controlCustomization.height.unit == ControlSizeUnit.SCREEN_PERCENT) {
+			if (controlConfiguration.height != null) {
+				if (controlConfiguration.height.unit == ControlSizeUnit.PIXELS) {
+					result.height = controlConfiguration.height.value;
+				} else if (controlConfiguration.height.unit == ControlSizeUnit.SCREEN_PERCENT) {
 					Dimension screenSize = MiscUtils.getDefaultScreenSize();
-					result.height = Math.round((controlCustomization.height.value / 100f) * screenSize.height);
+					result.height = Math.round((controlConfiguration.height.value / 100f) * screenSize.height);
 				} else {
 					throw new ReflectionUIError();
 				}
@@ -182,6 +183,7 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
 			if (refreshStructure) {
+				updateControlConfiguration();
 				SwingRendererUtils.showFieldCaptionOnBorder(data, this, new Accessor<Border>() {
 					@Override
 					public Border get() {
@@ -208,15 +210,18 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			return true;
 		}
 
+		protected void updateControlConfiguration() {
+			controlConfiguration = (SplitFormConfiguration) loadControlCustomization(input);
+		}
+
 		protected void layoutSubControls() {
-			SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(input);
-			if (controlCustomization.orientation == Orientation.HORIZONTAL_SPLIT) {
+			if (controlConfiguration.orientation == Orientation.HORIZONTAL_SPLIT) {
 				setOrientation(ControlSplitPane.HORIZONTAL_SPLIT);
 				setTopComponent(null);
 				setBottomComponent(null);
 				setLeftComponent(createSubControlScrollPane(subControl1));
 				setRightComponent(createSubControlScrollPane(subControl2));
-			} else if (controlCustomization.orientation == Orientation.VERTICAL_SPLIT) {
+			} else if (controlConfiguration.orientation == Orientation.VERTICAL_SPLIT) {
 				setOrientation(ControlSplitPane.VERTICAL_SPLIT);
 				setLeftComponent(null);
 				setRightComponent(null);
@@ -226,8 +231,8 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				throw new ReflectionUIError();
 			}
 			validate();
-			SwingRendererUtils.ensureDividerLocation(this, controlCustomization.defaultDividerLocation);
-			setResizeWeight(controlCustomization.defaultDividerLocation);
+			SwingRendererUtils.ensureDividerLocation(this, controlConfiguration.defaultDividerLocation);
+			setResizeWeight(controlConfiguration.defaultDividerLocation);
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 
@@ -251,14 +256,12 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						@Override
 						public IInfoFilter getFormControlFilter() {
 							return new InfoFilterProxy(super.getFormControlFilter()) {
-								final SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(
-										input);
 
 								@Override
 								public IFieldInfo apply(IFieldInfo field) {
 									if (getType().getFields().stream()
 											.filter(f -> !(f.isHidden() || (super.apply(f) == null)))
-											.skip(controlCustomization.firstLotFieldCount)
+											.skip(controlConfiguration.firstLotFieldCount)
 											.anyMatch(f -> f.getName().equals(field.getName()))) {
 										return null;
 									}
@@ -291,14 +294,12 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						@Override
 						public IInfoFilter getFormControlFilter() {
 							return new InfoFilterProxy(super.getFormControlFilter()) {
-								final SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(
-										input);
 
 								@Override
 								public IFieldInfo apply(IFieldInfo field) {
 									if (getType().getFields().stream()
 											.filter(f -> !(f.isHidden() || (super.apply(f) == null)))
-											.limit(controlCustomization.firstLotFieldCount)
+											.limit(controlConfiguration.firstLotFieldCount)
 											.anyMatch(f -> f.getName().equals(field.getName()))) {
 										return null;
 									}

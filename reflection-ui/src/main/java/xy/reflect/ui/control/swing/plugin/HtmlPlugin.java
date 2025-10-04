@@ -149,6 +149,8 @@ public class HtmlPlugin extends StyledTextPlugin {
 
 		private static final long serialVersionUID = 1L;
 
+		protected HtmlConfiguration controlConfiguration;
+
 		public HtmlControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
 		}
@@ -160,6 +162,9 @@ public class HtmlPlugin extends StyledTextPlugin {
 
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
+			if (refreshStructure) {
+				updateControlConfiguration();
+			}
 			super.refreshUI(refreshStructure);
 			if (refreshStructure) {
 				if (data.getCaption().length() > 0) {
@@ -179,6 +184,11 @@ public class HtmlPlugin extends StyledTextPlugin {
 				textComponent.setBorder(BorderFactory.createEmptyBorder());
 			}
 			return true;
+		}
+
+		@Override
+		protected void updateControlConfiguration() {
+			controlConfiguration = (HtmlConfiguration) loadControlCustomization(input);
 		}
 
 		@Override
@@ -243,8 +253,7 @@ public class HtmlPlugin extends StyledTextPlugin {
 		@Override
 		protected void updateTextComponentStyle(boolean refreshStructure) {
 			if (refreshStructure) {
-				HtmlConfiguration controlCustomization = (HtmlConfiguration) loadControlCustomization(input);
-				if (controlCustomization.pureHtmlColors) {
+				if (controlConfiguration.pureHtmlColors) {
 					textComponent.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, false);
 					textComponent.setOpaque(true);
 					textComponent.setBackground(new JTextPane().getBackground());
@@ -258,11 +267,10 @@ public class HtmlPlugin extends StyledTextPlugin {
 		protected void updateTextComponentEditorKit(boolean refreshStructure) {
 			listenerDisabled = true;
 			try {
-				HtmlConfiguration controlCustomization = (HtmlConfiguration) loadControlCustomization(input);
 				((JTextPane) textComponent).setContentType("text/html");
 				HTMLDocument doc = (HTMLDocument) textComponent.getDocument();
 				try {
-					doc.setBase(controlCustomization.getBaseURL());
+					doc.setBase(controlConfiguration.getBaseURL());
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
@@ -278,14 +286,12 @@ public class HtmlPlugin extends StyledTextPlugin {
 
 		@Override
 		protected int getConfiguredScrollPaneWidth() {
-			HtmlConfiguration controlCustomization = (HtmlConfiguration) loadControlCustomization(input);
-			return controlCustomization.getWidthInPixels();
+			return controlConfiguration.getWidthInPixels();
 		}
 
 		@Override
 		protected int getConfiguredScrollPaneHeight() {
-			HtmlConfiguration controlCustomization = (HtmlConfiguration) loadControlCustomization(input);
-			return controlCustomization.getHeightInPixels();
+			return controlConfiguration.getHeightInPixels();
 		}
 
 	}

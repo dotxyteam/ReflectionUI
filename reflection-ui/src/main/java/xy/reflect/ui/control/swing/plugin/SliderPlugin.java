@@ -78,6 +78,8 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		protected Class<?> numberClass;
 		protected ReschedulableTask dataUpdateProcess;
 
+		protected SliderConfiguration controlConfiguration;
+
 		public Slider(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
 			this.input = input;
@@ -85,7 +87,8 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 			this.dataUpdateProcess = createDelayedUpdateProcess();
 			setOpaque(false);
 			try {
-				this.numberClass = ClassUtils.getClassThroughCache(input.getControlData().getType().getName());
+				this.numberClass = swingRenderer.getReflectionUI()
+						.loadClassThroughCache(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {
 					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
 				}
@@ -134,20 +137,19 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 			listenerDisabled = true;
 			try {
 				if (refreshStructure) {
-					SliderConfiguration controlCustomization = (SliderConfiguration) loadControlCustomization(input);
-					setMaximum(controlCustomization.maximum);
-					setMinimum(controlCustomization.minimum);
-					setPaintTicks(controlCustomization.paintTicks);
-					setPaintLabels(controlCustomization.paintLabels);
+					updateControlConfiguration();
+					setMaximum(controlConfiguration.maximum);
+					setMinimum(controlConfiguration.minimum);
+					setPaintTicks(controlConfiguration.paintTicks);
+					setPaintLabels(controlConfiguration.paintLabels);
 					setLabelTable(null);
-					setMinorTickSpacing(controlCustomization.minorTickSpacing);
-					setMajorTickSpacing(controlCustomization.majorTickSpacing);
+					setMinorTickSpacing(controlConfiguration.minorTickSpacing);
+					setMajorTickSpacing(controlConfiguration.majorTickSpacing);
 					setEnabled(!data.isGetOnly());
 					setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
 					if (data.getLabelCustomFontResourcePath() != null) {
-						setFont(SwingRendererUtils
-								.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
-										ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer)
+						setFont(SwingRendererUtils.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer)
 								.deriveFont(getFont().getStyle(), getFont().getSize()));
 					} else {
 						setFont(new JSlider().getFont());
@@ -183,6 +185,10 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 			} finally {
 				listenerDisabled = false;
 			}
+		}
+
+		protected void updateControlConfiguration() {
+			controlConfiguration = (SliderConfiguration) loadControlCustomization(input);
 		}
 
 		@Override

@@ -63,8 +63,22 @@ public class FormattedNumberPlugin extends AbstractSimpleCustomizableFieldContro
 
 		protected IFieldControlInput numberInput;
 
+		private FormattedNumberConfiguration controlConfiguration;
+
 		public FormattedNumberControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
+		}
+
+		@Override
+		public boolean refreshUI(boolean refreshStructure) {
+			if (refreshStructure) {
+				updateControlConfiguration();
+			}
+			return super.refreshUI(refreshStructure);
+		}
+
+		protected void updateControlConfiguration() {
+			controlConfiguration = (FormattedNumberConfiguration) loadControlCustomization(input);
 		}
 
 		@Override
@@ -84,9 +98,7 @@ public class FormattedNumberPlugin extends AbstractSimpleCustomizableFieldContro
 		}
 
 		protected NumberFormatter getNumberFormatter(Class<?> javaType) {
-			FormattedNumberConfiguration controlCustomization = (FormattedNumberConfiguration) loadControlCustomization(
-					numberInput);
-			return ReflectionUIUtils.getNumberFormatter(javaType, new DecimalFormat(controlCustomization.pattern));
+			return ReflectionUIUtils.getNumberFormatter(javaType, new DecimalFormat(controlConfiguration.pattern));
 		}
 
 		@Override

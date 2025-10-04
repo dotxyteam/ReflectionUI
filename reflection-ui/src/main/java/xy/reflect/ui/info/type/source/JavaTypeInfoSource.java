@@ -68,7 +68,7 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 	@Override
 	public DefaultTypeInfo buildTypeInfo(ReflectionUI reflectionUI) {
 		synchronized (reflectionUI.getTypeCacheMutex()) {
-			DefaultTypeInfo result = (DefaultTypeInfo) reflectionUI.getTypeCache().get(this);
+			DefaultTypeInfo result = (DefaultTypeInfo) reflectionUI.getTypeInfoCache().get(this);
 			if (result == null) {
 				if (StandardCollectionTypeInfo.isCompatibleWith(getJavaType())) {
 					Class<?> itemClass = guessGenericTypeParameters(Collection.class, 0);
@@ -103,7 +103,7 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 				} else {
 					result = new DefaultTypeInfo(reflectionUI, this);
 				}
-				reflectionUI.getTypeCache().put(this, result);
+				reflectionUI.getTypeInfoCache().put(this, result);
 			}
 			return result;
 		}

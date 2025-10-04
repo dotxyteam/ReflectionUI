@@ -89,6 +89,8 @@ public class CustomCheckBoxPlugin extends AbstractSimpleCustomizableFieldControl
 	public class CustomCheckBoxControl extends CheckBoxControl {
 		private static final long serialVersionUID = 1L;
 
+		protected CustomCheckBoxConfiguration controlConfiguration;
+
 		public CustomCheckBoxControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
 		}
@@ -96,28 +98,31 @@ public class CustomCheckBoxPlugin extends AbstractSimpleCustomizableFieldControl
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
 			if (refreshStructure) {
-				CustomCheckBoxConfiguration controlCustomization = (CustomCheckBoxConfiguration) loadControlCustomization(
-						input);
+				updateControlConfiguration();
 				setSelectedIcon(getFirstNonNullImageIcon(CustomCheckBoxConfiguration.DEFAULT_TRUE_VALUE_ICON,
-						controlCustomization.trueValueIconPath));
+						controlConfiguration.trueValueIconPath));
 				setIcon(getFirstNonNullImageIcon(CustomCheckBoxConfiguration.DEFAULT_FALSE_VALUE_ICON,
-						controlCustomization.falseValueIconPath));
+						controlConfiguration.falseValueIconPath));
 
 				setRolloverSelectedIcon(getFirstNonNullImageIcon(CustomCheckBoxConfiguration.DEFAULT_TRUE_VALUE_ICON,
-						controlCustomization.trueValueRollOverIconPath, controlCustomization.trueValueIconPath));
+						controlConfiguration.trueValueRollOverIconPath, controlConfiguration.trueValueIconPath));
 				setRolloverIcon(getFirstNonNullImageIcon(CustomCheckBoxConfiguration.DEFAULT_FALSE_VALUE_ICON,
-						controlCustomization.falseValueRollOverIconPath, controlCustomization.falseValueIconPath));
+						controlConfiguration.falseValueRollOverIconPath, controlConfiguration.falseValueIconPath));
 
 				setDisabledSelectedIcon(getFirstNonNullImageIcon(CustomCheckBoxConfiguration.DEFAULT_TRUE_VALUE_ICON,
-						controlCustomization.trueValueDisabledIconPath, controlCustomization.trueValueIconPath));
+						controlConfiguration.trueValueDisabledIconPath, controlConfiguration.trueValueIconPath));
 				setDisabledIcon(getFirstNonNullImageIcon(CustomCheckBoxConfiguration.DEFAULT_FALSE_VALUE_ICON,
-						controlCustomization.falseValueDisabledIconPath, controlCustomization.falseValueIconPath));
+						controlConfiguration.falseValueDisabledIconPath, controlConfiguration.falseValueIconPath));
 
-				setPressedIcon(getFirstNonNullImageIcon(getDefaultPressedIcon(), controlCustomization.pressedIconPath));
+				setPressedIcon(getFirstNonNullImageIcon(getDefaultPressedIcon(), controlConfiguration.pressedIconPath));
 
 				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 			return super.refreshUI(refreshStructure);
+		}
+
+		protected void updateControlConfiguration() {
+			controlConfiguration = (CustomCheckBoxConfiguration) loadControlCustomization(input);
 		}
 
 		protected Icon getDefaultPressedIcon() {

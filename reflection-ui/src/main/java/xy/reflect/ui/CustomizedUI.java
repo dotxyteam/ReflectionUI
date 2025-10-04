@@ -34,7 +34,7 @@ public class CustomizedUI extends ReflectionUI {
 	protected static CustomizedUI defaultInstance;
 
 	protected InfoCustomizations infoCustomizations;
-	protected Map<ITypeInfo, ITypeInfo> customizedTypeCache = createCustomizedTypeCache();
+	protected Map<ITypeInfo, ITypeInfo> customizedTypeInfoCache = createCustomizedTypeInfoCache();
 
 	private IInfoProxyFactory infoCustomizationsSetupFactory;
 	private IInfoProxyFactory beforeInfoCustomizationsFactory;
@@ -76,7 +76,7 @@ public class CustomizedUI extends ReflectionUI {
 		return infoCustomizations;
 	}
 
-	protected Map<ITypeInfo, ITypeInfo> createCustomizedTypeCache() {
+	protected Map<ITypeInfo, ITypeInfo> createCustomizedTypeInfoCache() {
 		return MiscUtils.newStandardCache(true);
 	}
 
@@ -86,8 +86,8 @@ public class CustomizedUI extends ReflectionUI {
 	 *         process. Its access should be synchronized on the monitor returned by
 	 *         {@link #getTypeCacheMutex()}.
 	 */
-	public Map<ITypeInfo, ITypeInfo> getCustomizedTypeCache() {
-		return customizedTypeCache;
+	public Map<ITypeInfo, ITypeInfo> getCustomizedTypeInfoCache() {
+		return customizedTypeInfoCache;
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class CustomizedUI extends ReflectionUI {
 		ITypeInfo result = super.getTypeInfo(typeSource);
 		synchronized (getTypeCacheMutex()) {
 			ITypeInfo customizedTypesCacheKey = result;
-			ITypeInfo cachedResult = customizedTypeCache.get(customizedTypesCacheKey);
+			ITypeInfo cachedResult = customizedTypeInfoCache.get(customizedTypesCacheKey);
 			if (cachedResult != null) {
 				result = cachedResult;
 			} else {
@@ -103,7 +103,7 @@ public class CustomizedUI extends ReflectionUI {
 				result = getBeforeInfoCustomizationsFactory().wrapTypeInfo(result);
 				result = getInfoCustomizationsFactory().wrapTypeInfo(result);
 				result = getAfterInfoCustomizationsFactory().wrapTypeInfo(result);
-				customizedTypeCache.put(customizedTypesCacheKey, result);
+				customizedTypeInfoCache.put(customizedTypesCacheKey, result);
 			}
 		}
 		return result;

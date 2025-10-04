@@ -31,8 +31,11 @@ public interface IAdvancedFieldControl {
 	 * @return whether the current control successfully updated its state. If false
 	 *         is returned then the renderer will replace the current control by
 	 *         another one able to display the current value.
+	 * @throws RejectedFieldControlInputException If the current control did not
+	 *                                            successfully updated its state
+	 *                                            (similar to returning false).
 	 */
-	boolean refreshUI(boolean refreshStructure);
+	boolean refreshUI(boolean refreshStructure) throws RejectedFieldControlInputException;
 
 	/**
 	 * Validates the control data. Typically, forms that are embedded or accessible

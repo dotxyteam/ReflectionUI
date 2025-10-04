@@ -1,11 +1,9 @@
 
-
-
 package xy.reflect.ui.control.plugin;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.util.ClassUtils;
 
 /**
  * Base class of simple field control plugins.
@@ -27,10 +25,10 @@ public abstract class AbstractSimpleFieldControlPlugin implements IFieldControlP
 	}
 
 	@Override
-	public boolean handles(IFieldControlInput input) {
+	public boolean handles(ReflectionUI reflectionUI, IFieldControlInput input) {
 		final Class<?> javaType;
 		try {
-			javaType = ClassUtils.getClassThroughCache(input.getControlData().getType().getName());
+			javaType = reflectionUI.loadClassThroughCache(input.getControlData().getType().getName());
 		} catch (ClassNotFoundException e) {
 			return false;
 		}

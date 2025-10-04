@@ -3,6 +3,7 @@
  */
 package xy.reflect.ui.info.field;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 
 /**
@@ -14,10 +15,12 @@ import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
  */
 public class NullReplacementFieldInfo extends FieldInfoProxy {
 
+	protected ReflectionUI reflectionUI;
 	protected TextualStorage nullReplacementStorage;
-	
-	public NullReplacementFieldInfo(IFieldInfo base, TextualStorage nullReplacementStorage) {
+
+	public NullReplacementFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, TextualStorage nullReplacementStorage) {
 		super(base);
+		this.reflectionUI = reflectionUI;
 		this.nullReplacementStorage = nullReplacementStorage;
 	}
 
@@ -25,7 +28,7 @@ public class NullReplacementFieldInfo extends FieldInfoProxy {
 	public Object getValue(Object object) {
 		Object result = super.getValue(object);
 		if (result == null) {
-			result = nullReplacementStorage.load();
+			result = nullReplacementStorage.load(reflectionUI);
 		}
 		return result;
 	}

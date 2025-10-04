@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -24,11 +25,14 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 
+	protected ReflectionUI reflectionUI;
 	protected TextualStorage invocationDataStorage;
 	protected List<IParameterInfo> parameters;
 
-	public PresetInvocationDataMethodInfo(IMethodInfo base, TextualStorage invocationDataStorage) {
+	public PresetInvocationDataMethodInfo(ReflectionUI reflectionUI, IMethodInfo base,
+			TextualStorage invocationDataStorage) {
 		super(base);
+		this.reflectionUI = reflectionUI;
 		this.invocationDataStorage = invocationDataStorage;
 	}
 
@@ -66,7 +70,7 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 			try {
 				parameters = new ArrayList<IParameterInfo>(base.getParameters());
 				SortedSet<Integer> presetParameterPositions = new TreeSet<Integer>();
-				InvocationData presetInvocationData = (InvocationData) invocationDataStorage.load();
+				InvocationData presetInvocationData = (InvocationData) invocationDataStorage.load(reflectionUI);
 				if (presetInvocationData != null) {
 					presetParameterPositions.addAll(presetInvocationData.getDefaultParameterValues().keySet());
 					presetParameterPositions.addAll(presetInvocationData.getProvidedParameterValues().keySet());
@@ -96,7 +100,7 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 	}
 
 	protected InvocationData buildFinalInvocationData(InvocationData invocationData) {
-		InvocationData presetInvocationData = (InvocationData) invocationDataStorage.load();
+		InvocationData presetInvocationData = (InvocationData) invocationDataStorage.load(reflectionUI);
 		InvocationData finalInvocationData = new InvocationData(presetInvocationData);
 		finalInvocationData.getProvidedParameterValues().clear();
 		finalInvocationData.getDefaultParameterValues().clear();

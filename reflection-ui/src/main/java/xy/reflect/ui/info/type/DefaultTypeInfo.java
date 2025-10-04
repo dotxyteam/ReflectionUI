@@ -34,6 +34,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.IOUtils;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -284,8 +285,14 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 			return "Text";
 		} else if (getJavaType().isPrimitive()) {
 			return ClassUtils.primitiveToWrapperClass(getJavaType()).getSimpleName();
+		} else if (getJavaType().isAnonymousClass()) {
+			ITypeInfo enclosingType = reflectionUI
+					.getTypeInfo(new JavaTypeInfoSource(getJavaType().getEnclosingClass(), null));
+			ITypeInfo baseType = reflectionUI
+					.getTypeInfo(new JavaTypeInfoSource(ClassUtils.getAnonymousClassBase(getJavaType()), null));
+			return ReflectionUIUtils.composeMessage(enclosingType.getCaption(), "Anonymous " + baseType.getCaption());
 		} else {
-			return ReflectionUIUtils.identifierToCaption(getJavaType().getSimpleName());
+			return ReflectionUIUtils.identifierToCaption(getJavaType().getSimpleName()).replaceAll(" *\\$+ *", " ");
 		}
 	}
 
@@ -366,9 +373,9 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 			if (result == null) {
 				result = "";
 			}
-			result = result
-					.replaceAll(getJavaType().getName().replace(".", "\\.").replace("$", "\\$").replace("[", "\\[")
-							+ "@([0-9a-z]+)", getCaption() + " [id=$1]");
+			String pattern = MiscUtils.escapeRegex(getJavaType().getName()) + "@([0-9a-z]+)";
+			String replacement = getCaption() + " [id=$1]";
+			result = result.replaceAll(pattern, replacement);
 			result = result.replace(getJavaType().getName(), getCaption());
 			return result;
 		}

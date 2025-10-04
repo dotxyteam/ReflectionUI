@@ -170,25 +170,22 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 
 		private static final long serialVersionUID = 1L;
 
-		protected AbstractConfiguration controlCustomization;
+		protected StyledTextConfiguration controlConfiguration;
 
 		public StyledTextControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
 		}
 
-		protected AbstractConfiguration getOrLoadControlCustomization() {
-			if (controlCustomization == null) {
-				controlCustomization = loadControlCustomization(input);
-			}
-			return controlCustomization;
-		}
-
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
 			if (refreshStructure) {
-				controlCustomization = null;
+				updateControlConfiguration();
 			}
 			return super.refreshUI(refreshStructure);
+		}
+
+		protected void updateControlConfiguration() {
+			controlConfiguration = (StyledTextConfiguration) loadControlCustomization(input);
 		}
 
 		@Override
@@ -224,26 +221,25 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		}
 
 		protected void updateTextComponentStyle(boolean refreshStructure) {
-			StyledTextConfiguration controlCustomization = (StyledTextConfiguration) getOrLoadControlCustomization();
 			StyledDocument document = (StyledDocument) textComponent.getDocument();
 			SimpleAttributeSet attributes = new SimpleAttributeSet();
-			StyleConstants.setBold(attributes, controlCustomization.fontBold);
-			StyleConstants.setItalic(attributes, controlCustomization.fontItalic);
-			StyleConstants.setFontFamily(attributes, controlCustomization.fontName);
-			StyleConstants.setFontSize(attributes, controlCustomization.fontSize);
-			StyleConstants.setUnderline(attributes, controlCustomization.underlined);
-			StyleConstants.setStrikeThrough(attributes, controlCustomization.struckThrough);
-			if (controlCustomization.horizontalAlignment == StyledTextConfiguration.HorizontalAlignment.LEFT) {
+			StyleConstants.setBold(attributes, controlConfiguration.fontBold);
+			StyleConstants.setItalic(attributes, controlConfiguration.fontItalic);
+			StyleConstants.setFontFamily(attributes, controlConfiguration.fontName);
+			StyleConstants.setFontSize(attributes, controlConfiguration.fontSize);
+			StyleConstants.setUnderline(attributes, controlConfiguration.underlined);
+			StyleConstants.setStrikeThrough(attributes, controlConfiguration.struckThrough);
+			if (controlConfiguration.horizontalAlignment == StyledTextConfiguration.HorizontalAlignment.LEFT) {
 				StyleConstants.setAlignment(attributes, StyleConstants.ALIGN_LEFT);
-			} else if (controlCustomization.horizontalAlignment == StyledTextConfiguration.HorizontalAlignment.CENTER) {
+			} else if (controlConfiguration.horizontalAlignment == StyledTextConfiguration.HorizontalAlignment.CENTER) {
 				StyleConstants.setAlignment(attributes, StyleConstants.ALIGN_CENTER);
-			} else if (controlCustomization.horizontalAlignment == StyledTextConfiguration.HorizontalAlignment.RIGHT) {
+			} else if (controlConfiguration.horizontalAlignment == StyledTextConfiguration.HorizontalAlignment.RIGHT) {
 				StyleConstants.setAlignment(attributes, StyleConstants.ALIGN_RIGHT);
 			} else {
 				throw new ReflectionUIError();
 			}
-			if (controlCustomization.color != null) {
-				textComponent.setForeground(SwingRendererUtils.getColor(controlCustomization.color));
+			if (controlConfiguration.color != null) {
+				textComponent.setForeground(SwingRendererUtils.getColor(controlConfiguration.color));
 			}
 			listenerDisabled = true;
 			try {
@@ -268,11 +264,11 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		}
 
 		protected int getConfiguredScrollPaneWidth() {
-			return ((StyledTextConfiguration) getOrLoadControlCustomization()).getWidthInPixels();
+			return controlConfiguration.getWidthInPixels();
 		}
 
 		protected int getConfiguredScrollPaneHeight() {
-			return ((StyledTextConfiguration) getOrLoadControlCustomization()).getHeightInPixels();
+			return controlConfiguration.getHeightInPixels();
 		}
 
 	}

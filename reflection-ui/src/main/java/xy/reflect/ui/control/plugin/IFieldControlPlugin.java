@@ -1,6 +1,7 @@
 
 package xy.reflect.ui.control.plugin;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.RejectedFieldControlInputException;
@@ -28,11 +29,12 @@ public interface IFieldControlPlugin {
 	public String MANAGEMENT_DISABLED_PROPERTY_KEY = IFieldControlPlugin.class.getName() + ".MANAGEMENT_DISABLED";
 
 	/**
-	 * @param input The specification of the field to be displayed.
+	 * @param reflectionUI The abstract UI model generator.
+	 * @param input        The specification of the field to be displayed.
 	 * @return whether the field described by the given input object can be
 	 *         displayed by the current plugin control.
 	 */
-	boolean handles(IFieldControlInput input);
+	boolean handles(ReflectionUI reflectionUI, IFieldControlInput input);
 
 	/**
 	 * @return whether the current plugin control can handle (display distinctly and

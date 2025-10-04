@@ -76,13 +76,17 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		return result;
 	}
 
+	public static String fieldToSetterName(String fieldName) {
+		return "set" + ((fieldName.length() > 0) ? MiscUtils.changeCase(fieldName, true, 0, 1) : "");
+	}
+
 	protected static String namePrefix(Method javaGetterMethod) {
 		return javaGetterMethod.isSynthetic() ? "_" : "";
 	}
 
 	public static Method getValidSetterMethod(Method javaGetterMethod, Class<?> objectJavaClass) {
 		String fieldName = getterToFieldName(javaGetterMethod.getName());
-		String setterMethodName = "set" + ((fieldName.length() > 0) ? MiscUtils.changeCase(fieldName, true, 0, 1) : "");
+		String setterMethodName = fieldToSetterName(fieldName);
 		try {
 			for (Method otherMethod : objectJavaClass.getMethods()) {
 				if (otherMethod.getName().equals(setterMethodName)) {

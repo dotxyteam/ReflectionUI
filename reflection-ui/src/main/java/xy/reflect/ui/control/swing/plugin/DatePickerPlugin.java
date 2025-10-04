@@ -37,7 +37,6 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ReschedulableTask;
@@ -96,7 +95,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 
 		@Override
 		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
-			if (DateConstructor.isCompatibleWith(type)) {
+			if (DateConstructor.isCompatibleWith(reflectionUI, type)) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 				result.add(new DateConstructor(reflectionUI, type));
 				return result;
@@ -106,7 +105,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 
 		@Override
 		protected boolean isConcrete(ITypeInfo type) {
-			if (DateConstructor.isCompatibleWith(type)) {
+			if (DateConstructor.isCompatibleWith(reflectionUI, type)) {
 				return true;
 			}
 			return super.isConcrete(type);
@@ -149,10 +148,10 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			return new Date();
 		}
 
-		public static boolean isCompatibleWith(ITypeInfo type) {
+		public static boolean isCompatibleWith(ReflectionUI reflectionUI, ITypeInfo type) {
 			Class<?> dateClass;
 			try {
-				dateClass = ClassUtils.getClassThroughCache(type.getName());
+				dateClass = reflectionUI.loadClassThroughCache(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}
@@ -213,6 +212,8 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		protected boolean initialized = false;
 		protected Throwable currentConversionError;
 		protected Throwable currentDataError;
+
+		protected DatePickerConfiguration controlConfiguration;
 
 		public DatePicker(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -339,9 +340,8 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			listenerDisabled = true;
 			try {
 				if (refreshStructure) {
-					DatePickerConfiguration controlCustomization = (DatePickerConfiguration) loadControlCustomization(
-							input);
-					setFormats(controlCustomization.format);
+					updateControlConfiguration();
+					setFormats(controlConfiguration.format);
 					setEnabled(!data.isGetOnly());
 					if (data.getBorderColor() != null) {
 						setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
@@ -395,6 +395,10 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			} finally {
 				listenerDisabled = false;
 			}
+		}
+
+		protected void updateControlConfiguration() {
+			controlConfiguration = (DatePickerConfiguration) loadControlCustomization(input);
 		}
 
 		protected void commitTextEditorChanges() {

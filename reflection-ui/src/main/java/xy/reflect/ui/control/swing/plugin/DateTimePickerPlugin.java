@@ -48,7 +48,6 @@ import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.StrictDateFormat;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 
 /**
@@ -104,7 +103,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 
 		@Override
 		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
-			if (DateConstructor.isCompatibleWith(type)) {
+			if (DateConstructor.isCompatibleWith(reflectionUI, type)) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 				result.add(new DateConstructor(reflectionUI, type));
 				return result;
@@ -114,7 +113,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 
 		@Override
 		protected boolean isConcrete(ITypeInfo type) {
-			if (DateConstructor.isCompatibleWith(type)) {
+			if (DateConstructor.isCompatibleWith(reflectionUI, type)) {
 				return true;
 			}
 			return super.isConcrete(type);
@@ -157,10 +156,10 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			return new Date();
 		}
 
-		public static boolean isCompatibleWith(ITypeInfo type) {
+		public static boolean isCompatibleWith(ReflectionUI reflectionUI, ITypeInfo type) {
 			Class<?> dateClass;
 			try {
-				dateClass = ClassUtils.getClassThroughCache(type.getName());
+				dateClass = reflectionUI.loadClassThroughCache(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}
@@ -222,6 +221,8 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		protected boolean initialized = false;
 		protected Throwable currentConversionError;
 		protected Throwable currentDataError;
+
+		protected DateTimePickerConfiguration controlConfiguration;
 
 		public DateTimePicker(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -415,10 +416,9 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			listenerDisabled = true;
 			try {
 				if (refreshStructure) {
-					DateTimePickerConfiguration controlCustomization = (DateTimePickerConfiguration) loadControlCustomization(
-							input);
-					setFormats(controlCustomization.dateFormat + " " + controlCustomization.timeFormat);
-					setTimeFormat(new SimpleDateFormat(controlCustomization.timeFormat));
+					updateControlConfiguration();
+					setFormats(controlConfiguration.dateFormat + " " + controlConfiguration.timeFormat);
+					setTimeFormat(new SimpleDateFormat(controlConfiguration.timeFormat));
 					setEnabled(!data.isGetOnly());
 					if (data.getBorderColor() != null) {
 						setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
@@ -472,6 +472,10 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			} finally {
 				listenerDisabled = false;
 			}
+		}
+
+		protected void updateControlConfiguration() {
+			controlConfiguration = (DateTimePickerConfiguration) loadControlCustomization(input);
 		}
 
 		protected void commitTextEditorChanges() {

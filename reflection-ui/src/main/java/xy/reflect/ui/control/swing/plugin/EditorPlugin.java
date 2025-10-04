@@ -15,12 +15,12 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.text.EditorKit;
 import javax.swing.text.JTextComponent;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin.StyledTextConfiguration.ControlDimensionSpecification;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin.StyledTextConfiguration.ControlSizeUnit;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
-import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -83,11 +83,11 @@ public class EditorPlugin extends StyledTextPlugin {
 			}
 		}
 
-		public void validate() throws ClassNotFoundException {
+		public void validate(ReflectionUI reflectionUI) throws ClassNotFoundException {
 			if ((syntaxImplementationClassName == null) || (syntaxImplementationClassName.length() == 0)) {
 				throw new ReflectionUIError("Syntax implementation class name not specified !");
 			}
-			ClassUtils.getClassThroughCache(syntaxImplementationClassName);
+			reflectionUI.loadClassThroughCache(syntaxImplementationClassName);
 		}
 
 	}
@@ -95,6 +95,8 @@ public class EditorPlugin extends StyledTextPlugin {
 	public class EditorControl extends StyledTextControl {
 
 		private static final long serialVersionUID = 1L;
+
+		protected EditorConfiguration controlConfiguration;
 
 		public EditorControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
@@ -107,6 +109,9 @@ public class EditorPlugin extends StyledTextPlugin {
 
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
+			if (refreshStructure) {
+				updateControlConfiguration();
+			}
 			super.refreshUI(refreshStructure);
 			if (refreshStructure) {
 				if (data.getCaption().length() > 0) {
@@ -126,6 +131,11 @@ public class EditorPlugin extends StyledTextPlugin {
 				textComponent.setBorder(BorderFactory.createEmptyBorder());
 			}
 			return true;
+		}
+
+		@Override
+		protected void updateControlConfiguration() {
+			controlConfiguration = (EditorConfiguration) loadControlCustomization(input);
 		}
 
 		@Override
@@ -178,10 +188,11 @@ public class EditorPlugin extends StyledTextPlugin {
 			if (refreshStructure) {
 				String textToRestore = textComponent.getText();
 				try {
-					String syntaxImplementationClassName = ((EditorConfiguration) getOrLoadControlCustomization()).syntaxImplementationClassName;
+					String syntaxImplementationClassName = controlConfiguration.syntaxImplementationClassName;
 					if ((syntaxImplementationClassName != null) && (syntaxImplementationClassName.length() > 0)) {
 						try {
-							Class<?> editorKitClass = ClassUtils.getClassThroughCache(syntaxImplementationClassName);
+							Class<?> editorKitClass = getSyntaxImplementationClassLoader()
+									.loadClass(syntaxImplementationClassName);
 							((JEditorPane) textComponent).setEditorKit((EditorKit) editorKitClass.newInstance());
 						} catch (Exception e) {
 							throw new ReflectionUIError(e);
@@ -230,14 +241,18 @@ public class EditorPlugin extends StyledTextPlugin {
 			}
 		}
 
+		protected ClassLoader getSyntaxImplementationClassLoader() {
+			return getClass().getClassLoader();
+		}
+
 		@Override
 		protected int getConfiguredScrollPaneHeight() {
-			return ((EditorConfiguration) getOrLoadControlCustomization()).getHeightInPixels();
+			return controlConfiguration.getHeightInPixels();
 		}
 
 		@Override
 		protected int getConfiguredScrollPaneWidth() {
-			return ((EditorConfiguration) getOrLoadControlCustomization()).getWidthInPixels();
+			return controlConfiguration.getWidthInPixels();
 		}
 
 	}

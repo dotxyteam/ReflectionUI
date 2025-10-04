@@ -567,7 +567,7 @@ public class Form extends ImagePanel {
 	}
 
 	protected long getOngoingValidationStausDisplayDelayMilliseconds() {
-		return 2000;
+		return 3000;
 	}
 
 	protected Icon getOngoingValidationIcon() {

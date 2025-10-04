@@ -82,8 +82,22 @@ public class PasswordFieldPlugin extends AbstractSimpleCustomizableFieldControlP
 
 		private static final long serialVersionUID = 1L;
 
+		protected PasswordFieldConfiguration controlConfiguration;
+
 		public PasswordFieldControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
+		}
+
+		@Override
+		public boolean refreshUI(boolean refreshStructure) {
+			if (refreshStructure) {
+				updateControlConfiguration();
+			}
+			return super.refreshUI(refreshStructure);
+		}
+
+		protected void updateControlConfiguration() {
+			controlConfiguration = (PasswordFieldConfiguration) loadControlCustomization(input);
 		}
 
 		@Override
@@ -114,10 +128,8 @@ public class PasswordFieldPlugin extends AbstractSimpleCustomizableFieldControlP
 		@Override
 		protected Dimension getScrollPanePreferredSize(Dimension defaultSize) {
 			Dimension result = new Dimension(defaultSize);
-			PasswordFieldConfiguration controlCustomization = (PasswordFieldConfiguration) loadControlCustomization(
-					input);
-			if (controlCustomization.width != null) {
-				result.width = controlCustomization.getWidthInPixels();
+			if (controlConfiguration.width != null) {
+				result.width = controlConfiguration.getWidthInPixels();
 			}
 			return result;
 		}
@@ -136,9 +148,7 @@ public class PasswordFieldPlugin extends AbstractSimpleCustomizableFieldControlP
 
 		protected void updateTextComponentStyle(boolean refreshStructure) {
 			if (refreshStructure) {
-				PasswordFieldConfiguration controlCustomization = (PasswordFieldConfiguration) loadControlCustomization(
-						input);
-				((JPasswordField) textComponent).setEchoChar(controlCustomization.echoCharacter);
+				((JPasswordField) textComponent).setEchoChar(controlConfiguration.echoCharacter);
 			}
 		}
 

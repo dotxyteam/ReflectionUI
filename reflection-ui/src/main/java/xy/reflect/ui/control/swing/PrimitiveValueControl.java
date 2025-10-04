@@ -9,7 +9,6 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -44,7 +43,7 @@ public class PrimitiveValueControl extends TextControl {
 	protected IFieldControlData handleValueConversions(IFieldControlData data) {
 		final Class<?> dataClass;
 		try {
-			dataClass = ClassUtils.getClassThroughCache(data.getType().getName());
+			dataClass = swingRenderer.getReflectionUI().loadClassThroughCache(data.getType().getName());
 		} catch (ClassNotFoundException e1) {
 			throw new ReflectionUIError(e1);
 		}

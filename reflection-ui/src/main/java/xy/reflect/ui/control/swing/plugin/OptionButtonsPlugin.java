@@ -23,6 +23,7 @@ import javax.swing.Icon;
 import javax.swing.JRadioButton;
 import javax.swing.border.Border;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -66,7 +67,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 	}
 
 	@Override
-	public boolean handles(IFieldControlInput input) {
+	public boolean handles(ReflectionUI reflectionUI, IFieldControlInput input) {
 		if (!(input.getControlData().getType() instanceof IEnumerationTypeInfo)) {
 			return false;
 		}
@@ -111,6 +112,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 		protected List<Object> possibleValues;
 		protected Object lastSelectedValue;
 		protected ControlPanel contentPane;
+		protected OptionButtonsConfiguration controlConfiguration;
 
 		public OptionButtons(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -126,18 +128,17 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
-			OptionButtonsConfiguration controlCustomization = (OptionButtonsConfiguration) loadControlCustomization(
-					input);
 			if (refreshStructure) {
+				updateControlConfiguration();
 				SwingRendererUtils.showFieldCaptionOnBorder(data, this, new Accessor<Border>() {
 					@Override
 					public Border get() {
 						return new ControlPanel().getBorder();
 					}
 				}, swingRenderer);
-				if (controlCustomization.layout == OptionButtonsLayout.HORIZONTAL_FLOW) {
+				if (controlConfiguration.layout == OptionButtonsLayout.HORIZONTAL_FLOW) {
 					contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
-				} else if (controlCustomization.layout == OptionButtonsLayout.VERTICAL_FLOW) {
+				} else if (controlConfiguration.layout == OptionButtonsLayout.VERTICAL_FLOW) {
 					contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 				} else {
 					throw new ReflectionUIError();
@@ -156,7 +157,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					AbstractButton button = createButton(value);
 					if (i > 0) {
 						contentPane.add(Box.createRigidArea(
-								new Dimension(controlCustomization.spacing, controlCustomization.spacing)));
+								new Dimension(controlConfiguration.spacing, controlConfiguration.spacing)));
 					}
 					contentPane.add(button);
 					buttonGroup.add(button);
@@ -167,6 +168,10 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 			Object currentValue = data.getValue();
 			updateSelection(currentValue);
 			return true;
+		}
+
+		protected void updateControlConfiguration() {
+			controlConfiguration = (OptionButtonsConfiguration) loadControlCustomization(input);
 		}
 
 		protected void updateSelection(Object currentValue) {
@@ -186,11 +191,9 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 		}
 
 		protected AbstractButton createButton(final Object value) {
-			OptionButtonsConfiguration controlCustomization = (OptionButtonsConfiguration) loadControlCustomization(
-					input);
 			final IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
 			final AbstractButton result;
-			if (controlCustomization.buttonType == OptionButtonType.RADIO) {
+			if (controlConfiguration.buttonType == OptionButtonType.RADIO) {
 				result = new JRadioButton(swingRenderer.prepareMessageToDisplay(itemInfo.getCaption()));
 				result.setOpaque(false);
 				result.setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
@@ -201,7 +204,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 				} else {
 					result.setFont(new JRadioButton().getFont());
 				}
-			} else if (controlCustomization.buttonType == OptionButtonType.TOGGLE) {
+			} else if (controlConfiguration.buttonType == OptionButtonType.TOGGLE) {
 				result = new AbstractControlButton() {
 
 					private static final long serialVersionUID = 1L;

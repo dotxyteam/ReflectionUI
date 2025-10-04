@@ -70,6 +70,8 @@ public class ToggleButtonPlugin extends AbstractSimpleCustomizableFieldControlPl
 
 		protected boolean listenerDisabled = false;
 
+		protected ToggleButtonConfiguration controlConfiguration;
+
 		public ToggleButtonControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
 			this.input = input;
@@ -110,6 +112,7 @@ public class ToggleButtonPlugin extends AbstractSimpleCustomizableFieldControlPl
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
 			if (refreshStructure) {
+				updateControlConfiguration();
 				String tooltipText = data.getOnlineHelp();
 				if ((tooltipText != null) && (tooltipText.length() > 0)) {
 					setToolTipText(SwingRendererUtils
@@ -128,6 +131,10 @@ public class ToggleButtonPlugin extends AbstractSimpleCustomizableFieldControlPl
 				listenerDisabled = false;
 			}
 			return true;
+		}
+
+		protected void updateControlConfiguration() {
+			controlConfiguration = (ToggleButtonConfiguration) loadControlCustomization(input);
 		}
 
 		@Override
@@ -222,10 +229,7 @@ public class ToggleButtonPlugin extends AbstractSimpleCustomizableFieldControlPl
 
 		@Override
 		public Icon retrieveIcon() {
-			ToggleButtonConfiguration controlCustomization = (ToggleButtonConfiguration) loadControlCustomization(
-					input);
-
-			Image image = swingRenderer.getIconImage(controlCustomization.iconImagePath);
+			Image image = swingRenderer.getIconImage(controlConfiguration.iconImagePath);
 			if (image == null) {
 				return null;
 			}

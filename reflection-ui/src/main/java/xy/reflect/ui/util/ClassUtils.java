@@ -45,37 +45,10 @@ public class ClassUtils {
 	protected static double DEFAULT_DOUBLE;
 	protected static char DEFAULT_CHAR;
 
-	protected static final Map<String, Class<?>> CLASS_BY_NAME = new HashMap<String, Class<?>>();
-	protected static final Class<?> CLASS_NOT_FOUND = (new Object() {
-		@Override
-		public String toString() {
-			return "CLASS_NOT_FOUND";
-		}
-	}).getClass();
+	
+	
 
-	static {
-		for (Class<?> c : new Class[] { void.class, boolean.class, byte.class, char.class, short.class, int.class,
-				float.class, double.class, long.class })
-			CLASS_BY_NAME.put(c.getName(), c);
-	}
-
-	public static Class<?> getClassThroughCache(String name) throws ClassNotFoundException {
-		synchronized (CLASS_BY_NAME) {
-			Class<?> c = CLASS_BY_NAME.get(name);
-			if (c == null) {
-				try {
-					c = forNameEvenIfPrimitive(name);
-				} catch (ClassNotFoundException e) {
-					c = CLASS_NOT_FOUND;
-				}
-				CLASS_BY_NAME.put(name, c);
-			}
-			if (c == CLASS_NOT_FOUND) {
-				throw new ClassNotFoundException(name);
-			}
-			return c;
-		}
-	}
+	
 
 	public static Class<?> forNameEvenIfPrimitive(String name) throws ClassNotFoundException {
 		Class<?> result = PRIMITIVE_CLASS_BY_NAME.get(name);
@@ -86,11 +59,7 @@ public class ClassUtils {
 		return result;
 	}
 
-	public static void clearClassCache() {
-		synchronized (CLASS_BY_NAME) {
-			CLASS_BY_NAME.clear();
-		}
-	}
+	
 
 	public static Class<?> primitiveToWrapperClass(Class<?> class1) {
 		int index = Arrays.asList(PRIMITIVE_CLASSES).indexOf(class1);
@@ -275,6 +244,18 @@ public class ClassUtils {
 			}
 		}
 		return true;
+	}
+
+	public static Class<?> getAnonymousClassBase(Class<?> clazz) {
+		Class<?> superClass = clazz.getSuperclass();
+		if ((superClass != null) && (superClass != Object.class)) {
+			return superClass;
+		}
+		Class<?>[] interfaces = clazz.getInterfaces();
+		if (interfaces.length == 1) {
+			return interfaces[0];
+		}
+		return superClass;
 	}
 
 }

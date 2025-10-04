@@ -25,6 +25,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.ListControl;
@@ -66,7 +67,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 	}
 
 	@Override
-	public boolean handles(IFieldControlInput input) {
+	public boolean handles(ReflectionUI reflectionUI, IFieldControlInput input) {
 		if (!(input.getControlData().getType() instanceof IListTypeInfo)) {
 			return false;
 		}
@@ -117,8 +118,22 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		protected JPanel detailedCellsContainer;
 		protected List<DetailedCellControl> detailedCellControlList;
 
+		protected DetailedListConfiguration controlConfiguration;
+
 		public DetailedListControl(SwingRenderer swingRenderer, final IFieldControlInput input) {
 			super(swingRenderer, input);
+		}
+
+		@Override
+		public boolean refreshUI(boolean refreshStructure) {
+			if (refreshStructure) {
+				updateControlConfiguration();
+			}
+			return super.refreshUI(refreshStructure);
+		}
+
+		protected void updateControlConfiguration() {
+			controlConfiguration = (DetailedListConfiguration) loadControlCustomization(input);
 		}
 
 		@Override
@@ -166,13 +181,11 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 				GridBagConstraints cellsContainerConstraint = new GridBagConstraints();
 				cellsContainerConstraint.gridx = 0;
 				cellsContainerConstraint.gridy = 0;
-				DetailedListConfiguration controlCustomization = (DetailedListConfiguration) loadControlCustomization(
-						input);
-				if (controlCustomization.stretchCellsHorizontally && controlCustomization.stretchCellsVertically) {
+				if (controlConfiguration.stretchCellsHorizontally && controlConfiguration.stretchCellsVertically) {
 					cellsContainerConstraint.fill = GridBagConstraints.BOTH;
-				} else if (controlCustomization.stretchCellsHorizontally) {
+				} else if (controlConfiguration.stretchCellsHorizontally) {
 					cellsContainerConstraint.fill = GridBagConstraints.HORIZONTAL;
-				} else if (controlCustomization.stretchCellsVertically) {
+				} else if (controlConfiguration.stretchCellsVertically) {
 					cellsContainerConstraint.fill = GridBagConstraints.VERTICAL;
 				} else {
 					cellsContainerConstraint.fill = GridBagConstraints.NONE;
@@ -221,22 +234,20 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		protected GridBagConstraints getDetailedCellLayoutConstraints(int i) {
-			DetailedListConfiguration controlCustomization = (DetailedListConfiguration) loadControlCustomization(
-					input);
 			GridBagConstraints result = new GridBagConstraints();
-			if (controlCustomization.layout == DetailedListLayout.VERTICAL_FLOW) {
+			if (controlConfiguration.layout == DetailedListLayout.VERTICAL_FLOW) {
 				result.gridx = 0;
 				result.gridy = i;
-				if (controlCustomization.gridDimension > 0) {
-					result.gridx = result.gridy / controlCustomization.gridDimension;
-					result.gridy = result.gridy % controlCustomization.gridDimension;
+				if (controlConfiguration.gridDimension > 0) {
+					result.gridx = result.gridy / controlConfiguration.gridDimension;
+					result.gridy = result.gridy % controlConfiguration.gridDimension;
 				}
-			} else if (controlCustomization.layout == DetailedListLayout.HORIZONTAL_FLOW) {
+			} else if (controlConfiguration.layout == DetailedListLayout.HORIZONTAL_FLOW) {
 				result.gridy = 0;
 				result.gridx = i;
-				if (controlCustomization.gridDimension > 0) {
-					result.gridy = result.gridx / controlCustomization.gridDimension;
-					result.gridx = result.gridx % controlCustomization.gridDimension;
+				if (controlConfiguration.gridDimension > 0) {
+					result.gridy = result.gridx / controlConfiguration.gridDimension;
+					result.gridx = result.gridx % controlConfiguration.gridDimension;
 				}
 			} else {
 				throw new ReflectionUIError();
@@ -263,9 +274,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 
 		@Override
 		public void setSelection(List<BufferedItemPosition> toSelect) {
-			DetailedListConfiguration controlCustomization = (DetailedListConfiguration) loadControlCustomization(
-					input);
-			if (controlCustomization.selectionForbidden) {
+			if (controlConfiguration.selectionForbidden) {
 				toSelect = Collections.emptyList();
 			}
 			if (getSelection().equals(toSelect)) {

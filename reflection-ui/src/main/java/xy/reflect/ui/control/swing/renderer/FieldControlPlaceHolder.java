@@ -371,7 +371,10 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 						destroyFieldControl();
 						refreshUI(refreshStructure);
 					}
-				} catch (Throwable t) {
+				} catch (RejectedFieldControlInputException e) {
+					destroyFieldControl();
+					refreshUI(refreshStructure);
+				}catch (Throwable t) {
 					try {
 						destroyFieldControl();
 						fieldControl = createFieldErrorControl(t);

@@ -112,13 +112,16 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		protected Throwable currentConversionError;
 		protected Throwable currentDataError;
 
+		protected SpinnerConfiguration controlCustomization;
+
 		public Spinner(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
 			this.input = input;
 			this.data = input.getControlData();
 			this.dataUpdateProcess = createDelayedUpdateProcess();
 			try {
-				this.numberClass = ClassUtils.getClassThroughCache(input.getControlData().getType().getName());
+				this.numberClass = swingRenderer.getReflectionUI()
+						.loadClassThroughCache(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {
 					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
 				}
@@ -243,10 +246,10 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		}
 
 		protected AbstractFormatter getNumberFormatter() {
-			SpinnerConfiguration controlCustomization = (SpinnerConfiguration) loadControlCustomization(input);
 			Class<?> javaType;
 			try {
-				javaType = ClassUtils.getClassThroughCache(input.getControlData().getType().getName());
+				javaType = swingRenderer.getReflectionUI()
+						.loadClassThroughCache(input.getControlData().getType().getName());
 			} catch (ClassNotFoundException e) {
 				throw new ReflectionUIError(e);
 			}
@@ -265,7 +268,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			listenerDisabled = true;
 			try {
 				if (refreshStructure) {
-					SpinnerConfiguration controlCustomization = (SpinnerConfiguration) loadControlCustomization(input);
+					updateControlConfiguration();
 					Number minimum = getConvertedNumber(controlCustomization.minimum);
 					Number maximum = getConvertedNumber(controlCustomization.maximum);
 					Number stepSize = getConvertedNumber(controlCustomization.stepSize);
@@ -340,6 +343,10 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			} finally {
 				listenerDisabled = false;
 			}
+		}
+
+		protected void updateControlConfiguration() {
+			controlCustomization = (SpinnerConfiguration) loadControlCustomization(input);
 		}
 
 		protected Number getConvertedNumber(String s) {

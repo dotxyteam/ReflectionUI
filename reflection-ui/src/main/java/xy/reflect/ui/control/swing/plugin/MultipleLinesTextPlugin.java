@@ -105,6 +105,8 @@ public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldCont
 
 		private static final long serialVersionUID = 1L;
 
+		protected MultipleLinesTextConfiguration controlConfiguration;
+
 		public MultipleLinesTextControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
 		}
@@ -112,13 +114,11 @@ public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldCont
 		@Override
 		protected Dimension getScrollPanePreferredSize(Dimension defaultSize) {
 			Dimension result = new Dimension(defaultSize);
-			MultipleLinesTextConfiguration controlCustomization = (MultipleLinesTextConfiguration) loadControlCustomization(
-					input);
-			if (controlCustomization.width != null) {
-				result.width = controlCustomization.getWidthInPixels();
+			if (controlConfiguration.width != null) {
+				result.width = controlConfiguration.getWidthInPixels();
 			}
-			if (controlCustomization.height != null) {
-				result.height = controlCustomization.getHeightInPixels();
+			if (controlConfiguration.height != null) {
+				result.height = controlConfiguration.getHeightInPixels();
 			}
 			return result;
 		}
@@ -130,6 +130,9 @@ public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldCont
 
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
+			if (refreshStructure) {
+				updateControlConfiguration();
+			}
 			super.refreshUI(refreshStructure);
 			if (refreshStructure) {
 				if (data.getCaption().length() > 0) {
@@ -147,13 +150,13 @@ public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldCont
 					setBorder(BorderFactory.createEmptyBorder());
 				}
 				textComponent.setBorder(BorderFactory.createEmptyBorder());
-				MultipleLinesTextConfiguration controlCustomization = (MultipleLinesTextConfiguration) loadControlCustomization(
-						input);
-				((JTextArea) textComponent).setLineWrap(controlCustomization.lineWrappingEnabled);
+				((JTextArea) textComponent).setLineWrap(controlConfiguration.lineWrappingEnabled);
 			}
 			return true;
 		}
 
+		protected void updateControlConfiguration() {
+			controlConfiguration = (MultipleLinesTextConfiguration) loadControlCustomization(input);
+		}
 	}
-
 }

@@ -194,7 +194,7 @@ public class CustomizationTools {
 
 							final FieldCustomization fc = InfoCustomizations.getFieldCustomization(tc, fieldName, true);
 							final TextualStorage nullReplacement = new TextualStorage();
-							nullReplacement.save(text);
+							nullReplacement.save(swingCustomizer.getReflectionUI(), text);
 
 							ModificationStack modificationStack = swingCustomizer.getCustomizationController()
 									.getModificationStack();
@@ -267,7 +267,7 @@ public class CustomizationTools {
 								}
 								nullReplacement.setPreConversion(storageMapping);
 							}
-							nullReplacement.save(image);
+							nullReplacement.save(swingCustomizer.getReflectionUI(), image);
 
 							final TypeCustomization ftc = InfoCustomizations.getTypeCustomization(
 									fc.getSpecificTypeCustomizations(), typeFinder.getClassName(), true);
@@ -305,7 +305,7 @@ public class CustomizationTools {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								swingCustomizer.getCustomizedUI().getCustomizedTypeCache().clear();
+								swingCustomizer.getCustomizedUI().getCustomizedTypeInfoCache().clear();
 								Form form = SwingRendererUtils.findParentForm(result, swingCustomizer);
 								try {
 									form.refresh(true);
@@ -1020,7 +1020,7 @@ public class CustomizationTools {
 		List<IFieldControlPlugin> potentialFieldControlPlugins = new ArrayList<IFieldControlPlugin>();
 		{
 			for (IFieldControlPlugin plugin : swingCustomizer.getFieldControlPlugins()) {
-				if (plugin.handles(fieldControlPlaceHolder)) {
+				if (plugin.handles(swingCustomizer.getReflectionUI(), fieldControlPlaceHolder)) {
 					potentialFieldControlPlugins.add(plugin);
 				}
 			}
