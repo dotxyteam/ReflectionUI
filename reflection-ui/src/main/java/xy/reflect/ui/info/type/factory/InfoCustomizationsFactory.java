@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -3624,51 +3623,46 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		protected InfoCustomizations createInheritanceInfoCustomizationsFrom(
 				InfoCustomizations baseInfoCustomizations) {
-			InfoCustomizations result = (InfoCustomizations) IOUtils.copyThroughSerialization(baseInfoCustomizations);
-			for (Iterator<TypeCustomization> it = result.getTypeCustomizations().iterator(); it.hasNext();) {
-				TypeCustomization tc = it.next();
-				if (MiscUtils.containsWord(tc.getTypeName(), targetTypeName)) {
-					it.remove();
+			InfoCustomizations result;
+			try {
+				result = baseInfoCustomizations.getClass().newInstance();
+			} catch (InstantiationException | IllegalAccessException e) {
+				throw new ReflectionUIError(e);
+			}
+			for (TypeCustomization tc : baseInfoCustomizations.getTypeCustomizations()) {
+				if (!MiscUtils.containsWord(tc.getTypeName(), baseTypeName)) {
 					continue;
 				}
-				if (MiscUtils.containsWord(tc.getTypeName(), baseTypeName)) {
-					tc.setTypeName(MiscUtils.replaceWord(tc.getTypeName(), baseTypeName, targetTypeName));
-				}
+				tc = (TypeCustomization) IOUtils.copyThroughSerialization(tc);
+				result.getTypeCustomizations().add(tc);
+				tc.setTypeName(MiscUtils.replaceWord(tc.getTypeName(), baseTypeName, targetTypeName));
 				for (FieldCustomization fc : tc.getFieldsCustomizations()) {
 					fc.setSpecificTypeCustomizations((FieldTypeSpecificities) createInheritanceInfoCustomizationsFrom(
 							fc.getSpecificTypeCustomizations()));
 				}
 			}
-			for (Iterator<ListCustomization> it = result.getListCustomizations().iterator(); it.hasNext();) {
-				ListCustomization lc = it.next();
-				if (MiscUtils.containsWord(lc.getListTypeName(), targetTypeName)) {
-					it.remove();
-					continue;
+			for (ListCustomization lc : baseInfoCustomizations.getListCustomizations()) {
+				if (!MiscUtils.containsWord(lc.getListTypeName(), baseTypeName)) {
+					if (lc.getItemTypeName() != null) {
+						if (!MiscUtils.containsWord(lc.getItemTypeName(), baseTypeName)) {
+							continue;
+						}
+					}
 				}
-				if (MiscUtils.containsWord(lc.getListTypeName(), baseTypeName)) {
-					lc.setListTypeName(MiscUtils.replaceWord(lc.getListTypeName(), baseTypeName, targetTypeName));
-				}
+				lc = (ListCustomization) IOUtils.copyThroughSerialization(lc);
+				result.getListCustomizations().add(lc);
+				lc.setListTypeName(MiscUtils.replaceWord(lc.getListTypeName(), baseTypeName, targetTypeName));
 				if (lc.getItemTypeName() != null) {
-					if (MiscUtils.containsWord(lc.getItemTypeName(), targetTypeName)) {
-						it.remove();
-						continue;
-					}
-					if (MiscUtils.containsWord(lc.getItemTypeName(), baseTypeName)) {
-						lc.setItemTypeName(MiscUtils.replaceWord(lc.getItemTypeName(), baseTypeName, targetTypeName));
-					}
+					lc.setItemTypeName(MiscUtils.replaceWord(lc.getItemTypeName(), baseTypeName, targetTypeName));
 				}
 			}
-			for (Iterator<EnumerationCustomization> it = result.getEnumerationCustomizations().iterator(); it
-					.hasNext();) {
-				EnumerationCustomization ec = it.next();
-				if (MiscUtils.containsWord(ec.getEnumerationTypeName(), targetTypeName)) {
-					it.remove();
+			for (EnumerationCustomization ec : baseInfoCustomizations.getEnumerationCustomizations()) {
+				if (!MiscUtils.containsWord(ec.getEnumerationTypeName(), baseTypeName)) {
 					continue;
 				}
-				if (MiscUtils.containsWord(ec.getEnumerationTypeName(), baseTypeName)) {
-					ec.setEnumerationTypeName(
-							MiscUtils.replaceWord(ec.getEnumerationTypeName(), baseTypeName, targetTypeName));
-				}
+				ec = (EnumerationCustomization) IOUtils.copyThroughSerialization(ec);
+				ec.setEnumerationTypeName(
+						MiscUtils.replaceWord(ec.getEnumerationTypeName(), baseTypeName, targetTypeName));
 			}
 			return result;
 		}

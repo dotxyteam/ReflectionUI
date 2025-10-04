@@ -2123,6 +2123,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		protected InfoProxyFactory factory = InfoProxyFactory.this;
 		protected IApplicationInfo base;
+		protected String name;
 
 		public GeneratedApplicationInfoProxy(IApplicationInfo appInfo) {
 			this.base = appInfo;
@@ -2135,7 +2136,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return InfoProxyFactory.this.getName(base);
+			if (name == null) {
+				name = InfoProxyFactory.this.getName(base);
+			}
+			return name;
 		}
 
 		@Override
@@ -2318,9 +2322,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		protected InfoProxyFactory factory = InfoProxyFactory.this;
 		protected ITypeInfo base;
+		protected String name;
 		protected List<IFieldInfo> fields;
 		protected List<IMethodInfo> methods;
 		protected List<IMethodInfo> constructors;
+		protected MenuModel menuModel;
 
 		public GeneratedBasicTypeInfoProxy(ITypeInfo type) {
 			this.base = type;
@@ -2333,7 +2339,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return InfoProxyFactory.this.getName(base);
+			if (name == null) {
+				name = InfoProxyFactory.this.getName(base);
+			}
+			return name;
 		}
 
 		@Override
@@ -2544,6 +2553,14 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
+		public MenuModel getMenuModel() {
+			if (menuModel == null) {
+				menuModel = InfoProxyFactory.this.getMenuModel(base);
+			}
+			return menuModel;
+		}
+
+		@Override
 		public String toString(Object object) {
 			return InfoProxyFactory.this.toString(base, object);
 		}
@@ -2571,11 +2588,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public MethodsLayout getMethodsLayout() {
 			return InfoProxyFactory.this.getMethodsLayout(base);
-		}
-
-		@Override
-		public MenuModel getMenuModel() {
-			return InfoProxyFactory.this.getMenuModel(base);
 		}
 
 		@Override
@@ -2852,6 +2864,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		protected IFieldInfo base;
 		protected ITypeInfo objectType;
+		protected String name;
 
 		public GeneratedFieldInfoProxy(IFieldInfo field, ITypeInfo objectType) {
 			this.base = field;
@@ -2860,7 +2873,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return InfoProxyFactory.this.getName(base, objectType);
+			if (name == null) {
+				name = InfoProxyFactory.this.getName(base, objectType);
+			}
+			return name;
 		}
 
 		@Override
@@ -3068,6 +3084,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		protected IMethodInfo base;
 		protected ITypeInfo objectType;
+		protected String name;
 
 		public GeneratedMethodInfoProxy(IMethodInfo method, ITypeInfo objectType) {
 			this.base = method;
@@ -3076,7 +3093,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return InfoProxyFactory.this.getName(base, objectType);
+			if (name == null) {
+				name = InfoProxyFactory.this.getName(base, objectType);
+			}
+			return name;
 		}
 
 		@Override
@@ -3283,6 +3303,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		protected IParameterInfo base;
 		protected IMethodInfo method;
 		protected ITypeInfo objectType;
+		protected String name;
 
 		public GeneratedParameterInfoProxy(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
 			this.base = param;
@@ -3292,7 +3313,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return InfoProxyFactory.this.getName(base, method, objectType);
+			if (name == null) {
+				name = InfoProxyFactory.this.getName(base, method, objectType);
+			}
+			return name;
 		}
 
 		@Override
@@ -3402,6 +3426,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		protected IEnumerationItemInfo base;
 		protected IEnumerationTypeInfo parentEnumType;
+		protected String name;
 
 		public GeneratedEnumerationItemInfoProxy(IEnumerationItemInfo base, IEnumerationTypeInfo parentEnumType) {
 			this.base = base;
@@ -3410,7 +3435,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return InfoProxyFactory.this.getName(base, parentEnumType);
+			if (name == null) {
+				name = InfoProxyFactory.this.getName(base, parentEnumType);
+			}
+			return name;
 		}
 
 		@Override
