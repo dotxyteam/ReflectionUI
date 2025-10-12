@@ -726,6 +726,12 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 		}
 
 		@Override
+		public IValidationJob getValueAbstractFormValidationJob(Object object) {
+			object = ((Value) object).getObject();
+			return super.getValueAbstractFormValidationJob(object);
+		}
+
+		@Override
 		public boolean isRelevant(Object object) {
 			object = ((Value) object).getObject();
 			return super.isRelevant(object);
@@ -853,6 +859,12 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 				result.add(param);
 			}
 			return result;
+		}
+
+		@Override
+		public IValidationJob getReturnValueAbstractFormValidationJob(Object object, Object returnValue) {
+			object = ((Value) object).getObject();
+			return super.getReturnValueAbstractFormValidationJob(object, returnValue);
 		}
 
 		@Override

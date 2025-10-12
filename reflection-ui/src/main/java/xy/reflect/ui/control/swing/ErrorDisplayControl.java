@@ -113,7 +113,7 @@ public class ErrorDisplayControl extends ControlPanel implements IAdvancedFieldC
 	public class ErrorDisplay {
 
 		public String get() {
-			return swingRenderer.prepareMessageToDisplay("An error occured: " + MiscUtils.getPrettyErrorMessage(error));
+			return swingRenderer.prepareMessageToDisplay(MiscUtils.getPrettyErrorMessage(error));
 		}
 
 		public void showErrorDetails() {

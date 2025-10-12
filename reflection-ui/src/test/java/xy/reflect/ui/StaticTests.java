@@ -120,7 +120,8 @@ public class StaticTests {
 				try {
 					proxyClass.getDeclaredMethod(method.getName(), method.getParameterTypes());
 				} catch (NoSuchMethodException e) {
-					Assert.fail(method + " is not implemented in " + proxyClass);
+					Assert.fail(method + " must be implemented in " + proxyClass
+							+ " (because, either the Object argument has to be mapped, or this method is systematically reimplemented by proxy classes)");
 				}
 			}
 		}

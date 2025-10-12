@@ -1,6 +1,5 @@
 <xy.ui.testing.Tester>
   <editingOptions>
-    <analyticsEnabled>true</analyticsEnabled>
     <controlsTheme>versatile</controlsTheme>
     <testableModalWindowsForcedToDocumentModality>true</testableModalWindowsForcedToDocumentModality>
     <testableWindowsAlwaysOnTopFeatureDisabled>true</testableWindowsAlwaysOnTopFeatureDisabled>
@@ -56,8 +55,16 @@
       </componentFinder>
       <disabled>false</disabled>
       <keyboardInteractions>
+        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
+          <altDown>false</altDown>
+          <altGrtDown>false</altGrtDown>
+          <ctrlDown>true</ctrlDown>
+          <keyName>KEY_A</keyName>
+          <metaDown>false</metaDown>
+          <shiftDown>false</shiftDown>
+        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
         <xy.ui.testing.action.component.SendKeysAction_-WriteText>
-          <text>4</text>
+          <text>1234</text>
         </xy.ui.testing.action.component.SendKeysAction_-WriteText>
       </keyboardInteractions>
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
@@ -86,14 +93,17 @@
       </componentFinder>
       <disabled>false</disabled>
       <keyboardInteractions>
-        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey>
+        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
           <altDown>false</altDown>
           <altGrtDown>false</altGrtDown>
-          <ctrlDown>false</ctrlDown>
-          <keyName>KEY_BACK_SPACE</keyName>
+          <ctrlDown>true</ctrlDown>
+          <keyName>KEY_A</keyName>
           <metaDown>false</metaDown>
           <shiftDown>false</shiftDown>
-        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey>
+        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>123</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
       </keyboardInteractions>
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
     </xy.ui.testing.action.component.SendKeysAction>
@@ -117,14 +127,17 @@
       </componentFinder>
       <disabled>false</disabled>
       <keyboardInteractions>
-        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey>
+        <xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
           <altDown>false</altDown>
           <altGrtDown>false</altGrtDown>
-          <ctrlDown>false</ctrlDown>
-          <keyName>KEY_BACK_SPACE</keyName>
+          <ctrlDown>true</ctrlDown>
+          <keyName>KEY_A</keyName>
           <metaDown>false</metaDown>
           <shiftDown>false</shiftDown>
-        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey>
+        </xy.ui.testing.action.component.SendKeysAction_-SpecialKey_-CtrlA>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>12</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
       </keyboardInteractions>
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
     </xy.ui.testing.action.component.SendKeysAction>
@@ -209,7 +222,6 @@
       <negated>false</negated>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>Set  - Execution</string>
         <string>the new value: </string>
         <string>124</string>
         <string>by the way change the virtual value: </string>
@@ -217,7 +229,6 @@
         <string>Undo</string>
         <string>Redo</string>
         <string>Reset</string>
-        <string>Set </string>
         <string>Cancel</string>
       </visibleStrings>
       <windowIndex>1</windowIndex>
@@ -279,7 +290,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Set </visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -293,12 +304,10 @@
       <completenessChecked>false</completenessChecked>
       <disabled>false</disabled>
       <negated>false</negated>
-      <orderChecked>true</orderChecked>
+      <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>234</string>
         <string>the new virtual value</string>
-        <string>234</string>
-        <string>234</string>
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
@@ -319,10 +328,11 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
-      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
-        <componentName>fieldsPanel [parent=form [objectType=CapsuleFieldType [context=EncapsulationContext [containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left]]]</componentName>
         <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Left</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -350,10 +360,11 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
-      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
-        <componentName>fieldsPanel [parent=form [objectType=CapsuleFieldType [context=EncapsulationContext [containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left]]]</componentName>
         <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Left</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>

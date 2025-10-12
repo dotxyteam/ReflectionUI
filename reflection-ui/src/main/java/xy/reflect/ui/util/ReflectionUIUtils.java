@@ -223,7 +223,9 @@ public class ReflectionUIUtils {
 			int i = 0;
 			char lastC = 0;
 			for (char c : identifier.toCharArray()) {
-				if (i == 0) {
+				if (Character.isWhitespace(c) || Character.isWhitespace(lastC)) {
+					result.append(c);
+				} else if (i == 0) {
 					result.append(Character.toUpperCase(c));
 				} else if (Character.isUpperCase(c) && !Character.isUpperCase(lastC)) {
 					result.append(" " + c);

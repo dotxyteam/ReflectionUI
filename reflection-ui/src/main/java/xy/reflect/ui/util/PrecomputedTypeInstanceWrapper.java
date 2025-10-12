@@ -18,6 +18,7 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
@@ -190,6 +191,20 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
+		protected void onFormCreation(ITypeInfo type, Object object, boolean beforeOrAfter) {
+			super.onFormCreation(type, ((PrecomputedTypeInstanceWrapper) object).getInstance(), beforeOrAfter);
+		}
+
+		@Override
+		protected IValidationJob getReturnValueAbstractFormValidationJob(IMethodInfo method, Object object,
+				Object returnValue, ITypeInfo objectType) {
+			return super.getReturnValueAbstractFormValidationJob(method,
+					ReflectionUIUtils.isConstructor(method) ? object
+							: ((PrecomputedTypeInstanceWrapper) object).getInstance(),
+					returnValue, objectType);
+		}
+
+		@Override
 		protected Object getDefaultValue(IParameterInfo param, Object object, IMethodInfo method,
 				ITypeInfo objectType) {
 			return super.getDefaultValue(param, ReflectionUIUtils.isConstructor(method) ? object
@@ -223,6 +238,13 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		@Override
 		protected Object[] getValueOptions(IFieldInfo field, Object object, ITypeInfo objectType) {
 			return super.getValueOptions(field, ((PrecomputedTypeInstanceWrapper) object).getInstance(), objectType);
+		}
+
+		@Override
+		protected IValidationJob getValueAbstractFormValidationJob(IFieldInfo field, Object object,
+				ITypeInfo objectType) {
+			return super.getValueAbstractFormValidationJob(field,
+					((PrecomputedTypeInstanceWrapper) object).getInstance(), objectType);
 		}
 
 		@Override

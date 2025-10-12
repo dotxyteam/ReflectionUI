@@ -700,6 +700,13 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
+		public IValidationJob getValueAbstractFormValidationJob(Object object) {
+			ListItem valueListItem = (ListItem) object;
+			object = valueListItem.getObject();
+			return super.getValueAbstractFormValidationJob(object);
+		}
+
+		@Override
 		public boolean isRelevant(Object object) {
 			ListItem valueListItem = (ListItem) object;
 			object = valueListItem.getObject();
