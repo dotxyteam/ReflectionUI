@@ -25,7 +25,13 @@ public class MenuItemSeparator extends JSeparator {
 
 	protected void customizeUI() {
 		Color backgroundColor = menuBarOwner.getControlsBackgroundColor();
+		if (backgroundColor == null) {
+			backgroundColor = swingRenderer.getMainBackgroundColor();
+		}
 		Color foregroundColor = menuBarOwner.getControlsForegroundColor();
+		if (foregroundColor == null) {
+			foregroundColor = swingRenderer.getMainForegroundColor();
+		}
 		if (backgroundColor != null) {
 			setBackground(backgroundColor);
 		}

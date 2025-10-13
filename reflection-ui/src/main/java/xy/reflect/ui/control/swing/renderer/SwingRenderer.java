@@ -573,8 +573,8 @@ public class SwingRenderer {
 						return null;
 					}
 					try {
-						type = reflectionUI.getTypeInfo(
-								new JavaTypeInfoSource(reflectionUI.getReflectedClass(className), null));
+						type = reflectionUI
+								.getTypeInfo(new JavaTypeInfoSource(reflectionUI.getReflectedClass(className), null));
 					} catch (ClassNotFoundException e) {
 						throw new ReflectionUIError(e);
 					}
@@ -1319,6 +1319,41 @@ public class SwingRenderer {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * @return the global background color (related to {@link #getReflectionUI()}
+	 *         and {@link IApplicationInfo#getMainBackgroundColor()}) or null.
+	 */
+	public Color getMainBackgroundColor() {
+		return (reflectionUI.getApplicationInfo().getMainBackgroundColor() != null)
+				? SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainBackgroundColor())
+				: null;
+	}
+
+	/**
+	 * @return the global foreground color (related to {@link #getReflectionUI()}
+	 *         and {@link IApplicationInfo#getMainForegroundColor()}) or null.
+	 */
+	public Color getMainForegroundColor() {
+		return (reflectionUI.getApplicationInfo().getMainForegroundColor() != null)
+				? SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainForegroundColor())
+				: null;
+	}
+
+	/**
+	 * @param c Any component.
+	 * @return the global label custom font (related to {@link #getReflectionUI()}
+	 *         and {@link IApplicationInfo#getLabelCustomFontResourcePath()})
+	 *         derived according the font attributes of the provided component or
+	 *         null.
+	 */
+	public Font getMainLabelCustomFont(Component c) {
+		return (reflectionUI.getApplicationInfo().getLabelCustomFontResourcePath() != null) ? SwingRendererUtils
+				.loadFontThroughCache(reflectionUI.getApplicationInfo().getLabelCustomFontResourcePath(),
+						ReflectionUIUtils.getErrorLogListener(reflectionUI), this)
+				.deriveFont(c.getFont().getStyle(), c.getFont().getSize()) : null;
+
 	}
 
 }

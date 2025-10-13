@@ -218,6 +218,28 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	@Override
+	public String getName() {
+		return getJavaType().getName();
+	}
+
+	@Override
+	public String getCaption() {
+		if (String.class.equals(getJavaType())) {
+			return "Text";
+		} else if (getJavaType().isPrimitive()) {
+			return ClassUtils.primitiveToWrapperClass(getJavaType()).getSimpleName();
+		} else if (getJavaType().isAnonymousClass()) {
+			ITypeInfo enclosingType = reflectionUI
+					.getTypeInfo(new JavaTypeInfoSource(getJavaType().getEnclosingClass(), null));
+			ITypeInfo baseType = reflectionUI
+					.getTypeInfo(new JavaTypeInfoSource(ClassUtils.getAnonymousClassBase(getJavaType()), null));
+			return ReflectionUIUtils.composeMessage(enclosingType.getCaption(), "Anonymous " + baseType.getCaption());
+		} else {
+			return ReflectionUIUtils.identifierToCaption(getJavaType().getSimpleName()).replaceAll(" *\\$+ *", " ");
+		}
+	}
+
+	@Override
 	public List<IMethodInfo> getConstructors() {
 		synchronized (mutex) {
 			if (constructors == null) {
@@ -262,7 +284,9 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 						throw new ReflectionUIError(e);
 					}
 				} else {
-					for (Constructor<?> javaConstructor : getJavaType().getConstructors()) {
+					Constructor<?>[] javaConstructors = getJavaType().getConstructors();
+					ReflectionUIUtils.sortConstructors(javaConstructors);
+					for (Constructor<?> javaConstructor : javaConstructors) {
 						if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor, getJavaType())) {
 							continue;
 						}
@@ -271,28 +295,6 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 				}
 			}
 			return constructors;
-		}
-	}
-
-	@Override
-	public String getName() {
-		return getJavaType().getName();
-	}
-
-	@Override
-	public String getCaption() {
-		if (String.class.equals(getJavaType())) {
-			return "Text";
-		} else if (getJavaType().isPrimitive()) {
-			return ClassUtils.primitiveToWrapperClass(getJavaType()).getSimpleName();
-		} else if (getJavaType().isAnonymousClass()) {
-			ITypeInfo enclosingType = reflectionUI
-					.getTypeInfo(new JavaTypeInfoSource(getJavaType().getEnclosingClass(), null));
-			ITypeInfo baseType = reflectionUI
-					.getTypeInfo(new JavaTypeInfoSource(ClassUtils.getAnonymousClassBase(getJavaType()), null));
-			return ReflectionUIUtils.composeMessage(enclosingType.getCaption(), "Anonymous " + baseType.getCaption());
-		} else {
-			return ReflectionUIUtils.identifierToCaption(getJavaType().getSimpleName()).replaceAll(" *\\$+ *", " ");
 		}
 	}
 

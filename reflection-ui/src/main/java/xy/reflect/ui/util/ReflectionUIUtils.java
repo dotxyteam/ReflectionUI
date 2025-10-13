@@ -2,6 +2,7 @@
 package xy.reflect.ui.util;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -176,26 +177,26 @@ public class ReflectionUIUtils {
 		if (!matcher.matches()) {
 			return null;
 		}
-		String paramListString = matcher.group(3);
-		if (!paramListString.equals(paramListString.trim())) {
+		String paramTypeListString = matcher.group(3);
+		if (!paramTypeListString.equals(paramTypeListString.trim())) {
 			throw new ReflectionUIError();
 		}
 		List<String> result = new ArrayList<String>();
-		if (paramListString.length() > 0) {
+		if (paramTypeListString.length() > 0) {
 			int openBracketCount = 0;
 			int parameterTypeNameStart = 0;
-			for (int i = 0; i < paramListString.length(); i++) {
-				if (paramListString.charAt(i) == '[') {
+			for (int i = 0; i < paramTypeListString.length(); i++) {
+				if (paramTypeListString.charAt(i) == '[') {
 					openBracketCount++;
-				} else if (paramListString.charAt(i) == ']') {
+				} else if ((paramTypeListString.charAt(i) == ']') || (paramTypeListString.charAt(i) == ';')) {
 					openBracketCount--;
-				} else if (paramListString.charAt(i) == ',') {
+				} else if (paramTypeListString.charAt(i) == ',') {
 					if (openBracketCount == 0) {
-						result.add(paramListString.substring(parameterTypeNameStart, i));
-						if ((i + 2) >= paramListString.length()) {
+						result.add(paramTypeListString.substring(parameterTypeNameStart, i));
+						if ((i + 2) >= paramTypeListString.length()) {
 							throw new ReflectionUIError();
 						}
-						if (paramListString.charAt(i + 1) != ' ') {
+						if (paramTypeListString.charAt(i + 1) != ' ') {
 							throw new ReflectionUIError();
 						}
 						parameterTypeNameStart = i + 2;
@@ -206,7 +207,7 @@ public class ReflectionUIUtils {
 			if (openBracketCount > 0) {
 				throw new ReflectionUIError();
 			}
-			result.add(paramListString.substring(parameterTypeNameStart));
+			result.add(paramTypeListString.substring(parameterTypeNameStart));
 		}
 		return result.toArray(new String[result.size()]);
 	}
@@ -346,6 +347,33 @@ public class ReflectionUIUtils {
 					return result;
 				}
 
+				return 0;
+			}
+		});
+	}
+
+	@SuppressWarnings({ "rawtypes" })
+	public static void sortConstructors(Constructor[] constructors) {
+		Arrays.sort(constructors, new Comparator<Constructor>() {
+			@Override
+			public int compare(Constructor m1, Constructor m2) {
+				int result;
+
+				List<String> parameterTypeNames1 = new ArrayList<String>();
+				for (Parameter param : m1.getParameters()) {
+					parameterTypeNames1.add(param.getType().getName());
+				}
+				Collections.sort(parameterTypeNames1);
+				List<String> parameterTypeNames2 = new ArrayList<String>();
+				for (Parameter param : m2.getParameters()) {
+					parameterTypeNames2.add(param.getType().getName());
+				}
+				Collections.sort(parameterTypeNames2);
+				result = MiscUtils.stringJoin(parameterTypeNames1, "\n")
+						.compareTo(MiscUtils.stringJoin(parameterTypeNames2, "\n"));
+				if (result != 0) {
+					return result;
+				}
 				return 0;
 			}
 		});

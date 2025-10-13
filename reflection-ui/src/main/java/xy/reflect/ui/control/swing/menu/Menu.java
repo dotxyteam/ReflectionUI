@@ -94,8 +94,17 @@ public class Menu extends JMenu {
 
 	protected void customizeUI() {
 		Color backgroundColor = menuBarOwner.getControlsBackgroundColor();
+		if (backgroundColor == null) {
+			backgroundColor = swingRenderer.getMainBackgroundColor();
+		}
 		Color foregroundColor = menuBarOwner.getControlsForegroundColor();
+		if (foregroundColor == null) {
+			foregroundColor = swingRenderer.getMainForegroundColor();
+		}
 		Font labelCustomFont = menuBarOwner.getLabelCustomFont();
+		if (labelCustomFont == null) {
+			labelCustomFont = swingRenderer.getMainLabelCustomFont(this);
+		}
 		if (backgroundColor != null) {
 			setBackground(backgroundColor);
 		}

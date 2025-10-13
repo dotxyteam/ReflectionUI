@@ -1119,15 +1119,6 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	protected Color getMainForeroundColor() {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		if (reflectionUI.getApplicationInfo().getMainForegroundColor() != null) {
-			return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainForegroundColor());
-		} else {
-			return new JPanel().getForeground();
-		}
-	}
-
 	protected Color getMainBorderColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		if (reflectionUI.getApplicationInfo().getMainBorderColor() != null) {
@@ -1151,11 +1142,14 @@ public class Form extends ImagePanel {
 	public Color getControlsForegroundColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if (type.getFormForegroundColor() == null) {
-			return getMainForeroundColor();
-		} else {
+		if (type.getFormForegroundColor() != null) {
 			return SwingRendererUtils.getColor(type.getFormForegroundColor());
 		}
+		Color result = swingRenderer.getMainForegroundColor();
+		if (result == null) {
+			result = new JPanel().getForeground();
+		}
+		return result;
 	}
 
 	public Color getControlsBackgroundColor() {
@@ -1503,14 +1497,14 @@ public class Form extends ImagePanel {
 			setImage(image);
 			setOpaque((backgroundColor != null) && (image == null));
 			Color borderColor = getControlsBorderColor();
-			{
-				if (scrollPane != null) {
-					if (borderColor != null) {
-						scrollPane.setBorder(BorderFactory.createLineBorder(borderColor));
-					} else {
-						scrollPane.setBorder(new JScrollPane().getBorder());
-					}
+			if (scrollPane != null) {
+				if (borderColor != null) {
+					scrollPane.setBorder(BorderFactory.createLineBorder(borderColor));
+				} else {
+					scrollPane.setBorder(new JScrollPane().getBorder());
 				}
+			}
+			{
 				menuBar.setBackground(backgroundColor);
 				menuBar.setOpaque(backgroundColor != null);
 				menuBar.setForeground(foregroundColor);
@@ -1523,6 +1517,7 @@ public class Form extends ImagePanel {
 					menuBar.setBorder(new JMenuBar().getBorder());
 				}
 				menuBar.removeAll();
+				// force menu bar update
 				menuBarUpdater = null;
 			}
 			{

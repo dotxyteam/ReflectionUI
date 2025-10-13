@@ -279,6 +279,9 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public void setValue(Object object, Object value) {
 		IMethodInfo setter = getSetterMethodInfo();
+		if (setter == null) {
+			throw new ReflectionUIError("Cannot set value: Setter not found for getter '" + javaGetterMethod + "'");
+		}
 		setter.invoke(object, new InvocationData(object, setter, value));
 	}
 

@@ -71,7 +71,7 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 	@Override
 	public String getCaption() {
 		String result = super.getCaption();
-		if((super.getParameters().size() == 0) && (generatedParameters.size() > 0) && !result.endsWith("...")) {
+		if ((super.getParameters().size() == 0) && (generatedParameters.size() > 0) && !result.endsWith("...")) {
 			result += "...";
 		}
 		return result;
@@ -114,16 +114,18 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 			newInvocationData.getProvidedParameterValues().remove(generatedParameter.getPosition());
 			newInvocationData.getDefaultParameterValues().remove(generatedParameter.getPosition());
 		}
+		Runnable baseMethodUndoJob = super.isReadOnly() ? new Runnable() {
+			@Override
+			public void run() {
+			}
+		} : super.getNextInvocationUndoJob(object, invocationData);
+		Object result = super.invoke(object, newInvocationData);
 		if (undoJobBuilder != null) {
-			undoJobBuilder.setOption(getBaseMethodUndoJobName(), super.isReadOnly() ? new Runnable() {
-				@Override
-				public void run() {
-				}
-			} : super.getNextInvocationUndoJob(object, invocationData));
+			undoJobBuilder.setOption(getBaseMethodUndoJobName(), baseMethodUndoJob);
 			undoJobBuilder.build();
 			undoJobBuilder = null;
 		}
-		return super.invoke(object, newInvocationData);
+		return result;
 	}
 
 	@Override
@@ -143,6 +145,26 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 		if (baseMethodUndoJob == null) {
 			throw new IrreversibleModificationException();
 		}
+		Runnable baseMethodRedoJob;
+		{
+			if (super.isReadOnly()) {
+				baseMethodRedoJob = new Runnable() {
+					@Override
+					public void run() {
+					}
+				};
+			} else {
+				baseMethodRedoJob = super.getPreviousInvocationCustomRedoJob(object, invocationData);
+				if (baseMethodRedoJob == null) {
+					baseMethodRedoJob = new Runnable() {
+						@Override
+						public void run() {
+							ParameterizedFieldsMethodInfo.super.invoke(object, invocationData);
+						}
+					};
+				}
+			}
+		}
 		baseMethodUndoJob.run();
 		for (int i = generatedParameters.size() - 1; i >= 0; i--) {
 			FieldAsParameterInfo generatedParameter = generatedParameters.get(i);
@@ -155,11 +177,7 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 			fieldUndoJob.run();
 		}
 		if (redoJobBuilder != null) {
-			redoJobBuilder.setOption(getBaseMethodRedoJobName(), super.isReadOnly() ? new Runnable() {
-				@Override
-				public void run() {
-				}
-			} : super.getNextInvocationUndoJob(object, invocationData));
+			redoJobBuilder.setOption(getBaseMethodRedoJobName(), baseMethodRedoJob);
 			redoJobBuilder.build();
 			redoJobBuilder = null;
 		}
