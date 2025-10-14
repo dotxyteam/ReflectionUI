@@ -13,17 +13,21 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Factory that generates virtual enumeration type information from the list of
- * descendants of the specified polymorphic type. The base polymorphic type
- * itself is added as an item to the resulting enumeration if it is a concrete
- * type. Note that it is then wrapped with a proxy that trigger a
+ * Factory that generates virtual enumeration (type information) from the list
+ * of descendants of the specified polymorphic type. The base polymorphic type
+ * itself is eligible as an item of the resulting enumeration. Abstract types
+ * are filtered out if {@link #onlyContreteSubTypes} is true.
+ * 
+ * Note that each item (type option) is wrapped by a proxy that triggers a
  * {@link RecursivePolymorphismDetectionException} when it is reused as the base
- * polymorphic type with another {@link PolymorphicTypeOptionsFactory}. This is
- * intended to prevent an infinite recursive enumeration of type options.
+ * polymorphic type of another {@link PolymorphicTypeOptionsFactory}. This is
+ * intended to prevent an infinite recursive enumeration of polymorphic type
+ * options.
  * 
  * @author olitank
  *
@@ -34,27 +38,24 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 			.getName() + ".POLYMORPHISM_EXPLORED_PROPERTY_KEY";
 
 	protected ITypeInfo polymorphicType;
+	protected boolean onlyContreteSubTypes;
 
-	public PolymorphicTypeOptionsFactory(ReflectionUI reflectionUI, ITypeInfo polymorphicType) {
-		super(reflectionUI, getTypeOptionsCollector(reflectionUI, polymorphicType),
+	public PolymorphicTypeOptionsFactory(ReflectionUI reflectionUI, ITypeInfo polymorphicType,
+			boolean onlyContreteSubTypes) {
+		super(reflectionUI, new TypeOptionsCollector(reflectionUI, polymorphicType, onlyContreteSubTypes),
 				"SubTypesEnumeration [polymorphicType=" + polymorphicType.getName() + "]", "", false, false);
 		this.polymorphicType = polymorphicType;
+		this.onlyContreteSubTypes = onlyContreteSubTypes;
 	}
 
-	protected static Iterable<ITypeInfo> getTypeOptionsCollector(ReflectionUI reflectionUI,
-			final ITypeInfo polymorphicType) {
-		return new TypeOptionsCollector(reflectionUI, polymorphicType);
-
-	}
-
-	protected static List<ITypeInfo> listConcreteDescendantTypes(ITypeInfo polymorphicType) {
+	protected static List<ITypeInfo> listDescendantTypes(ITypeInfo polymorphicType, boolean concreteOnly) {
 		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 		List<ITypeInfo> subTypes = polymorphicType.getPolymorphicInstanceSubTypes();
 		for (ITypeInfo subType : subTypes) {
-			if (subType.isConcrete()) {
+			if (!concreteOnly || subType.isConcrete()) {
 				result.add(subType);
 			}
-			result.addAll(listConcreteDescendantTypes(subType));
+			result.addAll(listDescendantTypes(subType, concreteOnly));
 		}
 		return result;
 	}
@@ -95,11 +96,15 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		return result;
 	}
 
-	protected static boolean isPolymorphismRecursivityDetected(ITypeInfo type, ReflectionUI reflectionUI) {
+	public static boolean isPolymorphismRecursivityDetected(ITypeInfo type, ReflectionUI reflectionUI) {
 		return reflectionUI.equals(type.getSpecificProperties().get(POLYMORPHISM_EXPLORED_WITH_PROPERTY_KEY));
 	}
 
-	public List<ITypeInfo> getConcreteTypeOptions() {
+	/**
+	 * @return the possible types (enumerated from this factory). Note that each
+	 *         base type precede its sub-types in the result.
+	 */
+	public List<ITypeInfo> getTypeOptions() {
 		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 		for (Object item : getOrLoadItems()) {
 			result.add((ITypeInfo) item);
@@ -109,53 +114,32 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
 	/**
 	 * @param instance The instance to analyze.
-	 * @return the type information among {@link #getConcreteTypeOptions()} that best fits
-	 *         the given instance. Note that the base polymorphic type may be a
-	 *         valid option (because it is a concrete type for instance). Descendant
-	 *         types have precedence over their ancestors. The actual instance type
-	 *         may also be a sub-type of one of the type options.
+	 * @return the type information among {@link #getTypeOptions()} that best fits
+	 *         the given instance. Note that descendant types have precedence over
+	 *         their ancestors and a type supporting the given instance may be
+	 *         returned even if the actual instance type is not one of this factory
+	 *         type options.
 	 * @throws ReflectionUIError If any ambiguity or inconsistency is detected.
 	 */
 	public ITypeInfo guessSubType(Object instance) throws ReflectionUIError {
-		List<ITypeInfo> options = new ArrayList<ITypeInfo>(getConcreteTypeOptions());
-		ITypeInfo polymorphicTypeAsValidOption = null;
-		ITypeInfo validSubType = null;
-		for (ITypeInfo type : options) {
+		ITypeInfo result = null;
+		for (ITypeInfo type : MiscUtils.getReverse(getTypeOptions())) {
 			if (type.supports(instance)) {
-				if (type.getName().equals(polymorphicType.getName())) {
-					polymorphicTypeAsValidOption = type;
+				if (result == null) {
+					result = type;
 				} else {
-					if (validSubType == null) {
-						validSubType = type;
-						continue;
-					}
-					if (listConcreteDescendantTypes(validSubType).contains(type)) {
-						validSubType = type;
-						continue;
-					}
-					if (listConcreteDescendantTypes(type).contains(validSubType)) {
-						continue;
+					for (ITypeInfo typeOption : new TypeOptionsCollector(reflectionUI, type, onlyContreteSubTypes)) {
+						if (typeOption.equals(result)) {
+							continue;
+						}
 					}
 					throw new ReflectionUIError(
 							"Failed to guess the polymorphic value type: Ambiguity detected: More than 1 valid types found:"
-									+ "\n- " + validSubType.getName() + "\n- " + type.getName());
+									+ "\n- " + result.getName() + "\n- " + type.getName());
 				}
 			}
 		}
-		if (validSubType != null) {
-			ITypeInfo actualType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(instance));
-			if (actualType.getName().equals(polymorphicType.getName())) {
-				throw new ReflectionUIError(
-						"Polymorphism inconsistency detected: The base type instance is supported by a sub-type : "
-								+ "\n- Base polymorphic type: " + polymorphicType.getName() + "\n- Detected sub-type: "
-								+ validSubType.getName() + "\n- Actual type: " + actualType.getName());
-			}
-			return validSubType;
-		}
-		if (polymorphicTypeAsValidOption != null) {
-			return polymorphicTypeAsValidOption;
-		}
-		return null;
+		return result;
 	}
 
 	@Override
@@ -200,19 +184,24 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 	protected static class TypeOptionsCollector implements Iterable<ITypeInfo> {
 		protected ReflectionUI reflectionUI;
 		protected ITypeInfo polymorphicType;
+		protected boolean onlyContreteSubTypes;
 
-		public TypeOptionsCollector(ReflectionUI reflectionUI, ITypeInfo polymorphicType) {
+		public TypeOptionsCollector(ReflectionUI reflectionUI, ITypeInfo polymorphicType,
+				boolean onlyContreteSubTypes) {
 			this.reflectionUI = reflectionUI;
 			this.polymorphicType = polymorphicType;
+			this.onlyContreteSubTypes = onlyContreteSubTypes;
 		}
 
 		@Override
 		public Iterator<ITypeInfo> iterator() {
 			List<ITypeInfo> result = new ArrayList<ITypeInfo>();
-			if (polymorphicType.isConcrete()) {
+			if (!onlyContreteSubTypes || polymorphicType.isConcrete()) {
 				result.add(0, preventPolymorphismRecursivity(reflectionUI, polymorphicType));
 			}
-			result.addAll(listConcreteDescendantTypes(polymorphicType));
+			for (ITypeInfo descendantType : listDescendantTypes(polymorphicType, onlyContreteSubTypes)) {
+				result.add(preventPolymorphismRecursivity(reflectionUI, descendantType));
+			}
 			return result.iterator();
 		}
 

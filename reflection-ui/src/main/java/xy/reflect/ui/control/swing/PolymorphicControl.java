@@ -77,7 +77,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	protected Throwable currentError;
 
 	public static boolean isCompatibleWith(ITypeInfo type, ReflectionUI reflectionUI) {
-		return new PolymorphicTypeOptionsFactory(reflectionUI, type).getConcreteTypeOptions().size() >= 2;
+		return !PolymorphicTypeOptionsFactory.isPolymorphismRecursivityDetected(type, reflectionUI)
+				&& type.getPolymorphicInstanceSubTypes().size() > 0;
 	}
 
 	public PolymorphicControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
@@ -107,7 +108,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			this.data = (BufferedFieldControlData) input.getControlData();
 			this.polymorphicType = input.getControlData().getType();
 			this.typeOptionsFactory = new PolymorphicTypeOptionsFactory(swingRenderer.getReflectionUI(),
-					polymorphicType);
+					polymorphicType, false);
 			setLayout(new BorderLayout());
 			refreshUI(true);
 		} catch (RecursivePolymorphismDetectionException e) {
@@ -219,7 +220,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				throw new ReflectionUIError(t);
 			}
 		};
-		ITypeInfo nonRecursivelyPolymorphicInstanceType = typeOptionsFactory.getConcreteTypeOptions().stream()
+		ITypeInfo nonRecursivelyPolymorphicInstanceType = typeOptionsFactory.getTypeOptions().stream()
 				.filter(type -> type.getName().equals(instanceType.getName())).findFirst().orElse(instanceType);
 		dynamicControlBuilder = new DynamicControlBuilder(swingRenderer, this, input,
 				nonRecursivelyPolymorphicInstanceType, commitExceptionHandler);
