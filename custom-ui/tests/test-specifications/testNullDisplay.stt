@@ -1,6 +1,5 @@
 <xy.ui.testing.Tester>
   <editingOptions>
-    <analyticsEnabled>true</analyticsEnabled>
     <controlsTheme>classic</controlsTheme>
     <testableModalWindowsForcedToDocumentModality>true</testableModalWindowsForcedToDocumentModality>
     <testableWindowsAlwaysOnTopFeatureDisabled>true</testableWindowsAlwaysOnTopFeatureDisabled>
@@ -608,9 +607,9 @@
         <string>Primitive Wrapper: </string>
         <string>&lt;HTML&gt;Customize (primitiveWrapper)&lt;/HTML&gt;</string>
         <string>Spinned: </string>
-        <string>0</string>
+        <string>0.0</string>
         <string>&lt;HTML&gt;Customize (spinned)&lt;/HTML&gt;</string>
-        <string>String: </string>
+        <string>String</string>
         <string>&lt;HTML&gt;Customize (string)&lt;/HTML&gt;</string>
         <string>List</string>
         <string>&lt;HTML&gt;Customize (list)&lt;/HTML&gt;</string>
@@ -619,9 +618,9 @@
         <string>Date Time: </string>
         <string>&lt;HTML&gt;Customize (dateTime)&lt;/HTML&gt;</string>
         <string>Enumerated</string>
-        <string>E1</string>
-        <string>E2</string>
-        <string>E3</string>
+        <string>E 1</string>
+        <string>E 2</string>
+        <string>E 3</string>
         <string>&lt;HTML&gt;Customize (enumerated)&lt;/HTML&gt;</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>

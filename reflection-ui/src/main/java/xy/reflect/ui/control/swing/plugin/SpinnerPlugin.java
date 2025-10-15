@@ -341,7 +341,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 				setValue(value);
 				return true;
 			} finally {
-				listenerDisabled = false;
+				listenerDisabled = false;				
 			}
 		}
 

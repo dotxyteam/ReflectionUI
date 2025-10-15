@@ -7,12 +7,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -21,7 +20,9 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * Factory that generates virtual enumeration (type information) from the list
  * of descendants of the specified polymorphic type. The base polymorphic type
  * itself is eligible as an item of the resulting enumeration. Abstract types
- * are filtered out if {@link #onlyContreteSubTypes} is true.
+ * are filtered out if
+ * {@link ITypeInfo#isPolymorphicInstanceAbstractTypeOptionAllowed()} returns
+ * false for the #{@link #polymorphicType}.
  * 
  * Note that each item (type option) is wrapped by a proxy that triggers a
  * {@link RecursivePolymorphismDetectionException} when it is reused as the base
@@ -38,14 +39,13 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 			.getName() + ".POLYMORPHISM_EXPLORED_PROPERTY_KEY";
 
 	protected ITypeInfo polymorphicType;
-	protected boolean onlyContreteSubTypes;
 
-	public PolymorphicTypeOptionsFactory(ReflectionUI reflectionUI, ITypeInfo polymorphicType,
-			boolean onlyContreteSubTypes) {
-		super(reflectionUI, new TypeOptionsCollector(reflectionUI, polymorphicType, onlyContreteSubTypes),
+	public PolymorphicTypeOptionsFactory(ReflectionUI reflectionUI, ITypeInfo polymorphicType) {
+		super(reflectionUI,
+				new TypeOptionsCollector(reflectionUI, polymorphicType,
+						!polymorphicType.isPolymorphicInstanceAbstractTypeOptionAllowed()),
 				"SubTypesEnumeration [polymorphicType=" + polymorphicType.getName() + "]", "", false, false);
 		this.polymorphicType = polymorphicType;
-		this.onlyContreteSubTypes = onlyContreteSubTypes;
 	}
 
 	protected static List<ITypeInfo> listDescendantTypes(ITypeInfo polymorphicType, boolean concreteOnly) {
@@ -64,10 +64,11 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		if (isPolymorphismRecursivityDetected(type, reflectionUI)) {
 			throw new RecursivePolymorphismDetectionException();
 		}
-		final ITypeInfoSource typeSource = type.getSource();
-		final ITypeInfo unwrappedType = typeSource.buildTypeInfo(reflectionUI);
-		final ITypeInfo[] blockedRecursivityType = new ITypeInfo[1];
-		blockedRecursivityType[0] = new InfoProxyFactory() {
+		return getPolymorphismRecursivityPreventingFactory(reflectionUI).wrapTypeInfo(type);
+	}
+
+	protected static InfoProxyFactory getPolymorphismRecursivityPreventingFactory(ReflectionUI reflectionUI) {
+		return new InfoProxyFactory() {
 			@Override
 			protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
 				return Collections.emptyList();
@@ -82,18 +83,10 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
 			@Override
 			public String getIdentifier() {
-				return "PolymorphismExplorationDetector [polymorphicType=" + type.getName() + "]";
+				return "PolymorphismExplorationDetector []";
 			}
 
-			@Override
-			protected ITypeInfoSource getSource(ITypeInfo type) {
-				return new PrecomputedTypeInfoSource(blockedRecursivityType[0],
-						typeSource.getSpecificitiesIdentifier());
-			}
-
-		}.wrapTypeInfo(unwrappedType);
-		ITypeInfo result = reflectionUI.getTypeInfo(blockedRecursivityType[0].getSource());
-		return result;
+		};
 	}
 
 	public static boolean isPolymorphismRecursivityDetected(ITypeInfo type, ReflectionUI reflectionUI) {
@@ -128,10 +121,13 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 				if (result == null) {
 					result = type;
 				} else {
-					for (ITypeInfo typeOption : new TypeOptionsCollector(reflectionUI, type, onlyContreteSubTypes)) {
-						if (typeOption.equals(result)) {
-							continue;
-						}
+					List<ITypeInfo> typeDescendants = listDescendantTypes(
+							getPolymorphismRecursivityPreventingFactory(reflectionUI).unwrapTypeInfo(type),
+							!polymorphicType.isPolymorphicInstanceAbstractTypeOptionAllowed()).stream()
+									.map(descendantType -> preventPolymorphismRecursivity(reflectionUI, descendantType))
+									.collect(Collectors.toList());
+					if (typeDescendants.contains(result)) {
+						continue;
 					}
 					throw new ReflectionUIError(
 							"Failed to guess the polymorphic value type: Ambiguity detected: More than 1 valid types found:"

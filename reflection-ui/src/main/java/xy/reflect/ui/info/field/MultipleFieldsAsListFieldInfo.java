@@ -607,6 +607,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
+		public boolean isPolymorphicInstanceAbstractTypeOptionAllowed() {
+			return false;
+		}
+
+		@Override
 		public String toString(Object object) {
 			return getItemTitle(field);
 		}

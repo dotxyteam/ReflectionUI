@@ -420,6 +420,11 @@ public class GenericEnumerationFactory {
 		}
 
 		@Override
+		public boolean isPolymorphicInstanceAbstractTypeOptionAllowed() {
+			return false;
+		}
+
+		@Override
 		public List<IMethodInfo> getMethods() {
 			return Collections.emptyList();
 		}

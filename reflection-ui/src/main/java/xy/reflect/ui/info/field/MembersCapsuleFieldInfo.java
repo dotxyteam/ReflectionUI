@@ -570,6 +570,11 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 		}
 
 		@Override
+		public boolean isPolymorphicInstanceAbstractTypeOptionAllowed() {
+			return false;
+		}
+
+		@Override
 		public String toString(Object object) {
 			ITypeInfo valueType = reflectionUI.getTypeInfo(getSource());
 			StringBuilder result = new StringBuilder();

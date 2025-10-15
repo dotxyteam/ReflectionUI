@@ -1320,6 +1320,17 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
+	protected boolean isPolymorphicInstanceAbstractTypeOptionAllowed(ITypeInfo type) {
+		TypeCustomization tc = InfoCustomizations.getTypeCustomization(this.accessInfoCustomizations(), type.getName());
+		if (tc != null) {
+			if (tc.isPolymorphicInstanceAbstractTypeOptionAllowed()) {
+				return true;
+			}
+		}
+		return super.isPolymorphicInstanceAbstractTypeOptionAllowed(type);
+	}
+
+	@Override
 	protected IListStructuralInfo getStructuralInfo(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
 		ListCustomization l = InfoCustomizations.getListCustomization(this.accessInfoCustomizations(),

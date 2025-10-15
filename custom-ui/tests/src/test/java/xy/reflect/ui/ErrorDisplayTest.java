@@ -73,7 +73,7 @@ public class ErrorDisplayTest {
 	private Date date = new GregorianCalendar(1983, Calendar.JANUARY, 20).getTime();
 	private Date dateTime = new GregorianCalendar(1983, Calendar.JANUARY, 20, 5, 0, 0).getTime();
 
-	private boolean accessErrorThrown = true;
+	private boolean accessErrorThrown = false;
 	private boolean updateErrorThrown = false;
 
 	public int getClassic() {

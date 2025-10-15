@@ -19,7 +19,8 @@ public class StandardMapEntry implements Comparable<StandardMapEntry> {
 	protected Object value;
 	protected Class<?>[] genericTypeParameters;
 
-	public StandardMapEntry() {
+	public StandardMapEntry(Class<?>[] genericTypeParameters) {
+		this(null, null, genericTypeParameters);
 	}
 
 	public StandardMapEntry(Object key, Object value, Class<?>[] genericTypeParameters) {

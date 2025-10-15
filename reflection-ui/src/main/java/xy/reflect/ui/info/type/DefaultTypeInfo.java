@@ -364,6 +364,11 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	@Override
+	public boolean isPolymorphicInstanceAbstractTypeOptionAllowed() {
+		return false;
+	}
+
+	@Override
 	public String toString(Object object) {
 		ReflectionUIUtils.checkInstance(this, object);
 		if (object instanceof String) {

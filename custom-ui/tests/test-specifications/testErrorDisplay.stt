@@ -1,6 +1,5 @@
 <xy.ui.testing.Tester>
   <editingOptions>
-    <analyticsEnabled>true</analyticsEnabled>
     <controlsTheme>classic</controlsTheme>
     <testableModalWindowsForcedToDocumentModality>true</testableModalWindowsForcedToDocumentModality>
     <testableWindowsAlwaysOnTopFeatureDisabled>true</testableWindowsAlwaysOnTopFeatureDisabled>
@@ -106,10 +105,26 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>1</firstItemToSelect>
       <lastItemToSelect>1</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Display</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Display</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -184,10 +199,26 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>1</firstItemToSelect>
       <lastItemToSelect>1</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Display</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Display</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -291,10 +322,30 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>5</firstItemToSelect>
       <lastItemToSelect>5</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Fields</string>
+        <string>Methods</string>
+        <string>Categories</string>
+        <string>Menus</string>
+        <string>Sub - Types</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Sub - Types</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -558,16 +609,32 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>1</firstItemToSelect>
       <lastItemToSelect>1</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Display</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Display</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Expand Generic Control</visibleString>
+        <visibleString>Expand (Embed Sub-Form)</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -722,7 +789,7 @@
       <negated>false</negated>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>&lt;HTML&gt;Runtime Error: getClassic&lt;/HTML&gt;</string>
+        <string>Runtime Error: getClassic</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -778,7 +845,7 @@
       <negated>false</negated>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>&lt;HTML&gt;Runtime Error: getSpinned&lt;/HTML&gt;</string>
+        <string>Runtime Error: getSpinned</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
@@ -824,7 +891,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>0</string>
-        <string>&lt;HTML&gt;Runtime Error: getNullable&lt;/HTML&gt;</string>
+        <string>Runtime Error: getNullable</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
@@ -883,7 +950,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>0</string>
-        <string>&lt;HTML&gt;Runtime Error: getNullable&lt;/HTML&gt;</string>
+        <string>Runtime Error: getNullable</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -937,7 +1004,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>0</string>
-        <string>&lt;HTML&gt;Runtime Error: getNullableWithNullLabel&lt;/HTML&gt;</string>
+        <string>Runtime Error: getNullableWithNullLabel</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
@@ -996,7 +1063,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>0</string>
-        <string>&lt;HTML&gt;Runtime Error: getNullableWithNullLabel&lt;/HTML&gt;</string>
+        <string>Runtime Error: getNullableWithNullLabel</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -1064,7 +1131,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>0</string>
-        <string>&lt;HTML&gt;Runtime Error: getPolymorphic&lt;/HTML&gt;</string>
+        <string>Runtime Error: getPolymorphic</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -1268,7 +1335,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>1983-01-20</string>
-        <string>&lt;HTML&gt;Runtime Error: getDate&lt;/HTML&gt;</string>
+        <string>Runtime Error: getDate</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -1344,7 +1411,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>1983-01-20 05:00:00</string>
-        <string>&lt;HTML&gt;Runtime Error: getDateTime&lt;/HTML&gt;</string>
+        <string>Runtime Error: getDateTime</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -1387,7 +1454,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>1983-01-21 06:00:01</string>
-        <string>&lt;HTML&gt;Runtime Error: getDateTime&lt;/HTML&gt;</string>
+        <string>Runtime Error: getDateTime</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
@@ -1680,7 +1747,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>2</string>
-        <string>&lt;HTML&gt;Runtime Error: setClassic&lt;/HTML&gt;</string>
+        <string>Runtime Error: setClassic</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
@@ -1724,7 +1791,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>2</string>
-        <string>&lt;HTML&gt;Runtime Error: setSpinned&lt;/HTML&gt;</string>
+        <string>Runtime Error: setSpinned</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
@@ -1753,7 +1820,7 @@
       <negated>false</negated>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>&lt;HTML&gt;Runtime Error: setNullable&lt;/HTML&gt;</string>
+        <string>Runtime Error: setNullable</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -1794,7 +1861,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>2</string>
-        <string>&lt;HTML&gt;Runtime Error: setNullable&lt;/HTML&gt;</string>
+        <string>Runtime Error: setNullable</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
@@ -1823,7 +1890,7 @@
       <negated>false</negated>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>&lt;HTML&gt;Runtime Error: setNullableWithNullLabel&lt;/HTML&gt;</string>
+        <string>Runtime Error: setNullableWithNullLabel</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -1867,7 +1934,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>1.2</string>
-        <string>&lt;HTML&gt;Runtime Error: setPolymorphic&lt;/HTML&gt;</string>
+        <string>Runtime Error: setPolymorphic</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -1906,7 +1973,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>2</string>
-        <string>&lt;HTML&gt;Runtime Error: setPolymorphic&lt;/HTML&gt;</string>
+        <string>Runtime Error: setPolymorphic</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -1943,7 +2010,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>2</string>
-        <string>&lt;HTML&gt;Runtime Error: setMutable&lt;/HTML&gt;</string>
+        <string>Runtime Error: setMutable</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -1986,7 +2053,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>1983-01-21</string>
-        <string>&lt;HTML&gt;Runtime Error: setDate&lt;/HTML&gt;</string>
+        <string>Runtime Error: setDate</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -2029,7 +2096,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>1983-01-20 05:00:01</string>
-        <string>&lt;HTML&gt;Runtime Error: setDateTime&lt;/HTML&gt;</string>
+        <string>Runtime Error: setDateTime</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
@@ -2299,14 +2366,14 @@
       <negated>false</negated>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>&lt;HTML&gt;Runtime Error: setClassic&lt;/HTML&gt;</string>
-        <string>&lt;HTML&gt;Runtime Error: setSpinned&lt;/HTML&gt;</string>
-        <string>&lt;HTML&gt;Runtime Error: setNullable&lt;/HTML&gt;</string>
-        <string>&lt;HTML&gt;Runtime Error: setNullableWithNullLabel&lt;/HTML&gt;</string>
-        <string>&lt;HTML&gt;Runtime Error: setPolymorphic&lt;/HTML&gt;</string>
-        <string>&lt;HTML&gt;Runtime Error: setMutable&lt;/HTML&gt;</string>
-        <string>&lt;HTML&gt;Runtime Error: setDate&lt;/HTML&gt;</string>
-        <string>&lt;HTML&gt;Runtime Error: setDateTime&lt;/HTML&gt;</string>
+        <string>Runtime Error: setClassic</string>
+        <string>Runtime Error: setSpinned</string>
+        <string>Runtime Error: setNullable</string>
+        <string>Runtime Error: setNullableWithNullLabel</string>
+        <string>Runtime Error: setPolymorphic</string>
+        <string>Runtime Error: setMutable</string>
+        <string>Runtime Error: setDate</string>
+        <string>Runtime Error: setDateTime</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.property.CheckComponentPropertyAction>

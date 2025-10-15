@@ -367,6 +367,11 @@ public class InvocationDataObjectFactory {
 		}
 
 		@Override
+		public boolean isPolymorphicInstanceAbstractTypeOptionAllowed() {
+			return false;
+		}
+
+		@Override
 		public String toString(Object object) {
 			Instance instance = (Instance) object;
 			return instance.invocationData.toString();

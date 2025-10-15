@@ -185,13 +185,20 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Arrays.asList(ReflectionUIUtils.getZeroParameterMethod(super.getConstructors()),
-				new StandardMapEntryConstructorInfo());
+		return Arrays.asList(new StandardMapEntryZeroParameterConstructorInfo(), new StandardMapEntryConstructorInfo());
 	}
 
-	protected Constructor<?> getStandardMapEntryJavaConstructor() {
+	protected Constructor<?> getStandardMapEntryJavaFullConstructor() {
 		try {
 			return StandardMapEntry.class.getConstructor(Object.class, Object.class, Class[].class);
+		} catch (Exception e) {
+			throw new ReflectionUIError(e);
+		}
+	}
+
+	protected Constructor<?> getStandardMapEntryJavaMinimalConstructor() {
+		try {
+			return StandardMapEntry.class.getConstructor(Class[].class);
 		} catch (Exception e) {
 			throw new ReflectionUIError(e);
 		}
@@ -243,7 +250,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	protected class StandardMapEntryConstructorInfo extends DefaultConstructorInfo {
 
 		public StandardMapEntryConstructorInfo() {
-			super(StandardMapEntryTypeInfo.this.reflectionUI, getStandardMapEntryJavaConstructor(),
+			super(StandardMapEntryTypeInfo.this.reflectionUI, getStandardMapEntryJavaFullConstructor(),
 					StandardMapEntry.class);
 		}
 
@@ -334,6 +341,42 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 		public String toString() {
 			return "StandardMapEntryConstructorInfo [keyJavaType=" + keyJavaType + ", valueJavaType=" + valueJavaType
 					+ "]";
+		}
+
+	}
+
+	protected class StandardMapEntryZeroParameterConstructorInfo extends DefaultConstructorInfo {
+
+		public StandardMapEntryZeroParameterConstructorInfo() {
+			super(StandardMapEntryTypeInfo.this.reflectionUI, getStandardMapEntryJavaMinimalConstructor(),
+					StandardMapEntry.class);
+		}
+
+		@Override
+		public String getSignature() {
+			return ReflectionUIUtils.buildMethodSignature(this);
+		}
+
+		@Override
+		public ITypeInfo getReturnValueType() {
+			return StandardMapEntryTypeInfo.this;
+		}
+
+		@Override
+		public List<IParameterInfo> getParameters() {
+			return Collections.emptyList();
+		}
+
+		@Override
+		public Object invoke(Object ignore, InvocationData invocationData) {
+			invocationData.getProvidedParameterValues().put(0, new Class[] { keyJavaType, valueJavaType });
+			return super.invoke(ignore, invocationData);
+		}
+
+		@Override
+		public String toString() {
+			return "StandardMapEntryZeroParameterConstructorInfo [keyJavaType=" + keyJavaType + ", valueJavaType="
+					+ valueJavaType + "]";
 		}
 
 	}

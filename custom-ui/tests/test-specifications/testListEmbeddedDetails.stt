@@ -315,7 +315,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Create Sub</visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -369,16 +369,33 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>1</firstItemToSelect>
       <lastItemToSelect>1</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Display</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Display</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
-        <componentName>fieldControl [field=formControlEmbeddingForced, parent=form [objectType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization], fieldName=form]]]</componentName>
         <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Expand (Embed Sub-Form)</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -446,10 +463,30 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>3</firstItemToSelect>
       <lastItemToSelect>3</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Fields</string>
+        <string>Methods</string>
+        <string>Categories</string>
+        <string>Menus</string>
+        <string>Sub - Types</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Categories</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>RIGHT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
@@ -527,7 +564,7 @@
         <string>Vertical</string>
       </knownOptions>
       <optionListChecked>false</optionListChecked>
-      <optionToSelect>Vertical</optionToSelect>
+      <optionToSelect>Modern &amp; Vertical</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
     <xy.ui.testing.action.component.ClickAction>
@@ -726,7 +763,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Create Sub</visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -767,7 +804,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Create Sub</visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -886,7 +923,7 @@
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
         <componentClassName class="null"/>
-        <componentName>fieldsPanel [parent=form [objectType=Encapsulation [context=FieldContext [fieldName=rows, containingType=xy.reflect.ui.ListEmbeddedDetailsTest], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.ListEmbeddedDetailsTest$Row]]]</componentName>
+        <componentName>fieldsPanel [parent=form [objectType=Encapsulation [context=FieldContext [fieldName=rows, objectType=xy.reflect.ui.ListEmbeddedDetailsTest], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.ListEmbeddedDetailsTest$Row]]]</componentName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -895,7 +932,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>General</string>
-        <string>strings</string>
+        <string>Strings</string>
         <string>Base</string>
         <string>Sub</string>
         <string>Sub Field: </string>
@@ -917,7 +954,7 @@
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
         <componentClassName class="null"/>
-        <componentName>fieldsPanel [parent=form [objectType=Encapsulation [context=FieldContext [fieldName=rows, containingType=xy.reflect.ui.ListEmbeddedDetailsTest], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.ListEmbeddedDetailsTest$Row]]]</componentName>
+        <componentName>fieldsPanel [parent=form [objectType=Encapsulation [context=FieldContext [fieldName=rows, objectType=xy.reflect.ui.ListEmbeddedDetailsTest], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.ListEmbeddedDetailsTest$Row]]]</componentName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -926,7 +963,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>General</string>
-        <string>strings</string>
+        <string>Strings</string>
         <string>Base</string>
         <string>Sub</string>
         <string>Sub Field: </string>

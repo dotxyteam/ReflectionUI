@@ -670,6 +670,11 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public boolean isPolymorphicInstanceAbstractTypeOptionAllowed() {
+			return false;
+		}
+
+		@Override
 		public boolean canCopy(Object object) {
 			Instance instance = (Instance) object;
 			return ReflectionUIUtils.canCopy(reflectionUI, instance.getValue());

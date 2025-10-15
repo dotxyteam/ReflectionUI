@@ -87,11 +87,11 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 					Class<?> keyClass = null;
 					Class<?> valueClass = null;
 					Class<?>[] genericParams = getGenericTypeParameters();
-					if ((genericParams != null) && (genericParams.length != 2)) {
-						throw new ReflectionUIError("Invalid generic type parameter array (expected 2 items) for "
-								+ StandardMapEntryTypeInfo.class.getName() + ": " + genericTypeParameters);
-					}
 					if (genericParams != null) {
+						if (genericParams.length != 2) {
+							throw new ReflectionUIError("Invalid generic type parameter array (expected 2 items) for "
+									+ StandardMapEntryTypeInfo.class.getName() + ": " + genericTypeParameters);
+						}
 						keyClass = genericParams[0];
 						valueClass = genericParams[1];
 					}

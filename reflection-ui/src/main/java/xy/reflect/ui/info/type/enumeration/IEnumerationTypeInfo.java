@@ -154,6 +154,11 @@ public interface IEnumerationTypeInfo extends ITypeInfo {
 		}
 
 		@Override
+		public boolean isPolymorphicInstanceAbstractTypeOptionAllowed() {
+			return false;
+		}
+
+		@Override
 		public MethodsLayout getMethodsLayout() {
 			return MethodsLayout.HORIZONTAL_FLOW;
 		}

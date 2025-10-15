@@ -108,7 +108,6 @@ public class CustomizingForm extends Form {
 			membersPanel.add(SwingRendererUtils.flowInLayout(typeCustomizationsControl, GridBagConstraints.CENTER),
 					BorderLayout.NORTH);
 		}
-		refreshTools();
 	}
 
 	protected void refreshTools() {

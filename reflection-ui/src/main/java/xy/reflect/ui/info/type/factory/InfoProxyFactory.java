@@ -1384,6 +1384,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	/**
+	 * @param type The type information.
+	 * @return the result of
+	 *         {@link ITypeInfo#isPolymorphicInstanceAbstractTypeOptionAllowed()}
+	 *         unless overridden.
+	 */
+	protected boolean isPolymorphicInstanceAbstractTypeOptionAllowed(ITypeInfo type) {
+		return type.isPolymorphicInstanceAbstractTypeOptionAllowed();
+	}
+
+	/**
 	 * @param type   The type information.
 	 * @param object Parameter of {@link ITypeInfo#supports(Object)}.
 	 * @return the result of {@link ITypeInfo#supports(Object)} unless overridden.
@@ -2508,6 +2518,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public boolean isValidationRequired() {
 			return InfoProxyFactory.this.isValidationRequired(base);
+		}
+
+		@Override
+		public boolean isPolymorphicInstanceAbstractTypeOptionAllowed() {
+			return InfoProxyFactory.this.isPolymorphicInstanceAbstractTypeOptionAllowed(base);
 		}
 
 		@Override

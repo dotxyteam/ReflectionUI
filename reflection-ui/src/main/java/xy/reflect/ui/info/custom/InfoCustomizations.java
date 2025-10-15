@@ -1619,12 +1619,22 @@ public class InfoCustomizations implements Serializable {
 		protected boolean validationRequirementForced = false;
 		protected List<ImportedFieldDeclaration> importedFieldDeclarations = new ArrayList<ImportedFieldDeclaration>();
 		protected List<ImportedMethodDeclaration> importedMethodDeclarations = new ArrayList<ImportedMethodDeclaration>();
+		protected boolean polymorphicInstanceAbstractTypeOptionAllowed = false;
 
 		@Override
 		public boolean isInitial() {
 			TypeCustomization defaultTypeCustomization = new TypeCustomization();
 			defaultTypeCustomization.typeName = typeName;
 			return InfoCustomizations.isSimilar(this, defaultTypeCustomization, "typeName");
+		}
+
+		public boolean isPolymorphicInstanceAbstractTypeOptionAllowed() {
+			return polymorphicInstanceAbstractTypeOptionAllowed;
+		}
+
+		public void setPolymorphicInstanceAbstractTypeOptionAllowed(
+				boolean polymorphicInstanceAbstractTypeOptionAllowed) {
+			this.polymorphicInstanceAbstractTypeOptionAllowed = polymorphicInstanceAbstractTypeOptionAllowed;
 		}
 
 		@XmlElement(name = "importedFieldDeclaration")

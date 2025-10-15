@@ -717,6 +717,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
+		public boolean isPolymorphicInstanceAbstractTypeOptionAllowed() {
+			return false;
+		}
+
+		@Override
 		public List<IMethodInfo> getMethods() {
 			return Collections.emptyList();
 		}

@@ -108,7 +108,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			this.data = (BufferedFieldControlData) input.getControlData();
 			this.polymorphicType = input.getControlData().getType();
 			this.typeOptionsFactory = new PolymorphicTypeOptionsFactory(swingRenderer.getReflectionUI(),
-					polymorphicType, false);
+					polymorphicType);
 			setLayout(new BorderLayout());
 			refreshUI(true);
 		} catch (RecursivePolymorphismDetectionException e) {

@@ -487,8 +487,7 @@ public class SwingRenderer {
 		try {
 			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
 
-				PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(reflectionUI, type,
-						false);
+				PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(reflectionUI, type);
 				List<ITypeInfo> polyTypes = enumFactory.getTypeOptions();
 
 				if (polyTypes.size() == 1) {
@@ -599,8 +598,7 @@ public class SwingRenderer {
 	 */
 	public boolean isDecisionRequiredOnTypeInstantiationRequest(ITypeInfo type) {
 		if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
-			final PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(reflectionUI, type,
-					false);
+			final PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(reflectionUI, type);
 			List<ITypeInfo> polyTypes = enumFactory.getTypeOptions();
 			if (polyTypes.size() == 1) {
 				return isDecisionRequiredOnTypeInstantiationRequest(polyTypes.get(0));

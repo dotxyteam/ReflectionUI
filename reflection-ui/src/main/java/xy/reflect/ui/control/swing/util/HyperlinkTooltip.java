@@ -1,6 +1,7 @@
 package xy.reflect.ui.control.swing.util;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
@@ -13,7 +14,6 @@ import java.util.Arrays;
 import java.util.WeakHashMap;
 import java.util.function.Function;
 
-import javax.swing.JComponent;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -27,19 +27,19 @@ public class HyperlinkTooltip {
 	protected static int MILLISECONDS_BEFORE_CLOSING = Integer
 			.valueOf(System.getProperty(HyperlinkTooltip.class.getName() + ".MILLISECONDS_BEFORE_CLOSING", "500"));
 
-	protected static final WeakHashMap<JComponent, HyperlinkTooltip> BY_COMPONENT = new WeakHashMap<>();
+	protected static final WeakHashMap<Component, HyperlinkTooltip> BY_COMPONENT = new WeakHashMap<>();
 
 	protected final String message;
 	protected final Runnable linkOpener;
 	protected Object customValue;
-	protected Function<JComponent, Rectangle> customComponentResponsiveBoundsMapper;
+	protected Function<Component, Rectangle> customComponentResponsiveBoundsMapper;
 
 	protected final JWindow window;
 	protected final MouseMotionListener mouseMotionListener;
 	protected Timer showingTimer;
 	protected Timer hidingTimer;
 
-	protected HyperlinkTooltip(JComponent component, String message, Runnable linkOpener) {
+	protected HyperlinkTooltip(Component component, String message, Runnable linkOpener) {
 		this.message = message;
 		this.linkOpener = linkOpener;
 		this.window = new JWindow(SwingUtilities.getWindowAncestor(component));
@@ -119,7 +119,7 @@ public class HyperlinkTooltip {
 
 	}
 
-	protected Rectangle getComponentResponsiveBoundsOnScreen(JComponent component) {
+	protected Rectangle getComponentResponsiveBoundsOnScreen(Component component) {
 		Rectangle result = component.getBounds();
 		result.setLocation(component.getLocationOnScreen());
 		if (customComponentResponsiveBoundsMapper != null) {
@@ -135,7 +135,7 @@ public class HyperlinkTooltip {
 		return result;
 	}
 
-	protected boolean isConnectedTo(JComponent component) {
+	protected boolean isConnectedTo(Component component) {
 		return Arrays.asList(component.getMouseMotionListeners()).contains(mouseMotionListener);
 	}
 
@@ -167,12 +167,12 @@ public class HyperlinkTooltip {
 		this.customValue = customValue;
 	}
 
-	public Function<JComponent, Rectangle> getCustomComponentResponsiveBoundsMapper() {
+	public Function<Component, Rectangle> getCustomComponentResponsiveBoundsMapper() {
 		return customComponentResponsiveBoundsMapper;
 	}
 
 	public void setCustomComponentResponsiveBoundsMapper(
-			Function<JComponent, Rectangle> customComponentResponsiveBoundsMapper) {
+			Function<Component, Rectangle> customComponentResponsiveBoundsMapper) {
 		this.customComponentResponsiveBoundsMapper = customComponentResponsiveBoundsMapper;
 	}
 
@@ -188,12 +188,12 @@ public class HyperlinkTooltip {
 		return hidingTimer;
 	}
 
-	public static void set(JComponent component, String message, Runnable linkOpener) {
+	public static void set(Component component, String message, Runnable linkOpener) {
 		unset(component);
 		BY_COMPONENT.put(component, new HyperlinkTooltip(component, message, linkOpener));
 	}
 
-	public static void unset(JComponent component) {
+	public static void unset(Component component) {
 		HyperlinkTooltip tooltip = BY_COMPONENT.remove(component);
 		if (tooltip != null) {
 			component.removeMouseMotionListener(tooltip.mouseMotionListener);
@@ -202,7 +202,7 @@ public class HyperlinkTooltip {
 		}
 	}
 
-	public static HyperlinkTooltip get(JComponent comp) {
+	public static HyperlinkTooltip get(Component comp) {
 		return BY_COMPONENT.get(comp);
 	}
 }

@@ -140,6 +140,11 @@ public interface ITypeInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isPolymorphicInstanceAbstractTypeOptionAllowed() {
+			return false;
+		}
+
+		@Override
 		public MethodsLayout getMethodsLayout() {
 			return MethodsLayout.HORIZONTAL_FLOW;
 		}
@@ -379,6 +384,12 @@ public interface ITypeInfo extends IInfo {
 	 * @return the list of known types derived from the current one.
 	 */
 	List<ITypeInfo> getPolymorphicInstanceSubTypes();
+
+	/**
+	 * @return in the case where this type is polymorphic, whether abstract types
+	 *         could be used to characterize its instances.
+	 */
+	public boolean isPolymorphicInstanceAbstractTypeOptionAllowed();
 
 	/**
 	 * @param object Any object of the current type (not null).

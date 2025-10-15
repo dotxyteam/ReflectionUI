@@ -892,8 +892,7 @@ public class SwingRendererUtils {
 				if (error == null) {
 					changeDetected = true;
 				} else {
-					changeDetected = MiscUtils.getPrintedStackTrace(error)
-							.equals(MiscUtils.getPrintedStackTrace(error));
+					changeDetected = !MiscUtils.sameExceptionOrBothNull(oldError, error);
 				}
 			}
 		}
