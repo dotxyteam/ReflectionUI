@@ -118,7 +118,7 @@ public class ComboBoxControl extends ControlPanel implements IAdvancedFieldContr
 				}
 				label.setIcon(getValueIcon(value));
 				if ((value != null) && !possibleValues.contains(value)) {
-					label.setBorder(swingRenderer.getErrorBorder());
+					SwingRendererUtils.setErrorBorder(label, swingRenderer);
 				} else {
 					label.setBorder(null);
 				}

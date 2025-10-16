@@ -1,6 +1,7 @@
 
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.event.FocusEvent;
@@ -28,6 +29,7 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -100,7 +102,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		}
 	}
 
-	public class Spinner extends JSpinner implements IAdvancedFieldControl {
+	public class Spinner extends ControlPanel implements IAdvancedFieldControl {
 		private static final long serialVersionUID = 1L;
 
 		protected SwingRenderer swingRenderer;
@@ -111,6 +113,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		protected ReschedulableTask dataUpdateProcess;
 		protected Throwable currentConversionError;
 		protected Throwable currentDataError;
+		protected JSpinner internalSpinner;
 
 		protected SpinnerConfiguration controlCustomization;
 
@@ -128,7 +131,9 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			} catch (ClassNotFoundException e1) {
 				throw new ReflectionUIError(e1);
 			}
-			setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+			setLayout(new BorderLayout());
+			add(internalSpinner = new JSpinner(), BorderLayout.CENTER);
+			internalSpinner.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 			setupEvents();
 			refreshUI(true);
 		}
@@ -143,7 +148,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		}
 
 		protected void setupEvents() {
-			addChangeListener(new ChangeListener() {
+			internalSpinner.addChangeListener(new ChangeListener() {
 				@Override
 				public void stateChanged(ChangeEvent e) {
 					try {
@@ -153,12 +158,12 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 					}
 				}
 			});
-			addPropertyChangeListener(new PropertyChangeListener() {
+			internalSpinner.addPropertyChangeListener(new PropertyChangeListener() {
 
 				@Override
 				public void propertyChange(PropertyChangeEvent evt) {
 					if ("editor".equals(evt.getPropertyName())) {
-						JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) Spinner.this.getEditor();
+						JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) internalSpinner.getEditor();
 						final JFormattedTextField textField = (JFormattedTextField) editor.getTextField();
 						textField.setFormatterFactory(new DefaultFormatterFactory(getNumberFormatter()));
 						textField.setHorizontalAlignment(JTextField.LEFT);
@@ -179,7 +184,8 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 											Object value;
 											try {
 												value = formatter.stringToValue(string);
-												SpinnerNumberModel spinnerNumberModel = (SpinnerNumberModel) getModel();
+												SpinnerNumberModel spinnerNumberModel = (SpinnerNumberModel) internalSpinner
+														.getModel();
 												if (((Comparable) value)
 														.compareTo(spinnerNumberModel.getMaximum()) > 0) {
 													value = spinnerNumberModel.getMaximum();
@@ -198,7 +204,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 												updateErrorDisplay();
 											}
 											int caretPosition = textField.getCaretPosition();
-											Spinner.this.setValue(value);
+											internalSpinner.setValue(value);
 											textField.setCaretPosition(
 													Math.min(caretPosition, textField.getText().length()));
 										} catch (Throwable t) {
@@ -273,46 +279,50 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 					Number maximum = getConvertedNumber(controlCustomization.maximum);
 					Number stepSize = getConvertedNumber(controlCustomization.stepSize);
 					Number value = minimum;
-					setModel(new SpinnerNumberModel(value, (Comparable<?>) minimum, (Comparable<?>) maximum, stepSize));
-					setEnabled(!data.isGetOnly());
+					internalSpinner.setModel(
+							new SpinnerNumberModel(value, (Comparable<?>) minimum, (Comparable<?>) maximum, stepSize));
+					internalSpinner.setEnabled(!data.isGetOnly());
 					if (data.getBorderColor() != null) {
 						setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
 					} else {
 						setBorder(new JSpinner().getBorder());
 					}
 					if (data.isGetOnly()) {
-						getEditor().getComponent(0)
+						internalSpinner.getEditor().getComponent(0)
 								.setBackground(new JSpinner().getEditor().getComponent(0).getBackground());
-						getEditor().getComponent(0)
+						internalSpinner.getEditor().getComponent(0)
 								.setForeground(new JSpinner().getEditor().getComponent(0).getForeground());
 					} else {
 						if (data.getEditorBackgroundColor() != null) {
-							getEditor().getComponent(0)
+							internalSpinner.getEditor().getComponent(0)
 									.setBackground(SwingRendererUtils.getColor(data.getEditorBackgroundColor()));
 						} else {
-							getEditor().getComponent(0)
+							internalSpinner.getEditor().getComponent(0)
 									.setBackground(new JSpinner().getEditor().getComponent(0).getBackground());
 						}
 						if (data.getEditorForegroundColor() != null) {
-							getEditor().getComponent(0)
+							internalSpinner.getEditor().getComponent(0)
 									.setForeground(SwingRendererUtils.getColor(data.getEditorForegroundColor()));
 						} else {
-							getEditor().getComponent(0)
+							internalSpinner.getEditor().getComponent(0)
 									.setForeground(new JSpinner().getEditor().getComponent(0).getForeground());
 						}
 					}
 					if (data.getEditorCustomFontResourcePath() != null) {
-						getEditor().getComponent(0)
+						internalSpinner.getEditor().getComponent(0)
 								.setFont(
 										SwingRendererUtils
 												.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
 														ReflectionUIUtils.getErrorLogListener(
 																swingRenderer.getReflectionUI()),
 														swingRenderer)
-												.deriveFont(getEditor().getComponent(0).getFont().getStyle(),
-														getEditor().getComponent(0).getFont().getSize()));
+												.deriveFont(
+														internalSpinner.getEditor().getComponent(0).getFont()
+																.getStyle(),
+														internalSpinner.getEditor().getComponent(0).getFont()
+																.getSize()));
 					} else {
-						getEditor().getComponent(0).setFont(new JFormattedTextField().getFont());
+						internalSpinner.getEditor().getComponent(0).setFont(new JFormattedTextField().getFont());
 					}
 				}
 				if (dataUpdateProcess.isActive()) {
@@ -323,7 +333,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 					 */
 					return true;
 				}
-				SpinnerNumberModel spinnerNumberModel = (SpinnerNumberModel) getModel();
+				SpinnerNumberModel spinnerNumberModel = (SpinnerNumberModel) internalSpinner.getModel();
 				Number value = (Number) data.getValue();
 				if (value == null) {
 					value = (Number) spinnerNumberModel.getMinimum();
@@ -338,10 +348,10 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 				}
 				currentConversionError = null;
 				updateErrorDisplay();
-				setValue(value);
+				internalSpinner.setValue(value);
 				return true;
 			} finally {
-				listenerDisabled = false;				
+				listenerDisabled = false;
 			}
 		}
 
@@ -356,15 +366,19 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		}
 
 		protected void updateErrorDisplay() {
+			JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) internalSpinner.getEditor();
+			final JFormattedTextField textField = (JFormattedTextField) editor.getTextField();
 			if (currentConversionError != null) {
-				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentConversionError, swingRenderer);
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, textField, currentConversionError,
+						swingRenderer);
 				return;
 			}
 			if (currentDataError != null) {
-				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentDataError, swingRenderer);
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, textField, currentDataError,
+						swingRenderer);
 				return;
 			}
-			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, null, swingRenderer);
+			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, textField, null, swingRenderer);
 		}
 
 		@Override
@@ -393,7 +407,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		}
 
 		protected void commitChanges() {
-			Object value = ConversionUtils.convertNumberToTargetClass((Number) Spinner.this.getValue(), numberClass);
+			Object value = ConversionUtils.convertNumberToTargetClass((Number) internalSpinner.getValue(), numberClass);
 			data.setValue(value);
 		}
 

@@ -425,7 +425,7 @@ public class Form extends ImagePanel {
 								}
 							} catch (Exception e) {
 								if (!(e instanceof ValidationErrorWrapper)) {
-									fieldControlPlaceHolder.setBorder(swingRenderer.getErrorBorder());
+									SwingRendererUtils.setErrorBorder(fieldControlPlaceHolder, swingRenderer);
 								}
 								String contextCaption = null;
 								IFieldInfo field = fieldControlPlaceHolder.getField();
@@ -462,7 +462,7 @@ public class Form extends ImagePanel {
 									methodControlPlaceHolder.setBorder(null);
 								}
 							} catch (Exception e) {
-								methodControlPlaceHolder.setBorder(swingRenderer.getErrorBorder());
+								SwingRendererUtils.setErrorBorder(methodControlPlaceHolder, swingRenderer);
 								String contextCaption = null;
 								IMethodInfo method = methodControlPlaceHolder.getMethod();
 								if (method.getCaption().length() > 0) {
@@ -605,7 +605,8 @@ public class Form extends ImagePanel {
 		Exception previousError = (Exception) ((HyperlinkLabel) statusBar).getCustomValue();
 		boolean statusUpdateRequired;
 		try {
-			statusUpdateRequired = !MiscUtils.sameExceptionOrBothNull(error, previousError);
+			statusUpdateRequired = !MiscUtils.sameExceptionOrBothNull(error, previousError,
+					swingRenderer.getReflectionUI());
 		} catch (Exception e) {
 			swingRenderer.getReflectionUI().logDebug(
 					"WARNING: Failed to compare exceptions '" + error + "' and '" + previousError + "': " + e);

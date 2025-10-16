@@ -435,20 +435,22 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 	 * @param newContainingListRawValue The array that contains the items that
 	 *                                  should replace all the containing list
 	 *                                  items.
+	 * @return the containing list updated or new reference.
 	 */
-	public void updateContainingList(Object[] newContainingListRawValue) {
+	public Object updateContainingList(Object[] newContainingListRawValue) {
 		if (!isContainingListEditable()) {
 			throw new ReflectionUIError();
 		}
-		
+
 		boolean done = false;
+		Object containingListValue = null;
 		ItemPosition parentItemPosition = getParentItemPosition();
 		Object parentItem = isRoot() ? null : parentItemPosition.getItem();
 
 		checkContainingListRawValue(newContainingListRawValue);
 		IListTypeInfo listType = getContainingListType();
 		if (listType.canReplaceContent()) {
-			Object containingListValue = retrieveContainingListValue();
+			containingListValue = retrieveContainingListValue();
 			if (containingListValue != null) {
 				if (!done) {
 					if (ValueReturnMode.isDirectOrProxy(geContainingListReturnMode())) {
@@ -472,7 +474,7 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 		if (!done) {
 			if (listType.canInstantiateFromArray()) {
 				if (!isContainingListGetOnly()) {
-					Object containingListValue = listType.fromArray(newContainingListRawValue);
+					containingListValue = listType.fromArray(newContainingListRawValue);
 					if (isRoot()) {
 						getFactory().setRootListValue(containingListValue);
 					} else {
@@ -494,6 +496,8 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 			}
 			parentItemPosition.updateContainingList(parentItemContainingListRawValue);
 		}
+
+		return containingListValue;
 	}
 
 	/**

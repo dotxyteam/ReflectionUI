@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.item;
 
 import java.util.List;
@@ -152,8 +150,8 @@ public class ItemPositionProxy extends ItemPosition {
 		return base.isStable();
 	}
 
-	public void updateContainingList(Object[] newContainingListRawValue) {
-		base.updateContainingList(newContainingListRawValue);
+	public Object updateContainingList(Object[] newContainingListRawValue) {
+		return base.updateContainingList(newContainingListRawValue);
 	}
 
 	public void checkContainingListRawValue(Object[] listRawValue) {

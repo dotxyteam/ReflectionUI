@@ -1,12 +1,10 @@
 
 package xy.reflect.ui.control;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
-import javax.swing.border.CompoundBorder;
-
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -91,13 +89,8 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 	 *              present.
 	 */
 	protected void handleError(final Throwable error) {
-		try {
-			if (MiscUtils.sameExceptionOrBothNull(error, currentlyDisplayedError)) {
-				return;
-			}
-		} catch (Exception e) {
-			swingRenderer.getReflectionUI().logDebug("WARNING: Failed to compare exceptions '" + error + "' and '"
-					+ currentlyDisplayedError + "': " + e);
+		if (isErrorAlreadyDisplayed(error)) {
+			return;
 		}
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -108,13 +101,22 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 		});
 	}
 
+	protected boolean isErrorAlreadyDisplayed(Throwable error) {
+		try {
+			return MiscUtils.sameExceptionOrBothNull(error, currentlyDisplayedError, swingRenderer.getReflectionUI());
+		} catch (Exception e) {
+			swingRenderer.getReflectionUI().logDebug("WARNING: Failed to compare exceptions '" + error + "' and '"
+					+ currentlyDisplayedError + "': " + e);
+			return false;
+		}
+	}
+
 	protected void displayError(Throwable error) {
 		if (currentlyDisplayedError != null) {
-			errorDialogOwner.setBorder(((CompoundBorder) errorDialogOwner.getBorder()).getOutsideBorder());
+			SwingRendererUtils.unsetErrorBorder(errorDialogOwner, swingRenderer);
 		}
 		if (error != null) {
-			errorDialogOwner.setBorder(
-					BorderFactory.createCompoundBorder(errorDialogOwner.getBorder(), swingRenderer.getErrorBorder()));
+			SwingRendererUtils.setErrorBorder(errorDialogOwner, swingRenderer);
 			showErrorDialog(error);
 		}
 	}

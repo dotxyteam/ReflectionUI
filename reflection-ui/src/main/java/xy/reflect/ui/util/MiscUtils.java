@@ -426,14 +426,15 @@ public class MiscUtils {
 		return text.replaceAll("\\b" + escapeRegex(word) + "\\b", escapeRegexReplacement(replacement));
 	}
 
-	public static boolean sameExceptionOrBothNull(Throwable error1, Throwable error2) {
+	public static boolean sameExceptionOrBothNull(Throwable error1, Throwable error2, ReflectionUI reflectionUI)
+			throws Exception {
 		if (error1 == null) {
 			return error2 == null;
 		}
 		if (error2 == null) {
 			return false;
 		}
-		if(!ReflectionUIUtils.equalsAccordingInfos(error1, error2, ReflectionUI.getDefault(), IInfoFilter.DEFAULT)) {
+		if (!ReflectionUIUtils.equalsAccordingInfos(error1, error2, reflectionUI, IInfoFilter.DEFAULT)) {
 			return false;
 		}
 		return true;

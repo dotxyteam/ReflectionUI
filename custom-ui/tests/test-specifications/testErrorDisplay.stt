@@ -1324,9 +1324,8 @@
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
-      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
-        <componentClassName class="null"/>
-        <componentName>dateField</componentName>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>org.jdesktop.swingx.JXDatePicker</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -1367,9 +1366,8 @@
     </xy.ui.testing.action.WaitAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
-      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
-        <componentClassName class="null"/>
-        <componentName>dateField</componentName>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>org.jdesktop.swingx.JXDatePicker</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -1378,7 +1376,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>1983-01-21</string>
-        <string>&lt;HTML&gt;Runtime Error: getDate&lt;/HTML&gt;</string>
+        <string>Runtime Error: getDate</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
@@ -1400,10 +1398,9 @@
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
-      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
-        <componentClassName class="null"/>
-        <componentName>dateField</componentName>
-        <occurrencesToSkip>1</occurrencesToSkip>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>xy.reflect.ui.control.swing.util.JXDateTimePicker</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -1443,10 +1440,9 @@
     </xy.ui.testing.action.WaitAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
-      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
-        <componentClassName class="null"/>
-        <componentName>dateField</componentName>
-        <occurrencesToSkip>1</occurrencesToSkip>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>xy.reflect.ui.control.swing.util.JXDateTimePicker</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -1972,7 +1968,7 @@
       <negated>false</negated>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>2</string>
+        <string>2.0</string>
         <string>Runtime Error: setPolymorphic</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
@@ -2042,9 +2038,8 @@
     </xy.ui.testing.action.WaitAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
-      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
-        <componentClassName class="null"/>
-        <componentName>dateField</componentName>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>org.jdesktop.swingx.JXDatePicker</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -2085,10 +2080,9 @@
     </xy.ui.testing.action.WaitAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
-      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
-        <componentClassName class="null"/>
-        <componentName>dateField</componentName>
-        <occurrencesToSkip>1</occurrencesToSkip>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>xy.reflect.ui.control.swing.util.JXDateTimePicker</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>

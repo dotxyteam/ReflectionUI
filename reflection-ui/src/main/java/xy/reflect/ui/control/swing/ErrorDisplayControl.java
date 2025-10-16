@@ -10,6 +10,7 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlPanel;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -44,7 +45,7 @@ public class ErrorDisplayControl extends ControlPanel implements IAdvancedFieldC
 		this.error = error;
 		setLayout(new BorderLayout());
 		add(swingRenderer.createForm(buildDisplayObject()), BorderLayout.CENTER);
-		setBorder(swingRenderer.getErrorBorder());
+		SwingRendererUtils.setErrorBorder(this, swingRenderer);
 	}
 
 	protected Object buildDisplayObject() {

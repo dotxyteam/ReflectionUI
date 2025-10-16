@@ -68,6 +68,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -892,7 +893,12 @@ public class SwingRendererUtils {
 				if (error == null) {
 					changeDetected = true;
 				} else {
-					changeDetected = !MiscUtils.sameExceptionOrBothNull(oldError, error);
+					try {
+						changeDetected = !MiscUtils.sameExceptionOrBothNull(oldError, error,
+								swingRenderer.getReflectionUI());
+					} catch (Exception e) {
+						changeDetected = true;
+					}
 				}
 			}
 		}
@@ -907,10 +913,10 @@ public class SwingRendererUtils {
 			}
 		}
 		if (message == null) {
-			borderComponent.setBorder(null);
+			unsetErrorBorder(borderComponent, swingRenderer);
 			HyperlinkTooltip.unset(toolTipComponent);
 		} else {
-			borderComponent.setBorder(swingRenderer.getErrorBorder());
+			setErrorBorder(borderComponent, swingRenderer);
 			HyperlinkTooltip.set(toolTipComponent, message, new Runnable() {
 				@Override
 				public void run() {
@@ -920,6 +926,41 @@ public class SwingRendererUtils {
 			HyperlinkTooltip.get(toolTipComponent).setCustomValue(error);
 		}
 		SwingRendererUtils.handleComponentSizeChange(borderComponent);
+	}
+
+	public static boolean isErrorBorderSet(JComponent borderComponent, SwingRenderer swingRenderer) {
+		if (swingRenderer.isErrorBorder(borderComponent.getBorder())) {
+			return true;
+		}
+		if (borderComponent.getBorder() instanceof CompoundBorder) {
+			if (swingRenderer.isErrorBorder(((CompoundBorder) borderComponent.getBorder()).getOutsideBorder())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static void setErrorBorder(JComponent borderComponent, SwingRenderer swingRenderer) {
+		if (isErrorBorderSet(borderComponent, swingRenderer)) {
+			return;
+		}
+		if (borderComponent.getBorder() != null) {
+			borderComponent.setBorder(
+					BorderFactory.createCompoundBorder(swingRenderer.getErrorBorder(), borderComponent.getBorder()));
+		} else {
+			borderComponent.setBorder(swingRenderer.getErrorBorder());
+		}
+	}
+
+	public static void unsetErrorBorder(JComponent borderComponent, SwingRenderer swingRenderer) {
+		if (!isErrorBorderSet(borderComponent, swingRenderer)) {
+			return;
+		}
+		if (borderComponent.getBorder() instanceof CompoundBorder) {
+			borderComponent.setBorder(((CompoundBorder) borderComponent.getBorder()).getInsideBorder());
+		} else {
+			borderComponent.setBorder(null);
+		}
 	}
 
 	public static void showFieldCaptionOnBorder(IFieldControlData fieldControlData, JComponent borderComponent,
@@ -1148,8 +1189,6 @@ public class SwingRendererUtils {
 		}
 		return null;
 	}
-
-	
 
 	public static void generateChangeEventsDuringTextFieldEditing(final JSpinner spinner) {
 		spinner.addPropertyChangeListener(new PropertyChangeListener() {

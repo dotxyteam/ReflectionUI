@@ -22,8 +22,10 @@ import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.DefaultFormatterFactory;
 
 import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.calendar.DatePickerFormatter;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.FieldControlDataProxy;
@@ -250,6 +252,20 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 				strictFormats[i] = new StrictDateFormat(formats[i]);
 			}
 			super.setFormats(strictFormats);
+			getEditor().setFormatterFactory(new DefaultFormatterFactory(new DatePickerFormatter(formats, getLocale()) {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void install(JFormattedTextField ftf) {
+					listenerDisabled = true;
+					try {
+						super.install(ftf);
+					} finally {
+						listenerDisabled = false;
+					}
+				}
+			}));
 		}
 
 		@Override
@@ -335,11 +351,12 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 						return;
 					}
 					try {
+						textEditorChangesCommittingProcess.cancelSchedule();
 						Date value = getDate();
 						if (MiscUtils.equalsOrBothNull(value, data.getValue())) {
 							return;
 						}
-						data.setValue(value);
+						textEditorChangesCommittingProcess.schedule();
 					} catch (Throwable t) {
 						swingRenderer.handleException(DateTimePicker.this, t);
 					}
@@ -522,15 +539,16 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		}
 
 		protected void updateErrorDisplay() {
+			JFormattedTextField editor = getEditor();
 			if (currentConversionError != null) {
-				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentConversionError, swingRenderer);
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, editor, currentConversionError, swingRenderer);
 				return;
 			}
 			if (currentDataError != null) {
-				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentDataError, swingRenderer);
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, editor, currentDataError, swingRenderer);
 				return;
 			}
-			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, null, swingRenderer);
+			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, editor, null, swingRenderer);
 		}
 
 		@Override

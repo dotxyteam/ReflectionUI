@@ -12,13 +12,35 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.swing.customizer.CustomizationController;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
+import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.InfoProxyFactory;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
 
 public class ErrorDisplayTest {
 
 	public static void main(String[] args) throws Exception {
 
-		CustomizedUI reflectionUI = new CustomizedUI();
+		CustomizedUI reflectionUI = new CustomizedUI() {
+
+			@Override
+			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+				return new InfoProxyFactory() {
+
+					@Override
+					protected Object getValue(IFieldInfo field, Object object, ITypeInfo objectType) {
+						if (object instanceof Throwable) {
+							if (field.getName().equals("stackTrace")) {
+								return null;
+							}
+						}
+						return super.getValue(field, object, objectType);
+					}
+				}.wrapTypeInfo(super.getTypeInfo(typeSource));
+			}
+
+		};
 		File tmpCustomizationsFile = File.createTempFile(ErrorDisplayTest.class.getName(), ".icu");
 		tmpCustomizationsFile.deleteOnExit();
 		reflectionUI.getInfoCustomizations().saveToFile(tmpCustomizationsFile, null);
