@@ -178,7 +178,7 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaField.getType(), javaField, -1,
 				new SpecificitiesIdentifier(
 						reflectionUI.getTypeInfo(new JavaTypeInfoSource(objectJavaClass, null)).getName(),
-						javaField.getName())));
+						getName())));
 	}
 
 	@Override

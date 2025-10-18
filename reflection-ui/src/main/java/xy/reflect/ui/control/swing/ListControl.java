@@ -140,6 +140,12 @@ import xy.reflect.ui.util.ValidationErrorWrapper;
  * Field control that displays a tree table. Compatible with
  * {@link IListTypeInfo}.
  * 
+ * REMARK: A distinction is made between physical selection changes, which
+ * consist of changes to the paths of selected nodes, and logical selection
+ * changes, which consist of changes to the set of elements behind the selected
+ * nodes. Only logical selection changes generate events available through the
+ * listeners registered in the {@link #selectionListeners} list.
+ * 
  * @author olitank
  *
  */
@@ -180,6 +186,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		public void actionPerformed(ActionEvent e) {
 		}
 	};
+	protected boolean buffersRefreshedAfterModification = false;
 	protected boolean initialized = false;
 
 	public ListControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
@@ -239,6 +246,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			});
 		}
+	}
+
+	public boolean areBuffersRefreshedAfterModification() {
+		return buffersRefreshedAfterModification;
+	}
+
+	public void setBuffersRefreshedAfterModification(boolean buffersRefreshedAfterModification) {
+		this.buffersRefreshedAfterModification = buffersRefreshedAfterModification;
 	}
 
 	public Object getRootListValue() {
@@ -1704,9 +1719,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		treeTableComponent.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
-				if (!selectionListenersEnabled) {
-					return;
-				}
 				try {
 					fireSelectionEvent();
 				} catch (Throwable t) {
@@ -1717,6 +1729,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void fireSelectionEvent() {
+		if (!selectionListenersEnabled) {
+			return;
+		}
 		List<BufferedItemPosition> newSelection = getSelection();
 		for (Listener<List<BufferedItemPosition>> listener : selectionListeners) {
 			try {
@@ -2058,7 +2073,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	protected void withoutSelectionListenersEnabled(Runnable runnable) {
+	protected void withSelectionListenersDisabled(Runnable runnable) {
 		boolean oldSelectionListenersEnabled = selectionListenersEnabled;
 		selectionListenersEnabled = false;
 		try {
@@ -2261,7 +2276,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		} else {
 			restoringColumnWidthsAsMuchAsPossible(action);
 		}
-		treeTableComponent.setOpaque(listData.getValue() != null);
+		treeTableComponent.setOpaque(itemPositionFactory.getRootListValue() != null);
 	}
 
 	protected void initializeColumnWidths() {
@@ -2314,7 +2329,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				oldSelectionBag.add(itemAndAncestors);
 			}
 		}
-		withoutSelectionListenersEnabled(new Runnable() {
+		withSelectionListenersDisabled(new Runnable() {
 			@Override
 			public void run() {
 				runnable.run();
@@ -2422,7 +2437,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					restoringExpandedPathsDespiteDataAlteration(new Runnable() {
 						@Override
 						public void run() {
-							refreshItemPositionBuffers();
+							if (ListControl.this.buffersRefreshedAfterModification) {
+								refreshItemPositionBuffers();
+							}
 							refreshTreeTableModelAndControl(false);
 						}
 					});
@@ -2642,64 +2659,69 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			try {
-				final Accessor<List<BufferedItemPosition>> defaultPostSelectionGetter = new Accessor<List<BufferedItemPosition>>() {
-					List<BufferedItemPosition> oldItemPositions = getSelection();
-					List<Object> oldItems = new ArrayList<Object>();
-					List<List<Object>> oldItemAncestorLists = new ArrayList<List<Object>>();
-					{
-						for (BufferedItemPosition itemPosition : oldItemPositions) {
-							oldItems.add(itemPosition.getItem());
-							oldItemAncestorLists.add(ReflectionUIUtils.collectItemAncestors(itemPosition));
-						}
-					}
-
-					@Override
-					public List<BufferedItemPosition> get() {
-						return ReflectionUIUtils.actualizeItemPositions(oldItemPositions, oldItems,
-								oldItemAncestorLists);
-					}
-				};
-				if (!prepare()) {
-					return;
-				}
-				final String modifTitle = getCompositeModificationTitle();
-				@SuppressWarnings("unchecked")
-				final Accessor<List<BufferedItemPosition>>[] postSelectionGetterHolder = new Accessor[] {
-						defaultPostSelectionGetter };
-				if (modifTitle == null) {
-					perform(postSelectionGetterHolder);
-					new RefreshModification(postSelectionGetterHolder[0], null)
-							.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
-				} else {
-					final ModificationStack modifStack = getModificationStack();
-					modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
-						@Override
-						public Boolean get() {
-							if (modifStack.insideComposite(modifTitle + " (without list control update)",
-									UndoOrder.getNormal(), new Accessor<Boolean>() {
-										@Override
-										public Boolean get() {
-											perform(postSelectionGetterHolder);
-											return true;
-										}
-									}, listData.isTransient())) {
-								modifStack.apply(new RefreshModification(postSelectionGetterHolder[0],
-										defaultPostSelectionGetter));
-								return true;
-							} else {
-								new RefreshModification(postSelectionGetterHolder[0], null)
-										.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
-								return modifStack.wasInvalidated();
+			preventingIntermediarySelectionEvents(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						final Accessor<List<BufferedItemPosition>> defaultPostSelectionGetter = new Accessor<List<BufferedItemPosition>>() {
+							List<BufferedItemPosition> oldItemPositions = getSelection();
+							List<Object> oldItems = new ArrayList<Object>();
+							List<List<Object>> oldItemAncestorLists = new ArrayList<List<Object>>();
+							{
+								for (BufferedItemPosition itemPosition : oldItemPositions) {
+									oldItems.add(itemPosition.getItem());
+									oldItemAncestorLists.add(ReflectionUIUtils.collectItemAncestors(itemPosition));
+								}
 							}
-						}
-					}, listData.isTransient());
 
+							@Override
+							public List<BufferedItemPosition> get() {
+								return ReflectionUIUtils.actualizeItemPositions(oldItemPositions, oldItems,
+										oldItemAncestorLists);
+							}
+						};
+						if (!prepare()) {
+							return;
+						}
+						final String modifTitle = getCompositeModificationTitle();
+						@SuppressWarnings("unchecked")
+						final Accessor<List<BufferedItemPosition>>[] postSelectionGetterHolder = new Accessor[] {
+								defaultPostSelectionGetter };
+						if (modifTitle == null) {
+							perform(postSelectionGetterHolder);
+							new RefreshModification(postSelectionGetterHolder[0], null)
+									.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
+						} else {
+							final ModificationStack modifStack = getModificationStack();
+							modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
+								@Override
+								public Boolean get() {
+									if (modifStack.insideComposite(modifTitle + " (without list control update)",
+											UndoOrder.getNormal(), new Accessor<Boolean>() {
+												@Override
+												public Boolean get() {
+													perform(postSelectionGetterHolder);
+													return true;
+												}
+											}, listData.isTransient())) {
+										modifStack.apply(new RefreshModification(postSelectionGetterHolder[0],
+												defaultPostSelectionGetter));
+										return true;
+									} else {
+										new RefreshModification(postSelectionGetterHolder[0], null)
+												.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
+										return modifStack.wasInvalidated();
+									}
+								}
+							}, listData.isTransient());
+
+						}
+						displayResult();
+					} catch (Throwable t) {
+						swingRenderer.handleException(ListControl.this, t);
+					}
 				}
-				displayResult();
-			} catch (Throwable t) {
-				swingRenderer.handleException(ListControl.this, t);
-			}
+			});
 		}
 
 		protected void displayResult() {

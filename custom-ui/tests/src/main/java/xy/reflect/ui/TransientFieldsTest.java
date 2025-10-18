@@ -1,19 +1,23 @@
 package xy.reflect.ui;
 
+
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.io.File;
 
 import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.CustomizationController;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.undo.ModificationStack;
 
-public class PolymorphismTest {
+public class TransientFieldsTest {
 
 	public static void main(String[] args) throws Exception {
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		File tmpCustomizationsFile = File.createTempFile(PolymorphismTest.class.getName(), ".icu");
+		File tmpCustomizationsFile = File.createTempFile(TransientFieldsTest.class.getName(), ".icu");
 		tmpCustomizationsFile.deleteOnExit();
 		reflectionUI.getInfoCustomizations().saveToFile(tmpCustomizationsFile, null);
 		final SwingCustomizer swingCustomizer = new SwingCustomizer(reflectionUI, tmpCustomizationsFile.getPath()) {
@@ -50,26 +54,15 @@ public class PolymorphismTest {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				swingCustomizer.openObjectFrame(new PolymorphismTest());
+				swingCustomizer.openObjectFrame(new TransientFieldsTest());
 			}
 		});
 	}
 
-	public static class A {
+	public String[] list = new String[] { "azerty", "qsd", "wxc" };
+	public String nullable = null;
+	public Exception polymorphic = null;
+	public Dimension embedded = new Dimension(10, 10);
+	public Rectangle detached = new Rectangle(10, 10, 10, 10);
 
-	}
-
-	public static class B extends A {
-
-	}
-
-	public static class C extends B {
-
-	}
-
-	public static class D extends C {
-
-	}
-
-	public A polymorphic;
 }

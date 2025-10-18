@@ -309,8 +309,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			imagePanel.setPreservingRatio(true);
 			imagePanel.setFillingAreaWhenPreservingRatio(false);
 			imagePanel.setScalingQualitHigh(scalingQualitHigh);
-			JScrollPane scrollPane = new ControlScrollPane(
-					SwingRendererUtils.flowInLayout(imagePanel, GridBagConstraints.CENTER));
+			JScrollPane scrollPane = new ControlScrollPane(imagePanel);
 			scrollPane.setBorder(null);
 			Dimension size = getSizeInPixels();
 			scrollPane.setPreferredSize(size);
@@ -381,8 +380,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				}
 			}
 			imagePanel.setPreferredSize(getSizeInPixels());
-			JScrollPane scrollPane = new ControlScrollPane(
-					SwingRendererUtils.flowInLayout(imagePanel, GridBagConstraints.CENTER));
+			JScrollPane scrollPane = new ControlScrollPane(imagePanel);
 			{
 				imagePanelContainer.add(scrollPane, BorderLayout.CENTER);
 				scrollPane.setBorder(null);
@@ -511,8 +509,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			}
 			if (imagePanelContainer == null) {
 				imagePanelContainer = new ControlPanel();
-				contentPane.add(SwingRendererUtils.flowInLayout(imagePanelContainer, GridBagConstraints.CENTER),
-						BorderLayout.CENTER);
+				contentPane.add(imagePanelContainer);
 			}
 			if (imagePanel == null) {
 				imagePanel = createImagePanel();

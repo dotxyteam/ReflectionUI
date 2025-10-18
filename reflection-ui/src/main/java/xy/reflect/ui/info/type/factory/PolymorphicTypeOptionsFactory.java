@@ -8,10 +8,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -24,28 +27,33 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * {@link ITypeInfo#isPolymorphicInstanceAbstractTypeOptionAllowed()} returns
  * false for the #{@link #polymorphicType}.
  * 
- * Note that each item (type option) is wrapped by a proxy that triggers a
- * {@link RecursivePolymorphismDetectionException} when it is reused as the base
- * polymorphic type of another {@link PolymorphicTypeOptionsFactory}. This is
- * intended to prevent an infinite recursive enumeration of polymorphic type
- * options.
+ * Note that each item (returned by {@link #getTypeOptions()}) is adapted to
+ * prevent an infinite recursive enumeration of polymorphic type options.
  * 
  * @author olitank
  *
  */
 public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
-	protected static final String POLYMORPHISM_EXPLORED_WITH_PROPERTY_KEY = PolymorphicTypeOptionsFactory.class
-			.getName() + ".POLYMORPHISM_EXPLORED_PROPERTY_KEY";
+	protected static final String POLYMORPHIC_TYPE_OPTIONS_COLLECTOR_PROPERTY_KEY = PolymorphicTypeOptionsFactory.class
+			.getName() + ".POLYMORPHIC_TYPE_OPTIONS_COLLECTOR_PROPERTY_KEY";
 
 	protected ITypeInfo polymorphicType;
 
 	public PolymorphicTypeOptionsFactory(ReflectionUI reflectionUI, ITypeInfo polymorphicType) {
-		super(reflectionUI,
-				new TypeOptionsCollector(reflectionUI, polymorphicType,
-						!polymorphicType.isPolymorphicInstanceAbstractTypeOptionAllowed()),
+		super(reflectionUI, getTypeOptionsCollector(reflectionUI, polymorphicType),
 				"SubTypesEnumeration [polymorphicType=" + polymorphicType.getName() + "]", "", false, false);
 		this.polymorphicType = polymorphicType;
+	}
+
+	public static boolean isRelevantFor(ReflectionUI reflectionUI, ITypeInfo type) {
+		return StreamSupport.stream(getTypeOptionsCollector(reflectionUI, type).spliterator(), false)
+				.anyMatch(typeOption -> !typeOption.getName().equals(type.getName()));
+	}
+
+	protected static Iterable<ITypeInfo> getTypeOptionsCollector(ReflectionUI reflectionUI, ITypeInfo polymorphicType) {
+		return new TypeOptionsCollector(reflectionUI, polymorphicType,
+				!polymorphicType.isPolymorphicInstanceAbstractTypeOptionAllowed());
 	}
 
 	protected static List<ITypeInfo> listDescendantTypes(ITypeInfo polymorphicType, boolean concreteOnly) {
@@ -60,42 +68,78 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		return result;
 	}
 
-	protected static ITypeInfo preventPolymorphismRecursivity(ReflectionUI reflectionUI, final ITypeInfo type) {
-		if (isPolymorphismRecursivityDetected(type, reflectionUI)) {
-			throw new RecursivePolymorphismDetectionException();
-		}
-		return getPolymorphismRecursivityPreventingFactory(reflectionUI).wrapTypeInfo(type);
+	protected static ITypeInfo preventPolymorphismRecursivity(ReflectionUI reflectionUI, ITypeInfo polymorphicType,
+			ITypeInfo subType) {
+		ITypeInfoSource typeSource = subType.getSource();
+		ITypeInfo result = typeSource.buildTypeInfo(reflectionUI);
+		result = getPolymorphismRecursivityDetectionFactory(reflectionUI, polymorphicType).wrapTypeInfo(result);
+		result = reflectionUI
+				.getTypeInfo(new PrecomputedTypeInfoSource(result, typeSource.getSpecificitiesIdentifier()));
+		result = getPolymorphismRemovalFactory(reflectionUI, polymorphicType).wrapTypeInfo(result);
+		return result;
 	}
 
-	protected static InfoProxyFactory getPolymorphismRecursivityPreventingFactory(ReflectionUI reflectionUI) {
+	protected static InfoProxyFactory getPolymorphismRecursivityDetectionFactory(ReflectionUI reflectionUI,
+			ITypeInfo polymorphicType) {
 		return new InfoProxyFactory() {
-			@Override
-			protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
-				return Collections.emptyList();
-			}
-
-			@Override
-			protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
-				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
-				result.put(POLYMORPHISM_EXPLORED_WITH_PROPERTY_KEY, reflectionUI);
-				return result;
-			}
+			String identifier;
 
 			@Override
 			public String getIdentifier() {
-				return "PolymorphismExplorationDetector []";
+				if (identifier == null) {
+					TypeOptionsCollector parentTypeOptionsCollector = (TypeOptionsCollector) polymorphicType
+							.getSpecificProperties().get(POLYMORPHIC_TYPE_OPTIONS_COLLECTOR_PROPERTY_KEY);
+					identifier = "PolymorphismExplorationDetector [polymorphicType=" + polymorphicType.getName()
+							+ ", alreadyProposedOptions="
+							+ ((parentTypeOptionsCollector == null) ? ""
+									: StreamSupport.stream(parentTypeOptionsCollector.spliterator(), false)
+											.map(ITypeInfo::getName).collect(Collectors.joining(",")))
+							+ ", reflectionUI=" + reflectionUI + "]";
+				}
+				return identifier;
+			}
+
+			protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
+				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
+				result.put(POLYMORPHIC_TYPE_OPTIONS_COLLECTOR_PROPERTY_KEY,
+						getTypeOptionsCollector(reflectionUI, polymorphicType));
+				return result;
 			}
 
 		};
 	}
 
-	public static boolean isPolymorphismRecursivityDetected(ITypeInfo type, ReflectionUI reflectionUI) {
-		return reflectionUI.equals(type.getSpecificProperties().get(POLYMORPHISM_EXPLORED_WITH_PROPERTY_KEY));
+	protected static InfoProxyFactory getPolymorphismRemovalFactory(ReflectionUI reflectionUI,
+			ITypeInfo polymorphicType) {
+		return new InfoProxyFactory() {
+			String identifier;
+
+			@Override
+			public String getIdentifier() {
+				if (identifier == null) {
+					TypeOptionsCollector parentTypeOptionsCollector = (TypeOptionsCollector) polymorphicType
+							.getSpecificProperties().get(POLYMORPHIC_TYPE_OPTIONS_COLLECTOR_PROPERTY_KEY);
+					identifier = "PolymorphismRemover [polymorphicType=" + polymorphicType.getName()
+							+ ", alreadyProposedOptions="
+							+ ((parentTypeOptionsCollector == null) ? ""
+									: StreamSupport.stream(parentTypeOptionsCollector.spliterator(), false)
+											.map(ITypeInfo::getName).collect(Collectors.joining(",")))
+							+ ", reflectionUI=" + reflectionUI + "]";
+				}
+				return identifier;
+			}
+
+			@Override
+			protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
+				return Collections.emptyList();
+			}
+
+		};
 	}
 
 	/**
-	 * @return the possible types (enumerated from this factory). Note that each
-	 *         base type precede its sub-types in the result.
+	 * @return the possible types (enumerated from this factory). Each base type
+	 *         precede its sub-types in the result.
 	 */
 	public List<ITypeInfo> getTypeOptions() {
 		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
@@ -122,9 +166,10 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 					result = type;
 				} else {
 					List<ITypeInfo> typeDescendants = listDescendantTypes(
-							getPolymorphismRecursivityPreventingFactory(reflectionUI).unwrapTypeInfo(type),
+							getPolymorphismRemovalFactory(reflectionUI, polymorphicType).unwrapTypeInfo(type),
 							!polymorphicType.isPolymorphicInstanceAbstractTypeOptionAllowed()).stream()
-									.map(descendantType -> preventPolymorphismRecursivity(reflectionUI, descendantType))
+									.map(descendantType -> preventPolymorphismRecursivity(reflectionUI, polymorphicType,
+											descendantType))
 									.collect(Collectors.toList());
 					if (typeDescendants.contains(result)) {
 						continue;
@@ -171,12 +216,6 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		return "PolymorphicTypeOptionsFactory [polymorphicType=" + polymorphicType + "]";
 	}
 
-	public static class RecursivePolymorphismDetectionException extends ReflectionUIError {
-
-		private static final long serialVersionUID = 1L;
-
-	}
-
 	protected static class TypeOptionsCollector implements Iterable<ITypeInfo> {
 		protected ReflectionUI reflectionUI;
 		protected ITypeInfo polymorphicType;
@@ -193,10 +232,22 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		public Iterator<ITypeInfo> iterator() {
 			List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 			if (!onlyContreteSubTypes || polymorphicType.isConcrete()) {
-				result.add(0, preventPolymorphismRecursivity(reflectionUI, polymorphicType));
+				result.add(0, preventPolymorphismRecursivity(reflectionUI, polymorphicType, polymorphicType));
 			}
 			for (ITypeInfo descendantType : listDescendantTypes(polymorphicType, onlyContreteSubTypes)) {
-				result.add(preventPolymorphismRecursivity(reflectionUI, descendantType));
+				result.add(preventPolymorphismRecursivity(reflectionUI, polymorphicType, descendantType));
+			}
+			List<String> forbiddenSubTypeNames = new ArrayList<String>();
+			TypeOptionsCollector parent = (TypeOptionsCollector) polymorphicType.getSpecificProperties()
+					.get(POLYMORPHIC_TYPE_OPTIONS_COLLECTOR_PROPERTY_KEY);
+			if (parent != null) {
+				parent.forEach(type -> forbiddenSubTypeNames.add(type.getName()));
+			}
+			for (Iterator<ITypeInfo> resultIterator = result.iterator(); resultIterator.hasNext();) {
+				ITypeInfo resultItem = resultIterator.next();
+				if (forbiddenSubTypeNames.contains(resultItem.getName())) {
+					resultIterator.remove();
+				}
 			}
 			return result.iterator();
 		}

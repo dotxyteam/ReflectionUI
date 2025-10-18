@@ -147,6 +147,9 @@ public class CustomizingForm extends Form {
 			refreshTools();
 		} else {
 			super.refresh(refreshStructure);
+			if(true) {
+				refreshTools();
+			}
 		}
 	}
 

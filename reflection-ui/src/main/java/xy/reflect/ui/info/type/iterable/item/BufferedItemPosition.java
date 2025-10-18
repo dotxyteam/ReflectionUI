@@ -199,6 +199,9 @@ public class BufferedItemPosition extends ItemPosition {
 	public Object updateContainingList(Object[] newContainingListRawValue) {
 		Object newContainingListValue = super.updateContainingList(newContainingListRawValue);
 		changeContainingListBuffer(newContainingListValue, newContainingListRawValue);
+		for (int i = 0; i < newContainingListRawValue.length; i++) {
+			getSibling(i).refreshDescendants();
+		}
 		return newContainingListValue;
 	}
 

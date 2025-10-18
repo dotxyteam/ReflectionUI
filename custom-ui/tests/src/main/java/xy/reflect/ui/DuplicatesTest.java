@@ -1,7 +1,9 @@
 package xy.reflect.ui;
 
+
 import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 
 public class DuplicatesTest {

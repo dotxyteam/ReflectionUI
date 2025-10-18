@@ -1,6 +1,5 @@
 <xy.ui.testing.Tester>
   <editingOptions>
-    <analyticsEnabled>true</analyticsEnabled>
     <controlsTheme>classic</controlsTheme>
     <testableModalWindowsForcedToDocumentModality>true</testableModalWindowsForcedToDocumentModality>
     <testableWindowsAlwaysOnTopFeatureDisabled>true</testableWindowsAlwaysOnTopFeatureDisabled>
@@ -100,10 +99,27 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>2</firstItemToSelect>
       <lastItemToSelect>2</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Columns</string>
+        <string>Items</string>
+        <string>Tree Structure</string>
+      </knownTabs>
+      <tabToSelect>Items</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
@@ -131,10 +147,26 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>2</firstItemToSelect>
       <lastItemToSelect>2</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>1</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Shortcuts</string>
+        <string>Exclusions</string>
+      </knownTabs>
+      <tabToSelect>Exclusions</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -260,10 +292,27 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>3</firstItemToSelect>
       <lastItemToSelect>3</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Columns</string>
+        <string>Items</string>
+        <string>Tree Structure</string>
+      </knownTabs>
+      <tabToSelect>Tree Structure</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -393,7 +442,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Create Node</visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -447,7 +496,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Create Node</visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -501,7 +550,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Create Node</visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -555,7 +604,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Create Node</visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -609,7 +658,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Create Node</visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -663,7 +712,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Create Node</visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -723,8 +772,8 @@
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
-      <firstItemToSelect>6</firstItemToSelect>
-      <lastItemToSelect>6</lastItemToSelect>
+      <firstItemToSelect>7</firstItemToSelect>
+      <lastItemToSelect>7</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -768,7 +817,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Create Node</visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -820,7 +869,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Create Node</visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -872,7 +921,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Create Node</visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
@@ -984,10 +1033,27 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>3</firstItemToSelect>
       <lastItemToSelect>3</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Columns</string>
+        <string>Items</string>
+        <string>Tree Structure</string>
+      </knownTabs>
+      <tabToSelect>Tree Structure</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -1027,7 +1093,7 @@
       <disabled>false</disabled>
       <itemPath>
         <int>3</int>
-        <int>2</int>
+        <int>3</int>
         <int>2</int>
         <int>0</int>
       </itemPath>
@@ -1151,8 +1217,8 @@
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.JTextArea</componentClassName>
-        <occurrencesToSkip>2</occurrencesToSkip>
+        <componentClassName>java.awt.Window</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -1204,8 +1270,8 @@
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.JTextArea</componentClassName>
-        <occurrencesToSkip>2</occurrencesToSkip>
+        <componentClassName>java.awt.Window</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -1265,8 +1331,8 @@
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.JTextArea</componentClassName>
-        <occurrencesToSkip>2</occurrencesToSkip>
+        <componentClassName>java.awt.Window</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -1326,8 +1392,8 @@
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.JTextArea</componentClassName>
-        <occurrencesToSkip>2</occurrencesToSkip>
+        <componentClassName>java.awt.Window</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -1387,8 +1453,8 @@
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.JTextArea</componentClassName>
-        <occurrencesToSkip>2</occurrencesToSkip>
+        <componentClassName>java.awt.Window</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -1553,7 +1619,7 @@
       <disabled>false</disabled>
       <itemPath>
         <int>3</int>
-        <int>2</int>
+        <int>3</int>
         <int>0</int>
       </itemPath>
     </xy.ui.testing.action.component.specific.ExpandTreetTableToItemAction>
@@ -1565,8 +1631,8 @@
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
-      <firstItemToSelect>9</firstItemToSelect>
-      <lastItemToSelect>9</lastItemToSelect>
+      <firstItemToSelect>10</firstItemToSelect>
+      <lastItemToSelect>10</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -1601,8 +1667,8 @@
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.JTextArea</componentClassName>
-        <occurrencesToSkip>2</occurrencesToSkip>
+        <componentClassName>java.awt.Window</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -1634,7 +1700,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <selectedIndexes>
-        <int>8</int>
+        <int>9</int>
       </selectedIndexes>
     </xy.ui.testing.action.component.specific.CheckSelectionAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -1667,14 +1733,14 @@
       </componentFinder>
       <disabled>false</disabled>
       <selectedIndexes>
-        <int>7</int>
+        <int>8</int>
       </selectedIndexes>
     </xy.ui.testing.action.component.specific.CheckSelectionAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.JTextArea</componentClassName>
-        <occurrencesToSkip>2</occurrencesToSkip>
+        <componentClassName>java.awt.Window</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -1721,14 +1787,14 @@
       </componentFinder>
       <disabled>false</disabled>
       <selectedIndexes>
-        <int>8</int>
+        <int>9</int>
       </selectedIndexes>
     </xy.ui.testing.action.component.specific.CheckSelectionAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.JTextArea</componentClassName>
-        <occurrencesToSkip>2</occurrencesToSkip>
+        <componentClassName>java.awt.Window</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -1775,14 +1841,14 @@
       </componentFinder>
       <disabled>false</disabled>
       <selectedIndexes>
-        <int>7</int>
+        <int>8</int>
       </selectedIndexes>
     </xy.ui.testing.action.component.specific.CheckSelectionAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.JTextArea</componentClassName>
-        <occurrencesToSkip>2</occurrencesToSkip>
+        <componentClassName>java.awt.Window</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -1891,10 +1957,25 @@
       <disabled>false</disabled>
       <selectedIndexes>
         <int>1</int>
-        <int>5</int>
+        <int>6</int>
         <int>7</int>
       </selectedIndexes>
     </xy.ui.testing.action.component.specific.CheckSelectionAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Undo</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -1919,7 +2000,7 @@
       <disabled>false</disabled>
       <selectedIndexes>
         <int>2</int>
-        <int>11</int>
+        <int>12</int>
         <int>15</int>
       </selectedIndexes>
     </xy.ui.testing.action.component.specific.CheckSelectionAction>
@@ -1945,7 +2026,7 @@
       <disabled>false</disabled>
       <selectedIndexes>
         <int>1</int>
-        <int>5</int>
+        <int>6</int>
         <int>7</int>
       </selectedIndexes>
     </xy.ui.testing.action.component.specific.CheckSelectionAction>

@@ -1,6 +1,5 @@
 <xy.ui.testing.Tester>
   <editingOptions>
-    <analyticsEnabled>true</analyticsEnabled>
     <controlsTheme>cloudy</controlsTheme>
     <testableModalWindowsForcedToDocumentModality>true</testableModalWindowsForcedToDocumentModality>
     <testableWindowsAlwaysOnTopFeatureDisabled>true</testableWindowsAlwaysOnTopFeatureDisabled>
@@ -58,10 +57,26 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>1</firstItemToSelect>
       <lastItemToSelect>1</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Display</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Display</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -221,10 +236,26 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>1</firstItemToSelect>
       <lastItemToSelect>1</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Display</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Display</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -594,7 +625,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Create Buffered Image</visibleString>
+        <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>3</windowIndex>
       </componentFinder>
@@ -606,9 +637,11 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.JButton</componentClassName>
-        <occurrencesToSkip>49</occurrencesToSkip>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>&lt;HTML&gt;Editing Options&lt;/HTML&gt;</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>2</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
@@ -775,8 +808,8 @@
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.JButton</componentClassName>
-        <occurrencesToSkip>3</occurrencesToSkip>
+        <componentClassName>java.awt.Window</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>

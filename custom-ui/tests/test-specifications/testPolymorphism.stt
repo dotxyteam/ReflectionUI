@@ -70,10 +70,30 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>5</firstItemToSelect>
       <lastItemToSelect>5</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Fields</string>
+        <string>Methods</string>
+        <string>Categories</string>
+        <string>Menus</string>
+        <string>Sub-Types</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Sub-Types</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -244,8 +264,8 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>Failed to guess the polymorphic value type: Ambiguity detected: More than 1 valid types found:
-- xy.reflect.ui.PolymorphismTest$B
-- xy.reflect.ui.PolymorphismTest$C</string>
+- xy.reflect.ui.PolymorphismTest$C
+- xy.reflect.ui.PolymorphismTest$B</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
@@ -346,10 +366,30 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>5</firstItemToSelect>
       <lastItemToSelect>5</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Fields</string>
+        <string>Methods</string>
+        <string>Categories</string>
+        <string>Menus</string>
+        <string>Sub-Types</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Sub-Types</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -466,10 +506,30 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>5</firstItemToSelect>
       <lastItemToSelect>5</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Fields</string>
+        <string>Methods</string>
+        <string>Categories</string>
+        <string>Menus</string>
+        <string>Sub-Types</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Sub-Types</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.specific.SelectTableRowAction>
       <addedToExistingSelection>false</addedToExistingSelection>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">

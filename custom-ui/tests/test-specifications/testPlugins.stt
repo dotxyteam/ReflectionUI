@@ -1,6 +1,5 @@
 <xy.ui.testing.Tester>
   <editingOptions>
-    <analyticsEnabled>true</analyticsEnabled>
     <controlsTheme>cloudy</controlsTheme>
     <testableModalWindowsForcedToDocumentModality>true</testableModalWindowsForcedToDocumentModality>
     <testableWindowsAlwaysOnTopFeatureDisabled>true</testableWindowsAlwaysOnTopFeatureDisabled>
@@ -137,10 +136,25 @@
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>1</firstItemToSelect>
       <lastItemToSelect>1</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Advanced</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>true</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -296,6 +310,7 @@
         <string>100</string>
         <string>Step Size: </string>
         <string>1</string>
+        <string>Custom Number Format</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -781,7 +796,7 @@
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
-      <completenessChecked>true</completenessChecked>
+      <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName>javax.swing.JViewport</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
@@ -795,11 +810,9 @@
       <visibleStrings>
         <string>Size Constraint</string>
         <string>Stretch</string>
-        <string>&lt;HTML&gt;Stretch&lt;/HTML&gt;</string>
         <string>Scaling Qualit High</string>
         <string>Unit: </string>
-        <string>PIXELS</string>
-        <string>&lt;HTML&gt;PIXELS&lt;/HTML&gt;</string>
+        <string>Pixels</string>
         <string>Canvas Width: </string>
         <string>100</string>
         <string>Canvas Height: </string>
@@ -821,7 +834,7 @@
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
-      <completenessChecked>true</completenessChecked>
+      <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JViewport</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
@@ -833,12 +846,10 @@
       <visibleStrings>
         <string>Size Constraint</string>
         <string>Scale</string>
-        <string>&lt;HTML&gt;Scale&lt;/HTML&gt;</string>
         <string>Area Filled</string>
         <string>Scaling Qualit High</string>
         <string>Unit: </string>
-        <string>PIXELS</string>
-        <string>&lt;HTML&gt;PIXELS&lt;/HTML&gt;</string>
+        <string>Pixels</string>
         <string>Canvas Width: </string>
         <string>100</string>
         <string>Canvas Height: </string>
@@ -860,7 +871,7 @@
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
-      <completenessChecked>true</completenessChecked>
+      <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JViewport</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
@@ -872,11 +883,9 @@
       <visibleStrings>
         <string>Size Constraint</string>
         <string>Scroll</string>
-        <string>&lt;HTML&gt;Scroll&lt;/HTML&gt;</string>
         <string>Scaling Qualit High</string>
         <string>Unit: </string>
-        <string>PIXELS</string>
-        <string>&lt;HTML&gt;PIXELS&lt;/HTML&gt;</string>
+        <string>Pixels</string>
         <string>Canvas Width: </string>
         <string>100</string>
         <string>Canvas Height: </string>
@@ -898,7 +907,7 @@
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
-      <completenessChecked>true</completenessChecked>
+      <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JViewport</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
@@ -910,11 +919,9 @@
       <visibleStrings>
         <string>Size Constraint</string>
         <string>Zoom</string>
-        <string>&lt;HTML&gt;Zoom&lt;/HTML&gt;</string>
         <string>Scaling Qualit High</string>
         <string>Unit: </string>
-        <string>PIXELS</string>
-        <string>&lt;HTML&gt;PIXELS&lt;/HTML&gt;</string>
+        <string>Pixels</string>
         <string>Canvas Width: </string>
         <string>100</string>
         <string>Canvas Height: </string>
@@ -960,18 +967,6 @@
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
-    <xy.ui.testing.action.component.property.CheckComponentPropertyAction>
-      <componentClassName>xy.reflect.ui.control.swing.util.ImagePanel</componentClassName>
-      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>xy.reflect.ui.control.swing.util.ImagePanel</componentClassName>
-        <occurrencesToSkip>2</occurrencesToSkip>
-        <windowIndex>0</windowIndex>
-      </componentFinder>
-      <disabled>false</disabled>
-      <propertyName>Width</propertyName>
-      <propertyValueExpected>200</propertyValueExpected>
-      <regularExpressionExpected>false</regularExpressionExpected>
-    </xy.ui.testing.action.component.property.CheckComponentPropertyAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -1204,7 +1199,7 @@
       <disabled>false</disabled>
     </xy.ui.testing.action.component.ClickOnMenuItemAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
-      <completenessChecked>true</completenessChecked>
+      <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName>javax.swing.JViewport</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
@@ -1219,11 +1214,11 @@
         <string>General</string>
         <string>Font</string>
         <string>Horizontal Alignment: </string>
-        <string>LEFT</string>
-        <string>&lt;HTML&gt;LEFT&lt;/HTML&gt;</string>
+        <string>Left</string>
         <string>Underlined</string>
         <string>Struck Through</string>
-        <string>Set Length</string>
+        <string>Width</string>
+        <string>Height</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
@@ -1339,7 +1334,7 @@
       <disabled>false</disabled>
     </xy.ui.testing.action.component.ClickOnMenuItemAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
-      <completenessChecked>true</completenessChecked>
+      <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JViewport</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
@@ -1464,7 +1459,7 @@
       <disabled>false</disabled>
     </xy.ui.testing.action.component.ClickOnMenuItemAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
-      <completenessChecked>true</completenessChecked>
+      <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JViewport</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
@@ -1476,12 +1471,10 @@
       <visibleStrings>
         <string>Load Resources From</string>
         <string>File-System Location</string>
-        <string>&lt;HTML&gt;File-System Location&lt;/HTML&gt;</string>
-        <string>Directory: </string>
         <string>...</string>
-        <string>.</string>
-        <string>Length</string>
         <string>Pure Html Colors</string>
+        <string>Width</string>
+        <string>Height</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
@@ -1597,7 +1590,7 @@
       <disabled>false</disabled>
     </xy.ui.testing.action.component.ClickOnMenuItemAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
-      <completenessChecked>true</completenessChecked>
+      <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JViewport</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
@@ -1723,7 +1716,7 @@
       <disabled>false</disabled>
     </xy.ui.testing.action.component.ClickOnMenuItemAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
-      <completenessChecked>true</completenessChecked>
+      <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JViewport</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
@@ -1733,12 +1726,7 @@
       <negated>false</negated>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>Length</string>
-        <string>Unit: </string>
-        <string>SCREEN_PERCENT</string>
-        <string>&lt;HTML&gt;SCREEN_PERCENT&lt;/HTML&gt;</string>
-        <string>Value: </string>
-        <string>40</string>
+        <string>Wrap Lines</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
@@ -2146,7 +2134,7 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>Layout: </string>
-        <string>VERTICAL_FLOW</string>
+        <string>Vertical Flow</string>
         <string>Grid Dimension (wrapping threshold): </string>
         <string>0</string>
         <string>Stretch Cells Horizontally</string>

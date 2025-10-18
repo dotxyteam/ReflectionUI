@@ -31,7 +31,6 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
-import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory.RecursivePolymorphismDetectionException;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.CancelledModificationException;
 import xy.reflect.ui.undo.FieldControlDataModification;
@@ -77,43 +76,37 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	protected Throwable currentError;
 
 	public static boolean isCompatibleWith(ITypeInfo type, ReflectionUI reflectionUI) {
-		return !PolymorphicTypeOptionsFactory.isPolymorphismRecursivityDetected(type, reflectionUI)
-				&& type.getPolymorphicInstanceSubTypes().size() > 0;
+		return PolymorphicTypeOptionsFactory.isRelevantFor(reflectionUI, type);
 	}
 
 	public PolymorphicControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		if (!isCompatibleWith(input.getControlData().getType(), swingRenderer.getReflectionUI())) {
 			throw new RejectedFieldControlInputException();
 		}
-		try {
-			this.swingRenderer = swingRenderer;
-			input = new FieldControlInputProxy(input) {
-				IFieldControlData errorHandlingFieldControlData = new ErrorHandlingFieldControlData(
-						super.getControlData(), swingRenderer, null) {
-
-					@Override
-					protected void handleError(Throwable t) {
-						currentError = t;
-					}
-				};
-				BufferedFieldControlData bufferedFieldControlData = new BufferedFieldControlData(
-						errorHandlingFieldControlData);
+		this.swingRenderer = swingRenderer;
+		input = new FieldControlInputProxy(input) {
+			IFieldControlData errorHandlingFieldControlData = new ErrorHandlingFieldControlData(super.getControlData(),
+					swingRenderer, null) {
 
 				@Override
-				public IFieldControlData getControlData() {
-					return bufferedFieldControlData;
+				protected void handleError(Throwable t) {
+					currentError = t;
 				}
 			};
-			this.input = input;
-			this.data = (BufferedFieldControlData) input.getControlData();
-			this.polymorphicType = input.getControlData().getType();
-			this.typeOptionsFactory = new PolymorphicTypeOptionsFactory(swingRenderer.getReflectionUI(),
-					polymorphicType);
-			setLayout(new BorderLayout());
-			refreshUI(true);
-		} catch (RecursivePolymorphismDetectionException e) {
-			throw new RejectedFieldControlInputException();
-		}
+			BufferedFieldControlData bufferedFieldControlData = new BufferedFieldControlData(
+					errorHandlingFieldControlData);
+
+			@Override
+			public IFieldControlData getControlData() {
+				return bufferedFieldControlData;
+			}
+		};
+		this.input = input;
+		this.data = (BufferedFieldControlData) input.getControlData();
+		this.polymorphicType = input.getControlData().getType();
+		this.typeOptionsFactory = new PolymorphicTypeOptionsFactory(swingRenderer.getReflectionUI(), polymorphicType);
+		setLayout(new BorderLayout());
+		refreshUI(true);
 	}
 
 	@Override

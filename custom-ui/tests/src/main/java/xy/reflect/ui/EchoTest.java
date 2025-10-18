@@ -1,19 +1,21 @@
 package xy.reflect.ui;
 
+
 import java.io.File;
 
 import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.CustomizationController;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.undo.ModificationStack;
 
-public class TextualStorageDataFieldControlMutationTest {
+public class EchoTest {
 
 	public static void main(String[] args) throws Exception {
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		File tmpCustomizationsFile = File.createTempFile(TextualStorageDataFieldControlMutationTest.class.getName(), ".icu");
+		File tmpCustomizationsFile = File.createTempFile(EchoTest.class.getName(), ".icu");
 		tmpCustomizationsFile.deleteOnExit();
 		reflectionUI.getInfoCustomizations().saveToFile(tmpCustomizationsFile, null);
 		final SwingCustomizer swingCustomizer = new SwingCustomizer(reflectionUI, tmpCustomizationsFile.getPath()) {
@@ -50,10 +52,18 @@ public class TextualStorageDataFieldControlMutationTest {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				swingCustomizer.openObjectFrame(new TextualStorageDataFieldControlMutationTest());
+				swingCustomizer.openObjectFrame(new EchoTest());
 			}
 		});
 	}
 
-	public Object object;
+	public String echoParameter(String parameter) {
+		return parameter;
+	}
+
+	public String field;
+
+	public String echoField() {
+		return field;
+	}
 }

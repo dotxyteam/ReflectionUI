@@ -1,22 +1,21 @@
 package xy.reflect.ui;
 
+
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.CustomizationController;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.undo.ModificationStack;
 
-public class TransactionsTest {
+public class PolymorphismTest {
 
 	public static void main(String[] args) throws Exception {
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		File tmpCustomizationsFile = File.createTempFile(TransactionsTest.class.getName(), ".icu");
+		File tmpCustomizationsFile = File.createTempFile(PolymorphismTest.class.getName(), ".icu");
 		tmpCustomizationsFile.deleteOnExit();
 		reflectionUI.getInfoCustomizations().saveToFile(tmpCustomizationsFile, null);
 		final SwingCustomizer swingCustomizer = new SwingCustomizer(reflectionUI, tmpCustomizationsFile.getPath()) {
@@ -53,45 +52,26 @@ public class TransactionsTest {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				swingCustomizer.openObjectFrame(new TransactionsTest());
+				swingCustomizer.openObjectFrame(new PolymorphismTest());
 			}
 		});
 	}
 
-	public SubObject subObject = new SubObject();
-	public List<SubObject> subObjectList = new ArrayList<TransactionsTest.SubObject>(
-			Collections.singletonList(subObject));
-
-	public SubObject returnSubObject() {
-		return subObject;
-	}
-
-	public static class SubObject {
-		private String valueBackup;
-		public String value;
-		public String transactionState;
-
-		public void beginTransaction() {
-			valueBackup = value;
-			transactionState = "started";
-		}
-
-		public void commitTransaction() {
-			valueBackup = null;
-			transactionState = "committed";
-		}
-
-		public void rollbackTransaction() {
-			value = valueBackup;
-			valueBackup = null;
-			transactionState = "rolled back";
-		}
-
-		@Override
-		public String toString() {
-			return "SubObject [value=" + value + ", transactionState=" + transactionState + "]";
-		}
+	public static class A {
 
 	}
 
+	public static class B extends A {
+
+	}
+
+	public static class C extends B {
+
+	}
+
+	public static class D extends C {
+
+	}
+
+	public A polymorphic;
 }

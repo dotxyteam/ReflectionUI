@@ -1,23 +1,21 @@
 package xy.reflect.ui;
 
-import java.awt.Color;
-import java.awt.Image;
+
 import java.io.File;
-import java.util.Collection;
-import java.util.Date;
 
 import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.CustomizationController;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.undo.ModificationStack;
 
-public class NullDisplayTest {
+public class TextualStorageDataFieldControlMutationTest {
 
 	public static void main(String[] args) throws Exception {
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		File tmpCustomizationsFile = File.createTempFile(NullDisplayTest.class.getName(), ".icu");
+		File tmpCustomizationsFile = File.createTempFile(TextualStorageDataFieldControlMutationTest.class.getName(), ".icu");
 		tmpCustomizationsFile.deleteOnExit();
 		reflectionUI.getInfoCustomizations().saveToFile(tmpCustomizationsFile, null);
 		final SwingCustomizer swingCustomizer = new SwingCustomizer(reflectionUI, tmpCustomizationsFile.getPath()) {
@@ -54,27 +52,10 @@ public class NullDisplayTest {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				swingCustomizer.openObjectFrame(new NullDisplayTest());
+				swingCustomizer.openObjectFrame(new TextualStorageDataFieldControlMutationTest());
 			}
 		});
 	}
-	
-	
-	public String string;
-	public Character primitiveWrapper;
-	public Byte slided;
-	public Float spinned;
-	public Date date;
-	public Date dateTime;
-	public Color color;
-	public File file;
-	public Image image;
-	public TestEnum enumerated;
-	public Boolean booleanWrapper;
-	public Collection<Object> list;
-	
 
-	public enum TestEnum{
-		E1, E2, E3
-	}
+	public Object object;
 }

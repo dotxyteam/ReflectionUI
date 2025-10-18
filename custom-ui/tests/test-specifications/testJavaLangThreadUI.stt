@@ -1,6 +1,5 @@
 <xy.ui.testing.Tester>
   <editingOptions>
-    <analyticsEnabled>true</analyticsEnabled>
     <controlsTheme>classic</controlsTheme>
     <testableModalWindowsForcedToDocumentModality>true</testableModalWindowsForcedToDocumentModality>
     <testableWindowsAlwaysOnTopFeatureDisabled>true</testableWindowsAlwaysOnTopFeatureDisabled>
@@ -31,6 +30,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -39,11 +39,13 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -52,6 +54,7 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
@@ -67,7 +70,7 @@
         <string>Priority: </string>
         <string>Name: </string>
         <string>State: </string>
-        <string>NEW</string>
+        <string>New</string>
         <string>Default Uncaught Exception Handler</string>
         <string>Id: </string>
         <string>Stack Trace</string>
@@ -105,6 +108,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>Daemon</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -113,6 +117,7 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
@@ -140,6 +145,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>Start</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -148,6 +154,7 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
@@ -157,13 +164,14 @@
       <orderChecked>false</orderChecked>
       <visibleStrings>
         <string>State: </string>
-        <string>TERMINATED</string>
+        <string>Terminated</string>
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>Start</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -172,6 +180,7 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
@@ -189,6 +198,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>Details</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -197,6 +207,7 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CheckWindowVisibleStringsAction>

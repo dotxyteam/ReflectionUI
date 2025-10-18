@@ -1,6 +1,5 @@
 <xy.ui.testing.Tester>
   <editingOptions>
-    <analyticsEnabled>true</analyticsEnabled>
     <controlsTheme>classic</controlsTheme>
     <testableModalWindowsForcedToDocumentModality>true</testableModalWindowsForcedToDocumentModality>
     <testableWindowsAlwaysOnTopFeatureDisabled>true</testableWindowsAlwaysOnTopFeatureDisabled>
@@ -58,10 +57,26 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>2</firstItemToSelect>
       <lastItemToSelect>2</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Display</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Advanced</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -149,10 +164,27 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>3</firstItemToSelect>
       <lastItemToSelect>3</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Columns</string>
+        <string>Items</string>
+        <string>Tree Structure</string>
+      </knownTabs>
+      <tabToSelect>Tree Structure</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -177,10 +209,27 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>2</firstItemToSelect>
       <lastItemToSelect>2</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Columns</string>
+        <string>Items</string>
+        <string>Tree Structure</string>
+      </knownTabs>
+      <tabToSelect>Items</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName>javax.swing.JComboBox</componentClassName>
@@ -301,10 +350,27 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>3</firstItemToSelect>
       <lastItemToSelect>3</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Columns</string>
+        <string>Items</string>
+        <string>Tree Structure</string>
+      </knownTabs>
+      <tabToSelect>Tree Structure</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -450,10 +516,27 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>2</firstItemToSelect>
       <lastItemToSelect>2</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Columns</string>
+        <string>Items</string>
+        <string>Tree Structure</string>
+      </knownTabs>
+      <tabToSelect>Items</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.specific.SelectTableRowAction>
       <addedToExistingSelection>false</addedToExistingSelection>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -463,10 +546,26 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>1</firstItemToSelect>
       <lastItemToSelect>1</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>1</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Shortcuts</string>
+        <string>Exclusions</string>
+      </knownTabs>
+      <tabToSelect>Shortcuts</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -564,10 +663,27 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>3</firstItemToSelect>
       <lastItemToSelect>3</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Columns</string>
+        <string>Items</string>
+        <string>Tree Structure</string>
+      </knownTabs>
+      <tabToSelect>Tree Structure</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -619,7 +735,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Protection Domain...</visibleString>
+        <visibleString>Protection Domain</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -674,32 +790,17 @@
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.JTextArea</componentClassName>
+        <componentClassName>java.awt.Window</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <windowIndex>2</windowIndex>
+        <windowIndex>1</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
       <negated>false</negated>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>&apos;Location On Screen&apos; error: Illegal Component State Error: component must be showing on the screen to determine its location</string>
+        <string>Illegal Component State Error: component must be showing on the screen to determine its location</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
-    <xy.ui.testing.action.component.ClickAction>
-      <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
-        <componentClassName class="null"/>
-        <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Close</visibleString>
-        <visibleStringInTree>false</visibleStringInTree>
-        <windowIndex>2</windowIndex>
-      </componentFinder>
-      <disabled>false</disabled>
-      <doubleClick>false</doubleClick>
-      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
-      <locationOnComponent class="null"/>
-      <poupTrigger>false</poupTrigger>
-    </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.window.CloseWindowAction>
       <disabled>false</disabled>
       <windowIndex>1</windowIndex>
@@ -720,7 +821,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName>xy.reflect.ui.control.swing.util.AbstractControlButton</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Protection Domain...</visibleString>
+        <visibleString>Protection Domain</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -784,10 +885,26 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>2</firstItemToSelect>
       <lastItemToSelect>2</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Display</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Advanced</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -926,10 +1043,27 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <firstItemToSelect>3</firstItemToSelect>
       <lastItemToSelect>3</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <knownTabs>
+        <string>General</string>
+        <string>Columns</string>
+        <string>Items</string>
+        <string>Tree Structure</string>
+      </knownTabs>
+      <tabToSelect>Tree Structure</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -960,41 +1094,6 @@
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
-    <xy.ui.testing.action.component.specific.ExpandTreetTableToItemAction>
-      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>xy.reflect.ui.control.swing.ListControl$TreeTable</componentClassName>
-        <occurrencesToSkip>0</occurrencesToSkip>
-        <windowIndex>0</windowIndex>
-      </componentFinder>
-      <disabled>false</disabled>
-      <itemPath>
-        <int>0</int>
-        <int>0</int>
-        <int>0</int>
-        <int>0</int>
-        <int>0</int>
-        <int>0</int>
-        <int>0</int>
-        <int>0</int>
-        <int>0</int>
-        <int>0</int>
-        <int>0</int>
-      </itemPath>
-    </xy.ui.testing.action.component.specific.ExpandTreetTableToItemAction>
-    <xy.ui.testing.action.component.CheckVisibleStringsAction>
-      <completenessChecked>false</completenessChecked>
-      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>xy.reflect.ui.control.swing.ListControl$TreeTable</componentClassName>
-        <occurrencesToSkip>0</occurrencesToSkip>
-        <windowIndex>0</windowIndex>
-      </componentFinder>
-      <disabled>false</disabled>
-      <negated>false</negated>
-      <orderChecked>false</orderChecked>
-      <visibleStrings>
-        <string>class java.lang.Object</string>
-      </visibleStrings>
-    </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.window.CloseWindowAction>
       <disabled>false</disabled>
       <windowIndex>0</windowIndex>

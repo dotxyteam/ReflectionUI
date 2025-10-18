@@ -170,10 +170,10 @@
         <string>Methods</string>
         <string>Categories</string>
         <string>Menus</string>
-        <string>Sub - Types</string>
+        <string>Sub-Types</string>
         <string>Advanced</string>
       </knownTabs>
-      <tabToSelect>Sub - Types</tabToSelect>
+      <tabToSelect>Sub-Types</tabToSelect>
     </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>

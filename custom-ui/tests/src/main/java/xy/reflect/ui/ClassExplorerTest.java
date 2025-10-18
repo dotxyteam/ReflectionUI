@@ -1,21 +1,21 @@
 package xy.reflect.ui;
 
+
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.CustomizationController;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.undo.ModificationStack;
 
-public class ListEmbeddedDetailsTest {
+public class ClassExplorerTest {
 
 	public static void main(String[] args) throws Exception {
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		File tmpCustomizationsFile = File.createTempFile(ListEmbeddedDetailsTest.class.getName(), ".icu");
+		File tmpCustomizationsFile = File.createTempFile(ClassExplorerTest.class.getName(), ".icu");
 		tmpCustomizationsFile.deleteOnExit();
 		reflectionUI.getInfoCustomizations().saveToFile(tmpCustomizationsFile, null);
 		final SwingCustomizer swingCustomizer = new SwingCustomizer(reflectionUI, tmpCustomizationsFile.getPath()) {
@@ -52,28 +52,9 @@ public class ListEmbeddedDetailsTest {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				swingCustomizer.openObjectFrame(new ListEmbeddedDetailsTest());
+				swingCustomizer.openObjectFrame(javax.swing.JButton.class);
 			}
 		});
 	}
 
-	public static class Row {
-		public Base base;
-		public String string = "";
-	}
-	public abstract static class Base {
-
-	}
-
-	public static class Sub extends Base {
-		public String subField = "";
-
-		public Sub(String subField) {
-			this.subField = subField;
-		}
-		
-	}
-
-	
-	public List<Row> rows = new ArrayList<Row>();
 }

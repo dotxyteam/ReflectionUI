@@ -1,6 +1,5 @@
 <xy.ui.testing.Tester>
   <editingOptions>
-    <analyticsEnabled>true</analyticsEnabled>
     <controlsTheme>cloudy</controlsTheme>
     <testableModalWindowsForcedToDocumentModality>true</testableModalWindowsForcedToDocumentModality>
     <testableWindowsAlwaysOnTopFeatureDisabled>true</testableWindowsAlwaysOnTopFeatureDisabled>
@@ -17,6 +16,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>...</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -25,11 +25,13 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>&lt;HTML&gt;Customize (void beginTransaction())&lt;/HTML&gt;</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -38,6 +40,7 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickOnMenuItemAction>
@@ -63,6 +66,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>Hide</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -71,20 +75,39 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.specific.SelectTableRowAction>
       <addedToExistingSelection>false</addedToExistingSelection>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>2</windowIndex>
+      </componentFinder>
+      <disabled>true</disabled>
+      <firstItemToSelect>3</firstItemToSelect>
+      <lastItemToSelect>3</lastItemToSelect>
+    </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>General</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>2</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
-      <firstItemToSelect>3</firstItemToSelect>
-      <lastItemToSelect>3</lastItemToSelect>
-    </xy.ui.testing.action.component.specific.SelectTableRowAction>
+      <knownTabs>
+        <string>General</string>
+        <string>Parameters</string>
+        <string>Display</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Advanced</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JComboBox</componentClassName>
@@ -94,17 +117,18 @@
       <disabled>false</disabled>
       <knownOptions>
         <string></string>
-        <string>BEGIN</string>
-        <string>COMMIT</string>
-        <string>ROLLBACK</string>
+        <string>Begin</string>
+        <string>Commit</string>
+        <string>Rollback</string>
       </knownOptions>
       <optionListChecked>false</optionListChecked>
-      <optionToSelect>BEGIN</optionToSelect>
+      <optionToSelect>Begin</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -113,11 +137,13 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>&lt;HTML&gt;Customize (void commitTransaction())&lt;/HTML&gt;</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -126,6 +152,7 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickOnMenuItemAction>
@@ -151,6 +178,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
+        <componentClassName class="null"/>
         <componentName>fieldControl [field=hidden, parent=form [objectType=xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization]]</componentName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>2</windowIndex>
@@ -158,20 +186,39 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.specific.SelectTableRowAction>
       <addedToExistingSelection>false</addedToExistingSelection>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>2</windowIndex>
+      </componentFinder>
+      <disabled>true</disabled>
+      <firstItemToSelect>3</firstItemToSelect>
+      <lastItemToSelect>3</lastItemToSelect>
+    </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>General</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>2</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
-      <firstItemToSelect>3</firstItemToSelect>
-      <lastItemToSelect>3</lastItemToSelect>
-    </xy.ui.testing.action.component.specific.SelectTableRowAction>
+      <knownTabs>
+        <string>General</string>
+        <string>Parameters</string>
+        <string>Display</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Advanced</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JComboBox</componentClassName>
@@ -181,17 +228,18 @@
       <disabled>false</disabled>
       <knownOptions>
         <string></string>
-        <string>BEGIN</string>
-        <string>COMMIT</string>
-        <string>ROLLBACK</string>
+        <string>Begin</string>
+        <string>Commit</string>
+        <string>Rollback</string>
       </knownOptions>
       <optionListChecked>false</optionListChecked>
-      <optionToSelect>COMMIT</optionToSelect>
+      <optionToSelect>Commit</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -200,11 +248,13 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>&lt;HTML&gt;Customize (void rollbackTransaction())&lt;/HTML&gt;</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -213,6 +263,7 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickOnMenuItemAction>
@@ -238,6 +289,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>Hide</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -246,20 +298,39 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.specific.SelectTableRowAction>
       <addedToExistingSelection>false</addedToExistingSelection>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>2</windowIndex>
+      </componentFinder>
+      <disabled>true</disabled>
+      <firstItemToSelect>3</firstItemToSelect>
+      <lastItemToSelect>3</lastItemToSelect>
+    </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.specific.SelectTabAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>General</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>2</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
-      <firstItemToSelect>3</firstItemToSelect>
-      <lastItemToSelect>3</lastItemToSelect>
-    </xy.ui.testing.action.component.specific.SelectTableRowAction>
+      <knownTabs>
+        <string>General</string>
+        <string>Parameters</string>
+        <string>Display</string>
+        <string>Advanced</string>
+      </knownTabs>
+      <tabToSelect>Advanced</tabToSelect>
+    </xy.ui.testing.action.component.specific.SelectTabAction>
     <xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JComboBox</componentClassName>
@@ -269,17 +340,18 @@
       <disabled>false</disabled>
       <knownOptions>
         <string></string>
-        <string>BEGIN</string>
-        <string>COMMIT</string>
-        <string>ROLLBACK</string>
+        <string>Begin</string>
+        <string>Commit</string>
+        <string>Rollback</string>
       </knownOptions>
       <optionListChecked>false</optionListChecked>
-      <optionToSelect>ROLLBACK</optionToSelect>
+      <optionToSelect>Rollback</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -288,11 +360,13 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -301,6 +375,7 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
@@ -320,6 +395,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>...</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -328,11 +404,13 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>Customize (xy.reflect.ui.TransactionsTest$SubObject)</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -341,6 +419,7 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickOnMenuItemAction>
@@ -366,6 +445,7 @@
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
+        <componentClassName class="null"/>
         <componentName>fieldsPanel [parent=form [objectType=xy.reflect.ui.TransactionsTest$SubObject]]</componentName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>1</windowIndex>
@@ -396,6 +476,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -404,6 +485,7 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
@@ -423,6 +505,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>Return Sub Object</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -431,10 +514,12 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>azerty</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -459,6 +544,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>Cancel</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -467,6 +553,7 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
@@ -486,6 +573,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>&lt;HTML&gt;Open&lt;/HTML&gt;</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -494,10 +582,12 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>azerty</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -522,6 +612,7 @@
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>OK</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -530,11 +621,13 @@
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName class="null"/>
         <occurrencesToSkip>1</occurrencesToSkip>
         <visibleString>SubObject [value=123, transactionState=committed]</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
@@ -550,6 +643,7 @@
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
+        <componentClassName class="null"/>
         <componentName>fieldsPanel [parent=form [objectType=xy.reflect.ui.TransactionsTest]]</componentName>
         <occurrencesToSkip>0</occurrencesToSkip>
         <windowIndex>0</windowIndex>

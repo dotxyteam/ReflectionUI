@@ -406,6 +406,7 @@ public class ListTabbedPane extends JPanel {
 
 	public void removeTabAt(int index) {
 		Component component = componentByIndex.remove(index);
+		titleListModel.removeElementAt(index);
 		currentComponentContainer.remove(component);
 		if (getSelectedIndex() == -1) {
 			setSelectedIndex(0);
