@@ -1718,4 +1718,16 @@ public class ReflectionUIUtils {
 		};
 	}
 
+	public static List<ITypeInfo> listDescendantTypes(ITypeInfo polymorphicType, boolean concreteOnly) {
+		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
+		List<ITypeInfo> subTypes = polymorphicType.getPolymorphicInstanceSubTypes();
+		for (ITypeInfo subType : subTypes) {
+			if (!concreteOnly || subType.isConcrete()) {
+				result.add(subType);
+			}
+			result.addAll(listDescendantTypes(subType, concreteOnly));
+		}
+		return result;
+	}
+
 }

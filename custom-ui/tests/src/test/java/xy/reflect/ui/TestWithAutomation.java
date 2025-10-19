@@ -38,7 +38,6 @@ public class TestWithAutomation {
 	@BeforeClass
 	public static void beforeAllTests() {
 		setupTestEnvironment();
-		TestingUtils.purgeAllReportsDirectory();
 	}
 
 	@Test
