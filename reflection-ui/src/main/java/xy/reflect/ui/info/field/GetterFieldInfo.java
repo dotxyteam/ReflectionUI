@@ -236,7 +236,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	public ITypeInfo getType() {
 		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaGetterMethod.getReturnType(), javaGetterMethod, -1,
 				new SpecificitiesIdentifier(
-						reflectionUI.getTypeInfo(new JavaTypeInfoSource(objectJavaClass, null)).getName(),
+						new JavaTypeInfoSource(objectJavaClass, null).buildTypeInfo(reflectionUI).getName(),
 						GetterFieldInfo.this.getName())));
 	}
 

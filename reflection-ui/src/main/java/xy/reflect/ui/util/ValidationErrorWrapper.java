@@ -28,7 +28,7 @@ public class ValidationErrorWrapper extends ReflectionUIError {
 
 	@Override
 	public String getMessage() {
-		return ReflectionUIUtils.composeMessage(contextInformation, getCause().toString());
+		return ReflectionUIUtils.composeMessage(contextInformation, getBaseMessage());
 	}
 
 	public static Exception unwrapValidationError(Exception e) {

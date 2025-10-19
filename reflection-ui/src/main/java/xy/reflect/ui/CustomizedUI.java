@@ -22,9 +22,10 @@ import xy.reflect.ui.util.ReflectionUIError;
  * mechanics according to the given {@link InfoCustomizations} instance.
  * 
  * It uses in order the proxy factories returned by
- * {@link #getInfoCustomizationsSetupFactory()},
- * {@link #getBeforeInfoCustomizationsFactory()}, @{@link #getInfoCustomizationsFactory()}
- * and {@link #getAfterInfoCustomizationsFactory()}.
+ * {@link #getBeforeInfoCustomizationsFactory()},
+ * {@link #getInfoCustomizationsSetupFactory()}, *
+ * {@link #getInfoCustomizationsFactory()} and
+ * {@link #getAfterInfoCustomizationsFactory()}.
  * 
  * @author olitank
  *
@@ -36,8 +37,8 @@ public class CustomizedUI extends ReflectionUI {
 	protected InfoCustomizations infoCustomizations;
 	protected Map<ITypeInfo, ITypeInfo> customizedTypeInfoCache = createCustomizedTypeInfoCache();
 
-	private IInfoProxyFactory infoCustomizationsSetupFactory;
 	private IInfoProxyFactory beforeInfoCustomizationsFactory;
+	private IInfoProxyFactory infoCustomizationsSetupFactory;
 	private IInfoProxyFactory infoCustomizationsFactory;
 	private IInfoProxyFactory afterInfoCustomizationsFactory;
 
@@ -99,8 +100,8 @@ public class CustomizedUI extends ReflectionUI {
 			if (cachedResult != null) {
 				result = cachedResult;
 			} else {
-				result = getInfoCustomizationsSetupFactory().wrapTypeInfo(result);
 				result = getBeforeInfoCustomizationsFactory().wrapTypeInfo(result);
+				result = getInfoCustomizationsSetupFactory().wrapTypeInfo(result);
 				result = getInfoCustomizationsFactory().wrapTypeInfo(result);
 				result = getAfterInfoCustomizationsFactory().wrapTypeInfo(result);
 				customizedTypeInfoCache.put(customizedTypesCacheKey, result);
@@ -112,8 +113,8 @@ public class CustomizedUI extends ReflectionUI {
 	@Override
 	public IApplicationInfo getApplicationInfo() {
 		IApplicationInfo result = super.getApplicationInfo();
-		result = getInfoCustomizationsSetupFactory().wrapApplicationInfo(result);
 		result = getBeforeInfoCustomizationsFactory().wrapApplicationInfo(result);
+		result = getInfoCustomizationsSetupFactory().wrapApplicationInfo(result);
 		result = getInfoCustomizationsFactory().wrapApplicationInfo(result);
 		result = getAfterInfoCustomizationsFactory().wrapApplicationInfo(result);
 		return result;
