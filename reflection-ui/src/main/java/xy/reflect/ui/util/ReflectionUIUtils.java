@@ -97,6 +97,8 @@ import xy.reflect.ui.undo.UndoOrder;
 public class ReflectionUIUtils {
 
 	public static final String METHOD_SIGNATURE_REGEX = "([^ ].*) ([^ ]+)? ?\\(([^\\)]*)\\)";
+	public static final String OBJECT_CLASS_NAME_REGEX = "[a-zA-Z_][a-zA-Z0-9_]*((\\.|\\$)[a-zA-Z0-9_]+)*";
+	public static final String ARRAY_CLASS_NAME_REGEX = "\\[+(Z|B|S|I|J|F|D|C|L" + OBJECT_CLASS_NAME_REGEX + ";)";
 
 	public static String buildMethodSignature(String returnTypeName, String methodName,
 			List<String> parameterTypeNames) {
@@ -172,8 +174,9 @@ public class ReflectionUIUtils {
 	}
 
 	public static String[] extractMethodParameterTypeNamesFromSignature(String methodSignature) {
-		Pattern pattern = Pattern.compile(METHOD_SIGNATURE_REGEX);
-		Matcher matcher = pattern.matcher(methodSignature);
+		Pattern methodSignaturePattern = Pattern.compile(METHOD_SIGNATURE_REGEX);
+		Pattern arrayTypeNamePattern = Pattern.compile(ARRAY_CLASS_NAME_REGEX);
+		Matcher matcher = methodSignaturePattern.matcher(methodSignature);
 		if (!matcher.matches()) {
 			return null;
 		}
@@ -188,8 +191,25 @@ public class ReflectionUIUtils {
 			for (int i = 0; i < paramTypeListString.length(); i++) {
 				if (paramTypeListString.charAt(i) == '[') {
 					openBracketCount++;
-				} else if ((paramTypeListString.charAt(i) == ']') || (paramTypeListString.charAt(i) == ';')) {
+				} else if (paramTypeListString.charAt(i) == ']') {
 					openBracketCount--;
+				} else if (paramTypeListString.charAt(i) == ';') {
+					String possibleArrayTypeName = null;
+					int arrayDimensions = 0;
+					for (int j = i; j >= 0; j--) {
+						if (paramTypeListString.charAt(j) == '[') {
+							arrayDimensions++;
+							if ((j == 0) || paramTypeListString.charAt(j - 1) != '[') {
+								possibleArrayTypeName = paramTypeListString.substring(j, i + 1);
+								break;
+							}
+						}
+					}
+					if (possibleArrayTypeName != null) {
+						if (arrayTypeNamePattern.matcher(possibleArrayTypeName).matches()) {
+							openBracketCount -= arrayDimensions;
+						}
+					}
 				} else if (paramTypeListString.charAt(i) == ',') {
 					if (openBracketCount == 0) {
 						result.add(paramTypeListString.substring(parameterTypeNameStart, i));
