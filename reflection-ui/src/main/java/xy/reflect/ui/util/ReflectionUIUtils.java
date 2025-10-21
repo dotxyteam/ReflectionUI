@@ -175,7 +175,7 @@ public class ReflectionUIUtils {
 
 	public static String[] extractMethodParameterTypeNamesFromSignature(String methodSignature) {
 		Pattern methodSignaturePattern = Pattern.compile(METHOD_SIGNATURE_REGEX);
-		Pattern arrayTypeNamePattern = Pattern.compile(ARRAY_CLASS_NAME_REGEX);
+		Pattern arrayTypeNamePattern = Pattern.compile(ARRAY_CLASS_NAME_REGEX + "((?=[ ,\\]\\)])|$)");
 		Matcher matcher = methodSignaturePattern.matcher(methodSignature);
 		if (!matcher.matches()) {
 			return null;
@@ -188,28 +188,23 @@ public class ReflectionUIUtils {
 		if (paramTypeListString.length() > 0) {
 			int openBracketCount = 0;
 			int parameterTypeNameStart = 0;
+			Matcher arrayTypeNameMatcher = arrayTypeNamePattern.matcher(paramTypeListString);
+			int arrayTypeNameStart = -1;
+			int arrayTypeNameEnd = -1;
 			for (int i = 0; i < paramTypeListString.length(); i++) {
+				if ((i == 0) || ((i >= arrayTypeNameEnd) && !arrayTypeNameMatcher.hitEnd())) {
+					if (arrayTypeNameMatcher.find()) {
+						arrayTypeNameStart = arrayTypeNameMatcher.start();
+						arrayTypeNameEnd = arrayTypeNameMatcher.end();
+					}
+				}
+				if ((arrayTypeNameStart <= i) && (i < arrayTypeNameEnd)) {
+					continue;
+				}
 				if (paramTypeListString.charAt(i) == '[') {
 					openBracketCount++;
 				} else if (paramTypeListString.charAt(i) == ']') {
 					openBracketCount--;
-				} else if (paramTypeListString.charAt(i) == ';') {
-					String possibleArrayTypeName = null;
-					int arrayDimensions = 0;
-					for (int j = i; j >= 0; j--) {
-						if (paramTypeListString.charAt(j) == '[') {
-							arrayDimensions++;
-							if ((j == 0) || paramTypeListString.charAt(j - 1) != '[') {
-								possibleArrayTypeName = paramTypeListString.substring(j, i + 1);
-								break;
-							}
-						}
-					}
-					if (possibleArrayTypeName != null) {
-						if (arrayTypeNamePattern.matcher(possibleArrayTypeName).matches()) {
-							openBracketCount -= arrayDimensions;
-						}
-					}
 				} else if (paramTypeListString.charAt(i) == ',') {
 					if (openBracketCount == 0) {
 						result.add(paramTypeListString.substring(parameterTypeNameStart, i));

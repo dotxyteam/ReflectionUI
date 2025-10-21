@@ -43,7 +43,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
-	public static final Pattern GETTER_PATTERN = Pattern.compile("^(?:get|is|has)(.*)");
+	public static final Pattern GETTER_PATTERN = Pattern.compile("^(?:get|is|has)([A-Z].*)?");
 
 	protected ReflectionUI reflectionUI;
 	protected Method javaGetterMethod;
@@ -70,6 +70,9 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 			return null;
 		}
 		String result = m.group(1);
+		if (result == null) {
+			return "";
+		}
 		if (result.length() > 0) {
 			result = MiscUtils.changeCase(result, false, 0, 1);
 		}
