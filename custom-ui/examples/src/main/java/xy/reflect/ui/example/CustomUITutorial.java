@@ -97,7 +97,7 @@ public class CustomUITutorial {
 
 					@Override
 					protected String getCaption(IFieldInfo field, ITypeInfo objectType) {
-						return "(added before customizations) " + super.getCaption(field, objectType);
+						return "(added after customizations) " + super.getCaption(field, objectType);
 					}
 
 				};

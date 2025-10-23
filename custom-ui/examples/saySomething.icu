@@ -1,24 +1,8 @@
-<?xml version="1.0" ?>
-<!--Generated with Custom UI (http://javacollection.net/reflectionui/)-->
+
 <infoCustomizations>
-    <appplicationCustomization>
+    <applicationCustomization>
         <uniqueIdentifier>53b6f0bc:16c56b0e01f:-8000</uniqueIdentifier>
         <specificProperties/>
-        <mainButtonBackgroundColor>
-            <blue>0</blue>
-            <green>0</green>
-            <red>204</red>
-        </mainButtonBackgroundColor>
-        <mainButtonBorderColor>
-            <blue>0</blue>
-            <green>0</green>
-            <red>204</red>
-        </mainButtonBorderColor>
-        <mainButtonForegroundColor>
-            <blue>255</blue>
-            <green>255</green>
-            <red>255</red>
-        </mainButtonForegroundColor>
         <mainBackgroundColor>
             <blue>255</blue>
             <green>255</green>
@@ -60,18 +44,18 @@
             <green>255</green>
             <red>255</red>
         </titleForegroundColor>
-    </appplicationCustomization>
-    <typeCustomizations>
+    </applicationCustomization>
+    <typeCustomization>
         <uniqueIdentifier>1e1e2258:16c56b2095f:6e21</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <customFieldsOrder>emailAddress</customFieldsOrder>
-        <customFieldsOrder>title</customFieldsOrder>
-        <customFieldsOrder>message</customFieldsOrder>
-        <fieldsCustomizations>
+        <customFieldsOrderEntry>emailAddress</customFieldsOrderEntry>
+        <customFieldsOrderEntry>title</customFieldsOrderEntry>
+        <customFieldsOrderEntry>message</customFieldsOrderEntry>
+        <fieldsCustomization>
             <uniqueIdentifier>1e1e2258:16c56b2095f:6e25</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -89,12 +73,12 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>1e1e2258:16c56b2095f:6e26</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
+                </applicationCustomization>
+                <typeCustomization>
                     <uniqueIdentifier>1e1e2258:16c56b2095f:6e3f</uniqueIdentifier>
                     <specificProperties>
                         <entry>
@@ -114,13 +98,16 @@
                     <menuModel>
                         <uniqueIdentifier>1e1e2258:16c56b2095f:6e40</uniqueIdentifier>
                     </menuModel>
+                    <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
                     <typeName>java.lang.String</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>1e1e2258:16c56b2095f:6e2a</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -138,12 +125,12 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>1e1e2258:16c56b2095f:6e2b</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
+                </applicationCustomization>
+                <typeCustomization>
                     <uniqueIdentifier>1e1e2258:16c56b2095f:6e43</uniqueIdentifier>
                     <specificProperties>
                         <entry>
@@ -163,13 +150,16 @@
                     <menuModel>
                         <uniqueIdentifier>1e1e2258:16c56b2095f:6e44</uniqueIdentifier>
                     </menuModel>
+                    <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
                     <typeName>java.lang.String</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>1e1e2258:16c56b2095f:6e2d</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -187,17 +177,17 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>1e1e2258:16c56b2095f:6e2e</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
+                </applicationCustomization>
+                <typeCustomization>
                     <uniqueIdentifier>1e1e2258:16c56b2095f:6e41</uniqueIdentifier>
                     <specificProperties>
                         <entry>
                             <key>xy.reflect.ui.control.swing.plugin.MultipleLinesTextPlugin</key>
-                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">rO0ABXNyAFl4eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLk11bHRpcGxlTGluZXNUZXh0UGx1Z2luJE11bHRpcGxlTGluZXNUZXh0Q29uZmlndXJhdGlvbgAAAAAAAAABAgABTAAGbGVuZ3RodAB5THh5L3JlZmxlY3QvdWkvY29udHJvbC9zd2luZy9wbHVnaW4vTXVsdGlwbGVMaW5lc1RleHRQbHVnaW4kTXVsdGlwbGVMaW5lc1RleHRDb25maWd1cmF0aW9uJENvbnRyb2xEaW1lbnNpb25TcGVjaWZpY2F0aW9uO3hyAF94eS5yZWZsZWN0LnVpLmNvbnRyb2wucGx1Z2luLkFic3RyYWN0U2ltcGxlQ3VzdG9taXphYmxlRmllbGRDb250cm9sUGx1Z2luJEFic3RyYWN0Q29uZmlndXJhdGlvbgAAAAAAAAABAgAAeHBzcgB3eHkucmVmbGVjdC51aS5jb250cm9sLnN3aW5nLnBsdWdpbi5NdWx0aXBsZUxpbmVzVGV4dFBsdWdpbiRNdWx0aXBsZUxpbmVzVGV4dENvbmZpZ3VyYXRpb24kQ29udHJvbERpbWVuc2lvblNwZWNpZmljYXRpb24AAAAAAAAAAQIAAkkABXZhbHVlTAAEdW5pdHQAa0x4eS9yZWZsZWN0L3VpL2NvbnRyb2wvc3dpbmcvcGx1Z2luL011bHRpcGxlTGluZXNUZXh0UGx1Z2luJE11bHRpcGxlTGluZXNUZXh0Q29uZmlndXJhdGlvbiRDb250cm9sU2l6ZVVuaXQ7eHAAAAAZfnIAaXh5LnJlZmxlY3QudWkuY29udHJvbC5zd2luZy5wbHVnaW4uTXVsdGlwbGVMaW5lc1RleHRQbHVnaW4kTXVsdGlwbGVMaW5lc1RleHRDb25maWd1cmF0aW9uJENvbnRyb2xTaXplVW5pdAAAAAAAAAAAEgAAeHIADmphdmEubGFuZy5FbnVtAAAAAAAAAAASAAB4cHQADlNDUkVFTl9QRVJDRU5U</value>
+                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">rO0ABXNyAFl4eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLk11bHRpcGxlTGluZXNUZXh0UGx1Z2luJE11bHRpcGxlTGluZXNUZXh0Q29uZmlndXJhdGlvbgAAAAAAAAABAgADWgATbGluZVdyYXBwaW5nRW5hYmxlZEwABmhlaWdodHQAeUx4eS9yZWZsZWN0L3VpL2NvbnRyb2wvc3dpbmcvcGx1Z2luL011bHRpcGxlTGluZXNUZXh0UGx1Z2luJE11bHRpcGxlTGluZXNUZXh0Q29uZmlndXJhdGlvbiRDb250cm9sRGltZW5zaW9uU3BlY2lmaWNhdGlvbjtMAAV3aWR0aHEAfgABeHIAX3h5LnJlZmxlY3QudWkuY29udHJvbC5wbHVnaW4uQWJzdHJhY3RTaW1wbGVDdXN0b21pemFibGVGaWVsZENvbnRyb2xQbHVnaW4kQWJzdHJhY3RDb25maWd1cmF0aW9uAAAAAAAAAAECAAB4cABzcgB3eHkucmVmbGVjdC51aS5jb250cm9sLnN3aW5nLnBsdWdpbi5NdWx0aXBsZUxpbmVzVGV4dFBsdWdpbiRNdWx0aXBsZUxpbmVzVGV4dENvbmZpZ3VyYXRpb24kQ29udHJvbERpbWVuc2lvblNwZWNpZmljYXRpb24AAAAAAAAAAQIAAkkABXZhbHVlTAAEdW5pdHQAa0x4eS9yZWZsZWN0L3VpL2NvbnRyb2wvc3dpbmcvcGx1Z2luL011bHRpcGxlTGluZXNUZXh0UGx1Z2luJE11bHRpcGxlTGluZXNUZXh0Q29uZmlndXJhdGlvbiRDb250cm9sU2l6ZVVuaXQ7eHAAAABkfnIAaXh5LnJlZmxlY3QudWkuY29udHJvbC5zd2luZy5wbHVnaW4uTXVsdGlwbGVMaW5lc1RleHRQbHVnaW4kTXVsdGlwbGVMaW5lc1RleHRDb25maWd1cmF0aW9uJENvbnRyb2xTaXplVW5pdAAAAAAAAAAAEgAAeHIADmphdmEubGFuZy5FbnVtAAAAAAAAAAASAAB4cHQABlBJWEVMU3NxAH4ABAAAAZBxAH4ACQ==</value>
                         </entry>
                         <entry>
                             <key>xy.reflect.ui.control.plugin.IFieldControlPlugin.CHOSEN</key>
@@ -212,13 +202,16 @@
                     <menuModel>
                         <uniqueIdentifier>1e1e2258:16c56b2095f:6e42</uniqueIdentifier>
                     </menuModel>
+                    <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
                     <typeName>java.lang.String</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>736193a0:16c56b7fdc9:714c</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -255,17 +248,17 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>736193a0:16c56b7fdc9:714d</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
+                </applicationCustomization>
+                <typeCustomization>
                     <uniqueIdentifier>736193a0:16c56b7fdc9:7153</uniqueIdentifier>
                     <specificProperties>
                         <entry>
                             <key>xy.reflect.ui.control.swing.plugin.ImageViewPlugin</key>
-                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">rO0ABXNyAEl4eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLkltYWdlVmlld1BsdWdpbiRJbWFnZVZpZXdDb25maWd1cmF0aW9uAAAAAAAAAAECAAFMAA5zaXplQ29uc3RyYWludHQAQ0x4eS9yZWZsZWN0L3VpL2NvbnRyb2wvc3dpbmcvcGx1Z2luL0ltYWdlVmlld1BsdWdpbiRTaXplQ29uc3RyYWludDt4cgBfeHkucmVmbGVjdC51aS5jb250cm9sLnBsdWdpbi5BYnN0cmFjdFNpbXBsZUN1c3RvbWl6YWJsZUZpZWxkQ29udHJvbFBsdWdpbiRBYnN0cmFjdENvbmZpZ3VyYXRpb24AAAAAAAAAAQIAAHhwc3IASHh5LnJlZmxlY3QudWkuY29udHJvbC5zd2luZy5wbHVnaW4uSW1hZ2VWaWV3UGx1Z2luJFNjYWxpbmdTaXplQ29uc3RyYWludAAAAAAAAAABAgABWgAKYXJlYUZpbGxlZHhyAEF4eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLkltYWdlVmlld1BsdWdpbiRTaXplQ29uc3RyYWludAAAAAAAAAABAgAESQAMY2FudmFzSGVpZ2h0SQALY2FudmFzV2lkdGhaABFzY2FsaW5nUXVhbGl0SGlnaEwABHVuaXR0AEJMeHkvcmVmbGVjdC91aS9jb250cm9sL3N3aW5nL3BsdWdpbi9JbWFnZVZpZXdQbHVnaW4kSW1hZ2VTaXplVW5pdDt4cQB+AAIAAAAUAAAAFAB+cgBAeHkucmVmbGVjdC51aS5jb250cm9sLnN3aW5nLnBsdWdpbi5JbWFnZVZpZXdQbHVnaW4kSW1hZ2VTaXplVW5pdAAAAAAAAAAAEgAAeHIADmphdmEubGFuZy5FbnVtAAAAAAAAAAASAAB4cHQADlNDUkVFTl9QRVJDRU5UAA==</value>
+                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">rO0ABXNyAEl4eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLkltYWdlVmlld1BsdWdpbiRJbWFnZVZpZXdDb25maWd1cmF0aW9uAAAAAAAAAAECAAFMAA5zaXplQ29uc3RyYWludHQAQ0x4eS9yZWZsZWN0L3VpL2NvbnRyb2wvc3dpbmcvcGx1Z2luL0ltYWdlVmlld1BsdWdpbiRTaXplQ29uc3RyYWludDt4cgBfeHkucmVmbGVjdC51aS5jb250cm9sLnBsdWdpbi5BYnN0cmFjdFNpbXBsZUN1c3RvbWl6YWJsZUZpZWxkQ29udHJvbFBsdWdpbiRBYnN0cmFjdENvbmZpZ3VyYXRpb24AAAAAAAAAAQIAAHhwc3IASHh5LnJlZmxlY3QudWkuY29udHJvbC5zd2luZy5wbHVnaW4uSW1hZ2VWaWV3UGx1Z2luJFNjYWxpbmdTaXplQ29uc3RyYWludAAAAAAAAAABAgABWgAKYXJlYUZpbGxlZHhyAEF4eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLkltYWdlVmlld1BsdWdpbiRTaXplQ29uc3RyYWludAAAAAAAAAABAgAESQAMY2FudmFzSGVpZ2h0SQALY2FudmFzV2lkdGhaABFzY2FsaW5nUXVhbGl0SGlnaEwABHVuaXR0AEJMeHkvcmVmbGVjdC91aS9jb250cm9sL3N3aW5nL3BsdWdpbi9JbWFnZVZpZXdQbHVnaW4kSW1hZ2VTaXplVW5pdDt4cQB+AAIAAADIAAAAyAB+cgBAeHkucmVmbGVjdC51aS5jb250cm9sLnN3aW5nLnBsdWdpbi5JbWFnZVZpZXdQbHVnaW4kSW1hZ2VTaXplVW5pdAAAAAAAAAAAEgAAeHIADmphdmEubGFuZy5FbnVtAAAAAAAAAAASAAB4cHQABlBJWEVMUwA=</value>
                         </entry>
                         <entry>
                             <key>xy.reflect.ui.control.plugin.IFieldControlPlugin.CHOSEN</key>
@@ -280,43 +273,20 @@
                     <menuModel>
                         <uniqueIdentifier>736193a0:16c56b7fdc9:7154</uniqueIdentifier>
                     </menuModel>
+                    <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
                     <typeName>java.awt.Image</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>1e1e2258:16c56b2095f:6e22</uniqueIdentifier>
         </menuModel>
-        <methodsCustomizations>
-            <uniqueIdentifier>1e1e2258:16c56b2095f:6e32</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>main</methodName>
-            <methodSignature>void main([Ljava.lang.String;)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>1e1e2258:16c56b2095f:6e34</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>1e1e2258:16c56b2095f:6e35</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>string[]</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
+        <methodsCustomization>
             <uniqueIdentifier>73ac1a:182912409b9:-7fbb</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -324,15 +294,17 @@
             <duplicateGenerated>false</duplicateGenerated>
             <executionSuccessMessage>Message sent !</executionSuccessMessage>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <lastInvocationDataUsageDisabled>false</lastInvocationDataUsageDisabled>
             <methodName>send</methodName>
             <methodSignature>void send()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <returnValueValidityDetectionForced>false</returnValueValidityDetectionForced>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
+        </methodsCustomization>
+        <methodsCustomization>
             <uniqueIdentifier>-40c7e984:18291435d72:-7fc3</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -340,26 +312,30 @@
             <duplicateGenerated>false</duplicateGenerated>
             <executionSuccessMessage>Message sent !</executionSuccessMessage>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <lastInvocationDataUsageDisabled>false</lastInvocationDataUsageDisabled>
             <methodName>send</methodName>
             <methodSignature>java.lang.String send()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <returnValueValidityDetectionForced>false</returnValueValidityDetectionForced>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
-        </methodsCustomizations>
+        </methodsCustomization>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>xy.reflect.ui.example.SaySomething</typeName>
         <undoManagementHidden>false</undoManagementHidden>
-        <virtualFieldDeclarations>
+        <validationRequirementForced>false</validationRequirementForced>
+        <virtualFieldDeclaration>
             <uniqueIdentifier>736193a0:16c56b7fdc9:714a</uniqueIdentifier>
             <fieldName>headerImage</fieldName>
             <javaClassBasedTypeInfoFinder>
                 <uniqueIdentifier>736193a0:16c56b7fdc9:714b</uniqueIdentifier>
                 <className>java.awt.Image</className>
             </javaClassBasedTypeInfoFinder>
-        </virtualFieldDeclarations>
-    </typeCustomizations>
-    <typeCustomizations>
+        </virtualFieldDeclaration>
+    </typeCustomization>
+    <typeCustomization>
         <uniqueIdentifier>1e1e2258:16c56b2095f:6e23</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
@@ -370,1876 +346,12 @@
         <menuModel>
             <uniqueIdentifier>1e1e2258:16c56b2095f:6e24</uniqueIdentifier>
         </menuModel>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>Encapsulation [encapsulatedObjectType=xy.reflect.ui.example.SaySomething]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>-40c7e984:18291435d72:-7fc9</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <copyForbidden>false</copyForbidden>
-        <immutableForced>false</immutableForced>
-        <menuModel>
-            <uniqueIdentifier>-40c7e984:18291435d72:-7fc8</uniqueIdentifier>
-        </menuModel>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b55</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>getBytes</methodName>
-            <methodSignature>void getBytes(int, int, [B, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b1d</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b1c</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b1b</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b1a</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer2</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b19</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b18</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>byte[]</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b17</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b16</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer3</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b54</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>copyValueOf</methodName>
-            <methodSignature>java.lang.String copyValueOf([C)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b15</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b14</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>char[]</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b53</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>valueOf</methodName>
-            <methodSignature>java.lang.String valueOf([C)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b13</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b12</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>char[]</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b52</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>copyValueOf</methodName>
-            <methodSignature>java.lang.String copyValueOf([C, int, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b11</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b10</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>char[]</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b0f</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b0e</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b0d</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b0c</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer2</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b51</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>valueOf</methodName>
-            <methodSignature>java.lang.String valueOf([C, int, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b0b</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b0a</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>char[]</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b09</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b08</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b07</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b06</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer2</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b50</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>getChars</methodName>
-            <methodSignature>void getChars(int, int, [C, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b05</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b04</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b03</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b02</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer2</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4b01</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4b00</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>char[]</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4aff</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4afe</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer3</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b4f</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>join</methodName>
-            <methodSignature>java.lang.String join(java.lang.CharSequence, [Ljava.lang.CharSequence;)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4afd</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4afc</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>charSequence</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4afb</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4afa</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>charSequence[]</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b4e</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>format</methodName>
-            <methodSignature>java.lang.String format(java.lang.String, [Ljava.lang.Object;)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4af9</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4af8</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4af7</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4af6</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>object[]</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b4d</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>format</methodName>
-            <methodSignature>java.lang.String format(java.util.Locale, java.lang.String, [Ljava.lang.Object;)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4af5</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4af4</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>locale</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4af3</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4af2</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4af1</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4af0</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>object[]</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b4c</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>valueOf</methodName>
-            <methodSignature>java.lang.String valueOf(boolean)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4aef</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4aee</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>boolean</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b4b</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>regionMatches</methodName>
-            <methodSignature>boolean regionMatches(boolean, int, java.lang.String, int, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4aed</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4aec</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>boolean</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4aeb</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4aea</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ae9</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ae8</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ae7</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ae6</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer2</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ae5</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ae4</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer3</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b4a</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>valueOf</methodName>
-            <methodSignature>java.lang.String valueOf(char)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ae3</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ae2</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>character</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b49</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>replace</methodName>
-            <methodSignature>java.lang.String replace(char, char)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ae1</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ae0</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>character1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4adf</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ade</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>character2</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b48</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>valueOf</methodName>
-            <methodSignature>java.lang.String valueOf(double)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4add</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4adc</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>double</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b47</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>valueOf</methodName>
-            <methodSignature>java.lang.String valueOf(float)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4adb</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ada</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>float</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b46</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>charAt</methodName>
-            <methodSignature>char charAt(int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ad9</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ad8</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b45</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>codePointAt</methodName>
-            <methodSignature>int codePointAt(int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ad7</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ad6</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b44</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>codePointBefore</methodName>
-            <methodSignature>int codePointBefore(int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ad5</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ad4</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b43</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>indexOf</methodName>
-            <methodSignature>int indexOf(int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ad3</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ad2</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b42</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>lastIndexOf</methodName>
-            <methodSignature>int lastIndexOf(int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ad1</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ad0</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b41</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>substring</methodName>
-            <methodSignature>java.lang.String substring(int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4acf</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ace</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b40</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>valueOf</methodName>
-            <methodSignature>java.lang.String valueOf(int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4acd</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4acc</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b3f</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>codePointCount</methodName>
-            <methodSignature>int codePointCount(int, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4acb</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4aca</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ac9</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ac8</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer2</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b3e</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>indexOf</methodName>
-            <methodSignature>int indexOf(int, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ac7</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ac6</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ac5</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ac4</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer2</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b3d</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>lastIndexOf</methodName>
-            <methodSignature>int lastIndexOf(int, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ac3</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ac2</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ac1</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ac0</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer2</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b3c</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>offsetByCodePoints</methodName>
-            <methodSignature>int offsetByCodePoints(int, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4abf</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4abe</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4abd</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4abc</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer2</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b3b</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>subSequence</methodName>
-            <methodSignature>java.lang.CharSequence subSequence(int, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4abb</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4aba</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ab9</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ab8</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer2</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b3a</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>substring</methodName>
-            <methodSignature>java.lang.String substring(int, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ab7</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ab6</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ab5</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ab4</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer2</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b39</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>regionMatches</methodName>
-            <methodSignature>boolean regionMatches(int, java.lang.String, int, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ab3</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ab2</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4ab1</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4ab0</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4aaf</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4aae</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer2</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4aad</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4aac</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer3</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b38</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>split</methodName>
-            <methodSignature>[Ljava.lang.String; split(java.lang.String, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4aab</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4aaa</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4aa9</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4aa8</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b37</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>startsWith</methodName>
-            <methodSignature>boolean startsWith(java.lang.String, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4aa7</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4aa6</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4aa5</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4aa4</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b36</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>indexOf</methodName>
-            <methodSignature>int indexOf(java.lang.String, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4aa3</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4aa2</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4aa1</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4aa0</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b35</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>lastIndexOf</methodName>
-            <methodSignature>int lastIndexOf(java.lang.String, int)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a9f</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a9e</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a9d</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a9c</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>integer</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b34</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>contains</methodName>
-            <methodSignature>boolean contains(java.lang.CharSequence)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a9b</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a9a</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>charSequence</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b33</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>contentEquals</methodName>
-            <methodSignature>boolean contentEquals(java.lang.CharSequence)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a99</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a98</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>charSequence</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b32</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>replace</methodName>
-            <methodSignature>java.lang.String replace(java.lang.CharSequence, java.lang.CharSequence)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a97</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a96</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>charSequence1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a95</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a94</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>charSequence2</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b31</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>join</methodName>
-            <methodSignature>java.lang.String join(java.lang.CharSequence, java.lang.Iterable)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a93</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a92</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>charSequence</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a91</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a90</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>iterable</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b30</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>valueOf</methodName>
-            <methodSignature>java.lang.String valueOf(java.lang.Object)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a8f</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a8e</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>object</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b2f</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>getBytes</methodName>
-            <methodSignature>[B getBytes(java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a8d</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a8c</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b2e</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>split</methodName>
-            <methodSignature>[Ljava.lang.String; split(java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a8b</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a8a</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b2d</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>endsWith</methodName>
-            <methodSignature>boolean endsWith(java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a89</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a88</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b2c</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>equalsIgnoreCase</methodName>
-            <methodSignature>boolean equalsIgnoreCase(java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a87</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a86</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b2b</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>matches</methodName>
-            <methodSignature>boolean matches(java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a85</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a84</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b2a</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>startsWith</methodName>
-            <methodSignature>boolean startsWith(java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a83</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a82</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b29</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>compareTo</methodName>
-            <methodSignature>int compareTo(java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a81</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a80</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b28</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>compareToIgnoreCase</methodName>
-            <methodSignature>int compareToIgnoreCase(java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a7f</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a7e</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b27</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>indexOf</methodName>
-            <methodSignature>int indexOf(java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a7d</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a7c</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b26</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>lastIndexOf</methodName>
-            <methodSignature>int lastIndexOf(java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a7b</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a7a</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b25</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>concat</methodName>
-            <methodSignature>java.lang.String concat(java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a79</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a78</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b24</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>replaceAll</methodName>
-            <methodSignature>java.lang.String replaceAll(java.lang.String, java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a77</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a76</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a75</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a74</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text2</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b23</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>replaceFirst</methodName>
-            <methodSignature>java.lang.String replaceFirst(java.lang.String, java.lang.String)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a73</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a72</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text1</parameterName>
-            </parametersCustomizations>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a71</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a70</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>text2</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b22</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>contentEquals</methodName>
-            <methodSignature>boolean contentEquals(java.lang.StringBuffer)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a6f</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a6e</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>stringBuffer</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b21</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>getBytes</methodName>
-            <methodSignature>[B getBytes(java.nio.charset.Charset)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a6d</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a6c</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>charset</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b20</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>toLowerCase</methodName>
-            <methodSignature>java.lang.String toLowerCase(java.util.Locale)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a6b</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a6a</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>locale</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b1f</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>toUpperCase</methodName>
-            <methodSignature>java.lang.String toUpperCase(java.util.Locale)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a69</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a68</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>locale</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-40c7e984:18291437440:-4b1e</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>valueOf</methodName>
-            <methodSignature>java.lang.String valueOf(long)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-40c7e984:18291437440:-4a67</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-40c7e984:18291437440:-4a66</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>long</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <typeName>java.lang.String</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
+        <validationRequirementForced>false</validationRequirementForced>
+    </typeCustomization>
+    <typeCustomization>
         <uniqueIdentifier>628a9c10:182914a573c:-7348</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
@@ -2251,7 +363,9 @@
         <menuModel>
             <uniqueIdentifier>628a9c10:182914a573c:-7347</uniqueIdentifier>
         </menuModel>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>Encapsulation [context=MethodContext [methodSignature=java.lang.String send(), objectType=xy.reflect.ui.example.SaySomething], subContext=MethodResult, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
+        <validationRequirementForced>false</validationRequirementForced>
+    </typeCustomization>
 </infoCustomizations>

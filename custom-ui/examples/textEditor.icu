@@ -1,7 +1,6 @@
-<?xml version="1.0" ?>
-<!--Generated with Custom UI (http://javacollection.net/reflectionui/)-->
+
 <infoCustomizations>
-    <appplicationCustomization>
+    <applicationCustomization>
         <uniqueIdentifier>-3fde177e:16ceef5c3ce:-8000</uniqueIdentifier>
         <specificProperties/>
         <mainBackgroundColor>
@@ -33,19 +32,21 @@
             <green>234</green>
             <red>255</red>
         </titleForegroundColor>
-    </appplicationCustomization>
-    <typeCustomizations>
+    </applicationCustomization>
+    <typeCustomization>
         <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68ec</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
+        <fieldsCustomization>
             <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68e8</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
+            <displayAreaVerticalFilling>true</displayAreaVerticalFilling>
+            <displayAreaVerticalWeight>1.0</displayAreaVerticalWeight>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
             <fieldName>text</fieldName>
@@ -60,17 +61,17 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68e7</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
+                </applicationCustomization>
+                <typeCustomization>
                     <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68ce</uniqueIdentifier>
                     <specificProperties>
                         <entry>
                             <key>xy.reflect.ui.control.swing.plugin.MultipleLinesTextPlugin</key>
-                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">rO0ABXNyAFl4eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLk11bHRpcGxlTGluZXNUZXh0UGx1Z2luJE11bHRpcGxlTGluZXNUZXh0Q29uZmlndXJhdGlvbgAAAAAAAAABAgABTAAGbGVuZ3RodAB5THh5L3JlZmxlY3QvdWkvY29udHJvbC9zd2luZy9wbHVnaW4vTXVsdGlwbGVMaW5lc1RleHRQbHVnaW4kTXVsdGlwbGVMaW5lc1RleHRDb25maWd1cmF0aW9uJENvbnRyb2xEaW1lbnNpb25TcGVjaWZpY2F0aW9uO3hyAF94eS5yZWZsZWN0LnVpLmNvbnRyb2wucGx1Z2luLkFic3RyYWN0U2ltcGxlQ3VzdG9taXphYmxlRmllbGRDb250cm9sUGx1Z2luJEFic3RyYWN0Q29uZmlndXJhdGlvbgAAAAAAAAABAgAAeHBzcgB3eHkucmVmbGVjdC51aS5jb250cm9sLnN3aW5nLnBsdWdpbi5NdWx0aXBsZUxpbmVzVGV4dFBsdWdpbiRNdWx0aXBsZUxpbmVzVGV4dENvbmZpZ3VyYXRpb24kQ29udHJvbERpbWVuc2lvblNwZWNpZmljYXRpb24AAAAAAAAAAQIAAkkABXZhbHVlTAAEdW5pdHQAa0x4eS9yZWZsZWN0L3VpL2NvbnRyb2wvc3dpbmcvcGx1Z2luL011bHRpcGxlTGluZXNUZXh0UGx1Z2luJE11bHRpcGxlTGluZXNUZXh0Q29uZmlndXJhdGlvbiRDb250cm9sU2l6ZVVuaXQ7eHAAAABQfnIAaXh5LnJlZmxlY3QudWkuY29udHJvbC5zd2luZy5wbHVnaW4uTXVsdGlwbGVMaW5lc1RleHRQbHVnaW4kTXVsdGlwbGVMaW5lc1RleHRDb25maWd1cmF0aW9uJENvbnRyb2xTaXplVW5pdAAAAAAAAAAAEgAAeHIADmphdmEubGFuZy5FbnVtAAAAAAAAAAASAAB4cHQADlNDUkVFTl9QRVJDRU5U</value>
+                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">rO0ABXNyAFl4eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLk11bHRpcGxlTGluZXNUZXh0UGx1Z2luJE11bHRpcGxlTGluZXNUZXh0Q29uZmlndXJhdGlvbgAAAAAAAAABAgADWgATbGluZVdyYXBwaW5nRW5hYmxlZEwABmhlaWdodHQAeUx4eS9yZWZsZWN0L3VpL2NvbnRyb2wvc3dpbmcvcGx1Z2luL011bHRpcGxlTGluZXNUZXh0UGx1Z2luJE11bHRpcGxlTGluZXNUZXh0Q29uZmlndXJhdGlvbiRDb250cm9sRGltZW5zaW9uU3BlY2lmaWNhdGlvbjtMAAV3aWR0aHEAfgABeHIAX3h5LnJlZmxlY3QudWkuY29udHJvbC5wbHVnaW4uQWJzdHJhY3RTaW1wbGVDdXN0b21pemFibGVGaWVsZENvbnRyb2xQbHVnaW4kQWJzdHJhY3RDb25maWd1cmF0aW9uAAAAAAAAAAECAAB4cABzcgB3eHkucmVmbGVjdC51aS5jb250cm9sLnN3aW5nLnBsdWdpbi5NdWx0aXBsZUxpbmVzVGV4dFBsdWdpbiRNdWx0aXBsZUxpbmVzVGV4dENvbmZpZ3VyYXRpb24kQ29udHJvbERpbWVuc2lvblNwZWNpZmljYXRpb24AAAAAAAAAAQIAAkkABXZhbHVlTAAEdW5pdHQAa0x4eS9yZWZsZWN0L3VpL2NvbnRyb2wvc3dpbmcvcGx1Z2luL011bHRpcGxlTGluZXNUZXh0UGx1Z2luJE11bHRpcGxlTGluZXNUZXh0Q29uZmlndXJhdGlvbiRDb250cm9sU2l6ZVVuaXQ7eHAAAAGQfnIAaXh5LnJlZmxlY3QudWkuY29udHJvbC5zd2luZy5wbHVnaW4uTXVsdGlwbGVMaW5lc1RleHRQbHVnaW4kTXVsdGlwbGVMaW5lc1RleHRDb25maWd1cmF0aW9uJENvbnRyb2xTaXplVW5pdAAAAAAAAAAAEgAAeHIADmphdmEubGFuZy5FbnVtAAAAAAAAAAASAAB4cHQABlBJWEVMU3NxAH4ABAAAAZBxAH4ACQ==</value>
                         </entry>
                         <entry>
                             <key>xy.reflect.ui.control.plugin.IFieldControlPlugin.CHOSEN</key>
@@ -85,12 +86,15 @@
                     <menuModel>
                         <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68cd</uniqueIdentifier>
                     </menuModel>
+                    <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
                     <typeName>java.lang.String</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
         <formWidth>
             <uniqueIdentifier>-439e7ba1:16ceef980e9:-67d1</uniqueIdentifier>
             <unit>SCREEN_PERCENT</unit>
@@ -99,36 +103,52 @@
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68eb</uniqueIdentifier>
-            <menus>
+            <menu>
                 <uniqueIdentifier>-3fde177e:16ceef5ca0f:-6817</uniqueIdentifier>
                 <name>File</name>
-                <itemCategories>
+                <itemCategory>
                     <uniqueIdentifier>-8530680:16ceefdf990:-65ae</uniqueIdentifier>
                     <name>serialization</name>
-                </itemCategories>
-                <itemCategories>
+                </itemCategory>
+                <itemCategory>
                     <uniqueIdentifier>-8530680:16ceefdf990:-65a4</uniqueIdentifier>
                     <exitMenuItem>
                         <uniqueIdentifier>-8530680:16ceefdf990:-65a2</uniqueIdentifier>
                         <name>Quit</name>
                     </exitMenuItem>
                     <name>lifecycle</name>
-                </itemCategories>
-            </menus>
-            <menus>
+                </itemCategory>
+            </menu>
+            <menu>
                 <uniqueIdentifier>-3fde177e:16ceef5ca0f:-67e3</uniqueIdentifier>
                 <name>Edit</name>
                 <undoMenuItem>
                     <uniqueIdentifier>-3fde177e:16ceef5ca0f:-66b9</uniqueIdentifier>
                     <name>Undo</name>
+                    <keyboardShortcut>
+                        <keyName>Z</keyName>
+                        <altDown>false</altDown>
+                        <altGrDown>false</altGrDown>
+                        <ctrlDown>true</ctrlDown>
+                        <metaDown>false</metaDown>
+                        <shiftDown>false</shiftDown>
+                    </keyboardShortcut>
                 </undoMenuItem>
                 <redoMenuItem>
                     <uniqueIdentifier>-3fde177e:16ceef5ca0f:-66ac</uniqueIdentifier>
                     <name>Redo</name>
+                    <keyboardShortcut>
+                        <keyName>Y</keyName>
+                        <altDown>false</altDown>
+                        <altGrDown>false</altGrDown>
+                        <ctrlDown>true</ctrlDown>
+                        <metaDown>false</metaDown>
+                        <shiftDown>false</shiftDown>
+                    </keyboardShortcut>
                 </redoMenuItem>
-            </menus>
+            </menu>
         </menuModel>
-        <methodsCustomizations>
+        <methodsCustomization>
             <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68e3</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
@@ -136,13 +156,14 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <lastInvocationDataUsageDisabled>false</lastInvocationDataUsageDisabled>
             <menuItemCategory>
                 <uniqueIdentifier>-8530680:16ceefdf990:-65ae</uniqueIdentifier>
                 <name>serialization</name>
             </menuItemCategory>
             <methodName>load</methodName>
             <methodSignature>void load(java.io.File)</methodSignature>
-            <parametersCustomizations>
+            <parametersCustomization>
                 <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68dd</uniqueIdentifier>
                 <specificProperties/>
                 <defaultValue>
@@ -152,40 +173,15 @@
                 <hidden>false</hidden>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>file</parameterName>
-            </parametersCustomizations>
+            </parametersCustomization>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <returnValueValidityDetectionForced>false</returnValueValidityDetectionForced>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68e5</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>main</methodName>
-            <methodSignature>void main([Ljava.lang.String;)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68df</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68de</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>string[]</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
+        </methodsCustomization>
+        <methodsCustomization>
             <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68e1</uniqueIdentifier>
             <specificProperties/>
             <hidden>true</hidden>
@@ -193,13 +189,14 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <lastInvocationDataUsageDisabled>false</lastInvocationDataUsageDisabled>
             <menuItemCategory>
                 <uniqueIdentifier>-8530680:16ceefdf990:-65ae</uniqueIdentifier>
                 <name>serialization</name>
             </menuItemCategory>
             <methodName>save</methodName>
             <methodSignature>void save(java.io.File)</methodSignature>
-            <parametersCustomizations>
+            <parametersCustomization>
                 <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68db</uniqueIdentifier>
                 <specificProperties/>
                 <defaultValue>
@@ -209,38 +206,72 @@
                 <hidden>false</hidden>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>file</parameterName>
-            </parametersCustomizations>
+            </parametersCustomization>
             <readOnlyForced>true</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <returnValueValidityDetectionForced>false</returnValueValidityDetectionForced>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
-        </methodsCustomizations>
+        </methodsCustomization>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>xy.reflect.ui.example.TextEditor</typeName>
         <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
+        <validationRequirementForced>false</validationRequirementForced>
+    </typeCustomization>
+    <typeCustomization>
         <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68ea</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
+        <fieldsCustomization>
+            <uniqueIdentifier>2c8f7b5a:19a16466c81:-7fa5</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayAreaVerticalFilling>true</displayAreaVerticalFilling>
+            <displayAreaVerticalWeight>1.0</displayAreaVerticalWeight>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>2c8f7b5a:19a16466c81:-7fa3</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <applicationCustomization>
+                    <uniqueIdentifier>2c8f7b5a:19a16466c81:-7fa4</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </applicationCustomization>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68e9</uniqueIdentifier>
         </menuModel>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>Encapsulation [encapsulatedObjectType=xy.reflect.ui.example.TextEditor]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
+        <validationRequirementForced>false</validationRequirementForced>
+    </typeCustomization>
+    <typeCustomization>
         <uniqueIdentifier>-439e7ba1:16ceef980e9:-667c</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
+        <fieldsCustomization>
             <uniqueIdentifier>-439e7ba1:16ceef980e9:-667a</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -258,12 +289,12 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>-439e7ba1:16ceef980e9:-6679</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
+                </applicationCustomization>
+                <typeCustomization>
                     <uniqueIdentifier>-439e7ba1:16ceef980e9:-6675</uniqueIdentifier>
                     <specificProperties>
                         <entry>
@@ -283,13 +314,16 @@
                     <menuModel>
                         <uniqueIdentifier>-439e7ba1:16ceef980e9:-6674</uniqueIdentifier>
                     </menuModel>
+                    <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
                     <typeName>java.io.File</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>21f91f69:1792b0825e2:-4901</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -307,12 +341,12 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>21f91f69:1792b0825e2:-4900</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
+                </applicationCustomization>
+                <typeCustomization>
                     <uniqueIdentifier>21f91f69:1792b0825e2:-48fc</uniqueIdentifier>
                     <specificProperties>
                         <entry>
@@ -332,27 +366,32 @@
                     <menuModel>
                         <uniqueIdentifier>21f91f69:1792b0825e2:-48fb</uniqueIdentifier>
                     </menuModel>
+                    <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
                     <typeName>java.io.File</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-439e7ba1:16ceef980e9:-667b</uniqueIdentifier>
         </menuModel>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>MethodSetupObject [context=MethodContext [methodSignature=void save(java.io.File), objectType=xy.reflect.ui.example.TextEditor]]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
+        <validationRequirementForced>false</validationRequirementForced>
+    </typeCustomization>
+    <typeCustomization>
         <uniqueIdentifier>-439e7ba1:16ceef980e9:-6673</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
+        <fieldsCustomization>
             <uniqueIdentifier>-439e7ba1:16ceef980e9:-6671</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -370,12 +409,12 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>-439e7ba1:16ceef980e9:-6670</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
+                </applicationCustomization>
+                <typeCustomization>
                     <uniqueIdentifier>-439e7ba1:16ceef980e9:-666e</uniqueIdentifier>
                     <specificProperties>
                         <entry>
@@ -395,13 +434,16 @@
                     <menuModel>
                         <uniqueIdentifier>-439e7ba1:16ceef980e9:-666d</uniqueIdentifier>
                     </menuModel>
+                    <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
                     <typeName>java.io.File</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>21f91f69:1792b0825e2:-473d</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -419,12 +461,12 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>21f91f69:1792b0825e2:-473c</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
+                </applicationCustomization>
+                <typeCustomization>
                     <uniqueIdentifier>21f91f69:1792b0825e2:-4738</uniqueIdentifier>
                     <specificProperties>
                         <entry>
@@ -444,17 +486,22 @@
                     <menuModel>
                         <uniqueIdentifier>21f91f69:1792b0825e2:-4737</uniqueIdentifier>
                     </menuModel>
+                    <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
                     <typeName>java.io.File</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-439e7ba1:16ceef980e9:-6672</uniqueIdentifier>
         </menuModel>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>MethodSetupObject [context=MethodContext [methodSignature=void load(java.io.File), objectType=xy.reflect.ui.example.TextEditor]]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
-    </typeCustomizations>
+        <validationRequirementForced>false</validationRequirementForced>
+    </typeCustomization>
 </infoCustomizations>

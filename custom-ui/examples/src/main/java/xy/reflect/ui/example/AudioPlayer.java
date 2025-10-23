@@ -87,8 +87,8 @@ public class AudioPlayer {
 		if (currentTrack == null) {
 			return "";
 		}
-		return (currentTrackIndex + 1) + " - " + currentTrack.getFileName() + " (" + currentTrack.getFormattedDuration()
-				+ ")";
+		return (currentTrackIndex + 1) + " - " + currentTrack.getFileName()
+				+ ((currentTrack.getDurationSeconds() != -1) ? (" (" + currentTrack.getFormattedDuration() + ")") : "");
 	}
 
 	public void importDirectory(File directory) {
@@ -212,6 +212,12 @@ public class AudioPlayer {
 					format = new AudioFormat(format.getSampleRate(), format.getSampleSizeInBits(), format.getChannels(),
 							true, format.isBigEndian());
 					audioStream = AudioSystem.getAudioInputStream(format, audioStream);
+				}
+				if (format.getFrameSize() == AudioSystem.NOT_SPECIFIED) {
+					return -1;
+				}
+				if (format.getFrameRate() == AudioSystem.NOT_SPECIFIED) {
+					return -1;
 				}
 				return Math.round(file.length() / (format.getFrameSize() * format.getFrameRate()));
 			} catch (Exception e) {

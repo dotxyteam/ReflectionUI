@@ -1,11 +1,16 @@
 package xy.reflect.ui.example;
 
+import java.awt.Image;
 import java.util.Date;
 
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.util.Listener;
 
 /**
  * Meteo GUI generated using only the XML declarative customizations.
@@ -25,6 +30,10 @@ public class Meteo {
 				renderer.openObjectFrame(new Meteo());
 			}
 		});
+	}
+
+	public static Image loadImageThroughCache(ResourcePath imagePath, Listener<String> errorMessageListener) {
+		return SwingRendererUtils.loadImageThroughCache(imagePath, errorMessageListener, SwingRenderer.getDefault());
 	}
 
 	public String getCountryName() {

@@ -249,12 +249,9 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 
 				@Override
 				public void install(JFormattedTextField ftf) {
-					listenerDisabled = true;
-					try {
+					withListenerDisabled(() -> {
 						super.install(ftf);
-					} finally {
-						listenerDisabled = false;
-					}
+					});
 				}
 			}));
 		}
@@ -265,6 +262,14 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			if (initialized) {
 				refreshUI(true);
 			}
+		}
+
+		@Override
+		protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+			if (listenerDisabled) {
+				return;
+			}
+			super.firePropertyChange(propertyName, oldValue, newValue);
 		}
 
 		protected void setupEvents() {
@@ -354,8 +359,8 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
-			listenerDisabled = true;
-			try {
+			boolean[] result = new boolean[] { false };
+			withListenerDisabled(() -> {
 				if (refreshStructure) {
 					updateControlConfiguration();
 					setFormats(controlConfiguration.format);
@@ -400,7 +405,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					 * performed later after the change is committed. Note that refreshing the
 					 * control would have deleted the new control value before it was committed.
 					 */
-					return true;
+					result[0] = true;
 				}
 				Date date = (Date) data.getValue();
 				currentConversionError = null;
@@ -408,10 +413,9 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 				setDate(date);
 				JFormattedTextField editor = this.getEditor();
 				editor.setValue(date);
-				return true;
-			} finally {
-				listenerDisabled = false;
-			}
+				result[0] = true;
+			});
+			return result[0];
 		}
 
 		protected void updateControlConfiguration() {
@@ -428,14 +432,21 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			}
 			JFormattedTextField editor = getEditor();
 			int caretPosition = editor.getCaretPosition();
-			listenerDisabled = true;
-			try {
+			withListenerDisabled(() -> {
 				setDate((Date) value);
-			} finally {
-				listenerDisabled = false;
-			}
+			});
 			data.setValue(getDate());
 			editor.setCaretPosition(Math.min(caretPosition, editor.getText().length()));
+		}
+
+		protected void withListenerDisabled(Runnable runnable) {
+			boolean listenerDisabledInitially = listenerDisabled;
+			listenerDisabled = true;
+			try {
+				runnable.run();
+			} finally {
+				listenerDisabled = listenerDisabledInitially;
+			}
 		}
 
 		protected Date getDateFromTextEditor() {

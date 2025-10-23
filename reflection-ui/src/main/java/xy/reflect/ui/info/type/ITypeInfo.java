@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ITransaction;
@@ -246,7 +247,7 @@ public interface ITypeInfo extends IInfo {
 
 		@Override
 		public CategoriesStyle getCategoriesStyle() {
-			return CategoriesStyle.getDefault();
+			return CategoriesStyle.getDefault(ReflectionUI.getDefault(), this);
 		}
 
 		@Override
@@ -615,7 +616,22 @@ public interface ITypeInfo extends IInfo {
 	public enum CategoriesStyle {
 		STANDARD, STANDARD_VERTICAL, CLASSIC, CLASSIC_VERTICAL, MODERN, MODERN_VERTICAL;
 
-		public static CategoriesStyle getDefault() {
+		public static CategoriesStyle getDefault(ReflectionUI reflectionUI, ITypeInfo type) {
+			if (type.getCategoriesBackgroundColor() != null) {
+				return MODERN;
+			}
+			if (type.getFormBackgroundColor() != null) {
+				return MODERN;
+			}
+			if (type.getFormBackgroundImagePath() != null) {
+				return MODERN;
+			}
+			if (reflectionUI.getApplicationInfo().getMainBackgroundColor() != null) {
+				return MODERN;
+			}
+			if (reflectionUI.getApplicationInfo().getMainBackgroundImagePath() != null) {
+				return MODERN;
+			}
 			return STANDARD;
 		}
 	}

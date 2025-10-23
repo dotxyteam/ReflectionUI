@@ -1,24 +1,8 @@
-<?xml version="1.0" ?>
-<!--Generated with Custom UI (http://javacollection.net/reflectionui/)-->
+
 <infoCustomizations>
-    <appplicationCustomization>
+    <applicationCustomization>
         <uniqueIdentifier>838c312:16ce72cdbe2:-8000</uniqueIdentifier>
         <specificProperties/>
-        <mainButtonBackgroundColor>
-            <blue>153</blue>
-            <green>102</green>
-            <red>0</red>
-        </mainButtonBackgroundColor>
-        <mainButtonBorderColor>
-            <blue>153</blue>
-            <green>102</green>
-            <red>0</red>
-        </mainButtonBorderColor>
-        <mainButtonForegroundColor>
-            <blue>255</blue>
-            <green>255</green>
-            <red>255</red>
-        </mainButtonForegroundColor>
         <iconImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/loginScreen-icon.png</specification>
         </iconImagePath>
@@ -28,7 +12,7 @@
             <red>0</red>
         </mainBackgroundColor>
         <mainBackgroundImagePath>
-            <specification>/media/olitank/data/prog/git/ReflectionUI/custom-ui/examples/tmp/backgrounds/new/black-background-free-wallpaper-keys-1072754.jpg</specification>
+            <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/black-background-free-wallpaper-keys-1072754.jpg</specification>
         </mainBackgroundImagePath>
         <mainBorderColor>
             <blue>255</blue>
@@ -61,23 +45,23 @@
             <green>255</green>
             <red>255</red>
         </titleForegroundColor>
-    </appplicationCustomization>
-    <typeCustomizations>
+    </applicationCustomization>
+    <typeCustomization>
         <uniqueIdentifier>838c312:16ce72ce13e:-6925</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <customFieldsOrder>row1</customFieldsOrder>
-        <customFieldsOrder>row2</customFieldsOrder>
-        <customFieldsOrder>row3</customFieldsOrder>
-        <customFieldsOrder>row4</customFieldsOrder>
-        <customFieldsOrder>row5</customFieldsOrder>
-        <customFieldsOrder>title</customFieldsOrder>
-        <customFieldsOrder>password</customFieldsOrder>
-        <customFieldsOrder>userName</customFieldsOrder>
-        <fieldsCustomizations>
+        <customFieldsOrderEntry>row1</customFieldsOrderEntry>
+        <customFieldsOrderEntry>row2</customFieldsOrderEntry>
+        <customFieldsOrderEntry>row3</customFieldsOrderEntry>
+        <customFieldsOrderEntry>row4</customFieldsOrderEntry>
+        <customFieldsOrderEntry>row5</customFieldsOrderEntry>
+        <customFieldsOrderEntry>title</customFieldsOrderEntry>
+        <customFieldsOrderEntry>password</customFieldsOrderEntry>
+        <customFieldsOrderEntry>userName</customFieldsOrderEntry>
+        <fieldsCustomization>
             <uniqueIdentifier>838c312:16ce72ce13e:-6921</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -96,15 +80,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>838c312:16ce72ce13e:-6703</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>838c312:16ce72ce13e:-691c</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -123,15 +108,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>838c312:16ce72ce13e:-6710</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>838c312:16ce72ce13e:-68c6</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -150,15 +136,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>838c312:16ce72ce13e:-6725</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>838c312:16ce72ce13e:-6731</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -177,15 +164,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>41ba5ca0:16ce7318b22:-6842</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>838c312:16ce72ce13e:-6724</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -204,15 +192,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>41ba5ca0:16ce7318b22:-683a</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>838c312:16ce72ce13e:-670f</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -231,15 +220,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>41ba5ca0:16ce7318b22:-6832</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>838c312:16ce72ce13e:-6702</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -258,15 +248,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>41ba5ca0:16ce7318b22:-682a</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-6884</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -285,15 +276,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>41ba5ca0:16ce7318b22:-6822</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-684e</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -312,15 +304,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>41ba5ca0:16ce7318b22:-684d</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-680d</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -339,15 +332,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>41ba5ca0:16ce7318b22:-67fb</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-6807</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -366,25 +360,21 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>41ba5ca0:16ce7318b22:-6806</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
         <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
-        <formWidth>
-            <uniqueIdentifier>-e590457:16d551c92d8:-664e</uniqueIdentifier>
-            <unit>SCREEN_PERCENT</unit>
-            <value>60</value>
-        </formWidth>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>838c312:16ce72ce13e:-6924</uniqueIdentifier>
         </menuModel>
-        <methodsCustomizations>
+        <methodsCustomization>
             <uniqueIdentifier>838c312:16ce72ce13e:-6917</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -392,41 +382,17 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row4</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <lastInvocationDataUsageDisabled>false</lastInvocationDataUsageDisabled>
             <methodName>signIn</methodName>
             <methodSignature>void signIn()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <returnValueValidityDetectionForced>false</returnValueValidityDetectionForced>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
-            <uniqueIdentifier>838c312:16ce72ce13e:-6913</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <detachedReturnValueForced>false</detachedReturnValueForced>
-            <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodName>main</methodName>
-            <methodSignature>void main([Ljava.lang.String;)</methodSignature>
-            <parametersCustomizations>
-                <uniqueIdentifier>838c312:16ce72ce13e:-6911</uniqueIdentifier>
-                <specificProperties/>
-                <defaultValue>
-                    <uniqueIdentifier>838c312:16ce72ce13e:-6910</uniqueIdentifier>
-                </defaultValue>
-                <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
-                <nullValueDistinctForced>false</nullValueDistinctForced>
-                <parameterName>string[]</parameterName>
-            </parametersCustomizations>
-            <readOnlyForced>false</readOnlyForced>
-            <returnValueFieldGenerated>false</returnValueFieldGenerated>
-            <runWhenObjectHidden>false</runWhenObjectHidden>
-            <runWhenObjectShown>false</runWhenObjectShown>
-            <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
+        </methodsCustomization>
+        <methodsCustomization>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-68b8</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -434,15 +400,17 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>row5</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <lastInvocationDataUsageDisabled>false</lastInvocationDataUsageDisabled>
             <methodName>recoverForgottenPassword</methodName>
             <methodSignature>void recoverForgottenPassword()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <returnValueValidityDetectionForced>false</returnValueValidityDetectionForced>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
-        </methodsCustomizations>
-        <methodsCustomizations>
+        </methodsCustomization>
+        <methodsCustomization>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-68b6</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -450,34 +418,38 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>left</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <lastInvocationDataUsageDisabled>false</lastInvocationDataUsageDisabled>
             <methodName>signUp</methodName>
             <methodSignature>void signUp()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <returnValueValidityDetectionForced>false</returnValueValidityDetectionForced>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
-        </methodsCustomizations>
+        </methodsCustomization>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>xy.reflect.ui.example.LoginScreen6</typeName>
         <undoManagementHidden>false</undoManagementHidden>
-        <virtualFieldDeclarations>
+        <validationRequirementForced>false</validationRequirementForced>
+        <virtualFieldDeclaration>
             <uniqueIdentifier>838c312:16ce72ce13e:-68c8</uniqueIdentifier>
             <fieldName>title</fieldName>
             <javaClassBasedTypeInfoFinder>
                 <uniqueIdentifier>838c312:16ce72ce13e:-68c7</uniqueIdentifier>
                 <className>java.lang.String</className>
             </javaClassBasedTypeInfoFinder>
-        </virtualFieldDeclarations>
-        <virtualFieldDeclarations>
+        </virtualFieldDeclaration>
+        <virtualFieldDeclaration>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-680f</uniqueIdentifier>
             <fieldName>welcomText</fieldName>
             <javaClassBasedTypeInfoFinder>
                 <uniqueIdentifier>41ba5ca0:16ce7318b22:-680e</uniqueIdentifier>
                 <className>java.lang.String</className>
             </javaClassBasedTypeInfoFinder>
-        </virtualFieldDeclarations>
-    </typeCustomizations>
-    <typeCustomizations>
+        </virtualFieldDeclaration>
+    </typeCustomization>
+    <typeCustomization>
         <uniqueIdentifier>838c312:16ce72ce13e:-6923</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
@@ -488,17 +460,19 @@
         <menuModel>
             <uniqueIdentifier>838c312:16ce72ce13e:-6922</uniqueIdentifier>
         </menuModel>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>Encapsulation [encapsulatedObjectType=xy.reflect.ui.example.LoginScreen6]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
+        <validationRequirementForced>false</validationRequirementForced>
+    </typeCustomization>
+    <typeCustomization>
         <uniqueIdentifier>838c312:16ce72ce13e:-672e</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
+        <fieldsCustomization>
             <uniqueIdentifier>838c312:16ce72ce13e:-672c</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -518,12 +492,12 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>838c312:16ce72ce13e:-68c5</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
+                </applicationCustomization>
+                <typeCustomization>
                     <uniqueIdentifier>838c312:16ce72ce13e:-68a6</uniqueIdentifier>
                     <specificProperties>
                         <entry>
@@ -543,20 +517,25 @@
                     <menuModel>
                         <uniqueIdentifier>838c312:16ce72ce13e:-68a5</uniqueIdentifier>
                     </menuModel>
+                    <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
                     <typeName>java.lang.String</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>838c312:16ce72ce13e:-672d</uniqueIdentifier>
         </menuModel>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen6], fieldName=row1]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
+        <validationRequirementForced>false</validationRequirementForced>
+    </typeCustomization>
+    <typeCustomization>
         <uniqueIdentifier>838c312:16ce72ce13e:-6721</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
@@ -568,17 +547,19 @@
         <menuModel>
             <uniqueIdentifier>838c312:16ce72ce13e:-6720</uniqueIdentifier>
         </menuModel>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen6], fieldName=row2]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
+        <validationRequirementForced>false</validationRequirementForced>
+    </typeCustomization>
+    <typeCustomization>
         <uniqueIdentifier>838c312:16ce72ce13e:-670c</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
+        <fieldsCustomization>
             <uniqueIdentifier>838c312:16ce72ce13e:-670a</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -596,12 +577,12 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>838c312:16ce72ce13e:-6920</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
+                </applicationCustomization>
+                <typeCustomization>
                     <uniqueIdentifier>838c312:16ce72ce13e:-6906</uniqueIdentifier>
                     <specificProperties>
                         <entry>
@@ -621,38 +602,43 @@
                     <menuModel>
                         <uniqueIdentifier>838c312:16ce72ce13e:-6905</uniqueIdentifier>
                     </menuModel>
+                    <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
                     <typeName>java.lang.String</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
         <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>838c312:16ce72ce13e:-670b</uniqueIdentifier>
         </menuModel>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen6], fieldName=row3]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
+        <validationRequirementForced>false</validationRequirementForced>
+    </typeCustomization>
+    <typeCustomization>
         <uniqueIdentifier>41ba5ca0:16ce7318b22:-684b</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <customFieldsOrder>space.duplicate</customFieldsOrder>
-        <customFieldsOrder>row1</customFieldsOrder>
-        <customFieldsOrder>space</customFieldsOrder>
-        <customFieldsOrder>row2</customFieldsOrder>
-        <customFieldsOrder>row3</customFieldsOrder>
-        <customFieldsOrder>space.duplicate.duplicate</customFieldsOrder>
-        <customFieldsOrder>space.duplicate.duplicate.duplicate</customFieldsOrder>
-        <customFieldsOrder>row4</customFieldsOrder>
-        <customFieldsOrder>row5</customFieldsOrder>
-        <customFieldsOrder>space.duplicate.duplicate.duplicate.duplicate</customFieldsOrder>
-        <fieldsCustomizations>
+        <customFieldsOrderEntry>space.duplicate</customFieldsOrderEntry>
+        <customFieldsOrderEntry>row1</customFieldsOrderEntry>
+        <customFieldsOrderEntry>space</customFieldsOrderEntry>
+        <customFieldsOrderEntry>row2</customFieldsOrderEntry>
+        <customFieldsOrderEntry>row3</customFieldsOrderEntry>
+        <customFieldsOrderEntry>space.duplicate.duplicate</customFieldsOrderEntry>
+        <customFieldsOrderEntry>space.duplicate.duplicate.duplicate</customFieldsOrderEntry>
+        <customFieldsOrderEntry>row4</customFieldsOrderEntry>
+        <customFieldsOrderEntry>row5</customFieldsOrderEntry>
+        <customFieldsOrderEntry>space.duplicate.duplicate.duplicate.duplicate</customFieldsOrderEntry>
+        <fieldsCustomization>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-6849</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -671,15 +657,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>838c312:16ce72ce13e:-6730</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-6841</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -698,15 +685,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>838c312:16ce72ce13e:-6723</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-6839</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -725,15 +713,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>838c312:16ce72ce13e:-670e</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-6831</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -752,15 +741,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>838c312:16ce72ce13e:-6701</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-6829</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -779,15 +769,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>41ba5ca0:16ce7318b22:-6883</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>26b27e69:16ce7682650:-681f</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -807,15 +798,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>26b27e69:16ce7682650:-681e</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>26b27e69:16ce7682650:-67f4</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -834,15 +826,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>26b27e69:16ce7682650:-67f3</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>26b27e69:16ce7682650:-67ef</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -861,15 +854,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>26b27e69:16ce7682650:-67ee</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>26b27e69:16ce7682650:-67ea</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -888,15 +882,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>26b27e69:16ce7682650:-67e9</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>26b27e69:16ce7682650:-67e3</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -915,14 +910,15 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>26b27e69:16ce7682650:-67e2</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
         <formBackgroundColor>
             <blue>129</blue>
             <green>118</green>
@@ -932,28 +928,30 @@
         <menuModel>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-684a</uniqueIdentifier>
         </menuModel>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen6], fieldName=right]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
-        <virtualFieldDeclarations>
+        <validationRequirementForced>false</validationRequirementForced>
+        <virtualFieldDeclaration>
             <uniqueIdentifier>26b27e69:16ce7682650:-6821</uniqueIdentifier>
             <fieldName>space</fieldName>
             <javaClassBasedTypeInfoFinder>
                 <uniqueIdentifier>26b27e69:16ce7682650:-6820</uniqueIdentifier>
                 <className>java.lang.String</className>
             </javaClassBasedTypeInfoFinder>
-        </virtualFieldDeclarations>
-    </typeCustomizations>
-    <typeCustomizations>
+        </virtualFieldDeclaration>
+    </typeCustomization>
+    <typeCustomization>
         <uniqueIdentifier>41ba5ca0:16ce7318b22:-6804</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <customFieldsOrder>space</customFieldsOrder>
-        <customFieldsOrder>welcomText</customFieldsOrder>
-        <customFieldsOrder>slogan</customFieldsOrder>
-        <fieldsCustomizations>
+        <customFieldsOrderEntry>space</customFieldsOrderEntry>
+        <customFieldsOrderEntry>welcomText</customFieldsOrderEntry>
+        <customFieldsOrderEntry>slogan</customFieldsOrderEntry>
+        <fieldsCustomization>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-6802</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -973,12 +971,12 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>41ba5ca0:16ce7318b22:-680c</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
+                </applicationCustomization>
+                <typeCustomization>
                     <uniqueIdentifier>41ba5ca0:16ce7318b22:-6809</uniqueIdentifier>
                     <specificProperties>
                         <entry>
@@ -998,13 +996,16 @@
                     <menuModel>
                         <uniqueIdentifier>41ba5ca0:16ce7318b22:-6808</uniqueIdentifier>
                     </menuModel>
+                    <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
                     <typeName>java.lang.String</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>26b27e69:16ce7682650:-666e</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -1024,12 +1025,12 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>26b27e69:16ce7682650:-666d</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
+                </applicationCustomization>
+                <typeCustomization>
                     <uniqueIdentifier>26b27e69:16ce7682650:-666a</uniqueIdentifier>
                     <specificProperties>
                         <entry>
@@ -1049,13 +1050,16 @@
                     <menuModel>
                         <uniqueIdentifier>26b27e69:16ce7682650:-6669</uniqueIdentifier>
                     </menuModel>
+                    <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
                     <typeName>java.lang.String</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>-26eee42f:16ce7764195:-67e5</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -1075,15 +1079,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>-26eee42f:16ce7764195:-67e4</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>-26eee42f:16ce7764195:-672b</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -1102,15 +1107,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>-26eee42f:16ce7764195:-672a</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>-26eee42f:16ce7764195:-6726</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -1129,15 +1135,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>-26eee42f:16ce7764195:-6725</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>-26eee42f:16ce7764195:-6721</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -1156,15 +1163,16 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>-26eee42f:16ce7764195:-6720</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>-26eee42f:16ce7764195:-671c</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -1183,35 +1191,38 @@
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
-                <appplicationCustomization>
+                <applicationCustomization>
                     <uniqueIdentifier>-26eee42f:16ce7764195:-671b</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
+                </applicationCustomization>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-        </fieldsCustomizations>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-6803</uniqueIdentifier>
         </menuModel>
+        <polymorphicInstanceAbstractTypeOptionAllowed>false</polymorphicInstanceAbstractTypeOptionAllowed>
         <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen6], fieldName=left]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
-        <virtualFieldDeclarations>
+        <validationRequirementForced>false</validationRequirementForced>
+        <virtualFieldDeclaration>
             <uniqueIdentifier>26b27e69:16ce7682650:-6670</uniqueIdentifier>
             <fieldName>slogan</fieldName>
             <javaClassBasedTypeInfoFinder>
                 <uniqueIdentifier>26b27e69:16ce7682650:-666f</uniqueIdentifier>
                 <className>java.lang.String</className>
             </javaClassBasedTypeInfoFinder>
-        </virtualFieldDeclarations>
-        <virtualFieldDeclarations>
+        </virtualFieldDeclaration>
+        <virtualFieldDeclaration>
             <uniqueIdentifier>-26eee42f:16ce7764195:-67e7</uniqueIdentifier>
             <fieldName>space</fieldName>
             <javaClassBasedTypeInfoFinder>
                 <uniqueIdentifier>-26eee42f:16ce7764195:-67e6</uniqueIdentifier>
                 <className>java.lang.String</className>
             </javaClassBasedTypeInfoFinder>
-        </virtualFieldDeclarations>
-    </typeCustomizations>
+        </virtualFieldDeclaration>
+    </typeCustomization>
 </infoCustomizations>

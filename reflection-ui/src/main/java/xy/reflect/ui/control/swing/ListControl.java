@@ -2179,7 +2179,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			treeTableComponent.getTableHeader()
 					.setBackground(SwingRendererUtils.getColor(listData.getNonEditableBackgroundColor()));
 		} else {
-			treeTableComponent.getTableHeader().setBackground(new JXTreeTable().getTableHeader().getBackground());
+			if (swingRenderer.getMainBackgroundColor() != null) {
+				treeTableComponent.getTableHeader().setBackground(swingRenderer.getMainBackgroundColor());
+			} else {
+				treeTableComponent.getTableHeader().setBackground(new JXTreeTable().getTableHeader().getBackground());
+			}
 		}
 		if (listData.getNonEditableForegroundColor() != null) {
 			treeTableComponent.getTableHeader()

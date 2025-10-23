@@ -451,7 +451,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public CategoriesStyle getCategoriesStyle() {
-			return CategoriesStyle.getDefault();
+			return CategoriesStyle.getDefault(reflectionUI, reflectionUI.getTypeInfo(getSource()));
 		}
 
 		@Override

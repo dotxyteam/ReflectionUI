@@ -258,12 +258,9 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 
 				@Override
 				public void install(JFormattedTextField ftf) {
-					listenerDisabled = true;
-					try {
+					withListenerDisabled(() -> {
 						super.install(ftf);
-					} finally {
-						listenerDisabled = false;
-					}
+					});
 				}
 			}));
 		}
@@ -277,70 +274,11 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		}
 
 		@Override
-		public void setDate(Date date) {
-			super.setDate(date);
-			fixTimeSpinnersNotUpdatingIssue(date);
-		}
-
-		protected void fixTimeSpinnersNotUpdatingIssue(Date date) {
-			JSpinner timeSpinner;
-			try {
-				Field timeSpinnerField = JXDateTimePicker.class.getDeclaredField("timeSpinner");
-				timeSpinnerField.setAccessible(true);
-				timeSpinner = (JSpinner) timeSpinnerField.get(this);
-			} catch (Exception e) {
-				throw new ReflectionUIError(e);
+		protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+			if (listenerDisabled) {
+				return;
 			}
-			try {
-				timeSpinner.setValue(date);
-			} catch (Exception ignore) {
-			}
-		}
-
-		@Override
-		public void commitEdit() throws ParseException {
-			fixSecondsAndMillisecondsNotSettableIssue();
-		}
-
-		protected void fixSecondsAndMillisecondsNotSettableIssue() throws ParseException {
-			Date date = getDate();
-			if (date != null) {
-				JSpinner timeSpinner;
-				try {
-					Field timeSpinnerField = JXDateTimePicker.class.getDeclaredField("timeSpinner");
-					timeSpinnerField.setAccessible(true);
-					timeSpinner = (JSpinner) timeSpinnerField.get(this);
-				} catch (Exception e) {
-					throw new ReflectionUIError(e);
-				}
-				Date time = (Date) timeSpinner.getValue();
-				GregorianCalendar timeCalendar = new GregorianCalendar();
-				timeCalendar.setTime(time);
-
-				GregorianCalendar calendar = new GregorianCalendar();
-				calendar.setTime(date);
-				calendar.set(Calendar.HOUR_OF_DAY, timeCalendar.get(Calendar.HOUR_OF_DAY));
-				calendar.set(Calendar.MINUTE, timeCalendar.get(Calendar.MINUTE));
-				calendar.set(Calendar.SECOND, timeCalendar.get(Calendar.SECOND));
-				calendar.set(Calendar.MILLISECOND, timeCalendar.get(Calendar.MILLISECOND));
-
-				Date newDate = calendar.getTime();
-				setDate(newDate);
-			}
-			JFormattedTextField _dateField;
-			try {
-				Field _dateFieldField = JXDatePicker.class.getDeclaredField("_dateField");
-				_dateFieldField.setAccessible(true);
-				_dateField = (JFormattedTextField) _dateFieldField.get(this);
-			} catch (Exception e) {
-				throw new ReflectionUIError(e);
-			}
-			try {
-				_dateField.commitEdit();
-				fireActionPerformed(COMMIT_KEY);
-			} catch (ParseException e) {
-				throw e;
-			}
+			super.firePropertyChange(propertyName, oldValue, newValue);
 		}
 
 		protected void setupEvents() {
@@ -430,8 +368,8 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
-			listenerDisabled = true;
-			try {
+			boolean[] result = new boolean[] { false };
+			withListenerDisabled(() -> {
 				if (refreshStructure) {
 					updateControlConfiguration();
 					setFormats(controlConfiguration.dateFormat + " " + controlConfiguration.timeFormat);
@@ -477,7 +415,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 					 * performed later after the change is committed. Note that refreshing the
 					 * control would have deleted the new control value before it was committed.
 					 */
-					return true;
+					result[0] = true;
 				}
 				Date date = (Date) data.getValue();
 				currentConversionError = null;
@@ -485,10 +423,9 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 				setDate(date);
 				JFormattedTextField editor = this.getEditor();
 				editor.setValue(date);
-				return true;
-			} finally {
-				listenerDisabled = false;
-			}
+				result[0] = true;
+			});
+			return result[0];
 		}
 
 		protected void updateControlConfiguration() {
@@ -505,14 +442,21 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			}
 			JFormattedTextField editor = getEditor();
 			int caretPosition = editor.getCaretPosition();
-			listenerDisabled = true;
-			try {
+			withListenerDisabled(() -> {
 				setDate((Date) value);
-			} finally {
-				listenerDisabled = false;
-			}
+			});
 			data.setValue(getDate());
 			editor.setCaretPosition(Math.min(caretPosition, editor.getText().length()));
+		}
+
+		protected void withListenerDisabled(Runnable runnable) {
+			boolean listenerDisabledInitially = listenerDisabled;
+			listenerDisabled = true;
+			try {
+				runnable.run();
+			} finally {
+				listenerDisabled = listenerDisabledInitially;
+			}
 		}
 
 		protected Date getDateFromTextEditor() {
@@ -587,6 +531,73 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 
 		@Override
 		public void addMenuContributions(MenuModel menuModel) {
+		}
+
+		protected void fixTimeSpinnersNotUpdatingIssue(Date date) {
+			JSpinner timeSpinner;
+			try {
+				Field timeSpinnerField = JXDateTimePicker.class.getDeclaredField("timeSpinner");
+				timeSpinnerField.setAccessible(true);
+				timeSpinner = (JSpinner) timeSpinnerField.get(this);
+			} catch (Exception e) {
+				throw new ReflectionUIError(e);
+			}
+			try {
+				timeSpinner.setValue(date);
+			} catch (Exception ignore) {
+			}
+		}
+
+		@Override
+		public void setDate(Date date) {
+			super.setDate(date);
+			fixTimeSpinnersNotUpdatingIssue(date);
+		}
+
+		@Override
+		public void commitEdit() throws ParseException {
+			fixSecondsAndMillisecondsNotSettableIssue();
+		}
+
+		protected void fixSecondsAndMillisecondsNotSettableIssue() throws ParseException {
+			Date date = getDate();
+			if (date != null) {
+				JSpinner timeSpinner;
+				try {
+					Field timeSpinnerField = JXDateTimePicker.class.getDeclaredField("timeSpinner");
+					timeSpinnerField.setAccessible(true);
+					timeSpinner = (JSpinner) timeSpinnerField.get(this);
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
+				Date time = (Date) timeSpinner.getValue();
+				GregorianCalendar timeCalendar = new GregorianCalendar();
+				timeCalendar.setTime(time);
+
+				GregorianCalendar calendar = new GregorianCalendar();
+				calendar.setTime(date);
+				calendar.set(Calendar.HOUR_OF_DAY, timeCalendar.get(Calendar.HOUR_OF_DAY));
+				calendar.set(Calendar.MINUTE, timeCalendar.get(Calendar.MINUTE));
+				calendar.set(Calendar.SECOND, timeCalendar.get(Calendar.SECOND));
+				calendar.set(Calendar.MILLISECOND, timeCalendar.get(Calendar.MILLISECOND));
+
+				Date newDate = calendar.getTime();
+				setDate(newDate);
+			}
+			JFormattedTextField _dateField;
+			try {
+				Field _dateFieldField = JXDatePicker.class.getDeclaredField("_dateField");
+				_dateFieldField.setAccessible(true);
+				_dateField = (JFormattedTextField) _dateFieldField.get(this);
+			} catch (Exception e) {
+				throw new ReflectionUIError(e);
+			}
+			try {
+				_dateField.commitEdit();
+				fireActionPerformed(COMMIT_KEY);
+			} catch (ParseException e) {
+				throw e;
+			}
 		}
 
 	}

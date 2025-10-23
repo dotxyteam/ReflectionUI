@@ -72,7 +72,7 @@ public class CurrencyConverter {
 
 	private double getSourceCurrencyAmountValue() throws ScriptException {
 		ScriptEngineManager factory = new ScriptEngineManager();
-		ScriptEngine engine = factory.getEngineByName("graal.js");
+		ScriptEngine engine = factory.getEngineByName("JavaScript");
 		return ((Number) engine.eval(sourceCurrencyAmount)).doubleValue();
 	}
 
