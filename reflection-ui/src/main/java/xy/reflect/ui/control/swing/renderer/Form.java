@@ -47,7 +47,6 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IAdvancedMethodControl;
@@ -772,6 +771,57 @@ public class Form extends ImagePanel {
 		}
 	}
 
+	protected JLabel createStatusBar() {
+		HyperlinkLabel result = new HyperlinkLabel() {
+
+			private static final long serialVersionUID = 1L;
+
+			private static final int PREFERRED_WIDTH = 300;
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
+				if (result != null) {
+					result.width = PREFERRED_WIDTH;
+				}
+				return result;
+			}
+
+			@Override
+			public Dimension getMaximumSize() {
+				Dimension result = super.getMaximumSize();
+				if (result != null) {
+					result.width = Math.max(result.width, PREFERRED_WIDTH);
+				}
+				return result;
+			}
+
+			@Override
+			public Dimension getMinimumSize() {
+				Dimension result = super.getMinimumSize();
+				if (result != null) {
+					result.width = Math.min(result.width, PREFERRED_WIDTH);
+				}
+				return result;
+			}
+
+		};
+		result.setFont(new JToolTip().getFont());
+		result.setCustomValue(new Exception("INITIAL_UNDEFINED_ERROR"));
+		result.setName("statusBar");
+		result.setBackground(new Color(255, 200, 200));
+		result.setOpaque(true);
+		result.setForeground(new Color(255, 0, 0));
+		result.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0), 1, true));
+		return result;
+	}
+
+	protected JMenuBar createMenuBar() {
+		JMenuBar result = new JMenuBar();
+		result.setName("menuBar");
+		return result;
+	}
+
 	protected MinimalListUpdater<InfoCategory> createCategoriesVisibilityUpdater(List<InfoCategory> allCategories) {
 
 		return new MinimalListUpdater<InfoCategory>() {
@@ -875,57 +925,6 @@ public class Form extends ImagePanel {
 		result.addAll(t1ByCategory.keySet());
 		result.addAll(t2ByCategory.keySet());
 		return new ArrayList<InfoCategory>(result);
-	}
-
-	protected JLabel createStatusBar() {
-		HyperlinkLabel result = new HyperlinkLabel() {
-
-			private static final long serialVersionUID = 1L;
-
-			private static final int PREFERRED_WIDTH = 300;
-
-			@Override
-			public Dimension getPreferredSize() {
-				Dimension result = super.getPreferredSize();
-				if (result != null) {
-					result.width = PREFERRED_WIDTH;
-				}
-				return result;
-			}
-
-			@Override
-			public Dimension getMaximumSize() {
-				Dimension result = super.getMaximumSize();
-				if (result != null) {
-					result.width = Math.max(result.width, PREFERRED_WIDTH);
-				}
-				return result;
-			}
-
-			@Override
-			public Dimension getMinimumSize() {
-				Dimension result = super.getMinimumSize();
-				if (result != null) {
-					result.width = Math.min(result.width, PREFERRED_WIDTH);
-				}
-				return result;
-			}
-
-		};
-		result.setFont(new JToolTip().getFont());
-		result.setCustomValue(new Exception("INITIAL_UNDEFINED_ERROR"));
-		result.setName("statusBar");
-		result.setBackground(new Color(255, 200, 200));
-		result.setOpaque(true);
-		result.setForeground(new Color(255, 0, 0));
-		result.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0), 1, true));
-		return result;
-	}
-
-	protected JMenuBar createMenuBar() {
-		JMenuBar result = new JMenuBar();
-		result.setName("menuBar");
-		return result;
 	}
 
 	protected int getExpectedCategoriesControlPlacement() {
@@ -1062,6 +1061,13 @@ public class Form extends ImagePanel {
 						titleListControl.setOpaque(false);
 						titleListControlWrapper.setOpaque(false);
 					}
+				}
+
+				@Override
+				public void setTabPlacement(int placement) {
+					super.setTabPlacement(placement);
+					refreshSelectedCellRenderer();
+					refreshNonSelectedCellRenderer();
 				}
 
 				@Override

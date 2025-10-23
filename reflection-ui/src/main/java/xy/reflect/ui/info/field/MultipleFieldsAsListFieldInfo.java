@@ -414,7 +414,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public CategoriesStyle getCategoriesStyle() {
-			return CategoriesStyle.getDefault();
+			return CategoriesStyle.getDefault(reflectionUI.getTypeInfo(getSource()));
 		}
 
 		@Override

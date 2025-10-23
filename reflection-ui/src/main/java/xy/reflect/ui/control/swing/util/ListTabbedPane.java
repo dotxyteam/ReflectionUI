@@ -109,6 +109,7 @@ public class ListTabbedPane extends JPanel {
 		this.placement = placement;
 		remove(titleListControlWrapper);
 		layoutListControl();
+		titleListControl.setCellRenderer(createListCellRenderer());
 		validate();
 	}
 
@@ -175,7 +176,21 @@ public class ListTabbedPane extends JPanel {
 			}
 
 		};
-		result.setCellRenderer(new ListCellRenderer() {
+		result.setCellRenderer(createListCellRenderer());
+		result.addListSelectionListener(new ListSelectionListener() {
+
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting()) {
+					return;
+				}
+				onSelectionChange();
+			}
+		});
+		return result;
+	}
+
+	protected ListCellRenderer createListCellRenderer() {
+		return new ListCellRenderer() {
 
 			JButton button = createNonSelectedTabHeaderCellRendererComponent();
 			{
@@ -210,17 +225,7 @@ public class ListTabbedPane extends JPanel {
 				}
 
 			}
-		});
-		result.addListSelectionListener(new ListSelectionListener() {
-
-			public void valueChanged(ListSelectionEvent e) {
-				if (e.getValueIsAdjusting()) {
-					return;
-				}
-				onSelectionChange();
-			}
-		});
-		return result;
+		};
 	}
 
 	protected JScrollPane wrapListControl(JList listControl) {

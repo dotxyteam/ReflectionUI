@@ -515,7 +515,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public CategoriesStyle getCategoriesStyle() {
-			return CategoriesStyle.getDefault();
+			return CategoriesStyle.getDefault(reflectionUI.getTypeInfo(getSource()));
 		}
 
 		@Override

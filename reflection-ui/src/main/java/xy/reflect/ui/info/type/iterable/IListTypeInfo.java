@@ -369,7 +369,7 @@ public interface IListTypeInfo extends ITypeInfo {
 
 		@Override
 		public CategoriesStyle getCategoriesStyle() {
-			return CategoriesStyle.getDefault();
+			return CategoriesStyle.getDefault(this);
 		}
 
 		@Override

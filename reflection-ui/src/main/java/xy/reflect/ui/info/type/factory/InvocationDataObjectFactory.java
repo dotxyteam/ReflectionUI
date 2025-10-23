@@ -186,7 +186,7 @@ public class InvocationDataObjectFactory {
 
 		@Override
 		public CategoriesStyle getCategoriesStyle() {
-			return CategoriesStyle.getDefault();
+			return CategoriesStyle.getDefault(reflectionUI.getTypeInfo(getSource()));
 		}
 
 		@Override

@@ -260,7 +260,7 @@ public interface IEnumerationTypeInfo extends ITypeInfo {
 
 		@Override
 		public CategoriesStyle getCategoriesStyle() {
-			return CategoriesStyle.getDefault();
+			return CategoriesStyle.getDefault(this);
 		}
 
 		@Override

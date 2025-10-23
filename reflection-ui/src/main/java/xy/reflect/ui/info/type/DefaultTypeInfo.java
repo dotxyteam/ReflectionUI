@@ -83,7 +83,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	@Override
 	public CategoriesStyle getCategoriesStyle() {
-		return CategoriesStyle.getDefault();
+		return CategoriesStyle.getDefault(reflectionUI.getTypeInfo(getSource()));
 	}
 
 	@Override

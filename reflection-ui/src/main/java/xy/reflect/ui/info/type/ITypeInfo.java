@@ -246,7 +246,7 @@ public interface ITypeInfo extends IInfo {
 
 		@Override
 		public CategoriesStyle getCategoriesStyle() {
-			return CategoriesStyle.getDefault();
+			return CategoriesStyle.getDefault(this);
 		}
 
 		@Override
@@ -615,7 +615,16 @@ public interface ITypeInfo extends IInfo {
 	public enum CategoriesStyle {
 		STANDARD, STANDARD_VERTICAL, CLASSIC, CLASSIC_VERTICAL, MODERN, MODERN_VERTICAL;
 
-		public static CategoriesStyle getDefault() {
+		public static CategoriesStyle getDefault(ITypeInfo type) {
+			if (type.getFormBackgroundColor() != null) {
+				return MODERN;
+			}
+			if (type.getFormBackgroundImagePath() != null) {
+				return MODERN;
+			}
+			if (type.getCategoriesBackgroundColor() != null) {
+				return MODERN;
+			}
 			return STANDARD;
 		}
 	}
