@@ -29,6 +29,11 @@ public class ClassicTabbedPane extends ControlTabbedPane {
 			newUI = new BasicTabbedPaneUI() {
 
 				@Override
+				protected boolean shouldRotateTabRuns(int tabPlacement) {
+					return false;
+				}
+
+				@Override
 				protected LayoutManager createLayoutManager() {
 					if (tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT) {
 						return super.createLayoutManager();
