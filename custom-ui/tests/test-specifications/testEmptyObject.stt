@@ -301,7 +301,7 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>true</disabled>
+      <disabled>false</disabled>
       <firstItemToSelect>1</firstItemToSelect>
       <lastItemToSelect>1</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
@@ -313,7 +313,7 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <knownTabs>
         <string>General</string>
         <string>Fields</string>
@@ -496,7 +496,7 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>true</disabled>
+      <disabled>false</disabled>
       <firstItemToSelect>2</firstItemToSelect>
       <lastItemToSelect>2</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
@@ -508,7 +508,7 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <knownTabs>
         <string>General</string>
         <string>Fields</string>
@@ -603,7 +603,7 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>2</windowIndex>
       </componentFinder>
-      <disabled>true</disabled>
+      <disabled>false</disabled>
       <firstItemToSelect>1</firstItemToSelect>
       <lastItemToSelect>1</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
@@ -615,7 +615,7 @@
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>2</windowIndex>
       </componentFinder>
-      <disabled>false</disabled>
+      <disabled>true</disabled>
       <knownTabs>
         <string>General</string>
         <string>Parameters</string>
