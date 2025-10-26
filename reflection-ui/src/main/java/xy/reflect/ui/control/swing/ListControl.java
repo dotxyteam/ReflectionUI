@@ -1817,11 +1817,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						if (detailsControlItemPosition != null) {
 							scrollTo(detailsControlItemPosition);
 						}
-						if (isDisplayable()) {
-							if (detailsControl != null) {
-								detailsControl.validateFormInBackgroundAndReportOnStatusBar();
-							}
-						}
 					}
 				});
 				return;

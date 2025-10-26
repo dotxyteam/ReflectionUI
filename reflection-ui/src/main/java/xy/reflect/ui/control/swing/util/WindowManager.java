@@ -354,7 +354,6 @@ public class WindowManager extends WindowAdapter {
 		if (form == null) {
 			return;
 		}
-		form.validateFormInBackgroundAndReportOnStatusBar();
 		workAroundOpeningWindowFocusRequestBug(new Callable<Boolean>() {
 			@Override
 			public Boolean call() throws Exception {

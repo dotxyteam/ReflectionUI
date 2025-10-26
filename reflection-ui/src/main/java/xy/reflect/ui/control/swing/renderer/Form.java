@@ -127,9 +127,10 @@ public class Form extends ImagePanel {
 	protected List<IFormListener> listeners = new ArrayList<IFormListener>();
 	protected JLabel statusBar;
 	protected JMenuBar menuBar;
-	protected boolean absolutelyVisible = false;
+	protected boolean shown = false;
 	protected BetterFutureTask<Boolean> currentValidationTask;
 	protected MinimalListUpdater<MenuInfo> menuBarUpdater;
+	protected boolean neverShown = true;
 
 	/**
 	 * Creates a form allowing to view/edit the given object.
@@ -247,10 +248,10 @@ public class Form extends ImagePanel {
 	/**
 	 * @return whether this form is currently visible on the screen. Note that
 	 *         unlike the {@link #isVisible()} method, this method return value
-	 *         interpretation does not depend on the parent visibility.
+	 *         interpretation does not depend on the parent component visibility.
 	 */
-	public boolean isAbsolutelyVisible() {
-		return absolutelyVisible;
+	public boolean isShown() {
+		return shown;
 	}
 
 	/**
@@ -649,7 +650,7 @@ public class Form extends ImagePanel {
 	}
 
 	protected void formShown() {
-		absolutelyVisible = true;
+		shown = true;
 		swingRenderer.getAllDisplayedForms().add(this);
 		swingRenderer.showBusyDialogWhile(this, new Runnable() {
 			@Override
@@ -657,10 +658,14 @@ public class Form extends ImagePanel {
 				Form.this.filteredObjectType.onFormVisibilityChange(object, true);
 			}
 		}, getInitializationJobTitle());
+		if ((statusBar.getParent() != null) && neverShown) {
+			validateFormInBackgroundAndReportOnStatusBar();
+		}
+		neverShown = false;
 	}
 
 	protected void formHidden() {
-		absolutelyVisible = false;
+		shown = false;
 		swingRenderer.getAllDisplayedForms().remove(this);
 		swingRenderer.showBusyDialogWhile(this, new Runnable() {
 			@Override
@@ -695,7 +700,7 @@ public class Form extends ImagePanel {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				if (isAbsolutelyVisible()) {
+				if (isShown()) {
 					refresh(false);
 				}
 				forwardUpdateEventToTwins(sourceModificationVolatile);
@@ -1725,7 +1730,7 @@ public class Form extends ImagePanel {
 
 	protected void finalizeFormUpdate() {
 		updateMenuBar();
-		if ((statusBar.getParent() != null) && statusBar.getParent().isDisplayable()) {
+		if ((statusBar.getParent() != null) && shown) {
 			validateFormInBackgroundAndReportOnStatusBar();
 		}
 	}
