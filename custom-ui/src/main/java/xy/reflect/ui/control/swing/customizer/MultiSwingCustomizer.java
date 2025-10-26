@@ -36,7 +36,10 @@ import xy.reflect.ui.info.type.factory.InfoProxyFactoryChain;
  * (and its associated customizations) to use in order to generate the UI
  * components. This {@link SubSwingCustomizer} is then used to recursively
  * render the object hierarchy until a new switch associated with a different
- * {@link SubSwingCustomizer} is returned by the distribution function. Note
+ * {@link SubSwingCustomizer} is returned by the distribution function.
+ * 
+ * Note that the renderer associated with the
+ * {@link #GLOBAL_EXCLUSIVE_CUSTOMIZATIONS} identifier is used by default, and
  * that as long as the distribution function returns null, the renderer used
  * remains the same.
  * 
@@ -79,14 +82,11 @@ public class MultiSwingCustomizer extends SwingRenderer {
 	}
 
 	/**
-	 * @return The path to the main global {@link SubSwingCustomizer}
-	 *         {@link InfoCustomizations} file.
+	 * @param customizationsIdentifier A customizations identifier.
+	 * @return The path to the {@link SubSwingCustomizer} {@link InfoCustomizations}
+	 *         file associated with the given customizations identifier.
 	 */
-	public String getGlobalInfoCustomizationsOutputFilePath() {
-		return globalInfoCustomizationsOutputFilePath;
-	}
-
-	protected String getSubInfoCustomizationsOutputFilePath(String customizationsIdentifier) {
+	public String getInfoCustomizationsOutputFilePath(String customizationsIdentifier) {
 		File mainInfoCustomizationsOutputFile = new File(globalInfoCustomizationsOutputFilePath);
 		String fileNamePrefix = (customizationsIdentifier == GLOBAL_EXCLUSIVE_CUSTOMIZATIONS) ? ""
 				: (customizationsIdentifier + "-");
@@ -124,7 +124,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 	}
 
 	/**
-	 * @param customizationsIdentifier
+	 * @param customizationsIdentifier A customizations identifier.
 	 * @return The {@link SubSwingCustomizer} instance associated with the given
 	 *         customizations identifier. Note that if this instance does not
 	 *         exists, it will then be created.
@@ -265,12 +265,12 @@ public class MultiSwingCustomizer extends SwingRenderer {
 			super((customizationsIdentifier == GLOBAL_EXCLUSIVE_CUSTOMIZATIONS)
 					? MultiSwingCustomizer.this.getReflectionUI()
 					: createSubCustomizedUI(customizationsIdentifier),
-					MultiSwingCustomizer.this.getSubInfoCustomizationsOutputFilePath(customizationsIdentifier));
+					MultiSwingCustomizer.this.getInfoCustomizationsOutputFilePath(customizationsIdentifier));
 		}
 
 		@Override
 		public SubCustomizedUI getCustomizedUI() {
-			return (SubCustomizedUI)super.getCustomizedUI();
+			return (SubCustomizedUI) super.getCustomizedUI();
 		}
 
 		protected CustomizingForm subCreateForm(Object object, IInfoFilter infoFilter) {
