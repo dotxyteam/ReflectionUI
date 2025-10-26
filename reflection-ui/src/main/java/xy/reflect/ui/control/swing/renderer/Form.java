@@ -650,7 +650,19 @@ public class Form extends ImagePanel {
 	}
 
 	protected void formShown() {
+		{// Ensure this method is called first for parent forms
+			for (Form ancestorForm : SwingRendererUtils.findAncestorForms(this, swingRenderer)) {
+				if (!ancestorForm.shown) {
+					ancestorForm.formShown();
+				}
+			}
+			if (shown) {
+				return;
+			}
+		}
 		shown = true;
+		boolean wasNeverShown = neverShown;
+		neverShown = false;
 		swingRenderer.getAllDisplayedForms().add(this);
 		swingRenderer.showBusyDialogWhile(this, new Runnable() {
 			@Override
@@ -658,13 +670,22 @@ public class Form extends ImagePanel {
 				Form.this.filteredObjectType.onFormVisibilityChange(object, true);
 			}
 		}, getInitializationJobTitle());
-		if ((statusBar.getParent() != null) && neverShown) {
+		if ((statusBar.getParent() != null) && wasNeverShown) {
 			validateFormInBackgroundAndReportOnStatusBar();
 		}
-		neverShown = false;
 	}
 
 	protected void formHidden() {
+		{// Ensure this method is called first for child forms
+			for (Form descendantForm : SwingRendererUtils.findDescendantForms(this, swingRenderer)) {
+				if (descendantForm.shown) {
+					descendantForm.formHidden();
+				}
+			}
+			if (!shown) {
+				return;
+			}
+		}
 		shown = false;
 		swingRenderer.getAllDisplayedForms().remove(this);
 		swingRenderer.showBusyDialogWhile(this, new Runnable() {
