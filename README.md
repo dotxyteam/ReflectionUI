@@ -65,7 +65,7 @@ The generation of the GUI (graphical user interface) requires no other informati
 
 # Requirements
 
-Tested on Java 8 and 17.
+Tested on Java 8 and 21.
 
 # Licensing
 
@@ -92,7 +92,7 @@ ReflectionUI:
     <dependency>
     <groupId>com.github.dotxyteam</groupId>
     <artifactId>reflection-ui</artifactId>
-    <version>5.2.10</version>
+    <version>6.0.1</version>
     </dependency>
 
 CustomUI:
@@ -100,7 +100,7 @@ CustomUI:
     <dependency>
     <groupId>com.github.dotxyteam</groupId>
     <artifactId>custom-ui</artifactId>
-    <version>5.2.10</version>
+    <version>6.0.1</version>
     </dependency>
 
 # Documentation
