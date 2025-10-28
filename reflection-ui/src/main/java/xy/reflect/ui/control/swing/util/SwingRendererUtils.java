@@ -36,6 +36,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -81,9 +82,9 @@ import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
-import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.builder.DialogBuilder.RenderedDialog;
 import xy.reflect.ui.control.swing.plugin.HtmlPlugin;
+import xy.reflect.ui.control.swing.plugin.StyledTextPlugin;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
@@ -94,6 +95,7 @@ import xy.reflect.ui.info.ResourcePath.PathKind;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Listener;
@@ -779,6 +781,23 @@ public class SwingRendererUtils {
 		JPanel result = new ControlPanel();
 		result.setLayout(new BorderLayout());
 		{
+			IFieldControlPlugin plugin;
+			Serializable pluginConfiguration;
+			{
+				if (MiscUtils.isHTMLText(msg)) {
+					plugin = new HtmlPlugin();
+					pluginConfiguration = new HtmlPlugin.HtmlConfiguration();
+				} else {
+					plugin = new StyledTextPlugin();
+					pluginConfiguration = new StyledTextPlugin.StyledTextConfiguration();
+					((StyledTextPlugin.StyledTextConfiguration) pluginConfiguration).horizontalAlignment = StyledTextPlugin.StyledTextConfiguration.HorizontalAlignment.CENTER;
+					((StyledTextPlugin.StyledTextConfiguration) pluginConfiguration).fontName = null;
+					((StyledTextPlugin.StyledTextConfiguration) pluginConfiguration).color = null;
+					((StyledTextPlugin.StyledTextConfiguration) pluginConfiguration).fontSize = -1;
+					((StyledTextPlugin.StyledTextConfiguration) pluginConfiguration).fontItalic = false;
+					((StyledTextPlugin.StyledTextConfiguration) pluginConfiguration).fontBold = false;
+				}
+			}
 			IFieldControlInput textControlInput = new IFieldControlInput() {
 
 				IFieldInfo field = new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
@@ -806,6 +825,22 @@ public class SwingRendererUtils {
 						public ResourcePath getEditorCustomFontResourcePath() {
 							return reflectionUI.getApplicationInfo().getLabelCustomFontResourcePath();
 						}
+
+						@Override
+						public ITypeInfo getType() {
+							return new InfoProxyFactory() {
+
+								@Override
+								protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
+									Map<String, Object> result = new HashMap<String, Object>(
+											super.getSpecificProperties(type));
+									ReflectionUIUtils.setFieldControlPluginConfiguration(result, plugin.getIdentifier(),
+											pluginConfiguration);
+									return result;
+								}
+							}.wrapTypeInfo(super.getType());
+						}
+
 					};
 				}
 
@@ -814,9 +849,7 @@ public class SwingRendererUtils {
 					return FieldContext.NULL_FIELD_CONTEXT;
 				}
 			};
-			TextControl textControl = MiscUtils.isHTMLText(msg)
-					? new HtmlPlugin().new HtmlControl(swingRenderer, textControlInput)
-					: new TextControl(swingRenderer, textControlInput);
+			Component textControl = (Component) plugin.createControl(swingRenderer, textControlInput);
 			result.add(textControl, BorderLayout.CENTER);
 		}
 		{

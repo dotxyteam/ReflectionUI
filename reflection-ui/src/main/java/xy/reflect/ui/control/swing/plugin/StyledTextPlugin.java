@@ -1,7 +1,6 @@
 
 package xy.reflect.ui.control.swing.plugin;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -64,18 +63,37 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 	public static class StyledTextConfiguration extends AbstractConfiguration {
 		private static final long serialVersionUID = 1L;
 
+		private static final int DEFAULT_FONT_SIZE = 20;
+
 		public String fontName = Font.SERIF;
 		public boolean fontBold = true;
 		public boolean fontItalic = true;
-		public int fontSize = 20;
+		public int fontSize = DEFAULT_FONT_SIZE;
 		public HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEFT;
 		public boolean underlined = false;
 		public boolean struckThrough = false;
 		public ControlDimensionSpecification width = new ControlDimensionSpecification();
 		public ControlDimensionSpecification height;
-		public ColorSpecification color;
+		public ColorSpecification color = new ColorSpecification();
+
+		public boolean isFontSizeCustom() {
+			return fontSize > 0;
+		}
+
+		public void setFontSizeCustom(boolean b) {
+			fontSize = b ? DEFAULT_FONT_SIZE : -1;
+		}
 
 		public BufferedImage getSampleTextImage() {
+			if (fontName == null) {
+				return null;
+			}
+			if (!isFontSizeCustom()) {
+				return null;
+			}
+			if (color == null) {
+				return null;
+			}
 			String text = fontName;
 			int style = getFontStyle();
 			Font font = new Font(fontName, style, fontSize);
@@ -91,11 +109,7 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 			g2d = result.createGraphics();
 			g2d.setFont(font);
-			if (color != null) {
-				g2d.setColor(SwingRendererUtils.getColor(color));
-			} else {
-				g2d.setColor(Color.BLACK);
-			}
+			g2d.setColor(SwingRendererUtils.getColor(color));
 			fontMetrics = g2d.getFontMetrics();
 			g2d.drawString(text, spacing, spacingAboveLine + fontMetrics.getAscent());
 			g2d.dispose();
@@ -225,8 +239,12 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			SimpleAttributeSet attributes = new SimpleAttributeSet();
 			StyleConstants.setBold(attributes, controlConfiguration.fontBold);
 			StyleConstants.setItalic(attributes, controlConfiguration.fontItalic);
-			StyleConstants.setFontFamily(attributes, controlConfiguration.fontName);
-			StyleConstants.setFontSize(attributes, controlConfiguration.fontSize);
+			if (controlConfiguration.fontName != null) {
+				StyleConstants.setFontFamily(attributes, controlConfiguration.fontName);
+			}
+			if (controlConfiguration.isFontSizeCustom()) {
+				StyleConstants.setFontSize(attributes, controlConfiguration.fontSize);
+			}
 			StyleConstants.setUnderline(attributes, controlConfiguration.underlined);
 			StyleConstants.setStrikeThrough(attributes, controlConfiguration.struckThrough);
 			if (controlConfiguration.horizontalAlignment == StyledTextConfiguration.HorizontalAlignment.LEFT) {

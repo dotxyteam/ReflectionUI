@@ -100,9 +100,12 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 		if (value == null) {
 			nullStatusField.setValue(object, Boolean.FALSE);
 		} else {
-			nullStatusField.setValue(object, Boolean.TRUE);
-			if (!super.isGetOnly()) {
-				super.setValue(object, value);
+			if (!getNullStatus(object)) {
+				nullStatusField.setValue(object, Boolean.TRUE);
+			} else {
+				if (!super.isGetOnly()) {
+					super.setValue(object, value);
+				}
 			}
 		}
 	}
