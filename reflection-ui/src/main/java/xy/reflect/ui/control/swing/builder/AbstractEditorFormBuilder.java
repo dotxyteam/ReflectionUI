@@ -641,9 +641,10 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * Validates the local value/object. The validation is performed by the job
-	 * returned by {@link #getValueAbstractFormValidationJob()} if not null.
-	 * Otherwise the validation is done by using either the
+	 * Validates the local value/object form data preferably without using an actual
+	 * form. The validation is performed by the job returned by
+	 * {@link #getValueAbstractFormValidationJob()} if not null. Otherwise the
+	 * validation is done by using either the
 	 * {@link ITypeInfo#validate(Object, ValidationSession)} method associated with
 	 * the current local value/object when there is no specific control-based
 	 * validation, or by using a temporary concrete form that will orchestrate the

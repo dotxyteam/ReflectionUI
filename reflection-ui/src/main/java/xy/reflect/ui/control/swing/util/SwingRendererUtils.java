@@ -779,7 +779,14 @@ public class SwingRendererUtils {
 	public static Component getMessagePane(final String msg, int jOptionPaneMessageType,
 			final SwingRenderer swingRenderer) {
 		JPanel result = new ControlPanel();
-		result.setLayout(new BorderLayout());
+		int spacing = 10;
+		result.setBorder(BorderFactory.createEmptyBorder(spacing, spacing, spacing, spacing));
+		BorderLayout layout = new BorderLayout();
+		{
+			layout.setHgap(spacing);
+			layout.setVgap(spacing);
+			result.setLayout(layout);
+		}
 		{
 			IFieldControlPlugin plugin;
 			Serializable pluginConfiguration;
@@ -790,7 +797,6 @@ public class SwingRendererUtils {
 				} else {
 					plugin = new StyledTextPlugin();
 					pluginConfiguration = new StyledTextPlugin.StyledTextConfiguration();
-					((StyledTextPlugin.StyledTextConfiguration) pluginConfiguration).horizontalAlignment = StyledTextPlugin.StyledTextConfiguration.HorizontalAlignment.CENTER;
 					((StyledTextPlugin.StyledTextConfiguration) pluginConfiguration).fontName = null;
 					((StyledTextPlugin.StyledTextConfiguration) pluginConfiguration).color = null;
 					((StyledTextPlugin.StyledTextConfiguration) pluginConfiguration).fontSize = -1;

@@ -2788,7 +2788,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				/*
 				 * Do not copy the eventual abstract form validation error because it may be
 				 * structurally different (even if it represents the same incoherence) from the
-				 * error that would have been generated from a concrete form.
+				 * error that would have been generated from a concrete form. This ensures a
+				 * uniform display of validation errors.
 				 */
 				return;
 			}
@@ -2816,7 +2817,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				/*
 				 * Do not copy the eventual abstract form validation error because it may be
 				 * structurally different (even if it represents the same incoherence) from the
-				 * error that would have been generated from a concrete form.
+				 * error that would have been generated from a concrete form. This ensures a
+				 * uniform display of validation errors.
 				 */
 				return;
 			}
