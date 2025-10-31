@@ -1209,32 +1209,45 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		result.add(SEPARATOR_ACTION);
 
-		Mapper<ItemPosition, ListModificationFactory> modificationFactoryAccessor = new Mapper<ItemPosition, ListModificationFactory>() {
-			@Override
-			public ListModificationFactory get(ItemPosition itemPosition) {
-				return createListModificationFactory((BufferedItemPosition) itemPosition);
-			}
-		};
-
 		List<BufferedItemPosition> selection = getSelection();
+		result.addAll(getDynamicPropertyHooks(selection));
+		result.addAll(getDynamicActionHooks(selection));
 
-		for (IDynamicListProperty listProperty : getRootListType().getDynamicProperties(selection,
-				modificationFactoryAccessor)) {
-			if ((listProperty.getDisplayMode() == DisplayMode.CONTEXT_MENU)
-					|| (listProperty.getDisplayMode() == DisplayMode.TOOLBAR_AND_CONTEXT_MENU)) {
-				result.add(createDynamicPropertyHook(listProperty));
-			}
-		}
+		result = removeSeparatorsInExcess(result);
+		return result;
+	}
+
+	public List<AbstractAction> getDynamicActionHooks(List<BufferedItemPosition> selection) {
+		List<AbstractAction> result = new ArrayList<AbstractAction>();
 		for (IDynamicListAction listAction : getRootListType().getDynamicActions(selection,
-				modificationFactoryAccessor)) {
+				getModificationFactoryAccessor())) {
 			if ((listAction.getDisplayMode() == DisplayMode.CONTEXT_MENU)
 					|| (listAction.getDisplayMode() == DisplayMode.TOOLBAR_AND_CONTEXT_MENU)) {
 				result.add(createDynamicActionHook(listAction));
 			}
 		}
-
-		result = removeSeparatorsInExcess(result);
 		return result;
+	}
+
+	public List<AbstractAction> getDynamicPropertyHooks(List<BufferedItemPosition> selection) {
+		List<AbstractAction> result = new ArrayList<AbstractAction>();
+		for (IDynamicListProperty listProperty : getRootListType().getDynamicProperties(selection,
+				getModificationFactoryAccessor())) {
+			if ((listProperty.getDisplayMode() == DisplayMode.CONTEXT_MENU)
+					|| (listProperty.getDisplayMode() == DisplayMode.TOOLBAR_AND_CONTEXT_MENU)) {
+				result.add(createDynamicPropertyHook(listProperty));
+			}
+		}
+		return result;
+	}
+
+	protected Mapper<ItemPosition, ListModificationFactory> getModificationFactoryAccessor() {
+		return new Mapper<ItemPosition, ListModificationFactory>() {
+			@Override
+			public ListModificationFactory get(ItemPosition itemPosition) {
+				return createListModificationFactory((BufferedItemPosition) itemPosition);
+			}
+		};
 	}
 
 	protected List<AbstractAction> removeSeparatorsInExcess(List<AbstractAction> actions) {
