@@ -842,14 +842,7 @@ public class ReflectionUIUtils {
 	public static Object invokeMethodThroughModificationStack(IMethodControlData data, InvocationData invocationData,
 			ModificationStack modifStack, Listener<String> debugLogListener) {
 		if (data.isReadOnly()) {
-			try {
-				return data.invoke(invocationData);
-			} finally {
-				if (debugLogListener != null) {
-					debugLogListener.handle("Sending volatile modification to: " + modifStack);
-				}
-				modifStack.apply(IModification.VOLATILE_MODIFICATION);
-			}
+			return data.invoke(invocationData);
 		} else {
 			final Object[] resultHolder = new Object[1];
 			data = new MethodControlDataProxy(data) {

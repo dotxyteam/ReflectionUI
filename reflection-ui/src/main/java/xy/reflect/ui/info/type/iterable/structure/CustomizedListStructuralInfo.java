@@ -198,8 +198,13 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
 	@Override
 	public IInfoFilter getItemDetailsInfoFilter(final ItemPosition itemPosition) {
-		return new CustomizedItemDetailsInfoFilterProxy(super.getItemDetailsInfoFilter(itemPosition),
-				listCustomization);
+		IInfoFilter result = super.getItemDetailsInfoFilter(itemPosition);
+		CustomizedItemDetailsInfoFilterProxy proxy = new CustomizedItemDetailsInfoFilterProxy(
+				super.getItemDetailsInfoFilter(itemPosition), listCustomization);
+		if (proxy.isRelevant()) {
+			result = proxy;
+		}
+		return result;
 	}
 
 	protected List<IFieldInfo> collectColumnFields() {
@@ -500,6 +505,16 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		public CustomizedItemDetailsInfoFilterProxy(IInfoFilter base, ListCustomization listCustomization) {
 			super(base);
 			this.listCustomization = listCustomization;
+		}
+
+		public boolean isRelevant() {
+			if (listCustomization.getFieldsExcludedFromItemDetails().size() > 0) {
+				return true;
+			}
+			if (listCustomization.getMethodsExcludedFromItemDetails().size() > 0) {
+				return true;
+			}
+			return false;
 		}
 
 		@Override

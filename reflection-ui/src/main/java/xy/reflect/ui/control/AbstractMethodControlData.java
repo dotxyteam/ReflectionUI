@@ -260,7 +260,7 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 
 	@Override
 	public String toString() {
-		return "tMethodControlData [object=" + getObject() + ", method=" + getMethod() + "]";
+		return "MethodControlData [object=" + getObject() + ", method=" + getMethod() + "]";
 	}
 
 }

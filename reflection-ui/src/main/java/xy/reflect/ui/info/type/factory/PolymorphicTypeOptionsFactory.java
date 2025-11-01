@@ -126,7 +126,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
 		String result = polyTypesItem.getCaption();
 		if (polyTypesItem.getName().equals(polymorphicType.getName())) {
-			return ReflectionUIUtils.composeMessage("Basic", result);
+			result = ReflectionUIUtils.composeMessage("Basic", result);
 		}
 		return result;
 	}

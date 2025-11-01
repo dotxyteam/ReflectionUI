@@ -17,7 +17,6 @@ import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
@@ -642,13 +641,15 @@ public abstract class AbstractEditorFormBuilder {
 
 	/**
 	 * Validates the local value/object form data preferably without using an actual
-	 * form. The validation is performed by the job returned by
+	 * form.
+	 * 
+	 * The validation is performed by the job returned by
 	 * {@link #getValueAbstractFormValidationJob()} if not null. Otherwise the
 	 * validation is done by using either the
 	 * {@link ITypeInfo#validate(Object, ValidationSession)} method associated with
-	 * the current local value/object when there is no specific control-based
-	 * validation, or by using a temporary concrete form that will orchestrate the
-	 * validation.
+	 * the current local value/object when this validation is equivalent to a
+	 * form-based validation (there is no specific control-based validation), or by
+	 * using a temporary concrete form that will orchestrate the validation.
 	 * 
 	 * @param session If the state of the underlying object is not valid.
 	 * @throws Exception If the state of the underlying object is not valid.
@@ -665,12 +666,17 @@ public abstract class AbstractEditorFormBuilder {
 			} else {
 				valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getCurrentValue()));
 			}
-			if (!valueType.getFields().stream().anyMatch(IFieldInfo::isControlValueValiditionEnabled)
-					&& !valueType.getMethods().stream().anyMatch(IMethodInfo::isControlReturnValueValiditionEnabled)) {
+			IInfoFilter formFilter = getEncapsulatedFormFilter();
+			if (!valueType.getFields().stream()
+					.anyMatch(field -> (formFilter.apply(field) != null) && field.isControlValueValiditionEnabled())
+					&& !valueType.getMethods().stream().anyMatch(method -> (formFilter.apply(method) != null)
+							&& method.isControlReturnValueValiditionEnabled())) {
 				abstractFormValidationJob = (sessionArg) -> valueType.validate(getCurrentValue(), sessionArg);
 			}
 		}
-		if (abstractFormValidationJob != null) {
+		if (abstractFormValidationJob != null)
+
+		{
 			/*
 			 * Manage validation error attribution since it will not be managed
 			 * automatically through a concrete form validation.
