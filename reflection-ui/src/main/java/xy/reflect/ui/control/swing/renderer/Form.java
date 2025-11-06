@@ -1938,9 +1938,6 @@ public class Form extends ImagePanel {
 	}
 
 	protected void updateFieldsPanelsLayout() {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		ITypeInfo.FieldsLayout fieldsOrientation = type.getFieldsLayout();
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory.get(category);
 			JPanel fieldsPanel = (JPanel) fieldControlPlaceHolders.stream().filter(Component::isVisible)
@@ -1948,7 +1945,7 @@ public class Form extends ImagePanel {
 			if (fieldsPanel == null) {
 				continue;
 			}
-			boolean fieldsPanelFilled = false;
+			boolean fieldsPanelVerticallyFilled = false;
 			for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
 				FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
 				if (!fieldControlPlaceHolder.isVisible()) {
@@ -1956,24 +1953,15 @@ public class Form extends ImagePanel {
 				}
 				GridBagConstraints fieldControlPlaceHolderLayoutConstraints = ((GridBagLayout) fieldsPanel.getLayout())
 						.getConstraints(fieldControlPlaceHolder);
-				if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
-					if (fieldControlPlaceHolderLayoutConstraints.weighty > 0) {
-						fieldsPanelFilled = true;
-						break;
-					}
-				} else if (fieldsOrientation == ITypeInfo.FieldsLayout.HORIZONTAL_FLOW) {
-					if (fieldControlPlaceHolderLayoutConstraints.weightx > 0) {
-						fieldsPanelFilled = true;
-						break;
-					}
-				} else {
-					throw new ReflectionUIError();
+				if (fieldControlPlaceHolderLayoutConstraints.weighty > 0) {
+					fieldsPanelVerticallyFilled = true;
+					break;
 				}
 			}
 			Container membersPanel = fieldsPanel.getParent();
 			((BorderLayout) membersPanel.getLayout()).removeLayoutComponent(fieldsPanel);
 			((BorderLayout) membersPanel.getLayout()).addLayoutComponent(fieldsPanel,
-					fieldsPanelFilled ? BorderLayout.CENTER : BorderLayout.NORTH);
+					!fieldsPanelVerticallyFilled ? BorderLayout.NORTH : BorderLayout.CENTER);
 		}
 	}
 
