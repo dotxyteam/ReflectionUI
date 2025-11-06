@@ -30,6 +30,7 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ArrayAccessor;
+import xy.reflect.ui.util.IDerivedInstance;
 import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -730,7 +731,7 @@ public class EncapsulatedObjectFactory {
 
 	}
 
-	public class Instance {
+	public class Instance implements IDerivedInstance {
 		protected Accessor<Object> fieldValueAccessor;
 
 		public Instance(final Object[] fieldValueHolder) {
@@ -739,6 +740,11 @@ public class EncapsulatedObjectFactory {
 
 		public Instance(Accessor<Object> fieldValueAccessor) {
 			this.fieldValueAccessor = fieldValueAccessor;
+		}
+
+		@Override
+		public Object getBaseInstance() {
+			return fieldValueAccessor.get();
 		}
 
 		protected void checkValue(Object value) {

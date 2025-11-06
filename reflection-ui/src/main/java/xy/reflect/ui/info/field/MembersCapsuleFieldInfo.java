@@ -33,6 +33,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
+import xy.reflect.ui.util.IDerivedInstance;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -315,7 +316,7 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 				+ encapsulatedFields + ", methods=" + encapsulatedMethods + "]";
 	}
 
-	public class Value {
+	public class Value implements IDerivedInstance {
 
 		protected Object object;
 
@@ -325,6 +326,11 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 
 		public Object getObject() {
 			return object;
+		}
+
+		@Override
+		public Object getBaseInstance() {
+			return getObject();
 		}
 
 		public MembersCapsuleFieldInfo getSourceField() {

@@ -182,7 +182,10 @@ To achieve this goal, 2 main layers have been created:
 	Inspecting objects metadata is not enough. Additional information like value mode 
 	(direct, calculated, ...), list item position predictability, etc, need to be provided.
 	Formally an entity is identified by an invariant: its access (get/set) method that
-	often depends on its parent/ancestors access method(s). 
+	often depends on its parent/ancestors access method(s). Note that since UI components
+	are bound to entities, it should be possible automatically determine the entities
+	displayed by a generated UI without requiring to write any specific code. Customizations
+	already provide the necessary information. 
 		
 		List/tree item entities
 		-----------------------
@@ -207,8 +210,11 @@ To achieve this goal, 2 main layers have been created:
 		single validation error, but it could lead to inconsistencies: validation errors may 
 		get lost when the equals(Object) method is not correctly implemented, or appear on
 		components of valid object when the validation depends on a context. The temporary
-		workaround would be to use ValidationErrorAttributionStrategy that allows to adapt
-		the object model in order to prevent these issues.
+		workaround is to use a ValidationErrorRegistry that allows to adapt	the object model 
+		in order to prevent these issues. Note that some validation jobs may be uselessly
+		generated and an effort may then be required to use this strategy to strictly launch
+		validation jobs only after data update. ValidationErrorRegistry keys should also be
+		automatically determined a explained above.
 		
 	
 	

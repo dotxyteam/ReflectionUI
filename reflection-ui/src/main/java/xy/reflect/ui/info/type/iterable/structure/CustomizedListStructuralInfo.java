@@ -376,19 +376,14 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		}
 
 		@Override
-		public ITypeInfo getType() {
-			return reflectionUI
-					.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new SubListGroupTypeInfo()));
+		protected ITypeInfo getListItemTypeInfo(IFieldInfo field) {
+			return new SubListGroupItemTypeInfo(field);
 		}
 
 		@Override
-		public Object getValue(Object object) {
-			List<Object> result = new ArrayList<Object>();
-			for (IFieldInfo field : fields) {
-				result.add(new PrecomputedTypeInstanceWrapper(getListItem(object, field),
-						new SubListGroupItemTypeInfo(field)));
-			}
-			return new PrecomputedTypeInstanceWrapper(result, new SubListGroupTypeInfo());
+		public ITypeInfo getType() {
+			return reflectionUI
+					.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new SubListGroupTypeInfo()));
 		}
 
 		public ITypeInfo getContainingItemType() {
@@ -416,7 +411,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 						PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) itemPosition.getItem();
 						SubListGroupItem subListGroupItem = (SubListGroupItem) (item).getInstance();
 						return new PrecomputedTypeInstanceWrapper.TypeInfoSource(
-								new SubListGroupItemTypeInfo(subListGroupItem.getField())).buildTypeInfo(reflectionUI)
+								getListItemTypeInfo(subListGroupItem.getField())).buildTypeInfo(reflectionUI)
 										.getFields().get(0);
 					}
 
@@ -469,7 +464,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 			}
 
 			public SubListGroupItemTypeInfo getSubListGroupItemTypeInfo() {
-				return new SubListGroupItemTypeInfo(base);
+				return (SubListGroupItemTypeInfo) getListItemTypeInfo(base);
 			}
 
 			@Override
@@ -478,7 +473,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return new SpecificitiesIdentifier(
-								new SubListGroupItemTypeInfo(SubListGroupItemDetailsFieldInfo.this.base).getName(),
+								getListItemTypeInfo(SubListGroupItemDetailsFieldInfo.this.base).getName(),
 								SubListGroupItemDetailsFieldInfo.this.getName());
 					}
 

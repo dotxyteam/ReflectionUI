@@ -13,13 +13,18 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
+import xy.reflect.ui.util.IDerivedInstance;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Purely virtual field. The field values are attached to the owner object and
- * garbaged as soon as the owner object is garbaged.
+ * Purely virtual field information. The field values are attached to the owner
+ * object and garbage-collected when the owner object is garbage-collected. The
+ * owner object must then reside in memory (not be a temporary object) in order
+ * to preserve the value modifications.
+ * 
+ * Note that
  * 
  * @author olitank
  *
@@ -122,6 +127,7 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	protected Map<VirtualFieldInfo, Object> getValueByField(Object object) {
+		object = IDerivedInstance.root(object);
 		Map<VirtualFieldInfo, Object> valueByField = valueByFieldByObject.get(object);
 		if (valueByField == null) {
 			valueByField = new HashMap<VirtualFieldInfo, Object>();

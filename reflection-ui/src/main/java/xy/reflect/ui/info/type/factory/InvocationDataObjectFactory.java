@@ -23,6 +23,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.util.IDerivedInstance;
 import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -91,13 +92,18 @@ public class InvocationDataObjectFactory {
 		return "MethodSetupObjectFactory [method=" + method + ", contextId=" + contextId + "]";
 	}
 
-	public class Instance {
+	public class Instance implements IDerivedInstance{
 		protected Object object;
 		protected InvocationData invocationData;
 
 		public Instance(Object object, InvocationData invocationData) {
 			this.object = object;
 			this.invocationData = invocationData;
+		}
+
+		@Override
+		public Object getBaseInstance() {
+			return object;
 		}
 
 		public Object getObject() {

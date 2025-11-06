@@ -27,6 +27,7 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
+import xy.reflect.ui.util.IDerivedInstance;
 import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -75,15 +76,15 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 	@Override
 	public Object getValue(Object object) {
-		List<Object> result = new ArrayList<Object>();
-		for (IFieldInfo field : fields) {
-			result.add(new PrecomputedTypeInstanceWrapper(getListItem(object, field), new ListItemTypeInfo(field)));
-		}
-		return new PrecomputedTypeInstanceWrapper(result, new ListTypeInfo());
+		return new PrecomputedTypeInstanceWrapper(new ListValue(object), MultipleFieldsAsListFieldInfo.this.getType());
 	}
 
 	protected ListItem getListItem(Object object, IFieldInfo listFieldInfo) {
 		return new ListItem(object, listFieldInfo);
+	}
+
+	protected ITypeInfo getListItemTypeInfo(IFieldInfo field) {
+		return new ListItemTypeInfo(field);
 	}
 
 	@Override
@@ -264,6 +265,24 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		return "MultipleFieldAsListField [fields=" + fields + "]";
 	}
 
+	public class ListValue extends ArrayList<Object> implements IDerivedInstance {
+		private static final long serialVersionUID = 1L;
+
+		protected Object object;
+
+		public ListValue(Object object) {
+			this.object = object;
+			for (IFieldInfo field : fields) {
+				super.add(new PrecomputedTypeInstanceWrapper(getListItem(object, field), getListItemTypeInfo(field)));
+			}
+		}
+
+		@Override
+		public Object getBaseInstance() {
+			return object;
+		}
+	}
+
 	public class ListItem {
 
 		protected Object object;
@@ -330,7 +349,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	public class ListTypeInfo extends StandardCollectionTypeInfo {
 
 		public ListTypeInfo() {
-			super(MultipleFieldsAsListFieldInfo.this.reflectionUI, new JavaTypeInfoSource(ArrayList.class, null),
+			super(MultipleFieldsAsListFieldInfo.this.reflectionUI, new JavaTypeInfoSource(ListValue.class, null),
 					MultipleFieldsAsListFieldInfo.this.reflectionUI
 							.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(
 									new DefaultTypeInfo(MultipleFieldsAsListFieldInfo.this.reflectionUI,
@@ -686,7 +705,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 					return new SpecificitiesIdentifier(
-							new ListItemTypeInfo(ListItemDetailsFieldInfo.this.base).getName(),
+							getListItemTypeInfo(ListItemDetailsFieldInfo.this.base).getName(),
 							ListItemDetailsFieldInfo.this.getName());
 				}
 

@@ -36,6 +36,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.undo.ListModificationFactory;
+import xy.reflect.ui.util.IDerivedInstance;
 import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
@@ -391,15 +392,22 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		return "ImplicitListField [fieldName=" + fieldName + ", parentType=" + parentType + "]";
 	}
 
-	public class ValueInstance {
+	public class ValueInstance implements IDerivedInstance {
 		protected Object[] array;
+		protected Object object;
 
 		public ValueInstance(Object object) {
+			this.object = object;
 			this.array = buildArrayFromObject(object);
 		}
 
 		public ValueInstance(Object[] precomputedArray) {
 			this.array = precomputedArray;
+		}
+
+		@Override
+		public Object getBaseInstance() {
+			return object;
 		}
 
 		protected Object[] buildArrayFromObject(Object object) {

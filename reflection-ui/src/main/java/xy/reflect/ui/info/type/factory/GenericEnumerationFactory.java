@@ -26,6 +26,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.util.IDerivedInstance;
 import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -165,11 +166,16 @@ public class GenericEnumerationFactory {
 				+ "]";
 	}
 
-	public class Instance {
+	public class Instance implements IDerivedInstance{
 		protected Object item;
 
 		public Instance(Object item) {
 			this.item = item;
+		}
+
+		@Override
+		public Object getBaseInstance() {
+			return item;
 		}
 
 		public Object getArrayItem() {
