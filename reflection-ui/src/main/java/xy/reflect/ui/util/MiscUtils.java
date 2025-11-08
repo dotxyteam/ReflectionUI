@@ -309,16 +309,12 @@ public class MiscUtils {
 		return result;
 	}
 
-	public static <K, V> Map<K, V> newWeakKeysEqualityBasedMap() {
+	public static <K, V> Map<K, V> newWeakKeysIdentityBasedMap() {
 		return new WeakHashMap<K, V>();
 	}
 
 	public static <K, V> Map<K, V> newWeakValuesEqualityBasedMap() {
 		return newAutoCleanUpCache(false, true, -1, -1, null, 5000, "WeakValuesEqualityBasedMapCleaner");
-	}
-
-	public static <K, V> Map<K, V> newWeakKeysIdentityBasedMap() {
-		return newAutoCleanUpCache(true, false, -1, -1, null, 5000, "WeakKeysIdentityBasedMapCleaner");
 	}
 
 	public static <K, V> Map<K, V> newWeakKeysIdentityBasedCache(int maxSize) {

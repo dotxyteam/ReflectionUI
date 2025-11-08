@@ -46,10 +46,16 @@ import xy.reflect.ui.util.ReflectionUIError;
  */
 public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
-	protected static File lastDirectory = new File(".").getAbsoluteFile();
+	public static final File DEFAULT_DIRECTORY = new File(".").getAbsoluteFile();
+
+	protected static File lastDirectory = DEFAULT_DIRECTORY;
 
 	public static File getLastDirectory() {
 		return lastDirectory;
+	}
+
+	public static void setLastDirectory(File lastDirectory) {
+		FileBrowserPlugin.lastDirectory = lastDirectory;
 	}
 
 	@Override

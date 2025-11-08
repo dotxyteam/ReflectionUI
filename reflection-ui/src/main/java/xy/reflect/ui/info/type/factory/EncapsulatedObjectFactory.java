@@ -744,7 +744,13 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public Object getBaseInstance() {
-			return fieldValueAccessor.get();
+			/**
+			 * The fieldValueAccessor (not fieldValueAccessor.get())is returned because this
+			 * instance is actually derived (can be recreated only) from the encapsulated
+			 * value source, not from the value itself.
+			 *
+			 */
+			return fieldValueAccessor;
 		}
 
 		protected void checkValue(Object value) {

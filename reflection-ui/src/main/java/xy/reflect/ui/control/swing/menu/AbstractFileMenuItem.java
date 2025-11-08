@@ -35,8 +35,8 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 
 	private static final long serialVersionUID = 1L;
 
-	protected static Map<Form, File> lastFileByForm = MiscUtils.newWeakKeysEqualityBasedMap();
-	protected static Map<Form, Long> lastPersistedVersionByForm = MiscUtils.newWeakKeysEqualityBasedMap();
+	protected static Map<Form, File> lastFileByForm = MiscUtils.newWeakKeysIdentityBasedMap();
+	protected static Map<Form, Long> lastPersistedVersionByForm = MiscUtils.newWeakKeysIdentityBasedMap();
 
 	protected FileBrowserConfiguration fileBrowserConfiguration;
 

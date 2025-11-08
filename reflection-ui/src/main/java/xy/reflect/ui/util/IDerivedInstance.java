@@ -3,15 +3,17 @@ package xy.reflect.ui.util;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * By default, each {@link ITypeInfo} is either basic (based on a class) or
- * derived (based on another {@link ITypeInfo}). A derived {@link ITypeInfo} is
- * often associated with derived instances that are "virtual objects" linked to
- * the instances of the source basic {@link ITypeInfo} class. This interface
- * allows identify such a derived instance, its base instance and the associated
- * derived {@link ITypeInfo}. Note that such derived {@link ITypeInfo} are not
- * naturally associated with their derived instances. A
- * {@link PrecomputedTypeInstanceWrapper} is then used to create and maintain
- * this link.
+ * This interface allows the identification of derived instances, which are
+ * utility objects normally used to present values associated with other objects
+ * in a different way. These derived instances therefore should not store any
+ * data and so that they can be recreated from the base objects at any time.
+ * 
+ * This interface also allows to identify the associated derived
+ * {@link ITypeInfo} and the base object/instance.
+ * 
+ * Note that such derived instances are not naturally associated with their
+ * derived {@link ITypeInfo}. A {@link PrecomputedTypeInstanceWrapper} is then
+ * used to create and maintain this link.
  * 
  * @author olitank
  *
