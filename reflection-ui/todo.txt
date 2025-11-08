@@ -16,6 +16,7 @@ may be wrong if some information is not in the exception message (rare)
 	and the focused components.
 	. or add ITypeInfo#onFocusChange(Object object, List focusHierarchy) ???
 - add tooltip text option for ToggleButton and CustomCheckBox ???
+- is xy.reflect.ui.control.swing.ListControl.itemValidationErrorsCollectingExecutor still necessary ?
 - it should n to be possible to return true from ITypeInfo.onFormVisibilityChange(Object, boolean)
 and trigger a form refresh when the form is hidden 
 - remove the fonts customization options ???
