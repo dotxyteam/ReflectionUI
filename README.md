@@ -51,6 +51,7 @@ The generation of the GUI (graphical user interface) requires no other informati
 - Icons
 - Menus (standard and custom items)
 - Extensible (control plugins)
+- Support for teamwork
 
 # Differences compared to classic GUI builders
 
@@ -271,6 +272,10 @@ https://github.com/dotxyteam/ReflectionUI/blob/master/custom-ui/examples/src/mai
 CustomUI tutorial: <DISTRIBUTION_DIRECTORY>/examples/src/main/java/xy/reflect/ui/example/CustomUITutorial.java
 
 https://github.com/dotxyteam/ReflectionUI/blob/master/custom-ui/examples/src/main/java/xy/reflect/ui/example/CustomUITutorial.java
+
+## Support for teamwork
+
+It is provided through the class xy.reflect.ui.control.swing.customizer.MultiSwingCustomizer (read the Javadoc for more information).
 
 # DRUIM Philosophy
 
