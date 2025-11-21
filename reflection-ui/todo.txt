@@ -1,3 +1,7 @@
+- DynamicListAction#getPostSelection() is used on an obsolete list
+model because the list is updated (potentially) without updating the
+buffers. It may be a good solution to have a flag indicating whether 
+the buffers must be updated or not before the selection.
 - allow to specify a method parameter as being the current of its type
 - add a MosaicPreviewListPlugin
 - propose a customizations refactoring/cleaning tool that will:
