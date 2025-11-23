@@ -173,7 +173,7 @@ public class MethodReturnValueAsFieldInfo extends AbstractInfo implements IField
 
 	@Override
 	public boolean isTransient() {
-		return method.isReadOnly();
+		return false;
 	}
 
 	@Override

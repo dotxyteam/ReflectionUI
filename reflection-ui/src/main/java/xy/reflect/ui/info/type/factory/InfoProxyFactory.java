@@ -46,7 +46,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
 /**
- * This is the default implementation of abstract UI model transformers.
+ * This is a basic implementation of abstract UI model transformers.
  * 
  * By default this class generates proxies that behave exactly like the wrapped
  * objects. In order to change the generated UI behavior, the appropriate
@@ -70,7 +70,7 @@ import xy.reflect.ui.info.method.InvocationData;
  * @author olitank
  *
  */
-public class InfoProxyFactory implements IInfoProxyFactory {
+public abstract class InfoProxyFactory implements IInfoProxyFactory {
 
 	protected static final String ACTIVE_FACTORIES_KEY = InfoProxyFactory.class.getName() + "ACTIVE_FACTORIES";
 

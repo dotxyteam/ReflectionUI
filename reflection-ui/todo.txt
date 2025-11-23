@@ -1,3 +1,7 @@
+- Custom undo/redo jobs are not implemented on many proxies of
+IFieldInfo/IMethodInfo/IFieldControlData/IMethodControlData.
+It makes undo management fail when these custom jobs are needed
+(for instance when a custom setter is used). Check and fix it.  
 - DynamicListAction#getPostSelection() is used on an obsolete list
 model because the list is updated (potentially) without updating the
 buffers. It may be a good solution to have a flag indicating whether 

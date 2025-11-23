@@ -364,20 +364,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 					@Override
 					public void setValue(Object newValue) {
-						ITypeInfo selectedSubType = (newValue == null) ? null
-								: (ITypeInfo) typeOptionsFactory.getInstanceItem(newValue);
-						Object instance;
-						if (selectedSubType == null) {
-							instance = null;
-						} else {
-							instance = subTypeInstanceCache.get(selectedSubType);
-							if (instance == null) {
-								instance = instantiator.get(selectedSubType);
-								if (instance == null) {
-									throw new CancelledModificationException();
-								}
-							}
-						}
+						Object instance = optionToInstance(newValue);
 						try {
 							dynamicControlUpdater.handle(instance);
 						} catch (Throwable t) {
@@ -385,6 +372,18 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 							throw new CancelledModificationException();
 						}
 						super.setValue(instance);
+					}
+
+					@Override
+					public Runnable getNextUpdateCustomUndoJob(Object newValue) {
+						Object instance = optionToInstance(newValue);
+						return super.getNextUpdateCustomUndoJob(instance);
+					}
+
+					@Override
+					public Runnable getPreviousUpdateCustomRedoJob(Object newValue) {
+						Object instance = optionToInstance(newValue);
+						return super.getPreviousUpdateCustomRedoJob(instance);
 					}
 
 					@Override
@@ -407,6 +406,24 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			this.subTypeInstanceCache = subTypeInstanceCache;
 			this.instantiator = instantiator;
 			this.commitExceptionHandler = commitExceptionHandler;
+		}
+
+		protected Object optionToInstance(Object optionValue) {
+			Object instance;
+			ITypeInfo subType = (optionValue == null) ? null
+					: (ITypeInfo) typeOptionsFactory.getInstanceItem(optionValue);
+			if (subType == null) {
+				instance = null;
+			} else {
+				instance = subTypeInstanceCache.get(subType);
+				if (instance == null) {
+					instance = instantiator.get(subType);
+					if (instance == null) {
+						throw new CancelledModificationException();
+					}
+				}
+			}
+			return instance;
 		}
 
 		@Override
