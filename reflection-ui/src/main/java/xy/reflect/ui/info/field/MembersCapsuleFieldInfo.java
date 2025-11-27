@@ -46,7 +46,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
-	public static final String CONTAINING_CAPSULE_FIELD_PROPERTY_KEY = MembersCapsuleFieldInfo.class.getName();
+	public static final String AS_ENCAPSULATED_MEMBER_PROXY_PROPERTY_KEY = MembersCapsuleFieldInfo.class.getName();
 
 	protected List<IFieldInfo> encapsulatedFields;
 	protected List<IMethodInfo> encapsulatedMethods;
@@ -100,7 +100,7 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 		return new EncapsulatedMethodInfoProxy(method);
 	}
 
-	public ITypeInfo getobjectType() {
+	public ITypeInfo getObjectType() {
 		return objectType;
 	}
 
@@ -170,6 +170,10 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 	@Override
 	public Object getValue(Object object) {
 		return new PrecomputedTypeInstanceWrapper(new Value(object), new ValueTypeInfo());
+	}
+
+	public ValueTypeInfo getValueType() {
+		return new ValueTypeInfo();
 	}
 
 	@Override
@@ -805,8 +809,13 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
 			Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
-			result.put(CONTAINING_CAPSULE_FIELD_PROPERTY_KEY, MembersCapsuleFieldInfo.this);
+			result.put(AS_ENCAPSULATED_MEMBER_PROXY_PROPERTY_KEY, EncapsulatedFieldInfoProxy.this);
+			result.put(EncapsulatedFieldInfoProxy.class.getName(), EncapsulatedFieldInfoProxy.this);
 			return result;
+		}
+
+		public MembersCapsuleFieldInfo getParent() {
+			return MembersCapsuleFieldInfo.this;
 		}
 
 	}
@@ -929,10 +938,13 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
 			Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
-			result.put(CONTAINING_CAPSULE_FIELD_PROPERTY_KEY, MembersCapsuleFieldInfo.this);
+			result.put(AS_ENCAPSULATED_MEMBER_PROXY_PROPERTY_KEY, EncapsulatedMethodInfoProxy.this);
 			return result;
 		}
 
+		public MembersCapsuleFieldInfo getParent() {
+			return MembersCapsuleFieldInfo.this;
+		}
 	}
 
 }

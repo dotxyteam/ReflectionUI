@@ -844,17 +844,31 @@ public class CustomizationTools {
 					}));
 		}
 
-		final MembersCapsuleFieldInfo containingCapsuleField = (MembersCapsuleFieldInfo) member.getSpecificProperties()
-				.get(MembersCapsuleFieldInfo.CONTAINING_CAPSULE_FIELD_PROPERTY_KEY);
-		if (containingCapsuleField != null) {
-			result.add(createMenuItem(new AbstractAction(toolsRenderer.prepareMessageToDisplay("Move Out")) {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					decapsulator.run();
+		final IInfo encapsulatedMemberProxy = (IInfo) member.getSpecificProperties()
+				.get(MembersCapsuleFieldInfo.AS_ENCAPSULATED_MEMBER_PROXY_PROPERTY_KEY);
+		if (encapsulatedMemberProxy != null) {
+			if (encapsulatedMemberProxy.getName().equals(member.getName())) {
+				MembersCapsuleFieldInfo capsuleField;
+				if (encapsulatedMemberProxy instanceof MembersCapsuleFieldInfo.EncapsulatedFieldInfoProxy) {
+					capsuleField = ((MembersCapsuleFieldInfo.EncapsulatedFieldInfoProxy) encapsulatedMemberProxy)
+							.getParent();
+				} else if (encapsulatedMemberProxy instanceof MembersCapsuleFieldInfo.EncapsulatedMethodInfoProxy) {
+					capsuleField = ((MembersCapsuleFieldInfo.EncapsulatedMethodInfoProxy) encapsulatedMemberProxy)
+							.getParent();
+				} else {
+					throw new ReflectionUIError();
 				}
-			}));
+				if (capsuleField.getValueType().getName().equals(objectCustomizedType.getName())) {
+					result.add(createMenuItem(new AbstractAction(toolsRenderer.prepareMessageToDisplay("Move Out")) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							decapsulator.run();
+						}
+					}));
+				}
+			}
 		}
 		return result;
 	}
