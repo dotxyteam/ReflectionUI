@@ -211,7 +211,9 @@ public interface IMethodInfo extends IInfo {
 
 	/**
 	 * @return true if and only if the execution of this method does not affect the
-	 *         object on which it is executed.
+	 *         object on which it is executed. Note that it means that information
+	 *         about this method executions should not be stored in a modification
+	 *         stack (in order to be reverted).
 	 */
 	boolean isReadOnly();
 

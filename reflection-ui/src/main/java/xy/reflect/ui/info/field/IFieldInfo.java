@@ -300,8 +300,8 @@ public interface IFieldInfo extends IInfo {
 	boolean isGetOnly();
 
 	/**
-	 * @return true if and only if this field value updates should not be stored in
-	 *         a modification stack (in order to be reverted).
+	 * @return true if and only if information about this field value updates should
+	 *         not be stored in a modification stack (in order to be reverted).
 	 */
 	boolean isTransient();
 
