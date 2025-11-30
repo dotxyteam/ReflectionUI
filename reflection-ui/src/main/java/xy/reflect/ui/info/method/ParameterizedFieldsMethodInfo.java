@@ -82,11 +82,6 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 		if (!super.isReadOnly()) {
 			return false;
 		}
-		for (IFieldInfo parameterizedField : parameterizedFields) {
-			if (!parameterizedField.isTransient()) {
-				return false;
-			}
-		}
 		return true;
 	}
 

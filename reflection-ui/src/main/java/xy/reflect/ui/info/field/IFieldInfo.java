@@ -301,7 +301,10 @@ public interface IFieldInfo extends IInfo {
 
 	/**
 	 * @return true if and only if information about this field value updates should
-	 *         not be stored in a modification stack (in order to be reverted).
+	 *         not be stored in a modification stack (in order to be reverted). Note
+	 *         that this has nothing to do with whether this field may affect the
+	 *         object hosting its value or not (unlike
+	 *         {@link IMethodInfo#isReadOnly()}).
 	 */
 	boolean isTransient();
 

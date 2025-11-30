@@ -9,6 +9,7 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
@@ -213,7 +214,9 @@ public interface IMethodInfo extends IInfo {
 	 * @return true if and only if the execution of this method does not affect the
 	 *         object on which it is executed. Note that it means that information
 	 *         about this method executions should not be stored in a modification
-	 *         stack (in order to be reverted).
+	 *         stack (in order to be reverted), but this is more of a side effect
+	 *         than a choice (unlike the effect of
+	 *         {@link IFieldInfo#isTransient()}).
 	 */
 	boolean isReadOnly();
 

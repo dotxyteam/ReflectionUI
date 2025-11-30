@@ -305,7 +305,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public boolean isTransient() {
-		return (getSetterMethodInfo() != null) && (getSetterMethodInfo().isReadOnly());
+		return false;
 	}
 
 	@Override
