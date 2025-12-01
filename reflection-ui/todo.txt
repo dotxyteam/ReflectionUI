@@ -1,11 +1,27 @@
+- implement for methods a default undo job that undo all the fields
+and allow to filter these undo fields 
+- add and allow to override:
+	. SwingRenderer#createPluginControl(...)
+	. SwingRenderer#createListControl(...)
+	. ...
+- add debug info:
+	. maybe use IDeriveInstance to display derivation tree, creation 
+	stack trace, ... from a DebugInformation window open using 
+	cutomizations tools.
 - Custom undo/redo jobs are not implemented on many proxies of
 IFieldInfo/IMethodInfo/IFieldControlData/IMethodControlData.
 It makes undo management fail when these custom jobs are needed
 (for instance when a custom setter is used). Check and fix it.  
 - DynamicListAction#getPostSelection() is used on an obsolete list
 model because the list is updated (potentially) without updating the
-buffers. It may be a good solution to have a flag indicating whether 
-the buffers must be updated or not before the selection.
+buffers. For standard actions the methods used update the buffers
+and then avoid this issue. But these standard methods cannot always 
+be used for specific needs. It does not seem to be a good idea to
+allow the buffers update from the DynamicListAction since these 
+buffers are agnostically used for optimization. Note that if there
+were no buffer, the issue would not occur. This is then an optimization
+bug. The optimization should have taken this possibility into account.
+Check!
 - allow to specify a method parameter as being the current of its type
 - add a MosaicPreviewListPlugin
 - propose a customizations refactoring/cleaning tool that will:
