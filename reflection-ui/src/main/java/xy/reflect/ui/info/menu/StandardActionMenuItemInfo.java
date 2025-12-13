@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.KeyboardShortcut;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -17,27 +18,30 @@ import xy.reflect.ui.util.ReflectionUIError;
  */
 public class StandardActionMenuItemInfo extends AbstractActionMenuItemInfo {
 
-	protected Type type;
+	protected StandardActionType type;
 	protected FileBrowserConfiguration fileBrowserConfiguration;
+	protected ITypeInfo objectType;
 
-	public StandardActionMenuItemInfo(String name, ResourcePath iconImagePath, Type type,
-			KeyboardShortcut keyboardShortcut, FileBrowserConfiguration fileBrowserConfiguration) {
+	public StandardActionMenuItemInfo(String name, ResourcePath iconImagePath, StandardActionType type,
+			KeyboardShortcut keyboardShortcut, FileBrowserConfiguration fileBrowserConfiguration,
+			ITypeInfo objectType) {
 		super(name, iconImagePath);
 		this.type = type;
 		this.keyboardShortcut = keyboardShortcut;
 		this.fileBrowserConfiguration = fileBrowserConfiguration;
+		this.objectType = objectType;
 	}
 
-	public StandardActionMenuItemInfo(String name, ResourcePath iconImagePath, Type type,
-			KeyboardShortcut keyboardShortcut) {
-		this(name, iconImagePath, type, keyboardShortcut, null);
+	public StandardActionMenuItemInfo(String name, ResourcePath iconImagePath, StandardActionType type,
+			KeyboardShortcut keyboardShortcut, ITypeInfo objectType) {
+		this(name, iconImagePath, type, keyboardShortcut, null, objectType);
 	}
 
-	public Type getType() {
+	public StandardActionType getType() {
 		return type;
 	}
 
-	public void setType(Type type) {
+	public void setType(StandardActionType type) {
 		this.type = type;
 	}
 
@@ -49,7 +53,15 @@ public class StandardActionMenuItemInfo extends AbstractActionMenuItemInfo {
 		this.fileBrowserConfiguration = fileBrowserConfiguration;
 	}
 
-	public enum Type {
+	public ITypeInfo getObjectType() {
+		return objectType;
+	}
+
+	public void setObjectType(ITypeInfo objectType) {
+		this.objectType = objectType;
+	}
+
+	public enum StandardActionType {
 		NEW, OPEN, SAVE, SAVE_AS, UNDO, REDO, RESET, HELP, EXIT
 	}
 

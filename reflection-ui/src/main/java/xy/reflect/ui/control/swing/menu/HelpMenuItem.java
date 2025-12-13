@@ -25,8 +25,7 @@ public class HelpMenuItem extends AbstractStandardActionMenuItem {
 	@Override
 	protected void execute() {
 		Object object = getContextForm().getObject();
-		ITypeInfo type = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
+		ITypeInfo type = menuItemInfo.getObjectType();
 		String onlineHelp = type.getOnlineHelp();
 		if ((onlineHelp == null) || (onlineHelp.length() == 0)) {
 			throw new ReflectionUIError("Online help not provided for the type '" + type.getName() + "'");

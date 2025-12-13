@@ -499,19 +499,20 @@ public class ReflectionUITutorial {
 											}
 											fileBrowserConfiguration.fileNameFilters.add(fileNameFilterConfiguration);
 										}
-										persistenceCategory.addItem(new StandardActionMenuItemInfo(
-												"Open Hello World File...", null, StandardActionMenuItemInfo.Type.OPEN,
-												null, fileBrowserConfiguration));
+										persistenceCategory
+												.addItem(new StandardActionMenuItemInfo("Open Hello World File...",
+														null, StandardActionMenuItemInfo.StandardActionType.OPEN, null,
+														fileBrowserConfiguration, type));
 										persistenceCategory
 												.addItem(new StandardActionMenuItemInfo("Save Hello World File As...",
-														null, StandardActionMenuItemInfo.Type.SAVE_AS, null,
-														fileBrowserConfiguration));
+														null, StandardActionMenuItemInfo.StandardActionType.SAVE_AS,
+														null, fileBrowserConfiguration, type));
 										fileMenu.addItemCategory(persistenceCategory);
 									}
 									MenuItemCategory lifeCycleCategory = new MenuItemCategory("Life Cycle");
 									{
 										lifeCycleCategory.addItem(new StandardActionMenuItemInfo("Quit", null,
-												StandardActionMenuItemInfo.Type.EXIT, null));
+												StandardActionMenuItemInfo.StandardActionType.EXIT, null, type));
 										fileMenu.addItemCategory(lifeCycleCategory);
 									}
 								}

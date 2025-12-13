@@ -49,8 +49,7 @@ public class RenewMenuItem extends AbstractFileMenuItem {
 	@Override
 	protected void persist(final SwingRenderer swingRenderer, final Form form, File file) {
 		Object object = form.getObject();
-		final ITypeInfo type = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
+		final ITypeInfo type = menuItemInfo.getObjectType();
 		Object newObject = swingRenderer.onTypeInstantiationRequest(form, type);
 		if (newObject == null) {
 			return;

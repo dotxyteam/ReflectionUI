@@ -2043,7 +2043,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				inputMethods.add(newMethod);
 			}
 			menuModel.importContributions(
-					ReflectionUIUtils.createMenuModel(objectTypeCustomization.getMenuModelCustomization()));
+					ReflectionUIUtils.createMenuModel(objectType, objectTypeCustomization.getMenuModelCustomization()));
 		}
 
 		protected IFieldInfo createVirtualField(AbstractVirtualFieldDeclaration virtualFieldDeclaration) {
@@ -2809,7 +2809,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							objectTypeCustomization.getMenuModelCustomization(), mc.getMenuLocation());
 					if (menuItemContainerPosition != null) {
 						IMenuElementInfo actionMenuItem = new MethodActionMenuItemInfo(reflectionUI,
-								wrapMethodInfo(method, objectType));
+								objectType, wrapMethodInfo(method, objectType));
 						menuModel.importContribution(menuItemContainerPosition, actionMenuItem);
 					}
 				}

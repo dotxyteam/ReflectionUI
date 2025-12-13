@@ -99,8 +99,7 @@ public class MethodActionMenuItem extends AbstractMenuItem {
 
 						@Override
 						public MethodContext getContext() {
-							ITypeInfo objectType = swingRenderer.getReflectionUI().getTypeInfo(
-									swingRenderer.getReflectionUI().getTypeInfoSource(getContextForm().getObject()));
+							ITypeInfo objectType = menuItemInfo.getObjectType();
 							return new MethodContext(objectType.getName(), menuItemInfo.getMethod().getSignature());
 						}
 

@@ -17,7 +17,7 @@ import xy.reflect.ui.info.menu.MenuInfo;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
 import xy.reflect.ui.info.menu.StandardActionMenuItemInfo;
-import xy.reflect.ui.info.menu.StandardActionMenuItemInfo.Type;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo.StandardActionType;
 import xy.reflect.ui.util.KeyboardKey;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -161,23 +161,23 @@ public class Menu extends JMenu {
 	}
 
 	protected JMenuItem createActionMenuItem(final StandardActionMenuItemInfo menuItemInfo) {
-		if (menuItemInfo.getType() == Type.NEW) {
+		if (menuItemInfo.getType() == StandardActionType.NEW) {
 			return new RenewMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
-		} else if (menuItemInfo.getType() == Type.OPEN) {
+		} else if (menuItemInfo.getType() == StandardActionType.OPEN) {
 			return new OpenMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
-		} else if (menuItemInfo.getType() == Type.SAVE) {
+		} else if (menuItemInfo.getType() == StandardActionType.SAVE) {
 			return new SaveMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
-		} else if (menuItemInfo.getType() == Type.SAVE_AS) {
+		} else if (menuItemInfo.getType() == StandardActionType.SAVE_AS) {
 			return new SaveAsMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
-		} else if (menuItemInfo.getType() == Type.UNDO) {
+		} else if (menuItemInfo.getType() == StandardActionType.UNDO) {
 			return new UndoMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
-		} else if (menuItemInfo.getType() == Type.REDO) {
+		} else if (menuItemInfo.getType() == StandardActionType.REDO) {
 			return new RedoMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
-		} else if (menuItemInfo.getType() == Type.RESET) {
+		} else if (menuItemInfo.getType() == StandardActionType.RESET) {
 			return new ResetMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
-		} else if (menuItemInfo.getType() == Type.HELP) {
+		} else if (menuItemInfo.getType() == StandardActionType.HELP) {
 			return new HelpMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
-		} else if (menuItemInfo.getType() == Type.EXIT) {
+		} else if (menuItemInfo.getType() == StandardActionType.EXIT) {
 			return new CloseWindowMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
 		} else {
 			throw new ReflectionUIError();

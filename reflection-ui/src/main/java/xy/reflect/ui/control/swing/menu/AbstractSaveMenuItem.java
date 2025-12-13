@@ -26,8 +26,7 @@ public abstract class AbstractSaveMenuItem extends AbstractFileMenuItem {
 	@Override
 	protected void persist(final SwingRenderer swingRenderer, final Form form, File file) {
 		Object object = form.getObject();
-		final ITypeInfo type = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
+		final ITypeInfo type = menuItemInfo.getObjectType();
 		swingRenderer.showBusyDialogWhile(form, new Runnable() {
 			@Override
 			public void run() {

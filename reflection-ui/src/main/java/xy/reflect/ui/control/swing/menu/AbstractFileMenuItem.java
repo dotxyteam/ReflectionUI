@@ -55,9 +55,7 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 		if (fileBrowserConfiguration == null) {
 			throw new ReflectionUIError();
 		}
-		Object object = getContextForm().getObject();
-		ITypeInfo type = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
+		ITypeInfo type = menuItemInfo.getObjectType();
 		if (!type.canPersist()) {
 			throw new ReflectionUIError("Type '" + type.getName() + "' cannot persist its instances state");
 		}
