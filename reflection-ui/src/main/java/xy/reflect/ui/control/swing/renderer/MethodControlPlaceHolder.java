@@ -14,10 +14,13 @@ import xy.reflect.ui.control.AbstractMethodControlData;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodContext;
+import xy.reflect.ui.control.MethodControlDataProxy;
+import xy.reflect.ui.control.RenderingContext;
 import xy.reflect.ui.control.swing.MethodControl;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -190,7 +193,42 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 
 	protected IMethodControlData createControlData() {
 		IMethodControlData result = new MethodControlData(method);
+		result = provideRenderingContext(result);
 		return result;
+	}
+
+	private IMethodControlData provideRenderingContext(IMethodControlData result) {
+		return new MethodControlDataProxy(result) {
+
+			@Override
+			public InvocationData createInvocationData(Object... parameterValues) {
+				return ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), getRenderingContext(),
+						() -> super.createInvocationData(parameterValues));
+			}
+
+			@Override
+			public Object invoke(InvocationData invocationData) {
+				return ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), getRenderingContext(),
+						() -> super.invoke(invocationData));
+			}
+
+			@Override
+			public Runnable getNextInvocationUndoJob(InvocationData invocationData) {
+				return ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), getRenderingContext(),
+						() -> super.getNextInvocationUndoJob(invocationData));
+			}
+
+			@Override
+			public Runnable getPreviousInvocationCustomRedoJob(InvocationData invocationData) {
+				return ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), getRenderingContext(),
+						() -> super.getPreviousInvocationCustomRedoJob(invocationData));
+			}
+
+		};
+	}
+
+	protected RenderingContext getRenderingContext() {
+		return form.getRenderingContext();
 	}
 
 	@Override

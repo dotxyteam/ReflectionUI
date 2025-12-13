@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import xy.reflect.ui.control.RenderingContext;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.app.ApplicationInfoProxy;
@@ -48,6 +49,7 @@ public class ReflectionUI {
 	protected final Object classCacheMutex = new Object();
 
 	protected ValidationErrorRegistry validationErrorRegistry = createValidationErrorRegistry();
+	protected ThreadLocal<RenderingContext> threadLocalRenderingContext = new ThreadLocal<RenderingContext>();
 
 	/**
 	 * @return the default instance of this class.
@@ -144,6 +146,13 @@ public class ReflectionUI {
 	 */
 	public ValidationErrorRegistry getValidationErrorRegistry() {
 		return validationErrorRegistry;
+	}
+
+	/**
+	 * @return the thread-local wrapper of the current {@link RenderingContext}.
+	 */
+	public ThreadLocal<RenderingContext> getThreadLocalRenderingContext() {
+		return threadLocalRenderingContext;
 	}
 
 	/**

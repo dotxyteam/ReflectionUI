@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.RenderingContext;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.InfoCategory;
@@ -2555,7 +2556,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 									@Override
 									public boolean isHidden() {
-										if (pc.isHidden() || pc.isDisplayedAsField()) {
+										if (pc.isHidden() || pc.isDisplayedAsField() || pc.isValueContextual()) {
 											return true;
 										}
 										return super.isHidden();
@@ -2568,6 +2569,17 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										if (methodParameterAsField != null) {
 											if (methodParameterAsField.isInitialized(object)) {
 												return methodParameterAsField.getValue(object);
+											}
+										}
+										if (pc.isValueContextual()) {
+											RenderingContext renderingContext = reflectionUI
+													.getThreadLocalRenderingContext().get();
+											if (renderingContext != null) {
+												Object contextualValue = renderingContext.getCurrent(getType());
+												if(contextualValue == null) {
+													System.out.println("debug");
+												}
+												return contextualValue;
 											}
 										}
 										Object defaultValue = pc.getDefaultValue().load(reflectionUI);
@@ -2847,6 +2859,26 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					List<IMethodInfo> newMethods) {
 				if (mc.isReturnValueFieldGenerated()) {
 					newFields.add(new MethodReturnValueAsFieldInfo(reflectionUI, method, objectType) {
+
+						@Override
+						public boolean isHidden() {
+							return false;
+						}
+					});
+				}
+				if (GetterFieldInfo.GETTER_PATTERN.matcher(method.getName()).matches()
+						&& !ReflectionUIUtils.requiresParameterValue(method)) {
+					newFields.add(new MethodReturnValueAsFieldInfo(reflectionUI, method, objectType) {
+
+						@Override
+						public String getName() {
+							return GetterFieldInfo.getterToFieldName(method.getName());
+						}
+
+						@Override
+						public String getCaption() {
+							return ReflectionUIUtils.identifierToCaption(getName());
+						}
 
 						@Override
 						public boolean isHidden() {

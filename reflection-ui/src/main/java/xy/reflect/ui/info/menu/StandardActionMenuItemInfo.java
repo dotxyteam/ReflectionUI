@@ -17,8 +17,8 @@ import xy.reflect.ui.util.ReflectionUIError;
  */
 public class StandardActionMenuItemInfo extends AbstractActionMenuItemInfo {
 
-	private Type type;
-	private FileBrowserConfiguration fileBrowserConfiguration;
+	protected Type type;
+	protected FileBrowserConfiguration fileBrowserConfiguration;
 
 	public StandardActionMenuItemInfo(String name, ResourcePath iconImagePath, Type type,
 			KeyboardShortcut keyboardShortcut, FileBrowserConfiguration fileBrowserConfiguration) {

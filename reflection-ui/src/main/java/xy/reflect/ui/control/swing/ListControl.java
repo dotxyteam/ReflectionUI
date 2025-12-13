@@ -82,6 +82,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodContext;
+import xy.reflect.ui.control.RenderingContext;
 import xy.reflect.ui.control.swing.ListControl.IItemsVisitor.VisitStatus;
 import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
@@ -188,6 +189,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	};
 	protected boolean buffersRefreshedAfterModification = false;
 	protected boolean initialized = false;
+	protected RenderingContext cellsRenderingContext;
 
 	public ListControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -1013,48 +1015,50 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected String getCellValue(ItemNode node, int columnIndex) {
-		Map<Integer, String> nodeValues = valuesByNode.get(node);
-		if (nodeValues == null) {
-			nodeValues = new HashMap<Integer, String>();
-			valuesByNode.put(node, nodeValues);
-		}
-		String value;
-		if (nodeValues.containsKey(columnIndex)) {
-			value = nodeValues.get(columnIndex);
-		} else {
-			BufferedItemPosition itemPosition = getItemPositionByNode(node);
-			if (itemPosition == null) {
-				value = "";
-			} else {
-				try {
-					IListStructuralInfo tableInfo = getRootStructuralInfo();
-					if (tableInfo == null) {
-						value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), itemPosition.getItem());
-					} else {
-						List<IColumnInfo> columns = tableInfo.getColumns();
-						if (columnIndex < columns.size()) {
-							IColumnInfo column = tableInfo.getColumns().get(columnIndex);
-							if (column.hasCellValue(itemPosition)) {
-								value = column.getCellValue(itemPosition);
-							} else {
-								if (columnIndex == 0) {
-									value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(),
-											itemPosition.getItem());
-								} else {
-									value = null;
-								}
-							}
-						} else {
-							value = null;
-						}
-					}
-				} catch (Throwable t) {
-					value = "<" + MiscUtils.getPrettyErrorMessage(t) + ">";
-				}
+		return ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), cellsRenderingContext, () -> {
+			Map<Integer, String> nodeValues = valuesByNode.get(node);
+			if (nodeValues == null) {
+				nodeValues = new HashMap<Integer, String>();
+				valuesByNode.put(node, nodeValues);
 			}
-			nodeValues.put(columnIndex, value);
-		}
-		return value;
+			String value;
+			if (nodeValues.containsKey(columnIndex)) {
+				value = nodeValues.get(columnIndex);
+			} else {
+				BufferedItemPosition itemPosition = getItemPositionByNode(node);
+				if (itemPosition == null) {
+					value = "";
+				} else {
+					try {
+						IListStructuralInfo tableInfo = getRootStructuralInfo();
+						if (tableInfo == null) {
+							value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), itemPosition.getItem());
+						} else {
+							List<IColumnInfo> columns = tableInfo.getColumns();
+							if (columnIndex < columns.size()) {
+								IColumnInfo column = tableInfo.getColumns().get(columnIndex);
+								if (column.hasCellValue(itemPosition)) {
+									value = column.getCellValue(itemPosition);
+								} else {
+									if (columnIndex == 0) {
+										value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(),
+												itemPosition.getItem());
+									} else {
+										value = null;
+									}
+								}
+							} else {
+								value = null;
+							}
+						}
+					} catch (Throwable t) {
+						value = "<" + MiscUtils.getPrettyErrorMessage(t) + ">";
+					}
+				}
+				nodeValues.put(columnIndex, value);
+			}
+			return value;
+		});
 	}
 
 	protected Image getCellIconImage(ItemNode node, int columnIndex) {
@@ -2035,6 +2039,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean refreshUI(final boolean refreshStructure) {
+		cellsRenderingContext = swingRenderer.getReflectionUI().getThreadLocalRenderingContext().get();
+		if (cellsRenderingContext == null) {
+			throw new ReflectionUIError();
+		}
 		listData.returningValue(listData.getValue(), new Runnable() {
 			@Override
 			public void run() {

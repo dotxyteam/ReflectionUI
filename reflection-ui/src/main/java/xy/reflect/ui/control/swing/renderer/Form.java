@@ -51,6 +51,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IAdvancedMethodControl;
 import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.RenderingContext;
 import xy.reflect.ui.control.swing.builder.DialogBuilder;
 import xy.reflect.ui.control.swing.builder.DialogBuilder.RenderedDialog;
 import xy.reflect.ui.control.swing.menu.Menu;
@@ -168,6 +169,24 @@ public class Form extends ImagePanel {
 			}, getInitializationJobTitle());
 
 		}
+	}
+
+	public RenderingContext getRenderingContext() {
+		return new RenderingContext() {
+
+			RenderingContext parent = swingRenderer.getReflectionUI().getThreadLocalRenderingContext().get();
+
+			@Override
+			public Object getCurrent(ITypeInfo type) {
+				Object result = SwingRendererUtils.findCurrentObject(type, Form.this, swingRenderer);
+				if (result == null) {
+					if (parent != null) {
+						result = parent.getCurrent(type);
+					}
+				}
+				return result;
+			}
+		};
 	}
 
 	protected String getInitializationJobTitle() {
@@ -396,101 +415,113 @@ public class Form extends ImagePanel {
 	 * @throws Exception If the state of the underlying object is not valid.
 	 */
 	public void validateForm(ValidationSession session) throws Exception {
-		try {
-			swingRenderer.getReflectionUI().getValidationErrorRegistry().attributing(object, (sessionArg) -> {
-				ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-				List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
-						methodControlPlaceHoldersByCategory);
-				boolean categoriesDisplayed = shouldCategoriesBeDisplayed(allCategories);
-				for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
-					for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory
-							.get(category)) {
-						if (swingRenderer.getReflectionUI().getValidationErrorRegistry()
-								.isValidationCancelled(Thread.currentThread())) {
-							return;
-						}
-						if (!fieldControlPlaceHolder.isVisible()) {
-							continue;
-						}
-						if (!fieldControlPlaceHolder.getControlData().isControlValueValiditionEnabled()) {
-							continue;
-						}
-						Component fieldControl = fieldControlPlaceHolder.getFieldControl();
-						if (fieldControl instanceof IAdvancedFieldControl) {
-							try {
-								((IAdvancedFieldControl) fieldControl).validateControlData(session);
-								if (!swingRenderer.getReflectionUI().getValidationErrorRegistry()
+		final Exception[] error = new Exception[1];
+		ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), getRenderingContext(), () -> {
+			try {
+				try {
+					swingRenderer.getReflectionUI().getValidationErrorRegistry().attributing(object, (sessionArg) -> {
+						ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+						List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
+								methodControlPlaceHoldersByCategory);
+						boolean categoriesDisplayed = shouldCategoriesBeDisplayed(allCategories);
+						for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
+							for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory
+									.get(category)) {
+								if (swingRenderer.getReflectionUI().getValidationErrorRegistry()
 										.isValidationCancelled(Thread.currentThread())) {
-									fieldControlPlaceHolder.setBorder(null);
+									return;
 								}
-							} catch (Exception e) {
-								if (!(e instanceof ValidationErrorWrapper)) {
-									SwingRendererUtils.setErrorBorder(fieldControlPlaceHolder, swingRenderer);
+								if (!fieldControlPlaceHolder.isVisible()) {
+									continue;
 								}
-								String contextCaption = null;
-								IFieldInfo field = fieldControlPlaceHolder.getField();
-								if (field.getCaption().length() > 0) {
-									contextCaption = field.getCaption();
+								if (!fieldControlPlaceHolder.getControlData().isControlValueValiditionEnabled()) {
+									continue;
 								}
-								if (categoriesDisplayed) {
-									contextCaption = category.getCaption();
+								Component fieldControl = fieldControlPlaceHolder.getFieldControl();
+								if (fieldControl instanceof IAdvancedFieldControl) {
+									try {
+										((IAdvancedFieldControl) fieldControl).validateControlData(session);
+										if (!swingRenderer.getReflectionUI().getValidationErrorRegistry()
+												.isValidationCancelled(Thread.currentThread())) {
+											fieldControlPlaceHolder.setBorder(null);
+										}
+									} catch (Exception e) {
+										if (!(e instanceof ValidationErrorWrapper)) {
+											SwingRendererUtils.setErrorBorder(fieldControlPlaceHolder, swingRenderer);
+										}
+										String contextCaption = null;
+										IFieldInfo field = fieldControlPlaceHolder.getField();
+										if (field.getCaption().length() > 0) {
+											contextCaption = field.getCaption();
+										}
+										if (categoriesDisplayed) {
+											contextCaption = category.getCaption();
+										}
+										throw new ValidationErrorWrapper(contextCaption, e);
+									}
 								}
-								throw new ValidationErrorWrapper(contextCaption, e);
 							}
 						}
-					}
-				}
-				for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
-					for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
-							.get(category)) {
-						if (swingRenderer.getReflectionUI().getValidationErrorRegistry()
-								.isValidationCancelled(Thread.currentThread())) {
-							return;
-						}
-						if (!methodControlPlaceHolder.isVisible()) {
-							continue;
-						}
-						if (!methodControlPlaceHolder.getControlData().isControlReturnValueValiditionEnabled()) {
-							continue;
-						}
-						Component methodControl = methodControlPlaceHolder.getMethodControl();
-						if (methodControl instanceof IAdvancedMethodControl) {
-							try {
-								((IAdvancedMethodControl) methodControl).validateControlData(session);
-								if (!swingRenderer.getReflectionUI().getValidationErrorRegistry()
+						for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
+							for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
+									.get(category)) {
+								if (swingRenderer.getReflectionUI().getValidationErrorRegistry()
 										.isValidationCancelled(Thread.currentThread())) {
-									methodControlPlaceHolder.setBorder(null);
+									return;
 								}
-							} catch (Exception e) {
-								SwingRendererUtils.setErrorBorder(methodControlPlaceHolder, swingRenderer);
-								String contextCaption = null;
-								IMethodInfo method = methodControlPlaceHolder.getMethod();
-								if (method.getCaption().length() > 0) {
-									contextCaption = method.getCaption();
+								if (!methodControlPlaceHolder.isVisible()) {
+									continue;
 								}
-								if (categoriesDisplayed) {
-									contextCaption = category.getCaption();
+								if (!methodControlPlaceHolder.getControlData()
+										.isControlReturnValueValiditionEnabled()) {
+									continue;
 								}
-								throw new ValidationErrorWrapper(contextCaption, e);
+								Component methodControl = methodControlPlaceHolder.getMethodControl();
+								if (methodControl instanceof IAdvancedMethodControl) {
+									try {
+										((IAdvancedMethodControl) methodControl).validateControlData(session);
+										if (!swingRenderer.getReflectionUI().getValidationErrorRegistry()
+												.isValidationCancelled(Thread.currentThread())) {
+											methodControlPlaceHolder.setBorder(null);
+										}
+									} catch (Exception e) {
+										SwingRendererUtils.setErrorBorder(methodControlPlaceHolder, swingRenderer);
+										String contextCaption = null;
+										IMethodInfo method = methodControlPlaceHolder.getMethod();
+										if (method.getCaption().length() > 0) {
+											contextCaption = method.getCaption();
+										}
+										if (categoriesDisplayed) {
+											contextCaption = category.getCaption();
+										}
+										throw new ValidationErrorWrapper(contextCaption, e);
+									}
+								}
 							}
 						}
+						ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+						type.validate(object, session);
+					}, validationError -> swingRenderer.getReflectionUI().logDebug(validationError)).validate(session);
+					if (!swingRenderer.getReflectionUI().getValidationErrorRegistry()
+							.isValidationCancelled(Thread.currentThread())) {
+						for (IFormListener l : listeners) {
+							l.afterValidation(null);
+						}
 					}
+				} catch (Exception e) {
+					for (IFormListener l : listeners) {
+						l.afterValidation(e);
+					}
+					throw e;
 				}
-				ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-				type.validate(object, session);
-			}, validationError -> swingRenderer.getReflectionUI().logDebug(validationError)).validate(session);
-			if (!swingRenderer.getReflectionUI().getValidationErrorRegistry()
-					.isValidationCancelled(Thread.currentThread())) {
-				for (IFormListener l : listeners) {
-					l.afterValidation(null);
-				}
+			} catch (Exception e) {
+				error[0] = e;
 			}
-		} catch (Exception e) {
-			for (IFormListener l : listeners) {
-				l.afterValidation(e);
-			}
-			throw e;
+		});
+		if (error[0] != null) {
+			throw error[0];
 		}
+
 	}
 
 	/**

@@ -3794,12 +3794,21 @@ public class InfoCustomizations implements Serializable {
 		protected String onlineHelp;
 		protected boolean displayedAsField;
 		protected TextualStorage defaultValue = new TextualStorage();
+		protected boolean valueContextual = false;
 
 		@Override
 		public boolean isInitial() {
 			ParameterCustomization defaultParameterCustomization = new ParameterCustomization();
 			defaultParameterCustomization.parameterName = parameterName;
 			return InfoCustomizations.isSimilar(this, defaultParameterCustomization);
+		}
+
+		public boolean isValueContextual() {
+			return valueContextual;
+		}
+
+		public void setValueContextual(boolean valueContextual) {
+			this.valueContextual = valueContextual;
 		}
 
 		public TextualStorage getDefaultValue() {

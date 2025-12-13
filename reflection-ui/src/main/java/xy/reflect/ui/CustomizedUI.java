@@ -37,10 +37,10 @@ public class CustomizedUI extends ReflectionUI {
 	protected InfoCustomizations infoCustomizations;
 	protected Map<ITypeInfo, ITypeInfo> customizedTypeInfoCache = createCustomizedTypeInfoCache();
 
-	private IInfoProxyFactory beforeInfoCustomizationsFactory;
-	private IInfoProxyFactory infoCustomizationsSetupFactory;
-	private IInfoProxyFactory infoCustomizationsFactory;
-	private IInfoProxyFactory afterInfoCustomizationsFactory;
+	protected IInfoProxyFactory beforeInfoCustomizationsFactory;
+	protected IInfoProxyFactory infoCustomizationsSetupFactory;
+	protected IInfoProxyFactory infoCustomizationsFactory;
+	protected IInfoProxyFactory afterInfoCustomizationsFactory;
 
 	/**
 	 * @return the default instance of this class. This instance is constructed with

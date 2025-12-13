@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.MethodControlDataProxy;
+import xy.reflect.ui.control.RenderingContext;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ITransaction;
@@ -1745,4 +1747,28 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
+	public static <T, R> R withRenderingContext(ReflectionUI reflectionUI, RenderingContext renderingContext,
+			Function<T, R> function, T argument) {
+		RenderingContext initialRenderingContext = reflectionUI.getThreadLocalRenderingContext().get();
+		try {
+			reflectionUI.getThreadLocalRenderingContext().set(renderingContext);
+			return function.apply(argument);
+		} finally {
+			reflectionUI.getThreadLocalRenderingContext().set(initialRenderingContext);
+		}
+	}
+
+	public static <R> R withRenderingContext(ReflectionUI reflectionUI, RenderingContext renderingContext,
+			Supplier<R> supplier) {
+		return withRenderingContext(reflectionUI, renderingContext, object -> supplier.get(), null);
+	}
+
+	public static <R> R withRenderingContext(ReflectionUI reflectionUI, RenderingContext renderingContext,
+			Runnable runnable) {
+		return withRenderingContext(reflectionUI, renderingContext, object -> {
+			runnable.run();
+			return null;
+		}, null);
+	}
+	
 }

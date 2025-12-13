@@ -25,6 +25,7 @@ import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.RejectedFieldControlInputException;
+import xy.reflect.ui.control.RenderingContext;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.CheckBoxControl;
 import xy.reflect.ui.control.swing.DialogAccessControl;
@@ -351,7 +352,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 		if (fieldControl == null) {
 			try {
-				fieldControl = createFieldControl();
+				fieldControl = ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(),
+						getRenderingContext(), () -> createFieldControl());
 				/*
 				 * Save the criteria in a field since the controlData internal structure may
 				 * change:
@@ -367,14 +369,17 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					&& !(refreshStructure && !getFieldControlSelectionCriteria(createControlData())
 							.equals(lastFieldControlSelectionCriteria))) {
 				try {
-					if (!((IAdvancedFieldControl) fieldControl).refreshUI(refreshStructure)) {
+					boolean refreshed = ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(),
+							getRenderingContext(),
+							() -> ((IAdvancedFieldControl) fieldControl).refreshUI(refreshStructure));
+					if (!refreshed) {
 						destroyFieldControl();
 						refreshUI(refreshStructure);
 					}
 				} catch (RejectedFieldControlInputException e) {
 					destroyFieldControl();
 					refreshUI(refreshStructure);
-				}catch (Throwable t) {
+				} catch (Throwable t) {
 					try {
 						destroyFieldControl();
 						fieldControl = createFieldErrorControl(t);
@@ -384,9 +389,9 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 							swingRenderer.handleException(this, t);
 							swingRenderer.handleException(this, t2);
 						} catch (Throwable t3) {
-							swingRenderer.getReflectionUI().logError(t);	
-							swingRenderer.getReflectionUI().logError(t2);	
-							swingRenderer.getReflectionUI().logError(t3);							
+							swingRenderer.getReflectionUI().logError(t);
+							swingRenderer.getReflectionUI().logError(t2);
+							swingRenderer.getReflectionUI().logError(t3);
 						}
 					}
 				}
@@ -449,11 +454,56 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 		final IFieldInfo finalField = field;
 		IFieldControlData result = new FieldControlData(finalField);
+		result = provideRenderingContext(result);
 		result = handleValueAccessIssues(result);
 		result = makeFieldModificationsUndoable(result);
 		result = addControlBasedModificationStackManagementStatusProperty(result);
 		result = addControlBasedValueAccessErrorsManagementStatusProperty(result);
 		return result;
+	}
+
+	protected IFieldControlData provideRenderingContext(IFieldControlData result) {
+		return new FieldControlDataProxy(result) {
+
+			@Override
+			public Object getValue() {
+				return ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), getRenderingContext(),
+						() -> super.getValue());
+			}
+
+			@Override
+			public void setValue(Object value) {
+				ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), getRenderingContext(),
+						() -> super.setValue(value));
+			}
+
+			@Override
+			public Runnable getNextUpdateCustomUndoJob(Object newValue) {
+				Runnable result = super.getNextUpdateCustomUndoJob(newValue);
+				if (result != null) {
+					Runnable finalResult = result;
+					result = () -> ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(),
+							getRenderingContext(), finalResult);
+				}
+				return result;
+			}
+
+			@Override
+			public Runnable getPreviousUpdateCustomRedoJob(Object newValue) {
+				Runnable result = super.getPreviousUpdateCustomRedoJob(newValue);
+				if (result != null) {
+					Runnable finalResult = result;
+					result = () -> ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(),
+							getRenderingContext(), finalResult);
+				}
+				return result;
+			}
+
+		};
+	}
+
+	protected RenderingContext getRenderingContext() {
+		return form.getRenderingContext();
 	}
 
 	protected IFieldControlData addControlBasedModificationStackManagementStatusProperty(IFieldControlData result) {
@@ -492,7 +542,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 		if (controlInput.getControlData().isNullValueDistinct()) {
 			try {
-				return new NullableControl(this.swingRenderer, controlInput);
+				return createNullableControl(controlInput);
 			} catch (RejectedFieldControlInputException e) {
 			}
 		}
@@ -513,7 +563,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				bufferedFieldControlData.returningValue(value, new Runnable() {
 					@Override
 					public void run() {
-						result[0] = new NullControl(swingRenderer, finalControlInput);
+						result[0] = createNullControl(finalControlInput);
 					}
 				});
 				return result[0];
@@ -554,7 +604,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					bufferedFieldControlData.returningValue(value, new Runnable() {
 						@Override
 						public void run() {
-							result[0] = new MutableTypeControl(swingRenderer, finalControlInput);
+							result[0] = createMutableTypeControl(finalControlInput);
 						}
 					});
 					return result[0];
@@ -569,7 +619,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				bufferedFieldControlData.returningValue(value, new Runnable() {
 					@Override
 					public void run() {
-						result[0] = new EmbeddedFormControl(swingRenderer, finalControlInput);
+						result[0] = createEmbeddedFormControl(swingRenderer, finalControlInput);
 					}
 				});
 				return result[0];
@@ -582,7 +632,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				bufferedFieldControlData.returningValue(value, new Runnable() {
 					@Override
 					public void run() {
-						result[0] = new DialogAccessControl(swingRenderer, finalControlInput);
+						result[0] = createDialogAccessControl(finalControlInput);
 					}
 				});
 				return result[0];
@@ -592,6 +642,26 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		throw new RejectedFieldControlInputException();
 	}
 
+	protected Component createDialogAccessControl(IFieldControlInput controlInput) {
+		return new DialogAccessControl(swingRenderer, controlInput);
+	}
+
+	protected Component createEmbeddedFormControl(SwingRenderer swingRenderer2, IFieldControlInput controlInput) {
+		return new EmbeddedFormControl(swingRenderer, controlInput);
+	}
+
+	protected Component createMutableTypeControl(IFieldControlInput controlInput) {
+		return new MutableTypeControl(swingRenderer, controlInput);
+	}
+
+	protected Component createNullControl(IFieldControlInput controlInput) {
+		return new NullControl(swingRenderer, controlInput);
+	}
+
+	protected Component createNullableControl(IFieldControlInput controlInput) {
+		return new NullableControl(swingRenderer, controlInput);
+	}
+
 	public Component createCustomFieldControl() {
 		IFieldControlInput controlInput = this;
 
@@ -599,14 +669,14 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		if (currentPlugin == null) {
 			if (controlInput.getControlData().getType() instanceof IEnumerationTypeInfo) {
 				try {
-					return new ComboBoxControl(swingRenderer, controlInput);
+					return createComboBoxControl(controlInput);
 				} catch (RejectedFieldControlInputException e) {
 				}
 			}
 			if (PolymorphicControl.isCompatibleWith(controlInput.getControlData().getType(),
 					swingRenderer.getReflectionUI())) {
 				try {
-					return new PolymorphicControl(swingRenderer, controlInput);
+					return createPolymorphicControl(controlInput);
 				} catch (RejectedFieldControlInputException e) {
 				}
 			}
@@ -614,14 +684,14 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				ITypeInfo fieldType = controlInput.getControlData().getType();
 				if (fieldType instanceof IListTypeInfo) {
 					try {
-						return new ListControl(swingRenderer, controlInput);
+						return createListControl(controlInput);
 					} catch (RejectedFieldControlInputException e) {
 					}
 				}
 				if (boolean.class.getName().equals(fieldType.getName())
 						|| Boolean.class.getName().equals(fieldType.getName())) {
 					try {
-						return new CheckBoxControl(swingRenderer, controlInput);
+						return createCheckBoxControl(controlInput);
 					} catch (RejectedFieldControlInputException e) {
 					}
 				}
@@ -629,13 +699,13 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 						|| Arrays.stream(ClassUtils.PRIMITIVE_WRAPPER_CLASSES)
 								.anyMatch(c -> c.getName().equals(fieldType.getName()))) {
 					try {
-						return new PrimitiveValueControl(swingRenderer, controlInput);
+						return createPrimitiveValueControl(controlInput);
 					} catch (RejectedFieldControlInputException e) {
 					}
 				}
 				if (String.class.getName().equals(fieldType.getName())) {
 					try {
-						return new TextControl(swingRenderer, controlInput);
+						return createTextControl(controlInput);
 					} catch (RejectedFieldControlInputException e) {
 					}
 				}
@@ -651,13 +721,13 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					}
 				};
 				try {
-					return new NullablePluginControl(this.swingRenderer, controlInput);
+					return createNullablePluginControl(controlInput);
 				} catch (RejectedFieldControlInputException e) {
 				}
 			} else {
 				try {
 					try {
-						return (Component) currentPlugin.createControl(swingRenderer, controlInput);
+						return createPluginControl(currentPlugin, controlInput);
 					} catch (RejectedFieldControlInputException e) {
 					}
 				} catch (Throwable t) {
@@ -667,6 +737,38 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 
 		return null;
+	}
+
+	protected Component createPluginControl(IFieldControlPlugin currentPlugin, IFieldControlInput controlInput) {
+		return (Component) currentPlugin.createControl(swingRenderer, controlInput);
+	}
+
+	protected Component createNullablePluginControl(IFieldControlInput controlInput) {
+		return new NullablePluginControl(this.swingRenderer, controlInput);
+	}
+
+	protected Component createTextControl(IFieldControlInput controlInput) {
+		return new TextControl(swingRenderer, controlInput);
+	}
+
+	protected Component createPrimitiveValueControl(IFieldControlInput controlInput) {
+		return new PrimitiveValueControl(swingRenderer, controlInput);
+	}
+
+	protected Component createCheckBoxControl(IFieldControlInput controlInput) {
+		return new CheckBoxControl(swingRenderer, controlInput);
+	}
+
+	protected Component createListControl(IFieldControlInput controlInput) {
+		return new ListControl(swingRenderer, controlInput);
+	}
+
+	protected Component createPolymorphicControl(IFieldControlInput controlInput) {
+		return new PolymorphicControl(swingRenderer, controlInput);
+	}
+
+	protected Component createComboBoxControl(IFieldControlInput controlInput) {
+		return new ComboBoxControl(swingRenderer, controlInput);
 	}
 
 	public Component createFieldErrorControl(final Throwable t) {

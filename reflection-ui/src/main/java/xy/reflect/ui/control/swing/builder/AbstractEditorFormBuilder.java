@@ -11,6 +11,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.ErrorOccurrence;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.RenderingContext;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ValidationSession;
@@ -687,10 +688,13 @@ public abstract class AbstractEditorFormBuilder {
 		} else {
 			Form[] form = new Form[1];
 			try {
+				RenderingContext renderingContext = swingRenderer.getReflectionUI().getThreadLocalRenderingContext()
+						.get();
 				SwingUtilities.invokeAndWait(new Runnable() {
 					@Override
 					public void run() {
-						form[0] = createEditorForm(false, false);
+						form[0] = ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(),
+								renderingContext, () -> createEditorForm(false, false));
 					}
 				});
 			} catch (InvocationTargetException e) {
