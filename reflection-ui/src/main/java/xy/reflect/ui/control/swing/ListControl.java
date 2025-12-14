@@ -187,7 +187,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		public void actionPerformed(ActionEvent e) {
 		}
 	};
-	protected boolean buffersRefreshedAfterModification = false;
 	protected boolean initialized = false;
 	protected RenderingContext cellsRenderingContext;
 
@@ -248,14 +247,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			});
 		}
-	}
-
-	public boolean areBuffersRefreshedAfterModification() {
-		return buffersRefreshedAfterModification;
-	}
-
-	public void setBuffersRefreshedAfterModification(boolean buffersRefreshedAfterModification) {
-		this.buffersRefreshedAfterModification = buffersRefreshedAfterModification;
 	}
 
 	public Object getRootListValue() {
@@ -2442,11 +2433,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected class RefreshModification implements IModification {
 		protected Accessor<List<BufferedItemPosition>> newSelectionGetter;
 		protected Accessor<List<BufferedItemPosition>> oldSelectionGetter;
+		protected boolean refreshBuffers;
 
 		public RefreshModification(Accessor<List<BufferedItemPosition>> newSelectionGetter,
-				Accessor<List<BufferedItemPosition>> oldSelectionGetter) {
+				Accessor<List<BufferedItemPosition>> oldSelectionGetter, boolean refreshBuffers) {
 			this.newSelectionGetter = newSelectionGetter;
 			this.oldSelectionGetter = oldSelectionGetter;
+			this.refreshBuffers = refreshBuffers;
 		}
 
 		@Override
@@ -2455,9 +2448,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				public void run() {
 					restoringExpandedPathsDespiteDataAlteration(new Runnable() {
+
 						@Override
 						public void run() {
-							if (ListControl.this.buffersRefreshedAfterModification) {
+							if (refreshBuffers) {
 								refreshItemPositionBuffers();
 							}
 							refreshTreeTableModelAndControl(false);
@@ -2471,7 +2465,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					}
 				}
 			});
-			return new RefreshModification(oldSelectionGetter, newSelectionGetter);
+			return new RefreshModification(oldSelectionGetter, newSelectionGetter, refreshBuffers);
 		}
 
 		@Override
@@ -2653,6 +2647,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		protected abstract boolean isValid();
 
+		protected abstract boolean areBuffersRefreshedAFterModification();
+
 		@Override
 		public Object getValue(String key) {
 			if (Action.NAME.equals(key)) {
@@ -2709,8 +2705,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 								defaultPostSelectionGetter };
 						if (modifTitle == null) {
 							perform(postSelectionGetterHolder);
-							new RefreshModification(postSelectionGetterHolder[0], null)
-									.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
+							new RefreshModification(postSelectionGetterHolder[0], null,
+									areBuffersRefreshedAFterModification())
+											.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
 						} else {
 							final ModificationStack modifStack = getModificationStack();
 							modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
@@ -2725,11 +2722,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 												}
 											}, listData.isTransient())) {
 										modifStack.apply(new RefreshModification(postSelectionGetterHolder[0],
-												defaultPostSelectionGetter));
+												defaultPostSelectionGetter, areBuffersRefreshedAFterModification()));
 										return true;
 									} else {
-										new RefreshModification(postSelectionGetterHolder[0], null)
-												.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
+										new RefreshModification(postSelectionGetterHolder[0], null,
+												areBuffersRefreshedAFterModification()).applyAndGetOpposite(
+														ModificationStack.DUMMY_MODIFICATION_STACK);
 										return modifStack.wasInvalidated();
 									}
 								}
@@ -2915,7 +2913,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return ReflectionUIUtils.actualizeItemPositions(Collections.singletonList(bufferedItemPosition),
 							Collections.singletonList(oldItem), Collections.singletonList(itemAncestors));
 				}
-			});
+			}, false);
 			IModification update = modificationFactory.set(bufferedItemPosition.getIndex(), newItem);
 			return ModificationStack.createCompositeModification(update.getTitle(), UndoOrder.FIFO, update,
 					structureRefreshing);
@@ -3106,6 +3104,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
+		protected boolean areBuffersRefreshedAFterModification() {
+			return false;
+		}
+
+		@Override
 		protected boolean isValid() {
 			BufferedItemPosition newSubItemPosition = getNewSubItemPosition();
 			if (newSubItemPosition == null) {
@@ -3188,6 +3191,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
+		protected boolean areBuffersRefreshedAFterModification() {
+			return false;
+		}
+
+		@Override
 		protected String getActionTitle() {
 			return "Remove All";
 		}
@@ -3225,6 +3233,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			for (BufferedItemPosition itemPosition : selection) {
 				clipboard.add(ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
 			}
+		}
+
+		@Override
+		protected boolean areBuffersRefreshedAFterModification() {
+			return false;
 		}
 
 		@Override
@@ -3300,6 +3313,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
+		protected boolean areBuffersRefreshedAFterModification() {
+			return false;
+		}
+
+		@Override
 		protected String getActionTitle() {
 			return "Cut";
 		}
@@ -3357,6 +3375,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 							Collections.singletonList(newItem), Collections.singletonList(newItemAncestors));
 				}
 			};
+		}
+
+		@Override
+		protected boolean areBuffersRefreshedAFterModification() {
+			return false;
 		}
 
 		@Override
@@ -3525,6 +3548,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			};
 		}
 
+		@Override
+		protected boolean areBuffersRefreshedAFterModification() {
+			return false;
+		}
+
 		protected void avoidRestoringExpandedPathOfMovedNode() {
 			List<BufferedItemPosition> selection = getSelection();
 			BufferedItemPosition first = selection.get(0);
@@ -3585,6 +3613,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected void perform(Accessor<List<BufferedItemPosition>>[] postSelectionGetterHolder) {
+		}
+
+		@Override
+		protected boolean areBuffersRefreshedAFterModification() {
+			return false;
 		}
 
 		@Override
@@ -3817,6 +3850,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
+		protected boolean areBuffersRefreshedAFterModification() {
+			return false;
+		}
+
+		@Override
 		protected String getActionTitle() {
 			return "Remove";
 		}
@@ -3908,6 +3946,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			});
 			invocationData = action.prepare(ListControl.this);
 			return invocationData != null;
+		}
+
+		@Override
+		protected boolean areBuffersRefreshedAFterModification() {
+			return true;
 		}
 
 		@Override
@@ -4100,6 +4143,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return MiscUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(result);
 				}
 			};
+		}
+
+		@Override
+		protected boolean areBuffersRefreshedAFterModification() {
+			return true;
 		}
 
 		@Override

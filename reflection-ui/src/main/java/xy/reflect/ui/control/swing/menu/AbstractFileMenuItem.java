@@ -48,7 +48,11 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 		fileBrowserConfiguration = (menuItemInfo.getFileBrowserConfiguration() != null)
 				? new FileBrowserConfiguration(menuItemInfo.getFileBrowserConfiguration())
 				: null;
-		check();
+		try {
+			check();
+		} catch (Exception e) {
+			setText(getText() + " (" + e + ")");
+		}
 	}
 
 	protected void check() {
