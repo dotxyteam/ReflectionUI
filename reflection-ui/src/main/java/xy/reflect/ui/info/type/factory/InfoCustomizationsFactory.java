@@ -2043,7 +2043,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				inputMethods.add(newMethod);
 			}
 			menuModel.importContributions(
-					ReflectionUIUtils.createMenuModel(objectType, objectTypeCustomization.getMenuModelCustomization()));
+					ReflectionUIUtils.createMenuModel(InfoCustomizationsFactory.super.wrapTypeInfo(objectType),
+							objectTypeCustomization.getMenuModelCustomization()));
 		}
 
 		protected IFieldInfo createVirtualField(AbstractVirtualFieldDeclaration virtualFieldDeclaration) {
@@ -2576,7 +2577,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 													.getThreadLocalRenderingContext().get();
 											if (renderingContext != null) {
 												Object contextualValue = renderingContext.getCurrent(getType());
-												if(contextualValue == null) {
+												if (contextualValue == null) {
 													System.out.println("debug");
 												}
 												return contextualValue;
@@ -2808,8 +2809,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					IMenuElementPosition menuItemContainerPosition = ReflectionUIUtils.getMenuElementPosition(
 							objectTypeCustomization.getMenuModelCustomization(), mc.getMenuLocation());
 					if (menuItemContainerPosition != null) {
-						IMenuElementInfo actionMenuItem = new MethodActionMenuItemInfo(reflectionUI,
-								objectType, wrapMethodInfo(method, objectType));
+						IMenuElementInfo actionMenuItem = new MethodActionMenuItemInfo(reflectionUI, objectType,
+								wrapMethodInfo(method, objectType));
 						menuModel.importContribution(menuItemContainerPosition, actionMenuItem);
 					}
 				}
