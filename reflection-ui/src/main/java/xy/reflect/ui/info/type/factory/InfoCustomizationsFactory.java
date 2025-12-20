@@ -2577,9 +2577,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 													.getThreadLocalRenderingContext().get();
 											if (renderingContext != null) {
 												Object contextualValue = renderingContext.getCurrent(getType());
-												if (contextualValue == null) {
-													System.out.println("debug");
-												}
 												return contextualValue;
 											}
 										}
@@ -2871,14 +2868,45 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						&& !ReflectionUIUtils.requiresParameterValue(method)) {
 					newFields.add(new MethodReturnValueAsFieldInfo(reflectionUI, method, objectType) {
 
+						int duplicateNameIndex = -1;
+						String name = buildName(obtainDuplicateNameIndex());
+						String caption;
+
 						@Override
 						public String getName() {
-							return GetterFieldInfo.getterToFieldName(method.getName());
+							return name;
+						}
+
+						protected int obtainDuplicateNameIndex() {
+							if (duplicateNameIndex == -1) {
+								List<IFieldInfo> currentFields = new ArrayList<IFieldInfo>(outputFields);
+								currentFields.addAll(newFields);
+								duplicateNameIndex = MiscUtils.obtainDuplicateIndex(currentFields,
+										duplicateIndex -> buildName(duplicateIndex), IFieldInfo::getName,
+										field -> FieldInfoProxy.getRoot(field) == this);
+							}
+							return duplicateNameIndex;
+						}
+
+						protected String buildName(Integer duplicateIndex) {
+							String result = GetterFieldInfo.getterToFieldName(method.getName());
+							if (duplicateIndex > 0) {
+								result += "." + Integer.toString(duplicateIndex);
+							}
+							return result;
 						}
 
 						@Override
 						public String getCaption() {
-							return ReflectionUIUtils.identifierToCaption(getName());
+							if (caption == null) {
+								caption = ReflectionUIUtils
+										.identifierToCaption(GetterFieldInfo.getterToFieldName(method.getName()));
+								int index = obtainDuplicateNameIndex();
+								if (index > 0) {
+									caption += " (" + (index + 1) + ")";
+								}
+							}
+							return caption;
 						}
 
 						@Override

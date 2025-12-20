@@ -23,6 +23,13 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 
 	protected IFieldInfo base;
 
+	public static IFieldInfo getRoot(IFieldInfo field) {
+		if (field instanceof FieldInfoProxy) {
+			return getRoot(((FieldInfoProxy) field).base);
+		}
+		return field;
+	}
+
 	public FieldInfoProxy(IFieldInfo base) {
 		this.base = base;
 	}

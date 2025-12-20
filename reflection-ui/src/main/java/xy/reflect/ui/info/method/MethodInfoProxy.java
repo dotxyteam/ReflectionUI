@@ -26,6 +26,13 @@ public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 
 	protected IMethodInfo base;
 
+	public static IMethodInfo getRoot(IMethodInfo method) {
+		if (method instanceof MethodInfoProxy) {
+			return getRoot(((MethodInfoProxy) method).base);
+		}
+		return method;
+	}
+
 	public MethodInfoProxy(IMethodInfo base) {
 		this.base = base;
 	}

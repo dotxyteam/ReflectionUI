@@ -23,6 +23,7 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.MiscUtils;
 
 /**
  * Method information extracted from the given Java method.
@@ -88,29 +89,35 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public String getName() {
 		if (name == null) {
-			name = ReflectionUIUtils.formatMethodName(javaMethod.getName(), obtainDuplicateSignatureIndex());
+			name = ReflectionUIUtils.extractMethodNameFromSignature(buildSignature(obtainDuplicateSignatureIndex()));
 		}
 		return name;
 	}
 
 	protected int obtainDuplicateSignatureIndex() {
 		if (duplicateSignatureIndex == -1) {
-			duplicateSignatureIndex = 0;
-			Method[] allJavaMethods = objectJavaClass.getMethods();
-			ReflectionUIUtils.sortMethods(allJavaMethods);
-			for (Method eachJavaMethod : allJavaMethods) {
-				if (DefaultMethodInfo.isCompatibleWith(eachJavaMethod, objectJavaClass)) {
-					if (ReflectionUIUtils.buildMethodSignature(eachJavaMethod)
-							.equals(ReflectionUIUtils.buildMethodSignature(javaMethod))) {
-						if (eachJavaMethod.equals(javaMethod)) {
-							break;
-						}
-						duplicateSignatureIndex++;
-					}
-				}
-			}
+			duplicateSignatureIndex = MiscUtils.obtainDuplicateIndex(
+					new JavaTypeInfoSource(objectJavaClass, null).buildTypeInfo(reflectionUI).getMethods(),
+					duplicateIndex -> buildSignature(duplicateIndex), IMethodInfo::getSignature,
+					method -> (method instanceof DefaultMethodInfo)
+							&& ((DefaultMethodInfo) method).javaMethod.equals(javaMethod));
 		}
 		return duplicateSignatureIndex;
+	}
+
+	protected String buildSignature(Integer duplicateIndex) {
+		synchronized (this) {
+			String initialName = name;
+			int initialDuplicateSignatureIndex = duplicateSignatureIndex;
+			try {
+				name = ReflectionUIUtils.formatMethodName(javaMethod.getName(), duplicateIndex);
+				duplicateSignatureIndex = duplicateIndex;
+				return ReflectionUIUtils.buildMethodSignature(this);
+			} finally {
+				duplicateSignatureIndex = initialDuplicateSignatureIndex;
+				name = initialName;
+			}
+		}
 	}
 
 	@Override

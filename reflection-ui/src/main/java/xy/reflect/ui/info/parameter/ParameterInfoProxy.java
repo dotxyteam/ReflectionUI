@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.parameter;
 
 import java.util.Map;
@@ -9,8 +7,8 @@ import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * Parameter information proxy class. The methods in this class should be overridden to provide
- * custom information.
+ * Parameter information proxy class. The methods in this class should be
+ * overridden to provide custom information.
  * 
  * @author olitank
  *
@@ -18,6 +16,13 @@ import xy.reflect.ui.info.type.ITypeInfo;
 public class ParameterInfoProxy extends AbstractInfoProxy implements IParameterInfo {
 
 	protected IParameterInfo base;
+
+	public static IParameterInfo getRoot(IParameterInfo parameter) {
+		if (parameter instanceof ParameterInfoProxy) {
+			return getRoot(((ParameterInfoProxy) parameter).base);
+		}
+		return parameter;
+	}
 
 	public ParameterInfoProxy(IParameterInfo base) {
 		this.base = base;

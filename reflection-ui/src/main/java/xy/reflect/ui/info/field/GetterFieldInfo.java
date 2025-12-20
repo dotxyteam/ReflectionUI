@@ -1,7 +1,6 @@
 
 package xy.reflect.ui.info.field;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
@@ -114,13 +113,6 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		if (fieldName == null) {
 			return false;
 		}
-		for (Field siblingField : objectJavaClass.getFields()) {
-			if (PublicFieldInfo.isCompatibleWith(siblingField)) {
-				if (siblingField.getName().equals(fieldName)) {
-					return false;
-				}
-			}
-		}
 		if (javaMethod.getParameterTypes().length > 0) {
 			return false;
 		}
@@ -162,34 +154,29 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public String getName() {
 		if (name == null) {
-			name = namePrefix(javaGetterMethod) + GetterFieldInfo.getterToFieldName(javaGetterMethod.getName());
-			int index = obtainDuplicateNameIndex();
-			if (index > 0) {
-				name += "." + Integer.toString(index);
-			}
+			name = buildName(obtainDuplicateNameIndex());
 		}
 		return name;
 	}
 
 	protected int obtainDuplicateNameIndex() {
 		if (duplicateNameIndex == -1) {
-			duplicateNameIndex = 0;
-			Method[] allJavaMethods = objectJavaClass.getMethods();
-			ReflectionUIUtils.sortMethods(allJavaMethods);
-			for (Method eachJavaMethod : allJavaMethods) {
-				if (GetterFieldInfo.isCompatibleWith(eachJavaMethod, objectJavaClass)) {
-					if ((namePrefix(eachJavaMethod) + GetterFieldInfo.getterToFieldName(eachJavaMethod.getName()))
-							.equals(namePrefix(javaGetterMethod)
-									+ GetterFieldInfo.getterToFieldName(javaGetterMethod.getName()))) {
-						if (eachJavaMethod.equals(javaGetterMethod)) {
-							break;
-						}
-						duplicateNameIndex++;
-					}
-				}
-			}
+			duplicateNameIndex = MiscUtils.obtainDuplicateIndex(
+					new JavaTypeInfoSource(objectJavaClass, null).buildTypeInfo(reflectionUI).getFields(),
+					duplicateIndex -> buildName(duplicateIndex), IFieldInfo::getName,
+					field -> (field instanceof GetterFieldInfo)
+							&& ((GetterFieldInfo) field).javaGetterMethod.equals(javaGetterMethod));
+
 		}
 		return duplicateNameIndex;
+	}
+
+	protected String buildName(int duplicateIndex) {
+		String result = namePrefix(javaGetterMethod) + GetterFieldInfo.getterToFieldName(javaGetterMethod.getName());
+		if (duplicateIndex > 0) {
+			result += "." + Integer.toString(duplicateIndex);
+		}
+		return result;
 	}
 
 	@Override

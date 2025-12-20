@@ -17,6 +17,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -61,35 +62,35 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public String getName() {
 		if (name == null) {
-			name = javaField.getName();
-			int index = getDuplicateNameIndex(javaField);
-			if (index > 0) {
-				name += "." + Integer.toString(index);
-			}
+			name = buildName(obtainDuplicateNameIndex());
 		}
 		return name;
 	}
 
-	protected int getDuplicateNameIndex(Field javaField) {
+	protected int obtainDuplicateNameIndex() {
 		if (duplicateNameIndex == -1) {
-			duplicateNameIndex = 0;
-			for (Field otherField : javaField.getDeclaringClass().getFields()) {
-				if (otherField.getName().equals(javaField.getName())) {
-					if (!otherField.equals(javaField)) {
-						// other field with same name forcibly declared in base class
-						duplicateNameIndex += 1;
-					}
-				}
-			}
+			duplicateNameIndex = MiscUtils.obtainDuplicateIndex(
+					new JavaTypeInfoSource(objectJavaClass, null).buildTypeInfo(reflectionUI).getFields(),
+					duplicateIndex -> buildName(duplicateIndex), IFieldInfo::getName,
+					field -> (field instanceof PublicFieldInfo)
+							&& ((PublicFieldInfo) field).javaField.equals(javaField));
 		}
 		return duplicateNameIndex;
+	}
+
+	protected String buildName(Integer duplicateIndex) {
+		String result = javaField.getName();
+		if (duplicateIndex > 0) {
+			result += "." + Integer.toString(duplicateIndex);
+		}
+		return result;
 	}
 
 	@Override
 	public String getCaption() {
 		if (caption == null) {
 			caption = ReflectionUIUtils.identifierToCaption(javaField.getName());
-			int index = getDuplicateNameIndex(javaField);
+			int index = obtainDuplicateNameIndex();
 			if (index > 0) {
 				caption += " (" + (index + 1) + ")";
 			}

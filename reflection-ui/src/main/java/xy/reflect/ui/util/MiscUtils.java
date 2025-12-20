@@ -27,6 +27,7 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -434,6 +435,24 @@ public class MiscUtils {
 			return false;
 		}
 		return true;
+	}
+
+	public static <T> int obtainDuplicateIndex(List<T> list,
+			Function<Integer, String> currentCandidateIdentifierBuilder, Function<T, String> siblingIdentifierGetter,
+			Function<T, Boolean> stopCondition) {
+		int result = 0;
+		for (T item : list) {
+			if (stopCondition.apply(item)) {
+				break;
+			}
+			String currentCandidateId = currentCandidateIdentifierBuilder.apply(result);
+			String siblingId = siblingIdentifierGetter.apply(item);
+			if (currentCandidateId.equals(siblingId)) {
+				result++;
+				continue;
+			}
+		}
+		return result;
 	}
 
 }
