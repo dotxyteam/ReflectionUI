@@ -258,4 +258,18 @@ public class ClassUtils {
 		return superClass;
 	}
 
+
+
+	public static boolean areIncompatible(Class<?> class1, Class<?> class2) {
+		if ((class2.isPrimitive() ? primitiveToWrapperClass(class2) : class2)
+				.isAssignableFrom((class1.isPrimitive() ? primitiveToWrapperClass(class1) : class1))) {
+			return false;
+		}
+		if ((class1.isPrimitive() ? primitiveToWrapperClass(class1) : class1)
+				.isAssignableFrom((class2.isPrimitive() ? primitiveToWrapperClass(class2) : class2))) {
+			return false;
+		}
+		return true;
+	}
+
 }

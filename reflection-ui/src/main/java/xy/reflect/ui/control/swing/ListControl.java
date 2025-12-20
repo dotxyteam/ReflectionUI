@@ -2030,7 +2030,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean refreshUI(final boolean refreshStructure) {
-		cellsRenderingContext = swingRenderer.getReflectionUI().getThreadLocalRenderingContext().get();
+		RenderingContext currentRenderingContext = swingRenderer.getReflectionUI().getThreadLocalRenderingContext()
+				.get();
+		if (currentRenderingContext != null) {
+			cellsRenderingContext = swingRenderer.getReflectionUI().getThreadLocalRenderingContext().get();
+		}
 		if (cellsRenderingContext == null) {
 			throw new ReflectionUIError();
 		}
@@ -2785,10 +2789,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 				@Override
 				public void afterValidation(Exception validationError) {
+					RenderingContext validationRenderingContext = swingRenderer.getReflectionUI().getThreadLocalRenderingContext()
+							.get();
 					itemValidationErrorsCollectingExecutor.submit(new Runnable() {
 						@Override
 						public void run() {
-							copyValidationErrorFromCapsuleToItem(form.getObject());
+							ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), validationRenderingContext,
+									() -> copyValidationErrorFromCapsuleToItem(form.getObject()));
 						}
 					});
 				}

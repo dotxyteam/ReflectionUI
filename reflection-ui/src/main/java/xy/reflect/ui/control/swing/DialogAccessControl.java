@@ -11,7 +11,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlData;
@@ -119,7 +118,9 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			});
 		}
 		if (actionControl != null) {
-			updateActionControl();
+			if (refreshStructure) {
+				updateActionControl();
+			}
 		}
 		return true;
 	}
@@ -133,7 +134,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	protected Component createActionControl() {
-		final JButton result = new AbstractControlButton() {
+		final AbstractControlButton result = new AbstractControlButton() {
 
 			private static final long serialVersionUID = 1L;
 
@@ -211,6 +212,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 				}
 			}
 		});
+		result.initialize();
 		return result;
 	}
 
@@ -248,7 +250,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	protected void updateActionControl() {
-		((AbstractControlButton) actionControl).initialize();
+		((AbstractControlButton) actionControl).refresh();
 	}
 
 	protected void updateIconControl(boolean refreshStructure) {

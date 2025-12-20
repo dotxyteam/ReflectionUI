@@ -1496,117 +1496,119 @@ public class Form extends ImagePanel {
 	 * 
 	 */
 	public void refresh(boolean refreshStructure) {
-		ensureNoCurrentValidationTask();
-		if (refreshStructure && detectStructureChange()) {
-			InfoCategory initiallySelectedCategory = null;
-			{
-				if (getSelectedCategoryIndex() != -1) {
-					initiallySelectedCategory = getDisplayedCategories().get(getSelectedCategoryIndex());
+		ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), getRenderingContext(), () -> {
+			ensureNoCurrentValidationTask();
+			if (refreshStructure && detectStructureChange()) {
+				InfoCategory initiallySelectedCategory = null;
+				{
+					if (getSelectedCategoryIndex() != -1) {
+						initiallySelectedCategory = getDisplayedCategories().get(getSelectedCategoryIndex());
+					}
 				}
-			}
-			try {
-				removeAll();
-				createMembersControlPlaceHolders();
-				layoutMembersControlPlaceHolders(fieldControlPlaceHoldersByCategory,
-						methodControlPlaceHoldersByCategory, this);
-				realizeMembersControls();
+				try {
+					removeAll();
+					createMembersControlPlaceHolders();
+					layoutMembersControlPlaceHolders(fieldControlPlaceHoldersByCategory,
+							methodControlPlaceHoldersByCategory, this);
+					realizeMembersControls();
+					if (categoriesVisibilityUpdater != null) {
+						categoriesVisibilityUpdater.update();
+					}
+					SwingRendererUtils.handleComponentSizeChange(this);
+				} finally {
+					if (initiallySelectedCategory != null) {
+						int newIndex = getDisplayedCategories().indexOf(initiallySelectedCategory);
+						if (newIndex != -1) {
+							setSelectedCategoryIndex(newIndex);
+						}
+					}
+				}
+			} else {
+				for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
+					List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
+							.get(category);
+					for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
+						FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
+						fieldControlPlaceHolder.refreshUI(refreshStructure);
+						if (refreshStructure) {
+							updateFieldControlLayoutInContainer(fieldControlPlaceHolder);
+						}
+					}
+				}
+				for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
+					List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
+							.get(category);
+					for (int i = 0; i < methodControlPlaceHolders.size(); i++) {
+						MethodControlPlaceHolder methodControlPlaceHolder = methodControlPlaceHolders.get(i);
+						methodControlPlaceHolder.refreshUI(refreshStructure);
+						if (refreshStructure) {
+							updateMethodControlLayoutInContainer(methodControlPlaceHolder);
+						}
+					}
+				}
 				if (categoriesVisibilityUpdater != null) {
 					categoriesVisibilityUpdater.update();
 				}
-				SwingRendererUtils.handleComponentSizeChange(this);
-			} finally {
-				if (initiallySelectedCategory != null) {
-					int newIndex = getDisplayedCategories().indexOf(initiallySelectedCategory);
-					if (newIndex != -1) {
-						setSelectedCategoryIndex(newIndex);
-					}
-				}
 			}
-		} else {
-			for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
-				List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
-						.get(category);
-				for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
-					FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
-					fieldControlPlaceHolder.refreshUI(refreshStructure);
-					if (refreshStructure) {
-						updateFieldControlLayoutInContainer(fieldControlPlaceHolder);
-					}
-				}
-			}
-			for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
-				List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
-						.get(category);
-				for (int i = 0; i < methodControlPlaceHolders.size(); i++) {
-					MethodControlPlaceHolder methodControlPlaceHolder = methodControlPlaceHolders.get(i);
-					methodControlPlaceHolder.refreshUI(refreshStructure);
-					if (refreshStructure) {
-						updateMethodControlLayoutInContainer(methodControlPlaceHolder);
-					}
-				}
-			}
-			if (categoriesVisibilityUpdater != null) {
-				categoriesVisibilityUpdater.update();
-			}
-		}
-		if (refreshStructure) {
-			updateFieldsPanelsLayout();
-			refreshCategoriesControlStructure();
-			setPreservingRatio(true);
-			setFillingAreaWhenPreservingRatio(true);
-			Color backgroundColor = getControlsBackgroundColor();
-			Color foregroundColor = getControlsForegroundColor();
-			Image image = getControlsBackgroundImage();
-			setBackground(backgroundColor);
-			setImage(image);
-			setOpaque((backgroundColor != null) && (image == null));
-			Color borderColor = getControlsBorderColor();
-			if (scrollPane != null) {
-				if (borderColor != null) {
-					scrollPane.setBorder(BorderFactory.createLineBorder(borderColor));
-				} else {
-					scrollPane.setBorder(new JScrollPane().getBorder());
-				}
-			}
-			{
-				menuBar.setBackground(backgroundColor);
-				menuBar.setOpaque(backgroundColor != null);
-				menuBar.setForeground(foregroundColor);
-				if (borderColor != null) {
-					Border outsideBorder = BorderFactory.createMatteBorder(0, 0, 1, 0, borderColor);
-					Border insideBorder = BorderFactory.createEmptyBorder(getLayoutSpacing(), getLayoutSpacing(),
-							getLayoutSpacing(), getLayoutSpacing());
-					menuBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
-				} else {
-					menuBar.setBorder(new JMenuBar().getBorder());
-				}
-				menuBar.removeAll();
-				// force menu bar update
-				menuBarUpdater = null;
-			}
-			{
-				int borderSpacing = getLayoutSpacing();
-				Border insideBorder = BorderFactory.createEmptyBorder(borderSpacing, borderSpacing, borderSpacing,
-						borderSpacing);
-				Border outsideBorder = createStatusBar().getBorder();
-				statusBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
-				Font labelCustomFont = getLabelCustomFont();
-				{
-					if (labelCustomFont != null) {
-						statusBar.setFont(labelCustomFont.deriveFont(statusBar.getFont().getStyle(),
-								statusBar.getFont().getSize()));
+			if (refreshStructure) {
+				updateFieldsPanelsLayout();
+				refreshCategoriesControlStructure();
+				setPreservingRatio(true);
+				setFillingAreaWhenPreservingRatio(true);
+				Color backgroundColor = getControlsBackgroundColor();
+				Color foregroundColor = getControlsForegroundColor();
+				Image image = getControlsBackgroundImage();
+				setBackground(backgroundColor);
+				setImage(image);
+				setOpaque((backgroundColor != null) && (image == null));
+				Color borderColor = getControlsBorderColor();
+				if (scrollPane != null) {
+					if (borderColor != null) {
+						scrollPane.setBorder(BorderFactory.createLineBorder(borderColor));
 					} else {
-						statusBar.setFont(createStatusBar().getFont());
+						scrollPane.setBorder(new JScrollPane().getBorder());
+					}
+				}
+				{
+					menuBar.setBackground(backgroundColor);
+					menuBar.setOpaque(backgroundColor != null);
+					menuBar.setForeground(foregroundColor);
+					if (borderColor != null) {
+						Border outsideBorder = BorderFactory.createMatteBorder(0, 0, 1, 0, borderColor);
+						Border insideBorder = BorderFactory.createEmptyBorder(getLayoutSpacing(), getLayoutSpacing(),
+								getLayoutSpacing(), getLayoutSpacing());
+						menuBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
+					} else {
+						menuBar.setBorder(new JMenuBar().getBorder());
+					}
+					menuBar.removeAll();
+					// force menu bar update
+					menuBarUpdater = null;
+				}
+				{
+					int borderSpacing = getLayoutSpacing();
+					Border insideBorder = BorderFactory.createEmptyBorder(borderSpacing, borderSpacing, borderSpacing,
+							borderSpacing);
+					Border outsideBorder = createStatusBar().getBorder();
+					statusBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
+					Font labelCustomFont = getLabelCustomFont();
+					{
+						if (labelCustomFont != null) {
+							statusBar.setFont(labelCustomFont.deriveFont(statusBar.getFont().getStyle(),
+									statusBar.getFont().getSize()));
+						} else {
+							statusBar.setFont(createStatusBar().getFont());
+						}
 					}
 				}
 			}
-		}
-		refreshValidityComponents();
-		finalizeFormUpdate();
-		for (IFormListener l : listeners) {
-			l.onRefresh(refreshStructure);
-		}
-		filteredObjectType.onFormRefresh(object);
+			refreshValidityComponents();
+			finalizeFormUpdate();
+			for (IFormListener l : listeners) {
+				l.onRefresh(refreshStructure);
+			}
+			filteredObjectType.onFormRefresh(object);
+		});
 	}
 
 	/**

@@ -8,11 +8,13 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.RenderingContext;
 import xy.reflect.ui.control.swing.builder.DialogBuilder.RenderedDialog;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
@@ -256,43 +258,58 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	 * @return the created editor dialog.
 	 */
 	public JDialog createDialog() {
-		Form editorForm = createEditorForm(false, false);
-		DialogBuilder dialogBuilder = createDelegateDialogBuilder();
-		dialogBuilder.setContentComponent(editorForm);
-		dialogBuilder.setTitle(getEditorWindowTitle());
-		Image customEditorWindowIconImage = getCustomEditorWindowIconImage();
-		if (customEditorWindowIconImage != null) {
-			dialogBuilder.setIconImage(customEditorWindowIconImage);
+		RenderingContext renderingContext = null;
+		if (getOwnerComponent() != null) {
+			Form ownerForm = (getOwnerComponent() instanceof Form) ? (Form) getOwnerComponent()
+					: SwingRendererUtils.findParentForm(getOwnerComponent(), getSwingRenderer());
+			if (ownerForm != null) {
+				renderingContext = ownerForm.getRenderingContext();
+			}
 		}
-
-		List<Component> buttonBarControls = new ArrayList<Component>(createMostButtonBarControls(editorForm));
-		{
-			if (isDialogCancellable()) {
-				List<JButton> okCancelButtons = dialogBuilder.createStandardOKCancelDialogButtons(getOKCaption(),
-						getCancelCaption());
-				buttonBarControls.addAll(okCancelButtons);
-			} else {
-				buttonBarControls.add(dialogBuilder.createDialogClosingButton(getCloseCaption(), null));
+		Runnable runnable = () -> {
+			Form editorForm = createEditorForm(false, false);
+			DialogBuilder dialogBuilder = createDelegateDialogBuilder();
+			dialogBuilder.setContentComponent(editorForm);
+			dialogBuilder.setTitle(getEditorWindowTitle());
+			Image customEditorWindowIconImage = getCustomEditorWindowIconImage();
+			if (customEditorWindowIconImage != null) {
+				dialogBuilder.setIconImage(customEditorWindowIconImage);
 			}
-			dialogBuilder.setButtonBarControls(buttonBarControls);
+
+			List<Component> buttonBarControls = new ArrayList<Component>(createMostButtonBarControls(editorForm));
+			{
+				if (isDialogCancellable()) {
+					List<JButton> okCancelButtons = dialogBuilder.createStandardOKCancelDialogButtons(getOKCaption(),
+							getCancelCaption());
+					buttonBarControls.addAll(okCancelButtons);
+				} else {
+					buttonBarControls.add(dialogBuilder.createDialogClosingButton(getCloseCaption(), null));
+				}
+				dialogBuilder.setButtonBarControls(buttonBarControls);
+			}
+			final RenderedDialog dialog = dialogBuilder.createDialog();
+			dialog.addWindowListener(new WindowAdapter() {
+
+				@Override
+				public void windowOpened(WindowEvent e) {
+					initializeDialogModifications();
+				}
+
+				@Override
+				public void windowClosed(WindowEvent e) {
+					finalizeDialogModifications();
+					dialog.removeWindowListener(this);
+				}
+
+			});
+			createdDialog = dialog;
+		};
+		if (renderingContext != null) {
+			ReflectionUIUtils.withRenderingContext(getSwingRenderer().getReflectionUI(), renderingContext, runnable);
+		} else {
+			runnable.run();
 		}
-		final RenderedDialog dialog = dialogBuilder.createDialog();
-		dialog.addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowOpened(WindowEvent e) {
-				initializeDialogModifications();
-			}
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				finalizeDialogModifications();
-				dialog.removeWindowListener(this);
-			}
-
-		});
-		createdDialog = dialog;
-		return dialog;
+		return createdDialog;
 	}
 
 	/**

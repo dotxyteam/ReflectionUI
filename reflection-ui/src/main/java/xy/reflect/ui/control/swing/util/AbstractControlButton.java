@@ -54,6 +54,13 @@ public abstract class AbstractControlButton extends JButton {
 	public Icon retrieveIcon() {
 		return null;
 	}
+	
+	public void refresh() {
+		if (initialized) {
+			initialized = false;
+			initialize();
+		}
+	}
 
 	public void initialize() {
 		mainButtonBackgroundColor = retrieveBackgroundColor();

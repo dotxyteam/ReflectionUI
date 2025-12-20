@@ -12,7 +12,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.RenderingContext;
 import xy.reflect.ui.info.ColorSpecification;
@@ -48,6 +47,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.VirtualFieldDeclaration;
 import xy.reflect.ui.info.field.MembersCapsuleFieldInfo;
 import xy.reflect.ui.info.field.ChangedTypeFieldInfo;
+import xy.reflect.ui.info.field.CustomSetterFieldInfo;
 import xy.reflect.ui.info.field.DelegatingFieldInfo;
 import xy.reflect.ui.info.field.ExportedNullStatusFieldInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -3397,46 +3397,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, final FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.getCustomSetterSignature() != null) {
-					field = new FieldInfoProxy(field) {
-						IMethodInfo customSetter;
-
-						protected IMethodInfo getCustomSetter() {
-							if (customSetter == null) {
-								customSetter = ReflectionUIUtils.findMethodBySignature(outputMethods,
-										f.getCustomSetterSignature());
-								if (customSetter == null) {
-									throw new ReflectionUIError("Field '" + f.getFieldName()
-											+ "': Custom setter not found: '" + f.getCustomSetterSignature() + "'");
-								}
-							}
-							return customSetter;
-						}
-
-						@Override
-						public boolean isGetOnly() {
-							return false;
-						}
-
-						@Override
-						public void setValue(Object object, Object value) {
-							IMethodInfo customSetter = getCustomSetter();
-							customSetter.invoke(object, new InvocationData(object, customSetter, value));
-						}
-
-						@Override
-						public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
-							IMethodInfo customSetter = getCustomSetter();
-							return customSetter.getNextInvocationUndoJob(object,
-									new InvocationData(object, customSetter, value));
-						}
-
-						@Override
-						public Runnable getPreviousUpdateCustomRedoJob(Object object, Object value) {
-							IMethodInfo customSetter = getCustomSetter();
-							return customSetter.getPreviousInvocationCustomRedoJob(object,
-									new InvocationData(object, customSetter, value));
-						}
-					};
+					field = new CustomSetterFieldInfo(reflectionUI, field, f.getCustomSetterSignature(),
+							wrapTypeInfo(objectType));
 				}
 				return field;
 			}

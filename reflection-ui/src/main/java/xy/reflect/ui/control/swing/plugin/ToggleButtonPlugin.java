@@ -119,10 +119,7 @@ public class ToggleButtonPlugin extends AbstractSimpleCustomizableFieldControlPl
 							.adaptToolTipTextToMultiline(swingRenderer.prepareMessageToDisplay(tooltipText)));
 				}
 				setEnabled(!data.isGetOnly());
-				if (initialized) {
-					initialized = false;
-					initialize();
-				}
+				refresh();
 			}
 			listenerDisabled = true;
 			try {

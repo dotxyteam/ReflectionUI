@@ -79,6 +79,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPositionFactory;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.AbstractModificationProxy;
 import xy.reflect.ui.undo.CancelledModificationException;
@@ -1776,6 +1777,18 @@ public class ReflectionUIUtils {
 			runnable.run();
 			return null;
 		}, null);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T findRenderingContextualValue(ReflectionUI reflectionUI, Class<T> valueClass) {
+		RenderingContext renderingContext = reflectionUI.getThreadLocalRenderingContext().get();
+		if (renderingContext == null) {
+			return null;
+		}
+		Object contextualValue = renderingContext
+				.getCurrent(reflectionUI.getTypeInfo(new JavaTypeInfoSource(valueClass, null)));
+		return (T) contextualValue;
+
 	}
 
 }

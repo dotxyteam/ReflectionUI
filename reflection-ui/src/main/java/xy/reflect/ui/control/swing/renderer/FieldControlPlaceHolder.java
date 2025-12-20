@@ -352,8 +352,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 		if (fieldControl == null) {
 			try {
-				fieldControl = ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(),
-						getRenderingContext(), () -> createFieldControl());
+				fieldControl = createFieldControl();
 				/*
 				 * Save the criteria in a field since the controlData internal structure may
 				 * change:
@@ -369,9 +368,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					&& !(refreshStructure && !getFieldControlSelectionCriteria(createControlData())
 							.equals(lastFieldControlSelectionCriteria))) {
 				try {
-					boolean refreshed = ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(),
-							getRenderingContext(),
-							() -> ((IAdvancedFieldControl) fieldControl).refreshUI(refreshStructure));
+					boolean refreshed = ((IAdvancedFieldControl) fieldControl).refreshUI(refreshStructure);
 					if (!refreshed) {
 						destroyFieldControl();
 						refreshUI(refreshStructure);

@@ -10,6 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import xy.reflect.ui.CustomizedUI;
+import xy.reflect.ui.control.RenderingContext;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.custom.InfoCustomizations;
@@ -190,6 +191,14 @@ public class MultiSwingCustomizer extends SwingRenderer {
 
 		protected SubCustomizedUI getGlobalSubCustomizedUI() {
 			return getParent().getReflectionUI();
+		}
+
+		@Override
+		public ThreadLocal<RenderingContext> getThreadLocalRenderingContext() {
+			if (getGlobalSubCustomizedUI() == this) {
+				return super.getThreadLocalRenderingContext();
+			}
+			return getGlobalSubCustomizedUI().getThreadLocalRenderingContext();
 		}
 
 		@Override

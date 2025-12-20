@@ -179,8 +179,10 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 			return;
 		}
 		if (refreshStructure && (methodControl != null)) {
-			remove(methodControl);
-			methodControl = null;
+			if (!refreshMethodControl(methodControl)) {
+				remove(methodControl);
+				methodControl = null;
+			}
 		}
 		if (methodControl == null) {
 			methodControl = createMethodControl();
@@ -189,6 +191,11 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 		methodControl.setEnabled(controlData.isEnabled());
+	}
+
+	protected boolean refreshMethodControl(Component methodControl2) {
+		((MethodControl) methodControl).refresh();
+		return true;
 	}
 
 	protected IMethodControlData createControlData() {
