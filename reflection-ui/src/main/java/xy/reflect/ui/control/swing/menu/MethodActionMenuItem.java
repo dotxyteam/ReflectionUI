@@ -109,7 +109,7 @@ public class MethodActionMenuItem extends AbstractMenuItem {
 									getContextForm().getObject(), menuItemInfo.getMethod());
 						}
 					});
-					methodAction.onInvocationRequest(menuBarOwner);
+					methodAction.onInvocationRequest(getContextForm());
 				} catch (Throwable t) {
 					swingRenderer.handleException(menuBarOwner, t);
 				}

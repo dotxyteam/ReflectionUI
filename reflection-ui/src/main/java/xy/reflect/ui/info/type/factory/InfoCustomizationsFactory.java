@@ -2574,9 +2574,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										}
 										if (pc.isValueContextual()) {
 											RenderingContext renderingContext = reflectionUI
-													.getThreadLocalRenderingContext().get();
+													.getRenderingContextThreadLocal().get();
 											if (renderingContext != null) {
-												Object contextualValue = renderingContext.getCurrent(getType());
+												Object contextualValue = renderingContext.getCurrentObject(getType());
 												return contextualValue;
 											}
 										}

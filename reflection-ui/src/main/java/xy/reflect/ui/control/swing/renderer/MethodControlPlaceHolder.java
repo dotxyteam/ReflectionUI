@@ -117,15 +117,20 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 					Component methodControl = methodControlPlaceHolder.getMethodControl();
 					maxMethodControlWidth = Math.max(maxMethodControlWidth, methodControl.getPreferredSize().width);
 				}
-				maxMethodControlWidth = maxMethodControlWidth - (maxMethodControlWidth % getIndentWidth())
-						+ getIndentWidth();
+				maxMethodControlWidth = maxMethodControlWidth - (maxMethodControlWidth % getIndentationWidth())
+						+ getIndentationWidth();
 				result.width = maxMethodControlWidth;
 			}
 		}
 		return result;
 	}
 
-	public int getIndentWidth() {
+	/**
+	 * @return The base width. The final width of the component will be a multiple
+	 *         of this width, which will improve the visual consistency of different
+	 *         components of this type.
+	 */
+	public int getIndentationWidth() {
 		return SwingRendererUtils.getStandardCharacterWidth(form) * 10;
 	}
 
@@ -158,39 +163,41 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		return method;
 	}
 
-	public Component createMethodControl() {
+	protected Component createMethodControl() {
 		MethodControl result = new MethodControl(this.swingRenderer, this);
 		result.initialize();
 		return result;
 	}
 
 	public void refreshUI(boolean refreshStructure) {
-		try {
-			setVisible(!method.isHidden() && method.isRelevant(getObject()));
-		} catch (Throwable t) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					swingRenderer.handleException(MethodControlPlaceHolder.this, t);
-				}
-			});
-		}
-		if (!isVisible()) {
-			return;
-		}
-		if (refreshStructure && (methodControl != null)) {
-			if (!refreshMethodControl(methodControl)) {
-				remove(methodControl);
-				methodControl = null;
+		ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), getRenderingContext(), () -> {
+			try {
+				setVisible(!method.isHidden() && method.isRelevant(getObject()));
+			} catch (Throwable t) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						swingRenderer.handleException(MethodControlPlaceHolder.this, t);
+					}
+				});
 			}
-		}
-		if (methodControl == null) {
-			methodControl = createMethodControl();
-			methodControl.setName("methodControl [method=" + method.getName() + ", parent=" + form.getName() + "]");
-			add(methodControl, BorderLayout.CENTER);
-			SwingRendererUtils.handleComponentSizeChange(this);
-		}
-		methodControl.setEnabled(controlData.isEnabled());
+			if (!isVisible()) {
+				return;
+			}
+			if (refreshStructure && (methodControl != null)) {
+				if (!refreshMethodControl(methodControl)) {
+					remove(methodControl);
+					methodControl = null;
+				}
+			}
+			if (methodControl == null) {
+				methodControl = createMethodControl();
+				methodControl.setName("methodControl [method=" + method.getName() + ", parent=" + form.getName() + "]");
+				add(methodControl, BorderLayout.CENTER);
+				SwingRendererUtils.handleComponentSizeChange(this);
+			}
+			methodControl.setEnabled(controlData.isEnabled());
+		});
 	}
 
 	protected boolean refreshMethodControl(Component methodControl2) {
@@ -204,7 +211,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		return result;
 	}
 
-	private IMethodControlData provideRenderingContext(IMethodControlData result) {
+	protected IMethodControlData provideRenderingContext(IMethodControlData result) {
 		return new MethodControlDataProxy(result) {
 
 			@Override

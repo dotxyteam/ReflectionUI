@@ -135,6 +135,7 @@ import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
+import xy.reflect.ui.util.ValidationErrorRegistry;
 import xy.reflect.ui.util.ValidationErrorWrapper;
 
 /**
@@ -1109,7 +1110,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	public Exception getValidationError(BufferedItemPosition itemPosition) {
-		return swingRenderer.getReflectionUI().getValidationErrorRegistry().getValidationError(itemPosition.getItem(),
+		return swingRenderer.getContextualValidationErrorRegistry(this).getValidationError(itemPosition.getItem(),
 				null);
 	}
 
@@ -1728,7 +1729,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
 				try {
-					fireSelectionEvent();
+					ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), cellsRenderingContext,
+							() -> fireSelectionEvent());
 				} catch (Throwable t) {
 					swingRenderer.handleException(ListControl.this, t);
 				}
@@ -2030,10 +2032,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean refreshUI(final boolean refreshStructure) {
-		RenderingContext currentRenderingContext = swingRenderer.getReflectionUI().getThreadLocalRenderingContext()
+		RenderingContext currentRenderingContext = swingRenderer.getReflectionUI().getRenderingContextThreadLocal()
 				.get();
 		if (currentRenderingContext != null) {
-			cellsRenderingContext = swingRenderer.getReflectionUI().getThreadLocalRenderingContext().get();
+			cellsRenderingContext = swingRenderer.getReflectionUI().getRenderingContextThreadLocal().get();
 		}
 		if (cellsRenderingContext == null) {
 			throw new ReflectionUIError();
@@ -2789,12 +2791,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 				@Override
 				public void afterValidation(Exception validationError) {
-					RenderingContext validationRenderingContext = swingRenderer.getReflectionUI().getThreadLocalRenderingContext()
-							.get();
+					RenderingContext validationRenderingContext = swingRenderer.getReflectionUI()
+							.getRenderingContextThreadLocal().get();
 					itemValidationErrorsCollectingExecutor.submit(new Runnable() {
 						@Override
 						public void run() {
-							ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), validationRenderingContext,
+							ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(),
+									validationRenderingContext,
 									() -> copyValidationErrorFromCapsuleToItem(form.getObject()));
 						}
 					});
@@ -2819,14 +2822,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				 */
 				return;
 			}
-			Exception validitionError = swingRenderer.getReflectionUI().getValidationErrorRegistry()
-					.getValidationError(capsule, null);
+			ValidationErrorRegistry validationErrorRegistry = swingRenderer
+					.getContextualValidationErrorRegistry(ListControl.this);
+			Exception validitionError = validationErrorRegistry.getValidationError(capsule, null);
 			if (validitionError != null) {
-				swingRenderer.getReflectionUI().getValidationErrorRegistry().attribute(bufferedItemPosition.getItem(),
-						validitionError, null);
+				validationErrorRegistry.attribute(bufferedItemPosition.getItem(), validitionError, null);
 			} else {
-				swingRenderer.getReflectionUI().getValidationErrorRegistry()
-						.cancelAttribution(bufferedItemPosition.getItem(), null);
+				validationErrorRegistry.cancelAttribution(bufferedItemPosition.getItem(), null);
 			}
 		}
 
@@ -2848,13 +2850,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				 */
 				return;
 			}
-			Exception itemValiditionError = swingRenderer.getReflectionUI().getValidationErrorRegistry()
-					.getValidationError(bufferedItemPosition.getItem(), null);
+			ValidationErrorRegistry validationErrorRegistry = swingRenderer
+					.getContextualValidationErrorRegistry(ListControl.this);
+			Exception itemValiditionError = validationErrorRegistry.getValidationError(bufferedItemPosition.getItem(),
+					null);
 			if (itemValiditionError != null) {
-				swingRenderer.getReflectionUI().getValidationErrorRegistry().attribute(capsule, itemValiditionError,
-						null);
+				validationErrorRegistry.attribute(capsule, itemValiditionError, null);
 			} else {
-				swingRenderer.getReflectionUI().getValidationErrorRegistry().cancelAttribution(capsule, null);
+				validationErrorRegistry.cancelAttribution(capsule, null);
 			}
 		}
 

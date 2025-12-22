@@ -688,7 +688,7 @@ public abstract class AbstractEditorFormBuilder {
 		} else {
 			Form[] form = new Form[1];
 			try {
-				RenderingContext renderingContext = swingRenderer.getReflectionUI().getThreadLocalRenderingContext()
+				RenderingContext renderingContext = swingRenderer.getReflectionUI().getRenderingContextThreadLocal()
 						.get();
 				SwingUtilities.invokeAndWait(new Runnable() {
 					@Override

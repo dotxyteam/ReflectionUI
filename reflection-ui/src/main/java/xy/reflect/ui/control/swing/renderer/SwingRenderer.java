@@ -86,6 +86,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.SystemProperties;
+import xy.reflect.ui.util.ValidationErrorRegistry;
 
 /**
  * This is the {@link ReflectionUI} renderer class for Swing-based UIs.
@@ -1370,6 +1371,10 @@ public class SwingRenderer {
 						ReflectionUIUtils.getErrorLogListener(reflectionUI), this)
 				.deriveFont(c.getFont().getStyle(), c.getFont().getSize()) : null;
 
+	}
+
+	public ValidationErrorRegistry getContextualValidationErrorRegistry(Component contextualComponent) {
+		return getReflectionUI().getValidationErrorRegistry();
 	}
 
 }

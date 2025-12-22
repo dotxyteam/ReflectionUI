@@ -45,6 +45,7 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.ListStructuralInfoProxy;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ValidationErrorWrapper;
 
 /**
@@ -289,7 +290,8 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 						detailedCellControl.setSelected(false);
 					}
 				}
-				fireSelectionEvent();
+				ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), cellsRenderingContext,
+						() -> fireSelectionEvent());
 			}
 		}
 

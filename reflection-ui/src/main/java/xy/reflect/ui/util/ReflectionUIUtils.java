@@ -1757,12 +1757,12 @@ public class ReflectionUIUtils {
 
 	public static <T, R> R withRenderingContext(ReflectionUI reflectionUI, RenderingContext renderingContext,
 			Function<T, R> function, T argument) {
-		RenderingContext initialRenderingContext = reflectionUI.getThreadLocalRenderingContext().get();
+		RenderingContext initialRenderingContext = reflectionUI.getRenderingContextThreadLocal().get();
 		try {
-			reflectionUI.getThreadLocalRenderingContext().set(renderingContext);
+			reflectionUI.getRenderingContextThreadLocal().set(renderingContext);
 			return function.apply(argument);
 		} finally {
-			reflectionUI.getThreadLocalRenderingContext().set(initialRenderingContext);
+			reflectionUI.getRenderingContextThreadLocal().set(initialRenderingContext);
 		}
 	}
 
@@ -1781,12 +1781,12 @@ public class ReflectionUIUtils {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T findRenderingContextualValue(ReflectionUI reflectionUI, Class<T> valueClass) {
-		RenderingContext renderingContext = reflectionUI.getThreadLocalRenderingContext().get();
+		RenderingContext renderingContext = reflectionUI.getRenderingContextThreadLocal().get();
 		if (renderingContext == null) {
 			return null;
 		}
 		Object contextualValue = renderingContext
-				.getCurrent(reflectionUI.getTypeInfo(new JavaTypeInfoSource(valueClass, null)));
+				.getCurrentObject(reflectionUI.getTypeInfo(new JavaTypeInfoSource(valueClass, null)));
 		return (T) contextualValue;
 
 	}

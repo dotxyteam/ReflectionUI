@@ -172,7 +172,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		});
 	}
 
-	public void updateAutoRefeshState() {
+	protected void updateAutoRefeshState() {
 		if (isAutoRefreshActive()) {
 			stopAutoRefresh();
 		}
@@ -185,7 +185,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		return (autoRefreshThread != null) && (autoRefreshThread.isRunning());
 	}
 
-	public AutoUpdater createAutoRefreshThread() {
+	protected AutoUpdater createAutoRefreshThread() {
 		return new AutoUpdater();
 	}
 
@@ -331,79 +331,84 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	}
 
 	public void refreshUI(boolean refreshStructure) {
-		try {
-			setVisible(!field.isHidden() && field.isRelevant(getObject()));
-		} catch (Throwable t) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					swingRenderer.handleException(FieldControlPlaceHolder.this, t);
-				}
-			});
-		}
-		if (siblingCaptionControl != null) {
-			siblingCaptionControl.setVisible(isVisible());
-		}
-		if (siblingOnlineHelpControl != null) {
-			siblingOnlineHelpControl.setVisible(isVisible());
-		}
-		if (!isVisible()) {
-			return;
-		}
-		if (fieldControl == null) {
+		ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), getRenderingContext(), () -> {
 			try {
-				fieldControl = createFieldControl();
-				/*
-				 * Save the criteria in a field since the controlData internal structure may
-				 * change:
-				 */
-				lastFieldControlSelectionCriteria = getFieldControlSelectionCriteria(controlData);
+				setVisible(!field.isHidden() && field.isRelevant(getObject()));
 			} catch (Throwable t) {
-				fieldControl = createFieldErrorControl(t);
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						swingRenderer.handleException(FieldControlPlaceHolder.this, t);
+					}
+				});
 			}
-			fieldControl.setName("fieldControl [field=" + field.getName() + ", parent=" + form.getName() + "]");
-			layoutFieldControl();
-		} else {
-			if ((fieldControl instanceof IAdvancedFieldControl)
-					&& !(refreshStructure && !getFieldControlSelectionCriteria(createControlData())
-							.equals(lastFieldControlSelectionCriteria))) {
+			if (siblingCaptionControl != null) {
+				siblingCaptionControl.setVisible(isVisible());
+			}
+			if (siblingOnlineHelpControl != null) {
+				siblingOnlineHelpControl.setVisible(isVisible());
+			}
+			if (!isVisible()) {
+				return;
+			}
+			if (fieldControl == null) {
 				try {
-					boolean refreshed = ((IAdvancedFieldControl) fieldControl).refreshUI(refreshStructure);
-					if (!refreshed) {
+					fieldControl = ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(),
+							getRenderingContext(), () -> createFieldControl());
+					/*
+					 * Save the criteria in a field since the controlData internal structure may
+					 * change:
+					 */
+					lastFieldControlSelectionCriteria = getFieldControlSelectionCriteria(controlData);
+				} catch (Throwable t) {
+					fieldControl = createFieldErrorControl(t);
+				}
+				fieldControl.setName("fieldControl [field=" + field.getName() + ", parent=" + form.getName() + "]");
+				layoutFieldControl();
+			} else {
+				if ((fieldControl instanceof IAdvancedFieldControl)
+						&& !(refreshStructure && !getFieldControlSelectionCriteria(createControlData())
+								.equals(lastFieldControlSelectionCriteria))) {
+					try {
+						boolean refreshed = ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(),
+								getRenderingContext(),
+								() -> ((IAdvancedFieldControl) fieldControl).refreshUI(refreshStructure));
+						if (!refreshed) {
+							destroyFieldControl();
+							refreshUI(refreshStructure);
+						}
+					} catch (RejectedFieldControlInputException e) {
 						destroyFieldControl();
 						refreshUI(refreshStructure);
-					}
-				} catch (RejectedFieldControlInputException e) {
-					destroyFieldControl();
-					refreshUI(refreshStructure);
-				} catch (Throwable t) {
-					try {
-						destroyFieldControl();
-						fieldControl = createFieldErrorControl(t);
-						layoutFieldControl();
-					} catch (Throwable t2) {
+					} catch (Throwable t) {
 						try {
-							swingRenderer.handleException(this, t);
-							swingRenderer.handleException(this, t2);
-						} catch (Throwable t3) {
-							swingRenderer.getReflectionUI().logError(t);
-							swingRenderer.getReflectionUI().logError(t2);
-							swingRenderer.getReflectionUI().logError(t3);
+							destroyFieldControl();
+							fieldControl = createFieldErrorControl(t);
+							layoutFieldControl();
+						} catch (Throwable t2) {
+							try {
+								swingRenderer.handleException(this, t);
+								swingRenderer.handleException(this, t2);
+							} catch (Throwable t3) {
+								swingRenderer.getReflectionUI().logError(t);
+								swingRenderer.getReflectionUI().logError(t2);
+								swingRenderer.getReflectionUI().logError(t3);
+							}
 						}
 					}
+				} else {
+					destroyFieldControl();
+					if (refreshStructure) {
+						controlData = createControlData();
+					}
+					refreshUI(refreshStructure);
 				}
-			} else {
-				destroyFieldControl();
-				if (refreshStructure) {
-					controlData = createControlData();
-				}
-				refreshUI(refreshStructure);
 			}
-		}
-		if (refreshStructure) {
-			updateAutoRefeshState();
-			updateListSelectionTargetData();
-		}
+			if (refreshStructure) {
+				updateAutoRefeshState();
+				updateListSelectionTargetData();
+			}
+		});
 	}
 
 	protected void updateListSelectionTargetData() {
@@ -529,7 +534,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		};
 	}
 
-	public Component createFieldControl() {
+	protected Component createFieldControl() {
 		IFieldControlInput controlInput = this;
 		if (!controlInput.getControlData().isFormControlMandatory()) {
 			Component result = createCustomFieldControl();
@@ -659,7 +664,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		return new NullableControl(swingRenderer, controlInput);
 	}
 
-	public Component createCustomFieldControl() {
+	protected Component createCustomFieldControl() {
 		IFieldControlInput controlInput = this;
 
 		IFieldControlPlugin currentPlugin = getCurrentPlugin();
@@ -768,7 +773,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		return new ComboBoxControl(swingRenderer, controlInput);
 	}
 
-	public Component createFieldErrorControl(final Throwable t) {
+	protected Component createFieldErrorControl(final Throwable t) {
 		ErrorDisplayControl result = new ErrorDisplayControl(swingRenderer, this, t);
 		swingRenderer.getReflectionUI().logError(t);
 		return result;

@@ -609,7 +609,7 @@ public class ReflectionUITutorial {
 							private static final long serialVersionUID = 1L;
 
 							@Override
-							public Component createFieldControl() {
+							protected Component createFieldControl() {
 								if (field.getName().equals("upperCase")) {
 									final IFieldControlData data = getControlData();
 									final JToggleButton result = new JToggleButton(data.getCaption());
@@ -639,7 +639,7 @@ public class ReflectionUITutorial {
 							private static final long serialVersionUID = 1L;
 
 							@Override
-							public Component createMethodControl() {
+							protected Component createMethodControl() {
 								// Create your custom method control here
 								return super.createMethodControl();
 							}

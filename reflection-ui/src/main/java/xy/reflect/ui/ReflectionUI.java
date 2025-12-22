@@ -49,7 +49,7 @@ public class ReflectionUI {
 	protected final Object classCacheMutex = new Object();
 
 	protected ValidationErrorRegistry validationErrorRegistry = createValidationErrorRegistry();
-	protected ThreadLocal<RenderingContext> threadLocalRenderingContext = new ThreadLocal<RenderingContext>();
+	protected ThreadLocal<RenderingContext> renderingContextThreadLocal = new ThreadLocal<RenderingContext>();
 
 	/**
 	 * @return the default instance of this class.
@@ -151,8 +151,17 @@ public class ReflectionUI {
 	/**
 	 * @return the thread-local wrapper of the current {@link RenderingContext}.
 	 */
-	public ThreadLocal<RenderingContext> getThreadLocalRenderingContext() {
-		return threadLocalRenderingContext;
+	public ThreadLocal<RenderingContext> getRenderingContextThreadLocal() {
+		return renderingContextThreadLocal;
+	}
+
+	/**
+	 * Updates the thread-local wrapper of the current {@link RenderingContext}.
+	 * 
+	 * @param renderingContextThreadLocal The new thread-local wrapper.
+	 */
+	public void setRenderingContextThreadLocal(ThreadLocal<RenderingContext> renderingContextThreadLocal) {
+		this.renderingContextThreadLocal = renderingContextThreadLocal;
 	}
 
 	/**

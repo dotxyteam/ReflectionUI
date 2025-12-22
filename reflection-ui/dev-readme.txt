@@ -137,6 +137,29 @@ To achieve this goal, 2 main layers have been created:
 		It will then create control data objects, controls, forms, ModificationStack objects
 		and glue them all together to provide a working UI.
 
+		RenderingContext
+		----------------
+		In a traditional graphical user interface, the layout of graphical components provides 
+		information for properly manipulating the underlying model. Actions performed from child 
+		components affect objects in parent components, among other things. Ideally, the model 
+		should be structured and function like the graphical interface, but in practice, the 
+		model will generally allow the wrong parent objects to be affected from child objects. 
+		This is because the same model is often (perhaps incorrectly) used for both data 
+		persistence and control, while structures adapted and optimized for persistence are not 
+		optimal for display and control. This typically results in child class methods or 
+		constructors that take the parent object as a parameter, while this parent object cannot 
+		and should not be automatically provided by a generated graphical interface, unless specified. 
+		The RenderingContext aims to provide a solution that allows access, from the abstract UI
+		model methods, to information relating to the display context of the current component. 
+		Implementations of this RenderingContext will be provided by the renderers. The objective is 
+		to allow the explicit specification of the link between a model function and its display context.
+		Regarding the provision of the RenderingContext by the SwingRenderer, the chosen approach is 
+		to generate and then enrich it from the public methods and event interfaces of forms plus 
+		their field and method controls. There is a risk of redundancy (targeted methods calling 
+		other targeted methods) but this is preferable to requiring the provision of this context
+		from the developer wishing to manipulate the graphical components, which would complicate 
+		the use of the library.
+
 	Customizations
 	--------------
 	The CustomizedUI class inherits from ReflectionUI and use the InfoCustomizationsFactory 

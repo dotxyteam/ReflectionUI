@@ -194,11 +194,11 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		}
 
 		@Override
-		public ThreadLocal<RenderingContext> getThreadLocalRenderingContext() {
+		public ThreadLocal<RenderingContext> getRenderingContextThreadLocal() {
 			if (getGlobalSubCustomizedUI() == this) {
-				return super.getThreadLocalRenderingContext();
+				return super.getRenderingContextThreadLocal();
 			}
-			return getGlobalSubCustomizedUI().getThreadLocalRenderingContext();
+			return getGlobalSubCustomizedUI().getRenderingContextThreadLocal();
 		}
 
 		@Override
