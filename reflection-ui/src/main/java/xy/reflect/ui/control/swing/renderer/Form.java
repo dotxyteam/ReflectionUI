@@ -153,10 +153,10 @@ public class Form extends ImagePanel {
 		}, getInitializationJobTitle());
 		try {
 			this.swingRenderer = swingRenderer;
-			this.renderingContext = createRenderingContext();
 			setObject(object);
 			setInfoFilter(infoFilter);
 			setModificationStack(new ModificationStack(null));
+			this.renderingContext = createRenderingContext();
 			getModificationStack().addListener(fieldsUpdateListener);
 			handleVisibilityEvents();
 			menuBar = createMenuBar();

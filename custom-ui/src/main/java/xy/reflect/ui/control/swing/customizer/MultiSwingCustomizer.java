@@ -311,6 +311,46 @@ public class MultiSwingCustomizer extends SwingRenderer {
 			super.synchronizeInfoCustomizationsWithFile(filePath);
 		}
 
+		public SubSwingCustomizer getGlobalSubSwingCustomizer() {
+			return obtainSubCustomizer(GLOBAL_EXCLUSIVE_CUSTOMIZATIONS);
+		}
+
+		@Override
+		protected SubCustomizationTools createCustomizationTools() {
+			return new SubCustomizationTools(this);
+		}
+
+	}
+
+	public class SubCustomizationTools extends CustomizationTools {
+
+		public SubCustomizationTools(SubSwingCustomizer subSwingCustomizer) {
+			super(subSwingCustomizer);
+		}
+
+		public SubSwingCustomizer getSubSwingCustomizer() {
+			return (SubSwingCustomizer) swingCustomizer;
+		}
+
+		@Override
+		protected CustomizationToolsRenderer createToolsRenderer() {
+			return new CustomizationToolsRenderer(toolsUI) {
+
+				@Override
+				public CustomizationTools createCustomizationTools() {
+					/*
+					 * Prevent the creation of multiple meta-customization tools.
+					 */
+					if(getSubSwingCustomizer() == getSubSwingCustomizer().getGlobalSubSwingCustomizer()) {
+						return super.createCustomizationTools();
+					}
+					return getSubSwingCustomizer().getGlobalSubSwingCustomizer().getCustomizationTools()
+							.getToolsRenderer().getCustomizationTools();
+				}
+
+			};
+		}
+
 	}
 
 }
