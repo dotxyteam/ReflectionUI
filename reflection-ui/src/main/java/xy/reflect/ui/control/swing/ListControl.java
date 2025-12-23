@@ -2681,70 +2681,73 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			preventingIntermediarySelectionEvents(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						final Accessor<List<BufferedItemPosition>> defaultPostSelectionGetter = new Accessor<List<BufferedItemPosition>>() {
-							List<BufferedItemPosition> oldItemPositions = getSelection();
-							List<Object> oldItems = new ArrayList<Object>();
-							List<List<Object>> oldItemAncestorLists = new ArrayList<List<Object>>();
-							{
-								for (BufferedItemPosition itemPosition : oldItemPositions) {
-									oldItems.add(itemPosition.getItem());
-									oldItemAncestorLists.add(ReflectionUIUtils.collectItemAncestors(itemPosition));
-								}
-							}
-
-							@Override
-							public List<BufferedItemPosition> get() {
-								return ReflectionUIUtils.actualizeItemPositions(oldItemPositions, oldItems,
-										oldItemAncestorLists);
-							}
-						};
-						if (!prepare()) {
-							return;
-						}
-						final String modifTitle = getCompositeModificationTitle();
-						@SuppressWarnings("unchecked")
-						final Accessor<List<BufferedItemPosition>>[] postSelectionGetterHolder = new Accessor[] {
-								defaultPostSelectionGetter };
-						if (modifTitle == null) {
-							perform(postSelectionGetterHolder);
-							new RefreshModification(postSelectionGetterHolder[0], null,
-									areBuffersRefreshedAFterModification())
-											.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
-						} else {
-							final ModificationStack modifStack = getModificationStack();
-							modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
-								@Override
-								public Boolean get() {
-									if (modifStack.insideComposite(modifTitle + " (without list control update)",
-											UndoOrder.getNormal(), new Accessor<Boolean>() {
-												@Override
-												public Boolean get() {
-													perform(postSelectionGetterHolder);
-													return true;
-												}
-											}, listData.isTransient())) {
-										modifStack.apply(new RefreshModification(postSelectionGetterHolder[0],
-												defaultPostSelectionGetter, areBuffersRefreshedAFterModification()));
-										return true;
-									} else {
-										new RefreshModification(postSelectionGetterHolder[0], null,
-												areBuffersRefreshedAFterModification()).applyAndGetOpposite(
-														ModificationStack.DUMMY_MODIFICATION_STACK);
-										return modifStack.wasInvalidated();
+			ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), cellsRenderingContext, () -> {
+				preventingIntermediarySelectionEvents(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							final Accessor<List<BufferedItemPosition>> defaultPostSelectionGetter = new Accessor<List<BufferedItemPosition>>() {
+								List<BufferedItemPosition> oldItemPositions = getSelection();
+								List<Object> oldItems = new ArrayList<Object>();
+								List<List<Object>> oldItemAncestorLists = new ArrayList<List<Object>>();
+								{
+									for (BufferedItemPosition itemPosition : oldItemPositions) {
+										oldItems.add(itemPosition.getItem());
+										oldItemAncestorLists.add(ReflectionUIUtils.collectItemAncestors(itemPosition));
 									}
 								}
-							}, listData.isTransient());
 
+								@Override
+								public List<BufferedItemPosition> get() {
+									return ReflectionUIUtils.actualizeItemPositions(oldItemPositions, oldItems,
+											oldItemAncestorLists);
+								}
+							};
+							if (!prepare()) {
+								return;
+							}
+							final String modifTitle = getCompositeModificationTitle();
+							@SuppressWarnings("unchecked")
+							final Accessor<List<BufferedItemPosition>>[] postSelectionGetterHolder = new Accessor[] {
+									defaultPostSelectionGetter };
+							if (modifTitle == null) {
+								perform(postSelectionGetterHolder);
+								new RefreshModification(postSelectionGetterHolder[0], null,
+										areBuffersRefreshedAFterModification())
+												.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
+							} else {
+								final ModificationStack modifStack = getModificationStack();
+								modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
+									@Override
+									public Boolean get() {
+										if (modifStack.insideComposite(modifTitle + " (without list control update)",
+												UndoOrder.getNormal(), new Accessor<Boolean>() {
+													@Override
+													public Boolean get() {
+														perform(postSelectionGetterHolder);
+														return true;
+													}
+												}, listData.isTransient())) {
+											modifStack.apply(new RefreshModification(postSelectionGetterHolder[0],
+													defaultPostSelectionGetter,
+													areBuffersRefreshedAFterModification()));
+											return true;
+										} else {
+											new RefreshModification(postSelectionGetterHolder[0], null,
+													areBuffersRefreshedAFterModification()).applyAndGetOpposite(
+															ModificationStack.DUMMY_MODIFICATION_STACK);
+											return modifStack.wasInvalidated();
+										}
+									}
+								}, listData.isTransient());
+
+							}
+							displayResult();
+						} catch (Throwable t) {
+							swingRenderer.handleException(ListControl.this, t);
 						}
-						displayResult();
-					} catch (Throwable t) {
-						swingRenderer.handleException(ListControl.this, t);
 					}
-				}
+				});
 			});
 		}
 

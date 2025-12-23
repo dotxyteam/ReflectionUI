@@ -175,7 +175,6 @@ public class Form extends ImagePanel {
 
 	protected RenderingContext createRenderingContext() {
 		return new RenderingContext(swingRenderer.getReflectionUI().getRenderingContextThreadLocal().get()) {
-
 			@Override
 			protected Object findCurrentObjectLocally(ITypeInfo type) {
 				return SwingRendererUtils.findCurrentObject(type, Form.this, swingRenderer);
@@ -1896,7 +1895,7 @@ public class Form extends ImagePanel {
 	 * @param field The field for which the control place holder must be created.
 	 * @return a new control place holder for the given field.
 	 */
-	protected FieldControlPlaceHolder createFieldControlPlaceHolder(IFieldInfo field) {
+	public FieldControlPlaceHolder createFieldControlPlaceHolder(IFieldInfo field) {
 		return new FieldControlPlaceHolder(this, field);
 	}
 
@@ -1904,7 +1903,7 @@ public class Form extends ImagePanel {
 	 * @param method The method for which the control place holder must be created.
 	 * @return a new control place holder for the given method.
 	 */
-	protected MethodControlPlaceHolder createMethodControlPlaceHolder(IMethodInfo method) {
+	public MethodControlPlaceHolder createMethodControlPlaceHolder(IMethodInfo method) {
 		return new MethodControlPlaceHolder(this, method);
 	}
 

@@ -154,12 +154,12 @@ public class CustomizingForm extends Form {
 	}
 
 	@Override
-	protected CustomizingFieldControlPlaceHolder createFieldControlPlaceHolder(IFieldInfo field) {
+	public CustomizingFieldControlPlaceHolder createFieldControlPlaceHolder(IFieldInfo field) {
 		return new CustomizingFieldControlPlaceHolder(this, field);
 	}
 
 	@Override
-	protected CustomizingMethodControlPlaceHolder createMethodControlPlaceHolder(IMethodInfo method) {
+	public CustomizingMethodControlPlaceHolder createMethodControlPlaceHolder(IMethodInfo method) {
 		return new CustomizingMethodControlPlaceHolder(this, method);
 	}
 

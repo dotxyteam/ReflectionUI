@@ -3,7 +3,6 @@ package xy.reflect.ui.info.menu;
 
 import java.util.function.Supplier;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ResourcePath;
 
 /**
@@ -18,7 +17,7 @@ public class CustomActionMenuItemInfo extends AbstractActionMenuItemInfo {
 	protected Supplier<Boolean> enablementStateSupplier;
 	protected Runnable runnable;
 
-	public CustomActionMenuItemInfo(ReflectionUI reflectionUI, String name, ResourcePath iconImagePath,
+	public CustomActionMenuItemInfo(String name, ResourcePath iconImagePath,
 			Supplier<Boolean> enablementStateSupplier, Runnable runnable) {
 		super(name, iconImagePath);
 		this.enablementStateSupplier = enablementStateSupplier;

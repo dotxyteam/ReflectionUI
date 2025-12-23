@@ -25,6 +25,7 @@ import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
+import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -388,7 +389,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		}
 	}
 
-	protected static class SubFormBuilder extends AbstractEditorFormBuilder {
+	protected static class SubFormBuilder extends AbstractEditorBuilder {
 
 		protected SwingRenderer swingRenderer;
 		protected NullableControl ownerComponent;
@@ -405,6 +406,11 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			this.data = input.getControlData();
 			this.subContext = subContext;
 			this.commitExceptionHandler = commitExceptionHandler;
+		}
+
+		@Override
+		protected Component getOwnerComponent() {
+			return ownerComponent;
 		}
 
 		@Override

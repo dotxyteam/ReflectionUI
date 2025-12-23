@@ -180,9 +180,12 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 
 	@Override
 	public Form createEditorForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
-		Form result = super.createEditorForm(realTimeLinkWithParent, exclusiveLinkWithParent);
-		createdFormModificationStack = result.getModificationStack();
-		return result;
+		final Form[] result = new Form[1];
+		withEventualOwnerRenderingContext(() -> {
+			result[0] = AbstractEditorBuilder.super.createEditorForm(realTimeLinkWithParent, exclusiveLinkWithParent);
+		});
+		createdFormModificationStack = result[0].getModificationStack();
+		return result[0];
 	}
 
 	/**
@@ -258,6 +261,46 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	 * @return the created editor dialog.
 	 */
 	public JDialog createDialog() {
+		Form editorForm = createEditorForm(false, false);
+		DialogBuilder dialogBuilder = createDelegateDialogBuilder();
+		dialogBuilder.setContentComponent(editorForm);
+		dialogBuilder.setTitle(getEditorWindowTitle());
+		Image customEditorWindowIconImage = getCustomEditorWindowIconImage();
+		if (customEditorWindowIconImage != null) {
+			dialogBuilder.setIconImage(customEditorWindowIconImage);
+		}
+
+		List<Component> buttonBarControls = new ArrayList<Component>(createMostButtonBarControls(editorForm));
+		{
+			if (isDialogCancellable()) {
+				List<JButton> okCancelButtons = dialogBuilder.createStandardOKCancelDialogButtons(getOKCaption(),
+						getCancelCaption());
+				buttonBarControls.addAll(okCancelButtons);
+			} else {
+				buttonBarControls.add(dialogBuilder.createDialogClosingButton(getCloseCaption(), null));
+			}
+			dialogBuilder.setButtonBarControls(buttonBarControls);
+		}
+		final RenderedDialog dialog = dialogBuilder.createDialog();
+		dialog.addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				initializeDialogModifications();
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				finalizeDialogModifications();
+				dialog.removeWindowListener(this);
+			}
+
+		});
+		createdDialog = dialog;
+		return createdDialog;
+	}
+
+	protected void withEventualOwnerRenderingContext(Runnable runnable) {
 		RenderingContext renderingContext = null;
 		if (getOwnerComponent() != null) {
 			Form ownerForm = (getOwnerComponent() instanceof Form) ? (Form) getOwnerComponent()
@@ -266,50 +309,11 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 				renderingContext = ownerForm.getRenderingContext();
 			}
 		}
-		Runnable runnable = () -> {
-			Form editorForm = createEditorForm(false, false);
-			DialogBuilder dialogBuilder = createDelegateDialogBuilder();
-			dialogBuilder.setContentComponent(editorForm);
-			dialogBuilder.setTitle(getEditorWindowTitle());
-			Image customEditorWindowIconImage = getCustomEditorWindowIconImage();
-			if (customEditorWindowIconImage != null) {
-				dialogBuilder.setIconImage(customEditorWindowIconImage);
-			}
-
-			List<Component> buttonBarControls = new ArrayList<Component>(createMostButtonBarControls(editorForm));
-			{
-				if (isDialogCancellable()) {
-					List<JButton> okCancelButtons = dialogBuilder.createStandardOKCancelDialogButtons(getOKCaption(),
-							getCancelCaption());
-					buttonBarControls.addAll(okCancelButtons);
-				} else {
-					buttonBarControls.add(dialogBuilder.createDialogClosingButton(getCloseCaption(), null));
-				}
-				dialogBuilder.setButtonBarControls(buttonBarControls);
-			}
-			final RenderedDialog dialog = dialogBuilder.createDialog();
-			dialog.addWindowListener(new WindowAdapter() {
-
-				@Override
-				public void windowOpened(WindowEvent e) {
-					initializeDialogModifications();
-				}
-
-				@Override
-				public void windowClosed(WindowEvent e) {
-					finalizeDialogModifications();
-					dialog.removeWindowListener(this);
-				}
-
-			});
-			createdDialog = dialog;
-		};
 		if (renderingContext != null) {
 			ReflectionUIUtils.withRenderingContext(getSwingRenderer().getReflectionUI(), renderingContext, runnable);
 		} else {
 			runnable.run();
 		}
-		return createdDialog;
 	}
 
 	/**

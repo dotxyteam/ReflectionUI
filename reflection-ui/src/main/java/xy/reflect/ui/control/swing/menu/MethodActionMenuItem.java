@@ -10,17 +10,11 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
-import xy.reflect.ui.control.DefaultMethodControlData;
-import xy.reflect.ui.control.IMethodControlData;
-import xy.reflect.ui.control.IMethodControlInput;
-import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
-import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.KeyboardShortcut;
 
 /**
@@ -90,25 +84,8 @@ public class MethodActionMenuItem extends AbstractMenuItem {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					MethodAction methodAction = swingRenderer.createMethodAction(new IMethodControlInput() {
-
-						@Override
-						public ModificationStack getModificationStack() {
-							return getContextForm().getModificationStack();
-						}
-
-						@Override
-						public MethodContext getContext() {
-							ITypeInfo objectType = menuItemInfo.getObjectType();
-							return new MethodContext(objectType.getName(), menuItemInfo.getMethod().getSignature());
-						}
-
-						@Override
-						public IMethodControlData getControlData() {
-							return new DefaultMethodControlData(swingRenderer.getReflectionUI(),
-									getContextForm().getObject(), menuItemInfo.getMethod());
-						}
-					});
+					MethodAction methodAction = swingRenderer.createMethodAction(
+							getContextForm().createMethodControlPlaceHolder(menuItemInfo.getMethod()));
 					methodAction.onInvocationRequest(getContextForm());
 				} catch (Throwable t) {
 					swingRenderer.handleException(menuBarOwner, t);

@@ -148,11 +148,9 @@ public class MenuModel implements Serializable {
 			if (same(element, containerChild)) {
 				if (!(containerChild instanceof IMenuItemContainerInfo)) {
 					// only menu containers can be merged
-					final String errorMenuName = "<MENU ERROR> Duplicate menu detected: " + element.getCaption()
+					String errorMenuName = "<MENU ERROR> Duplicate menu item name detected: " + element.getCaption()
 							+ " (id=" + element.hashCode() + ")";
-					element = new AbstractActionMenuItemInfo(errorMenuName, null) {
-
-					};
+					element = new CustomActionMenuItemInfo(errorMenuName, null, () -> false, null);
 					importContributionIn(element, container, addedElementFilter);
 					return;
 				}

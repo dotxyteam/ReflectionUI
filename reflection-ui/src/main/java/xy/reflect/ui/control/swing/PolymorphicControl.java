@@ -2,6 +2,7 @@
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.RejectedFieldControlInputException;
+import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -245,45 +247,41 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				}
 			});
 		} else {
-			// show/replace dynamic control
+			// display or replace the content of the dynamic control
 			if (dynamicControlInstanceType != null) {
 				remove(dynamicControl);
 			}
-			Pair<AbstractEditorFormBuilder, Form> dynamicControlAndBuilder = dynamicControlCache.get(instanceType);
-			if (dynamicControlAndBuilder != null) {
-				dynamicControlBuilder = dynamicControlAndBuilder.getFirst();
-				dynamicControl = dynamicControlAndBuilder.getSecond();
-				if (currentError != null) {
-					// display the current error (over the last valid instance value)
-					instance = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, instance));
-				}
+			boolean reloadRequired = false;
+			Pair<AbstractEditorFormBuilder, Form> cachedDynamicControlAndBuilder = dynamicControlCache
+					.get(instanceType);
+			if (cachedDynamicControlAndBuilder != null) {
+				dynamicControlBuilder = cachedDynamicControlAndBuilder.getFirst();
+				add(dynamicControl = cachedDynamicControlAndBuilder.getSecond(), BorderLayout.CENTER);
+				reloadRequired = true;
+			} else {
+				data.returningValue(instance, new Runnable() {
+					@Override
+					public void run() {
+						add(dynamicControl = createDynamicControl(instanceType), BorderLayout.CENTER);
+					}
+				});
+				dynamicControlCache.put(instanceType,
+						new Pair<AbstractEditorFormBuilder, Form>(dynamicControlBuilder, dynamicControl));
+			}
+			if (currentError != null) {
+				// display the current error (over the last valid instance value)
+				instance = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, instance));
+				reloadRequired = true;
+			}
+			if (reloadRequired) {
 				data.returningValue(instance, new Runnable() {
 					@Override
 					public void run() {
 						dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
 					}
 				});
-			} else {
-				data.returningValue(instance, new Runnable() {
-					@Override
-					public void run() {
-						dynamicControl = createDynamicControl(instanceType);
-					}
-				});
-				dynamicControlCache.put(instanceType,
-						new Pair<AbstractEditorFormBuilder, Form>(dynamicControlBuilder, dynamicControl));
-				if (currentError != null) {
-					// display the current error (over the last valid instance value)
-					data.returningValue(new ErrorOccurrence(currentError), new Runnable() {
-						@Override
-						public void run() {
-							dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
-						}
-					});
-				}
 			}
 			dynamicControlInstanceType = instanceType;
-			add(dynamicControl, BorderLayout.CENTER);
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 	}
@@ -335,7 +333,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 	}
 
-	protected static class TypeEnumerationControlBuilder extends AbstractEditorFormBuilder {
+	protected static class TypeEnumerationControlBuilder extends AbstractEditorBuilder {
 
 		protected SwingRenderer swingRenderer;
 		protected PolymorphicControl ownerComponent;
@@ -424,6 +422,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				}
 			}
 			return instance;
+		}
+
+		@Override
+		protected Component getOwnerComponent() {
+			return ownerComponent;
 		}
 
 		@Override
@@ -522,7 +525,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 	}
 
-	protected static class DynamicControlBuilder extends AbstractEditorFormBuilder {
+	protected static class DynamicControlBuilder extends AbstractEditorBuilder {
 
 		protected SwingRenderer swingRenderer;
 		protected PolymorphicControl ownerComponent;
@@ -539,6 +542,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			this.data = input.getControlData();
 			this.instanceType = instanceType;
 			this.commitExceptionHandler = commitExceptionHandler;
+		}
+
+		@Override
+		protected Component getOwnerComponent() {
+			return ownerComponent;
 		}
 
 		@Override
