@@ -81,6 +81,7 @@ import xy.reflect.ui.control.FieldContext;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
+import xy.reflect.ui.control.RenderingContext;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.builder.DialogBuilder.RenderedDialog;
 import xy.reflect.ui.control.swing.plugin.HtmlPlugin;
@@ -1363,27 +1364,43 @@ public class SwingRendererUtils {
 		return true;
 	}
 
-	public static Object findCurrentObject(ITypeInfo type, Component currentComponent, SwingRenderer swingRenderer) {
+	public static Form findCurrentFormOfType(ITypeInfo type, Component currentComponent,
+			SwingRenderer swingRenderer) {
 		if (currentComponent instanceof Form) {
 			if (type.supports(((Form) currentComponent).getObject())) {
-				return ((Form) currentComponent).getObject();
+				return (Form) currentComponent;
 			}
 		}
-		Form currentObjectForm = findAncestorFormOfType(currentComponent, type, swingRenderer);
-		if (currentObjectForm != null) {
-			return currentObjectForm.getObject();
+		Form result = findAncestorFormOfType(currentComponent, type, swingRenderer);
+		if (result != null) {
+			return result;
 		}
 		Window currentWindow = getWindowAncestorOrSelf(currentComponent);
 		if (currentWindow instanceof RenderedDialog) {
 			Component ownerComponent = ((RenderedDialog) currentWindow).getDialogBuilder().getOwnerComponent();
 			if (ownerComponent != null) {
-				Object currentObjectFromParentWindow = findCurrentObject(type, ownerComponent, swingRenderer);
-				if (currentObjectFromParentWindow != null) {
-					return currentObjectFromParentWindow;
+				Form resultFromParentWindow = findCurrentFormOfType(type, ownerComponent, swingRenderer);
+				if (resultFromParentWindow != null) {
+					return resultFromParentWindow;
 				}
 			}
 		}
 		return null;
+	}
+
+	public static Form findContextualFormOfType(ITypeInfo type, RenderingContext renderingContext) {
+		Form result = null;
+		if (renderingContext instanceof FormRenderingContext) {
+			Form form = ((FormRenderingContext) renderingContext).getForm();
+			result = findCurrentFormOfType(type, form, form.getSwingRenderer());
+		}
+		if (result == null) {
+			RenderingContext parent = renderingContext.getParent();
+			if (parent != null) {
+				result = findContextualFormOfType(type, parent);
+			}
+		}
+		return result;
 	}
 
 }

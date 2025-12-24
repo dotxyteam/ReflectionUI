@@ -517,10 +517,11 @@ public class SwingRenderer {
 						if (parentType != null) {
 							if (ctor.getParameters().size() > 0) {
 								if (ctor.getParameters().get(0).getType().getName().equals(parentType.getName())) {
-									Object parent = SwingRendererUtils.findCurrentObject(parentType, activatorComponent,
-											this);
-									if (parent != null) {
-										ctor = new ProvidedParameterValueMethodInfoProxy(ctor, "fromParent", 0, parent);
+									Form parentForm = SwingRendererUtils.findCurrentFormOfType(parentType,
+											activatorComponent, this);
+									if (parentForm != null) {
+										ctor = new ProvidedParameterValueMethodInfoProxy(ctor, "fromParent", 0,
+												parentForm.getObject());
 									}
 								}
 							}

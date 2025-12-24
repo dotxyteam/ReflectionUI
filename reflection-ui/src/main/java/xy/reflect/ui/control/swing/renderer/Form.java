@@ -60,6 +60,7 @@ import xy.reflect.ui.control.swing.util.BetterGridLayout;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ControlTabbedPane;
+import xy.reflect.ui.control.swing.util.FormRenderingContext;
 import xy.reflect.ui.control.swing.util.ClassicTabbedPane;
 import xy.reflect.ui.control.swing.util.HyperlinkLabel;
 import xy.reflect.ui.control.swing.util.ImagePanel;
@@ -172,14 +173,11 @@ public class Form extends ImagePanel {
 
 		}
 	}
+	
+	
 
 	protected RenderingContext createRenderingContext() {
-		return new RenderingContext(swingRenderer.getReflectionUI().getRenderingContextThreadLocal().get()) {
-			@Override
-			protected Object findCurrentObjectLocally(ITypeInfo type) {
-				return SwingRendererUtils.findCurrentObject(type, Form.this, swingRenderer);
-			}
-		};
+		return new FormRenderingContext(this);
 	}
 
 	public RenderingContext getRenderingContext() {

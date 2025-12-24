@@ -25,7 +25,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
  */
 public abstract class RenderingContext {
 
-	protected abstract Object findCurrentObjectLocally(ITypeInfo type);
+	protected abstract Object findObjectLocally(ITypeInfo type);
 
 	protected RenderingContext parent;
 	protected Map<ITypeInfo, Object> currentObjectCache = createCurrentObjectCache();
@@ -54,15 +54,15 @@ public abstract class RenderingContext {
 	 *         If multiple compatible objects are found, the one from the form
 	 *         highest in the hierarchy is returned.
 	 */
-	public Object getCurrentObject(ITypeInfo type) {
+	public Object getObject(ITypeInfo type) {
 		synchronized (currentObjectCache) {
 			if (currentObjectCache.containsKey(type)) {
 				return currentObjectCache.get(type);
 			} else {
-				Object result = findCurrentObjectLocally(type);
+				Object result = findObjectLocally(type);
 				if (result == null) {
 					if (parent != null) {
-						result = parent.getCurrentObject(type);
+						result = parent.getObject(type);
 					}
 				}
 				currentObjectCache.put(type, result);

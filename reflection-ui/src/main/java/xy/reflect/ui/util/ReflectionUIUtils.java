@@ -1786,7 +1786,7 @@ public class ReflectionUIUtils {
 			return null;
 		}
 		Object contextualValue = renderingContext
-				.getCurrentObject(reflectionUI.getTypeInfo(new JavaTypeInfoSource(valueClass, null)));
+				.getObject(reflectionUI.getTypeInfo(new JavaTypeInfoSource(valueClass, null)));
 		return (T) contextualValue;
 
 	}

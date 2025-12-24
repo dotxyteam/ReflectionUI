@@ -238,9 +238,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		this.selectionTargetData = selectionTargetData;
 		if (selectionTargetData != null) {
 			Object selectionTargetDataValue = selectionTargetData.getValue();
-			BufferedItemPosition itemPosition = (selectionTargetDataValue != null)
-					? findFirstItemPositionByValue(selectionTargetDataValue)
-					: null;
+			BufferedItemPosition itemPosition;
+			try {
+				itemPosition = (selectionTargetDataValue != null)
+						? findFirstItemPositionByValue(selectionTargetDataValue)
+						: null;
+			} catch (Throwable t) {
+				throw new ReflectionUIError("Failed to find the selection target data value '"
+						+ selectionTargetDataValue + "' in the list/tree", t);
+			}
 			withoutSelectionTargetListenerEnabled(new Runnable() {
 				@Override
 				public void run() {
@@ -2131,8 +2137,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					}
 				}
 			}
-			ReflectionUIUtils.setFieldValueThroughModificationStack(selectionTargetData, value, getModificationStack(),
-					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
+			selectionTargetData.setValue(value);
 		}
 	}
 

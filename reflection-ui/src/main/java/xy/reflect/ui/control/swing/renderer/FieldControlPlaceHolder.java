@@ -414,9 +414,13 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(form.getObject()));
 			IFieldInfo selectionTargetField = ((IListTypeInfo) controlData.getType())
 					.getSelectionTargetField(objectType);
-			FieldControlData selectionTargetData;
+			IFieldControlData selectionTargetData;
 			if (selectionTargetField != null) {
 				selectionTargetData = new FieldControlData(selectionTargetField);
+				selectionTargetData = handleValueAccessIssues(selectionTargetData);
+				selectionTargetData = makeFieldModificationsUndoable(selectionTargetData);
+				selectionTargetData = addControlBasedModificationStackManagementStatusProperty(selectionTargetData);
+				selectionTargetData = addControlBasedValueAccessErrorsManagementStatusProperty(selectionTargetData);
 			} else {
 				selectionTargetData = null;
 			}
