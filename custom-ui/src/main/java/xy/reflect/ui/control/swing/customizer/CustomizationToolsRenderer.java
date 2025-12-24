@@ -85,7 +85,7 @@ public class CustomizationToolsRenderer extends SwingCustomizer {
 		return new WindowManager(this, window) {
 
 			@Override
-			protected void layoutContentPane(Container contentPane) {
+			protected void layoutMainContainer(Container contentPane) {
 				alternativeDecorationsPanel = createAlternativeWindowDecorationsPanel(window, contentPane);
 				rootPane.add(alternativeDecorationsPanel, StackLayout.TOP);
 			}

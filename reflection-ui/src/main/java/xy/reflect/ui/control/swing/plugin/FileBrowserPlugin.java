@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.FileChooserUI;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.FieldControlDataProxy;
@@ -266,9 +268,14 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		protected static final long serialVersionUID = 1L;
 
 		protected FileBrowserConfiguration controlConfiguration;
+		protected boolean lastFileAccepted = false;
 
 		public FileBrowser(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
+		}
+
+		public boolean isLastFileAccepted() {
+			return lastFileAccepted;
 		}
 
 		@Override
@@ -367,6 +374,20 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 				}
 				i++;
 			}
+			fixDefaultFileNameNotDisplayed(fileChooser);
+		}
+
+		protected void fixDefaultFileNameNotDisplayed(JFileChooser fileChooser) {
+			if (fileChooser.getSelectedFile() == null) {
+				return;
+			}
+			try {
+				Class<? extends FileChooserUI> fileChooserClass = fileChooser.getUI().getClass();
+				Method setFileNameMethod = fileChooserClass.getMethod("setFileName", String.class);
+				setFileNameMethod.invoke(fileChooser.getUI(), fileChooser.getSelectedFile().getName());
+			} catch (Exception e) {
+				swingRenderer.getReflectionUI().logDebug(e);
+			}
 		}
 
 		protected String getDialogTitle() {
@@ -384,12 +405,12 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 			dialogBuilder.setTitle(getDialogTitle());
 			fileChooser.setApproveButtonText(swingRenderer.prepareMessageToDisplay("OK"));
 			fileChooser.rescanCurrentDirectory();
-			final boolean[] ok = new boolean[] { false };
+			lastFileAccepted = false;
 			fileChooser.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (e.getActionCommand().equals(javax.swing.JFileChooser.APPROVE_SELECTION)) {
-						ok[0] = true;
+						lastFileAccepted = true;
 						dialogBuilder.getCreatedDialog().dispose();
 					} else if (e.getActionCommand().equals(javax.swing.JFileChooser.CANCEL_SELECTION)) {
 						dialogBuilder.getCreatedDialog().dispose();
@@ -398,7 +419,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 			});
 			dialogBuilder.setContentComponent(fileChooser);
 			swingRenderer.showDialog(dialogBuilder.createDialog(), true);
-			if (!ok[0]) {
+			if (!lastFileAccepted) {
 				return;
 			}
 

@@ -310,7 +310,7 @@ public class CustomizationTools {
 								try {
 									form.refresh(true);
 									if (SwingRendererUtils.findAncestorForms(form, swingCustomizer).size() > 0) {
-										SwingRendererUtils.updateWindowMenu(form, swingCustomizer);
+										SwingRendererUtils.updateAncestorWindowMenu(form, swingCustomizer);
 									}
 								} catch (Throwable t) {
 									swingCustomizer.handleException(form, t);

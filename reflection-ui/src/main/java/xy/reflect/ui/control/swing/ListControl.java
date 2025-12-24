@@ -1838,7 +1838,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return;
 			}
 		} finally {
-			SwingRendererUtils.updateWindowMenu(this, swingRenderer);
+			SwingRendererUtils.updateAncestorWindowMenu(this, swingRenderer);
 		}
 		throw new ReflectionUIError();
 	}

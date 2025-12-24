@@ -52,12 +52,12 @@ public class WindowManager extends WindowAdapter {
 	protected AlternativeWindowDecorationsPanel alternativeDecorationsPanel;
 	protected JPanel rootPane;
 	protected ImagePanel backgroundPane;
-	protected JPanel contentPane;
+	protected JPanel mainContainer;
 	protected JPanel topBarsContainer;
 	protected JPanel bottomBarsContainer;
-	protected JScrollPane scrollPane;
+	protected JScrollPane contentScrollPane;
 	protected JPanel buttonBar;
-	protected Form form;
+	protected Form rootForm;
 
 	protected IFormListener formRefreshListener = new Form.IFormListener() {
 		@Override
@@ -75,6 +75,22 @@ public class WindowManager extends WindowAdapter {
 	public WindowManager(SwingRenderer swingRenderer, Window window) {
 		this.swingRenderer = swingRenderer;
 		this.window = window;
+	}
+
+	public SwingRenderer getSwingRenderer() {
+		return swingRenderer;
+	}
+
+	public Window getWindow() {
+		return window;
+	}
+
+	public JScrollPane getContentScrollPane() {
+		return contentScrollPane;
+	}
+
+	public Form getRootForm() {
+		return rootForm;
 	}
 
 	protected JPanel createRootPane() {
@@ -118,13 +134,13 @@ public class WindowManager extends WindowAdapter {
 		return averageBackgroundColor;
 	}
 
-	protected JScrollPane createScrollPane(Component content) {
+	protected JScrollPane createContentScrollPane(Component content) {
 		ControlScrollPane result = new ControlScrollPane(content);
 		SwingRendererUtils.removeScrollPaneBorder(result);
 		return result;
 	}
 
-	protected JPanel createContentPane() {
+	protected JPanel createMainContainer() {
 		ControlPanel result = new ControlPanel();
 		result.setLayout(new BorderLayout());
 		topBarsContainer = new ControlPanel();
@@ -162,15 +178,15 @@ public class WindowManager extends WindowAdapter {
 		rootPane.add(backgroundPane, StackLayout.BOTTOM);
 	}
 
-	protected void layoutContentPane(Container contentPane) {
+	protected void layoutMainContainer(Container container) {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
 		if (!appInfo.isSystemIntegrationCrossPlatform()) {
 			alternativeDecorationsPanel = null;
 			SwingRendererUtils.setUndecorated(window, false);
-			rootPane.add(contentPane, StackLayout.TOP);
+			rootPane.add(container, StackLayout.TOP);
 		} else {
-			alternativeDecorationsPanel = createAlternativeWindowDecorationsPanel(window, contentPane);
+			alternativeDecorationsPanel = createAlternativeWindowDecorationsPanel(window, container);
 			rootPane.add(alternativeDecorationsPanel, StackLayout.TOP);
 		}
 	}
@@ -180,7 +196,7 @@ public class WindowManager extends WindowAdapter {
 	}
 
 	protected void layoutContent(Component content) {
-		contentPane.add(content, BorderLayout.CENTER);
+		mainContainer.add(content, BorderLayout.CENTER);
 	}
 
 	protected void layoutStatusBar(Component statusBar) {
@@ -207,19 +223,19 @@ public class WindowManager extends WindowAdapter {
 		layoutRootPane(rootPane);
 		backgroundPane = createBackgroundPane();
 		layoutBackgroundPane(backgroundPane);
-		contentPane = createContentPane();
-		layoutContentPane(contentPane);
-		form = null;
+		mainContainer = createMainContainer();
+		layoutMainContainer(mainContainer);
+		rootForm = null;
 		if (content != null) {
 			if (swingRenderer.isRenderedForm(content)) {
-				form = (Form) content;
-				layoutMenuBar(form.getMenuBar());
-				form.updateMenuBar();
-				layoutStatusBar(form.getStatusBar());
-				form.getListeners().add(formRefreshListener);
+				rootForm = (Form) content;
+				layoutMenuBar(rootForm.getMenuBar());
+				rootForm.updateMenuBar();
+				layoutStatusBar(rootForm.getStatusBar());
+				rootForm.getListeners().add(formRefreshListener);
 			}
-			scrollPane = createScrollPane(content);
-			layoutContent(scrollPane);
+			contentScrollPane = createContentScrollPane(content);
+			layoutContent(contentScrollPane);
 		}
 		buttonBar = createButtonBar(buttonBarControls);
 		layoutButtonBar(buttonBar);
@@ -240,16 +256,16 @@ public class WindowManager extends WindowAdapter {
 		SwingRendererUtils.setContentPane(window, new ControlPanel());
 		{
 			alternativeDecorationsPanel = null;
-			scrollPane = null;
+			contentScrollPane = null;
 			rootPane = null;
 			backgroundPane = null;
-			contentPane = null;
+			mainContainer = null;
 			topBarsContainer = null;
 			buttonBar = null;
 		}
-		if (form != null) {
-			form.getListeners().remove(formRefreshListener);
-			form = null;
+		if (rootForm != null) {
+			rootForm.getListeners().remove(formRefreshListener);
+			rootForm = null;
 		}
 	}
 
@@ -351,13 +367,13 @@ public class WindowManager extends WindowAdapter {
 
 	@Override
 	public void windowOpened(WindowEvent e) {
-		if (form == null) {
+		if (rootForm == null) {
 			return;
 		}
 		workAroundOpeningWindowFocusRequestBug(new Callable<Boolean>() {
 			@Override
 			public Boolean call() throws Exception {
-				return SwingRendererUtils.requestAnyComponentFocus(form, swingRenderer);
+				return SwingRendererUtils.requestAnyComponentFocus(rootForm, swingRenderer);
 			}
 		});
 	}
@@ -365,15 +381,15 @@ public class WindowManager extends WindowAdapter {
 	@Override
 	public void windowClosing(WindowEvent e) {
 		boolean[] cancelled = new boolean[] { false };
-		if (form != null) {
-			JMenuBar menuBar = form.getMenuBar();
+		if (rootForm != null) {
+			JMenuBar menuBar = rootForm.getMenuBar();
 			SwingRendererUtils.visitMenubar(menuBar, new Visitor<JMenuItem>() {
 				@Override
 				public boolean visit(JMenuItem item) {
 					if (item instanceof SaveMenuItem) {
 						SaveMenuItem saveMenuItem = (SaveMenuItem) item;
 						if (!saveMenuItem.isFileSynchronized()) {
-							if (!swingRenderer.openQuestionDialog(form,
+							if (!swingRenderer.openQuestionDialog(rootForm,
 									"Changes were not saved and will be lost.\nContinue?",
 									swingRenderer.getObjectTitle(saveMenuItem.getContextForm().getObject()), "OK",
 									"Cancel")) {
@@ -404,7 +420,7 @@ public class WindowManager extends WindowAdapter {
 						SwingUtilities.invokeAndWait(new Runnable() {
 							@Override
 							public void run() {
-								if (form == null) {
+								if (rootForm == null) {
 									retry[0] = false;
 								} else {
 									try {

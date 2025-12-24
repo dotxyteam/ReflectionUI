@@ -87,7 +87,7 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 	}
 
 	protected File retrieveFile() {
-		final File[] fileHolder = new File[1];
+		final File[] fileHolder = new File[] { lastFileByForm.get(getContextForm()) };
 		final FileBrowserPlugin fileBrowserPlugin = new FileBrowserPlugin();
 		IFieldControlInput fileBrowserInput = new DefaultFieldControlInput(swingRenderer.getReflectionUI()) {
 
@@ -127,8 +127,10 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 		};
 		FileBrowser fileBrowser = fileBrowserPlugin.createControl(swingRenderer, fileBrowserInput);
 		fileBrowser.openDialog(menuBarOwner);
-		File result = fileHolder[0];
-		return result;
+		if (!fileBrowser.isLastFileAccepted()) {
+			return null;
+		}
+		return fileHolder[0];
 	}
 
 	@Override
@@ -154,7 +156,7 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					SwingRendererUtils.updateWindowMenu(menuBarOwner, swingRenderer);
+					SwingRendererUtils.updateAncestorWindowMenu(menuBarOwner, swingRenderer);
 				}
 			});
 		}

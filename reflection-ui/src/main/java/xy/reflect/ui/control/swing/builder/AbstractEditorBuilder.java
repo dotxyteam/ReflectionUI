@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import xy.reflect.ui.ReflectionUI;
@@ -38,6 +37,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 
 	protected ModificationStack createdFormModificationStack;
+	protected Form createdForm;
 	protected EditorFrame createdFrame;
 	protected RenderedDialog createdDialog;
 	protected ITransaction currentValueTransaction;
@@ -180,12 +180,18 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 
 	@Override
 	public Form createEditorForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
-		final Form[] result = new Form[1];
 		withEventualOwnerRenderingContext(() -> {
-			result[0] = AbstractEditorBuilder.super.createEditorForm(realTimeLinkWithParent, exclusiveLinkWithParent);
+			createdForm = AbstractEditorBuilder.super.createEditorForm(realTimeLinkWithParent, exclusiveLinkWithParent);
 		});
-		createdFormModificationStack = result[0].getModificationStack();
-		return result[0];
+		createdFormModificationStack = createdForm.getModificationStack();
+		return createdForm;
+	}
+
+	/**
+	 * @return the created editor form.
+	 */
+	public Form getCreatedForm() {
+		return createdForm;
 	}
 
 	/**
@@ -193,7 +199,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	 * 
 	 * @return the created editor frame.
 	 */
-	public JFrame createFrame() {
+	public EditorFrame createFrame() {
 		createdFrame = new EditorFrame(this);
 		return createdFrame;
 	}
@@ -260,7 +266,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	 * 
 	 * @return the created editor dialog.
 	 */
-	public JDialog createDialog() {
+	public RenderedDialog createDialog() {
 		Form editorForm = createEditorForm(false, false);
 		DialogBuilder dialogBuilder = createDelegateDialogBuilder();
 		dialogBuilder.setContentComponent(editorForm);
@@ -319,7 +325,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	/**
 	 * @return the created editor dialog.
 	 */
-	public JDialog getCreatedDialog() {
+	public RenderedDialog getCreatedDialog() {
 		return createdDialog;
 	}
 
@@ -471,6 +477,10 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 
 		public AbstractEditorBuilder getEditorBuilder() {
 			return editorBuilder;
+		}
+
+		public WindowManager getWindowManager() {
+			return windowManager;
 		}
 
 	}

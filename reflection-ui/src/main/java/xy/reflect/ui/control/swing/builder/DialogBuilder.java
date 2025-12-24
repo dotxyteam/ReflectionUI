@@ -195,13 +195,15 @@ public class DialogBuilder {
 
 	public List<JButton> createStandardOKCancelDialogButtons(String customOKCaption, String customCancelCaption) {
 		List<JButton> result = new ArrayList<JButton>();
-		result.add(standardOKButton = createDialogClosingButton((customOKCaption == null) ? "OK" : customOKCaption, new Runnable() {
-			@Override
-			public void run() {
-				dialog.setOkPressed();
-			}
-		}));
-		result.add(standardCancelButton = createDialogClosingButton((customCancelCaption == null) ? "Cancel" : customCancelCaption, null));
+		result.add(standardOKButton = createDialogClosingButton((customOKCaption == null) ? "OK" : customOKCaption,
+				new Runnable() {
+					@Override
+					public void run() {
+						dialog.setOkPressed();
+					}
+				}));
+		result.add(standardCancelButton = createDialogClosingButton(
+				(customCancelCaption == null) ? "Cancel" : customCancelCaption, null));
 		return result;
 	}
 
@@ -248,6 +250,10 @@ public class DialogBuilder {
 
 		public DialogBuilder getDialogBuilder() {
 			return dialogBuilder;
+		}
+
+		public WindowManager getWindowManager() {
+			return windowManager;
 		}
 
 		public boolean isDisposed() {

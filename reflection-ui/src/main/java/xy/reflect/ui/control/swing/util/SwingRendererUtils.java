@@ -1129,7 +1129,7 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static void updateWindowMenu(Component c, SwingRenderer swingRenderer) {
+	public static void updateAncestorWindowMenu(Component c, SwingRenderer swingRenderer) {
 		Form topForm = SwingRendererUtils.findMostAncestorForm(c, swingRenderer);
 		if (topForm == null) {
 			if (c instanceof Form) {
