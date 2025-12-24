@@ -89,7 +89,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 	 */
 	public String getInfoCustomizationsOutputFilePath(String customizationsIdentifier) {
 		File mainInfoCustomizationsOutputFile = new File(globalInfoCustomizationsOutputFilePath);
-		String fileNamePrefix = (customizationsIdentifier == GLOBAL_EXCLUSIVE_CUSTOMIZATIONS) ? ""
+		String fileNamePrefix = GLOBAL_EXCLUSIVE_CUSTOMIZATIONS.equals(customizationsIdentifier) ? ""
 				: (customizationsIdentifier + "-");
 		return new File(mainInfoCustomizationsOutputFile.getParentFile(),
 				fileNamePrefix + mainInfoCustomizationsOutputFile.getName()).getPath();
@@ -271,7 +271,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 	public class SubSwingCustomizer extends SwingCustomizer {
 
 		public SubSwingCustomizer(String customizationsIdentifier) {
-			super((customizationsIdentifier == GLOBAL_EXCLUSIVE_CUSTOMIZATIONS)
+			super(GLOBAL_EXCLUSIVE_CUSTOMIZATIONS.equals(customizationsIdentifier)
 					? MultiSwingCustomizer.this.getReflectionUI()
 					: createSubCustomizedUI(customizationsIdentifier),
 					MultiSwingCustomizer.this.getInfoCustomizationsOutputFilePath(customizationsIdentifier));
@@ -341,7 +341,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 					/*
 					 * Prevent the creation of multiple meta-customization tools.
 					 */
-					if(getSubSwingCustomizer() == getSubSwingCustomizer().getGlobalSubSwingCustomizer()) {
+					if (getSubSwingCustomizer() == getSubSwingCustomizer().getGlobalSubSwingCustomizer()) {
 						return super.createCustomizationTools();
 					}
 					return getSubSwingCustomizer().getGlobalSubSwingCustomizer().getCustomizationTools()
