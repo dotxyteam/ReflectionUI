@@ -192,7 +192,8 @@ public interface IMethodInfo extends IInfo {
 	String getSignature();
 
 	/**
-	 * @return the type information of the return value of the current method.
+	 * @return the type information of the return value of the current method. Note
+	 *         that null is returned for 'void' methods that do not return a value.
 	 */
 	ITypeInfo getReturnValueType();
 
