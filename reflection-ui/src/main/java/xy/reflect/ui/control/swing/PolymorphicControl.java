@@ -22,7 +22,6 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.RejectedFieldControlInputException;
 import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
-import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlPanel;
@@ -66,11 +65,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	protected ITypeInfo polymorphicType;
 	protected PolymorphicTypeOptionsFactory typeOptionsFactory;
 
-	protected AbstractEditorFormBuilder typeEnumerationControlBuilder;
-	protected AbstractEditorFormBuilder dynamicControlBuilder;
+	protected AbstractEditorBuilder typeEnumerationControlBuilder;
+	protected AbstractEditorBuilder dynamicControlBuilder;
 	protected Form dynamicControl;
 	protected Form typeEnumerationControl;
-	protected Map<ITypeInfo, Pair<AbstractEditorFormBuilder, Form>> dynamicControlCache = new HashMap<ITypeInfo, Pair<AbstractEditorFormBuilder, Form>>();
+	protected Map<ITypeInfo, Pair<AbstractEditorBuilder, Form>> dynamicControlCache = new HashMap<ITypeInfo, Pair<AbstractEditorBuilder, Form>>();
 
 	protected ITypeInfo dynamicControlInstanceType;
 	protected IFieldControlInput input;
@@ -252,7 +251,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				remove(dynamicControl);
 			}
 			boolean reloadRequired = false;
-			Pair<AbstractEditorFormBuilder, Form> cachedDynamicControlAndBuilder = dynamicControlCache
+			Pair<AbstractEditorBuilder, Form> cachedDynamicControlAndBuilder = dynamicControlCache
 					.get(instanceType);
 			if (cachedDynamicControlAndBuilder != null) {
 				dynamicControlBuilder = cachedDynamicControlAndBuilder.getFirst();
@@ -266,7 +265,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 					}
 				});
 				dynamicControlCache.put(instanceType,
-						new Pair<AbstractEditorFormBuilder, Form>(dynamicControlBuilder, dynamicControl));
+						new Pair<AbstractEditorBuilder, Form>(dynamicControlBuilder, dynamicControl));
 			}
 			if (currentError != null) {
 				// display the current error (over the last valid instance value)

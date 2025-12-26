@@ -13,7 +13,7 @@ import xy.reflect.ui.control.ErrorOccurrence;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
+import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -58,7 +58,7 @@ public class MutableTypeControl extends NullableControl {
 	}
 
 	@Override
-	protected AbstractEditorFormBuilder createSubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
+	protected AbstractEditorBuilder createSubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
 			IContext subContext, Listener<Throwable> commitExceptionHandler) {
 		Info alreadyCreatedMutableTypeControlInfo = (Info) input.getControlData().getSpecificProperties()
 				.get(MUTABLE_TYPE_CONTROL_INFO_PROPERTY_KEY);

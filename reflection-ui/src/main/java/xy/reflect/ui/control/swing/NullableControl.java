@@ -26,7 +26,6 @@ import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
-import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlPanel;
@@ -60,7 +59,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	protected Component currentSubControl;
 	protected NullControl nullControl;
 	protected Form subForm;
-	protected AbstractEditorFormBuilder subFormBuilder;
+	protected AbstractEditorBuilder subFormBuilder;
 	protected IFieldControlInput input;
 	protected Throwable currentError;
 
@@ -346,7 +345,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		return result;
 	}
 
-	protected AbstractEditorFormBuilder createSubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
+	protected AbstractEditorBuilder createSubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
 			IContext subContext, Listener<Throwable> commitExceptionHandler) {
 		return new SubFormBuilder(swingRenderer, this, input, subContext, commitExceptionHandler);
 	}

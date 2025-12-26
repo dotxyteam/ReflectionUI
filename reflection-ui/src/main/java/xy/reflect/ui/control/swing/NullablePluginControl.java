@@ -9,7 +9,7 @@ import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.RejectedFieldControlInputException;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
-import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
+import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -60,7 +60,7 @@ public class NullablePluginControl extends NullableControl {
 	}
 
 	@Override
-	protected AbstractEditorFormBuilder createSubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
+	protected AbstractEditorBuilder createSubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
 			IContext subContext, Listener<Throwable> commitExceptionHandler) {
 		return new PluginControlContainerBuilder(swingRenderer, this, input, subContext, commitExceptionHandler);
 	}
