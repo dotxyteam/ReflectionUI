@@ -21,8 +21,10 @@
 	</licenses>
 	<developers>
 		<developer>
-			<organization>OTK Software</organization>
-			<organizationUrl>http://otksoftware.com</organizationUrl>
+			<name>DotXY team</name>
+			<email>dotxyteam@yahoo.fr</email>
+			<organization>DotXY</organization>
+			<organizationUrl>https://github.com/dotxyteam</organizationUrl>
 		</developer>
 	</developers>
 	<scm>
