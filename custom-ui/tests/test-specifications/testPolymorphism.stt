@@ -258,38 +258,22 @@
       <optionToSelect>C</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
-    <xy.ui.testing.action.component.CheckVisibleStringsAction>
-      <completenessChecked>false</completenessChecked>
+    <xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
-        <componentClassName>javax.swing.JTextPane</componentClassName>
+        <componentClassName>javax.swing.JComboBox</componentClassName>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <windowIndex>1</windowIndex>
+        <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
-      <negated>false</negated>
-      <orderChecked>false</orderChecked>
-      <visibleStrings>
-        <string>Failed to guess the polymorphic value type: Ambiguity detected: More than 1 valid types found:
-- xy.reflect.ui.PolymorphismTest$C
-- xy.reflect.ui.PolymorphismTest$B</string>
-      </visibleStrings>
-    </xy.ui.testing.action.component.CheckVisibleStringsAction>
-    <xy.ui.testing.action.component.ClickAction>
-      <button>LEFT_BUTTON</button>
-      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
-        <componentClassName class="null"/>
-        <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Close</visibleString>
-        <visibleStringInTree>false</visibleStringInTree>
-        <windowIndex>1</windowIndex>
-      </componentFinder>
-      <disabled>false</disabled>
-      <doubleClick>false</doubleClick>
-      <eventMode>PRESS_AND_RELEASE</eventMode>
-      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
-      <locationOnComponent class="null"/>
-      <poupTrigger>false</poupTrigger>
-    </xy.ui.testing.action.component.ClickAction>
+      <knownOptions>
+        <string>Basic - A</string>
+        <string>B</string>
+        <string>C</string>
+      </knownOptions>
+      <optionListChecked>true</optionListChecked>
+      <optionToSelect>B</optionToSelect>
+      <selectionMode>BY_LABEL_TEXT</selectionMode>
+    </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">

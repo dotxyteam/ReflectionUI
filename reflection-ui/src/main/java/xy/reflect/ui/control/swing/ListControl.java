@@ -2137,7 +2137,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					}
 				}
 			}
-			selectionTargetData.setValue(value);
+			ReflectionUIUtils.setFieldValueThroughModificationStack(selectionTargetData, value, getModificationStack(),
+					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 		}
 	}
 
@@ -2348,7 +2349,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				List<Object> itemAndAncestors = new ArrayList<Object>();
 				itemAndAncestors.add(itemPosition.getItem());
 				itemAndAncestors.addAll(ReflectionUIUtils.collectItemAncestors(itemPosition));
-				oldSelectionBag.add(new Pair<BufferedItemPosition, List<Object>>(itemPosition, itemAndAncestors));
+				oldSelectionBag.add(new Pair<BufferedItemPosition, List<Object>>(null, itemAndAncestors));
 			}
 		}
 		withSelectionListenersDisabled(new Runnable() {
@@ -2365,7 +2366,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				List<Object> itemAndAncestors = new ArrayList<Object>();
 				itemAndAncestors.add(itemPosition.getItem());
 				itemAndAncestors.addAll(ReflectionUIUtils.collectItemAncestors(itemPosition));
-				newSelectionBag.add(new Pair<BufferedItemPosition, List<Object>>(itemPosition, itemAndAncestors));
+				newSelectionBag.add(new Pair<BufferedItemPosition, List<Object>>(null, itemAndAncestors));
 			}
 		}
 		if (!newSelectionBag.equals(oldSelectionBag)) {

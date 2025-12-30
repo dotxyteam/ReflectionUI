@@ -653,6 +653,7 @@
         <string>Online Help</string>
         <string>Generate Field</string>
         <string>Allow To Set Null</string>
+        <string>Bind To Context</string>
         <string>Default Value</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>

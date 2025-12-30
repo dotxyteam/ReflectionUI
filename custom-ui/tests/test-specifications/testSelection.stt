@@ -24,6 +24,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -72,6 +73,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -178,6 +180,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -205,6 +208,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -220,6 +224,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -235,6 +240,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -264,6 +270,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -279,6 +286,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -324,6 +332,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -339,6 +348,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -354,6 +364,7 @@
       </componentFinder>
       <disabled>true</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -389,6 +400,7 @@
       </componentFinder>
       <disabled>true</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -404,6 +416,7 @@
       </componentFinder>
       <disabled>true</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -419,6 +432,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -448,6 +462,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -463,6 +478,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -502,6 +518,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -517,6 +534,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -556,6 +574,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -571,6 +590,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -610,6 +630,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -625,6 +646,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -664,6 +686,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -679,6 +702,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -718,6 +742,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -786,6 +811,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -823,6 +849,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -838,6 +865,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -875,6 +903,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -890,6 +919,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -927,6 +957,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -974,6 +1005,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -1065,6 +1097,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -1080,6 +1113,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -1148,6 +1182,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -1174,6 +1209,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -1645,6 +1681,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -1660,6 +1697,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -1775,6 +1813,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -1829,6 +1868,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -1929,6 +1969,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -1944,6 +1985,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -1972,6 +2014,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -1987,6 +2030,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>
@@ -2013,6 +2057,7 @@
       </componentFinder>
       <disabled>false</disabled>
       <doubleClick>false</doubleClick>
+      <eventMode>PRESS_AND_RELEASE</eventMode>
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <locationOnComponent class="null"/>
       <poupTrigger>false</poupTrigger>

@@ -418,6 +418,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 					if (instance == null) {
 						throw new CancelledModificationException();
 					}
+					subTypeInstanceCache.put(subType, instance);
 				}
 			}
 			return instance;
