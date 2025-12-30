@@ -8,8 +8,6 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Map;
-
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -24,9 +22,7 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.IOUtils;
-import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MiscTests {
@@ -87,55 +83,6 @@ public class MiscTests {
 		type.load(objectToLoad, tmpFile);
 
 		Assert.assertEquals(objectToSave, objectToLoad);
-	}
-
-	@Test
-	public void testAutoCleanUpCache() throws Exception {
-		String cacheName = "testAutoCleanUpWeakKeysCache.map";
-		Map<Object, Object> cache = MiscUtils.newAutoCleanUpCache(true, false, 1, -1, null, 1000, cacheName);
-		cache.put(new Object(), new Object());
-		Assert.assertEquals(1, cache.size());
-
-		cache.put(new Object(), new Object());
-		Assert.assertEquals(1, cache.size());
-
-		boolean cacheThreadFound;
-		cacheThreadFound = false;
-		for (Thread t : Thread.getAllStackTraces().keySet()) {
-			if (t.getName().contains(cacheName)) {
-				cacheThreadFound = true;
-				break;
-			}
-		}
-		Assert.assertTrue(cacheThreadFound);
-
-		tryToForceGarbageCollection();
-		Thread.sleep(2000);
-		Assert.assertEquals(0, cache.size());
-
-		String referencedCacheName = "testAutoCleanUpWeakKeysCache.referencedCache";
-		Accessor<Map<Object, Object>> cacheReference = Accessor
-				.returning(MiscUtils.newAutoCleanUpCache(true, false, 10, -1, null, 1000, referencedCacheName), true);
-		cacheThreadFound = false;
-		for (Thread t : Thread.getAllStackTraces().keySet()) {
-			if (t.getName().contains(referencedCacheName)) {
-				cacheThreadFound = true;
-				break;
-			}
-		}
-		Assert.assertTrue(cacheThreadFound);
-
-		cacheReference.set(null);
-		tryToForceGarbageCollection();
-		Thread.sleep(3000);
-		cacheThreadFound = false;
-		for (Thread t : Thread.getAllStackTraces().keySet()) {
-			if (t.getName().contains(referencedCacheName)) {
-				cacheThreadFound = true;
-				break;
-			}
-		}
-		Assert.assertTrue(!cacheThreadFound);
 	}
 
 	@Test

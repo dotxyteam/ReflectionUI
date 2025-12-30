@@ -89,8 +89,8 @@ public class SystemProperties {
 		return System.getProperty(SystemProperties.DEBUG, "false").equals("true");
 	}
 
-	public static long getStandardCacheSize() {
-		return Long.valueOf(System.getProperty(SystemProperties.STANDARD_CACHE_SIZE, "1000"));
+	public static int getStandardCacheSize() {
+		return Integer.valueOf(System.getProperty(SystemProperties.STANDARD_CACHE_SIZE, "1000"));
 	}
 
 	public static long getExecutorIdleTimeoutSeconds() {

@@ -22,12 +22,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 
@@ -66,9 +68,6 @@ import javax.swing.tree.TreePath;
 import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
-
-import com.google.common.collect.HashMultiset;
-import com.google.common.collect.Multiset;
 
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.CustomContext;
@@ -132,6 +131,7 @@ import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.MiscUtils;
+import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -2340,15 +2340,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void preventingIntermediarySelectionEvents(Runnable runnable) {
-		Multiset<Object> oldSelectionBag = HashMultiset.create();
+		Set<Pair<BufferedItemPosition, List<Object>>> oldSelectionBag = new HashSet<Pair<BufferedItemPosition, List<Object>>>();
 		for (BufferedItemPosition itemPosition : getSelection()) {
 			if (itemPosition.isStable()) {
-				oldSelectionBag.add(itemPosition);
+				oldSelectionBag.add(new Pair<BufferedItemPosition, List<Object>>(itemPosition, null));
 			} else {
 				List<Object> itemAndAncestors = new ArrayList<Object>();
 				itemAndAncestors.add(itemPosition.getItem());
 				itemAndAncestors.addAll(ReflectionUIUtils.collectItemAncestors(itemPosition));
-				oldSelectionBag.add(itemAndAncestors);
+				oldSelectionBag.add(new Pair<BufferedItemPosition, List<Object>>(itemPosition, itemAndAncestors));
 			}
 		}
 		withSelectionListenersDisabled(new Runnable() {
@@ -2357,15 +2357,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				runnable.run();
 			}
 		});
-		Multiset<Object> newSelectionBag = HashMultiset.create();
+		Set<Pair<BufferedItemPosition, List<Object>>> newSelectionBag = new HashSet<Pair<BufferedItemPosition, List<Object>>>();
 		for (BufferedItemPosition itemPosition : getSelection()) {
 			if (itemPosition.isStable()) {
-				newSelectionBag.add(itemPosition);
+				newSelectionBag.add(new Pair<BufferedItemPosition, List<Object>>(itemPosition, null));
 			} else {
 				List<Object> itemAndAncestors = new ArrayList<Object>();
 				itemAndAncestors.add(itemPosition.getItem());
 				itemAndAncestors.addAll(ReflectionUIUtils.collectItemAncestors(itemPosition));
-				newSelectionBag.add(itemAndAncestors);
+				newSelectionBag.add(new Pair<BufferedItemPosition, List<Object>>(itemPosition, itemAndAncestors));
 			}
 		}
 		if (!newSelectionBag.equals(oldSelectionBag)) {

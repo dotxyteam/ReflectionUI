@@ -9,9 +9,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,9 +27,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
-
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
@@ -314,69 +308,11 @@ public class MiscUtils {
 		return new WeakHashMap<K, V>();
 	}
 
-	public static <K, V> Map<K, V> newWeakValuesEqualityBasedMap() {
-		return newAutoCleanUpCache(false, true, -1, -1, null, 5000, "WeakValuesEqualityBasedMapCleaner");
-	}
-
-	public static <K, V> Map<K, V> newWeakKeysIdentityBasedCache(int maxSize) {
-		return newAutoCleanUpCache(true, false, maxSize, -1, null, 5000, "WeakKeysIdentityBasedCacheCleaner");
-	}
-
 	public static <K, V> Map<K, V> newStandardCache(boolean expiration) {
-		return newAutoCleanUpCache(false, false, SystemProperties.getStandardCacheSize(),
-				expiration ? SystemProperties.getStandardCacheExpirationDelaySeconds() : -1, TimeUnit.SECONDS, 5000,
-				"StandardCacheCleaner");
-	}
-
-	public static <K, V> Map<K, V> newAutoCleanUpCache(boolean weakKeys, boolean weakValues, long maxSize,
-			long expirationDuration, TimeUnit expirationDurationUnit, final long cleanUpPeriodMilliseconds,
-			String cleanUpThreadNamePrefix) {
-		CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
-		if (maxSize != -1) {
-			builder = builder.maximumSize(maxSize);
-		}
-		if (weakKeys) {
-			builder = builder.weakKeys();
-		}
-		if (weakValues) {
-			builder = builder.weakValues();
-		}
-		if (expirationDuration > 0) {
-			builder = builder.expireAfterAccess(expirationDuration, expirationDurationUnit);
-		}
-		Cache<K, V> cache = builder.<K, V>build();
-		Map<K, V> map = cache.asMap();
-		final WeakReference<Map<K, V>> mapWeakRef = new WeakReference<Map<K, V>>(map);
-		new Thread(cleanUpThreadNamePrefix + " [cache=" + cache + ", maxSize=" + maxSize + "]") {
-			{
-				setDaemon(true);
-			}
-
-			@Override
-			public void run() {
-				while (true) {
-					try {
-						Thread.sleep(cleanUpPeriodMilliseconds);
-					} catch (InterruptedException e) {
-						throw new ReflectionUIError(e);
-					}
-					Map<K, V> map = mapWeakRef.get();
-					if (map == null) {
-						break;
-					}
-					try {
-						Method cleanUpMethod = map.getClass().getMethod("cleanUp");
-						cleanUpMethod.setAccessible(true);
-						cleanUpMethod.invoke(map);
-					} catch (InvocationTargetException e) {
-						throw new ReflectionUIError(e.getTargetException());
-					} catch (Exception e) {
-						throw new ReflectionUIError(e);
-					}
-				}
-			}
-		}.start();
-		return map;
+		long expirationDelayMilliseconds = expiration
+				? (1000 * SystemProperties.getStandardCacheExpirationDelaySeconds())
+				: 0;
+		return new SimpleCache<K, V>(SystemProperties.getStandardCacheSize(), expirationDelayMilliseconds);
 	}
 
 	public static boolean isHTMLText(String text) {
