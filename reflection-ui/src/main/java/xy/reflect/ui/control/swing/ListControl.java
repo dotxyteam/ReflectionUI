@@ -595,7 +595,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 			void popupMenu(MouseEvent e) {
 				if (e.getComponent() == treeTableComponent) {
-					JPopupMenu popup = createPopupMenu();
+					JPopupMenu popup = ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(),
+							cellsRenderingContext, () -> createPopupMenu());
 					popup.show(e.getComponent(), e.getX(), e.getY());
 					return;
 				}
@@ -1847,25 +1848,27 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		treeTableComponent.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				if (!getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
-					return;
-				}
-				try {
-					if (me.getClickCount() != 2) {
+				ReflectionUIUtils.withRenderingContext(swingRenderer.getReflectionUI(), cellsRenderingContext, () -> {
+					if (!getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 						return;
 					}
-					int row = treeTableComponent.rowAtPoint(me.getPoint());
-					if (row == -1) {
-						return;
+					try {
+						if (me.getClickCount() != 2) {
+							return;
+						}
+						int row = treeTableComponent.rowAtPoint(me.getPoint());
+						if (row == -1) {
+							return;
+						}
+						AbstractStandardListAction action = createOpenItemAction();
+						if (!action.isValid()) {
+							return;
+						}
+						action.actionPerformed(null);
+					} catch (Throwable t) {
+						swingRenderer.handleException(treeTableComponent, t);
 					}
-					AbstractStandardListAction action = createOpenItemAction();
-					if (!action.isValid()) {
-						return;
-					}
-					action.actionPerformed(null);
-				} catch (Throwable t) {
-					swingRenderer.handleException(treeTableComponent, t);
-				}
+				});
 			}
 		});
 	}

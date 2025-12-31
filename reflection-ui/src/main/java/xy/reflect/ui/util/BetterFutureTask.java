@@ -14,7 +14,7 @@ import java.util.concurrent.TimeoutException;
  * http://stackoverflow.com/questions/6040962/wait-for-cancel-on-futuretask:
  * Based on FixedFutureTask (@author Aleksandr Dubinsky).
  * 
- * Additionally allows to interrupt repeatedly interrupt the running thread
+ * Additionally allows to repeatedly interrupt the running thread
  * until it terminates.
  * 
  * @author olitank
@@ -74,8 +74,6 @@ public class BetterFutureTask<T> extends FutureTask<T> {
 			thread = null;
 		}
 	}
-
-	
 
 	/**
 	 * Waits if necessary for the computation to complete or finish cancelling, and
@@ -170,7 +168,7 @@ public class BetterFutureTask<T> extends FutureTask<T> {
 			}
 		}
 	}
-	
+
 	/**
 	 * Behaves almost like {@link #cancelAndWait(boolean)} with "true" argument and
 	 * repeatedly interrupts the running thread until it terminates. This can be
