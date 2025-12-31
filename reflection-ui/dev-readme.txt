@@ -34,7 +34,7 @@ To achieve this goal, 2 main layers have been created:
 
 		ITypeInfo interface
 		-------------------
-		This interface represents a class in the object oriented paradigm.  It then allows
+		This interface represents a class in the object oriented paradigm. It then allows
 		to define how an object UI of a given class should look like and behave.
 		It mainly provides UI informations about fields and methods.
 		2 important interfaces are derived from ITypeInfo:
@@ -73,6 +73,20 @@ To achieve this goal, 2 main layers have been created:
 			------------------------------ 
 			This interface allows to define objects as being enumeration items. By default only 
 			enum types are interpreted as IEnumerationTypeInfo instances.
+			
+			ITypeInfoSource & SpecificitiesIdentifier
+			-----------------------------------------
+			Generally, in a typical application, a specific user interface component (i.e., an ITypeInfo)
+			is created for a given class/field pair. However, it's common to see the same components 
+			reused for different class/field pairs of the same type (integer => slider, boolean => checkbox, 
+			etc.). This is reflected in ReflectionUI by providing ITypeInfoSource class, which have a 
+			SpecificitiesIdentifier attribute that allows to distinguish the class/field context. 
+			Since the initial ITypeInfoSource is accessible from any ITypeInfo, it can be used to adapt 
+			the appearance and behavior of components to specific contexts. 
+			If ITypeInfo proxies are used to alter the data context, the associated SpecificitiesIdentifier 
+			must be adapted to ensure consistent rendering. Currently, this adaptation is done manually, 
+			although it could be automated in the future. Automatic consistency checks are performed in 
+			several cases.
 
 		ReflectionUI class
 		------------------

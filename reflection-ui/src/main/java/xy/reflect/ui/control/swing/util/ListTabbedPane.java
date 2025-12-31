@@ -9,11 +9,9 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
+import java.rmi.server.UID;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -74,6 +72,8 @@ public class ListTabbedPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	protected static final String NULL_CARD_NAME = newCardName();
+
 	protected DefaultListModel titleListModel;
 	protected JList titleListControl;
 	protected JScrollPane titleListControlWrapper;
@@ -82,9 +82,10 @@ public class ListTabbedPane extends JPanel {
 	protected JPanel currentComponentContainer;
 	protected CardLayout cardLayout;
 	protected List<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
+	protected List<String> cardNames = new ArrayList<String>();
 	protected List<String> disabledCardNames = new ArrayList<String>();
-	protected Map<Integer, Component> componentByIndex = new HashMap<Integer, Component>();
-	protected Map<Integer, Icon> iconByIndex = new HashMap<Integer, Icon>();
+	protected List<Component> components = new ArrayList<Component>();
+	protected List<Icon> icons = new ArrayList<Icon>();
 	protected int placement;
 
 	public ListTabbedPane(int placement) {
@@ -94,11 +95,15 @@ public class ListTabbedPane extends JPanel {
 		titleListControl.setModel(titleListModel = createListModel());
 
 		currentComponentContainer = createCurrentComponentContainer();
-		currentComponentContainer.add(createNullTabComponent(), getCardName(-1));
+		currentComponentContainer.add(createNullTabComponent(), NULL_CARD_NAME);
 
 		layoutComponents(currentComponentContainer);
 
 		refresh();
+	}
+
+	protected static String newCardName() {
+		return new UID().toString();
 	}
 
 	public int getTabPlacement() {
@@ -149,7 +154,7 @@ public class ListTabbedPane extends JPanel {
 			@Override
 			public void setSelectionInterval(int anchor, int lead) {
 				for (int index = anchor; index <= lead; index++) {
-					if (disabledCardNames.contains(getCardName(index))) {
+					if (disabledCardNames.contains(cardNames.get(index))) {
 						return;
 					}
 				}
@@ -215,12 +220,12 @@ public class ListTabbedPane extends JPanel {
 				if (isSelected) {
 					label.setText(text);
 					label.setIcon(icon);
-					label.setEnabled(!disabledCardNames.contains(getCardName(index)));
+					label.setEnabled(!disabledCardNames.contains(cardNames.get(index)));
 					return label;
 				} else {
 					button.setText(text);
 					button.setIcon(icon);
-					button.setEnabled(!disabledCardNames.contains(getCardName(index)));
+					button.setEnabled(!disabledCardNames.contains(cardNames.get(index)));
 					return button;
 				}
 
@@ -369,7 +374,9 @@ public class ListTabbedPane extends JPanel {
 			@Override
 			public void run() {
 				preventMultipleVisibleCardsIssue();
-				cardLayout.show(currentComponentContainer, getCardName(currentIndex));
+				if (currentIndex != -1) {
+					cardLayout.show(currentComponentContainer, cardNames.get(currentIndex));
+				}
 				notifyChangeListeners();
 			}
 
@@ -390,29 +397,28 @@ public class ListTabbedPane extends JPanel {
 		}
 	}
 
-	protected String getCardName(int index) {
-		return Integer.toString(index);
-	}
-
 	public void addTab(String title, Component component) {
 		insertTab(title, null, component, getTabCount());
 	}
 
 	public void insertTab(String title, Icon icon, Component component, int index) {
-		String cardName = getCardName(index);
+		String cardName = newCardName();
+		cardNames.add(index, cardName);
 		currentComponentContainer.add(component, cardName);
+		components.add(index, component);
+		icons.add(index, icon);
 		titleListModel.insertElementAt(title, index);
-		componentByIndex.put(index, component);
-		setIconAt(index, icon);
 		if (getSelectedIndex() == -1) {
 			setSelectedIndex(0);
 		}
 	}
 
 	public void removeTabAt(int index) {
-		Component component = componentByIndex.remove(index);
+		cardNames.remove(index);
+		currentComponentContainer.remove(components.get(index));
+		components.remove(index);
+		icons.remove(index);
 		titleListModel.removeElementAt(index);
-		currentComponentContainer.remove(component);
 		if (getSelectedIndex() == -1) {
 			setSelectedIndex(0);
 		}
@@ -443,20 +449,20 @@ public class ListTabbedPane extends JPanel {
 	}
 
 	public Component getComponentAt(int index) {
-		return componentByIndex.get(index);
+		return components.get(index);
 	}
 
 	public void setEnabledAt(int tabIndex, boolean b) {
 		if (b) {
-			disabledCardNames.remove(getCardName(tabIndex));
+			disabledCardNames.remove(cardNames.get(tabIndex));
 		} else {
-			disabledCardNames.add(getCardName(tabIndex));
+			disabledCardNames.add(cardNames.get(tabIndex));
 		}
 		titleListControl.repaint();
 	}
 
 	public boolean isEnabledAt(int tabIndex) {
-		return !disabledCardNames.contains(getCardName(tabIndex));
+		return !disabledCardNames.contains(cardNames.get(tabIndex));
 	}
 
 	public void refresh() {
@@ -472,11 +478,11 @@ public class ListTabbedPane extends JPanel {
 	}
 
 	public Icon getIconAt(int index) {
-		return iconByIndex.get(index);
+		return icons.get(index);
 	}
 
 	public void setIconAt(int tabIndex, Icon icon) {
-		iconByIndex.put(tabIndex, icon);
+		icons.set(tabIndex, icon);
 	}
 
 }

@@ -2913,6 +2913,30 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						public boolean isHidden() {
 							return false;
 						}
+
+						@Override
+						public ITypeInfo getType() {
+							/*
+							 * Allows distinguishing between the types of the two proxies derived from
+							 * MethodReturnValueAsFieldInfo and produced by the
+							 * MethodReturnValueFieldGeneratingTransformer.
+							 */
+							return reflectionUI
+									.getTypeInfo(new TypeInfoSourceProxy(method.getReturnValueType().getSource()) {
+										@Override
+										public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+											return new SpecificitiesIdentifier(objectType.getName(), getName());
+										}
+
+										@Override
+										protected String getTypeInfoProxyFactoryIdentifier() {
+											return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName()
+													+ ", baseMethod=" + method.getSignature() + ", objectType="
+													+ objectType.getName() + "]";
+										}
+									});
+						}
+
 					});
 				}
 				return method;

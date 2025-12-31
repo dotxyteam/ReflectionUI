@@ -63,33 +63,132 @@
         <customFieldsOrderEntry>packages</customFieldsOrderEntry>
         <customFieldsOrderEntry>settings</customFieldsOrderEntry>
         <fieldsCustomization>
-            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e65</uniqueIdentifier>
+            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e52</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c7b</uniqueIdentifier>
-                <caption>Orders</caption>
-                <name>Orders</name>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49d4</uniqueIdentifier>
+                <caption>Customers</caption>
+                <name>Customers</name>
             </category>
-            <categoryCaption>Orders</categoryCaption>
-            <categoryName>Orders</categoryName>
+            <categoryCaption>Customers</categoryCaption>
+            <categoryName>Customers</categoryName>
             <hidden>false</hidden>
+            <displayAreaVerticalFilling>true</displayAreaVerticalFilling>
+            <displayAreaVerticalWeight>1.0</displayAreaVerticalWeight>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
-            <encapsulationFieldName>topRow</encapsulationFieldName>
-            <fieldName>totalOrder</fieldName>
+            <fieldName>customers</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <getterGenerated>false</getterGenerated>
             <nullReplacement>
-                <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-78eb</uniqueIdentifier>
+                <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e50</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldExported>false</nullStatusFieldExported>
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
                 <applicationCustomization>
-                    <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-78ea</uniqueIdentifier>
+                    <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e51</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </applicationCustomization>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
+            <uniqueIdentifier>6c08b902:19b76a24699:-7ed3</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>filteredOrders</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>6c08b902:19b76a24699:-7ed1</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <applicationCustomization>
+                    <uniqueIdentifier>6c08b902:19b76a24699:-7ed2</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </applicationCustomization>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
+            <uniqueIdentifier>-7d804fad:19a163fc371:-546e</uniqueIdentifier>
+            <specificProperties/>
+            <category>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49d3</uniqueIdentifier>
+                <caption>Sign Out</caption>
+                <name>Sign Out</name>
+            </category>
+            <categoryCaption>Sign Out</categoryCaption>
+            <categoryName>Sign Out</categoryName>
+            <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>logOutBox</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-7d804fad:19a163fc371:-546c</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <applicationCustomization>
+                    <uniqueIdentifier>-7d804fad:19a163fc371:-546d</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </applicationCustomization>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
+            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4f</uniqueIdentifier>
+            <specificProperties/>
+            <category>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49d2</uniqueIdentifier>
+                <caption>Menus</caption>
+                <name>Menus</name>
+            </category>
+            <categoryCaption>Menus</categoryCaption>
+            <categoryName>Menus</categoryName>
+            <hidden>false</hidden>
+            <displayAreaVerticalFilling>true</displayAreaVerticalFilling>
+            <displayAreaVerticalWeight>1.0</displayAreaVerticalWeight>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>menus</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4d</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <applicationCustomization>
+                    <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4e</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </applicationCustomization>
@@ -101,7 +200,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e60</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c7a</uniqueIdentifier>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49d1</uniqueIdentifier>
                 <caption>Orders</caption>
                 <name>Orders</name>
             </category>
@@ -158,223 +257,10 @@
             <valueValidityDetectionForced>false</valueValidityDetectionForced>
         </fieldsCustomization>
         <fieldsCustomization>
-            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e5b</uniqueIdentifier>
-            <specificProperties/>
-            <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c79</uniqueIdentifier>
-                <caption>Orders</caption>
-                <name>Orders</name>
-            </category>
-            <categoryCaption>Orders</categoryCaption>
-            <categoryName>Orders</categoryName>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <encapsulationFieldName>topRow</encapsulationFieldName>
-            <fieldName>totalDelivered</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-79a8</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <applicationCustomization>
-                    <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-79a7</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </applicationCustomization>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-            <valueValidityDetectionForced>false</valueValidityDetectionForced>
-        </fieldsCustomization>
-        <fieldsCustomization>
-            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e58</uniqueIdentifier>
-            <specificProperties/>
-            <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c78</uniqueIdentifier>
-                <caption>Orders</caption>
-                <name>Orders</name>
-            </category>
-            <categoryCaption>Orders</categoryCaption>
-            <categoryName>Orders</categoryName>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <encapsulationFieldName>topRow</encapsulationFieldName>
-            <fieldName>totalPending</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-78e3</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <applicationCustomization>
-                    <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-78e2</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </applicationCustomization>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-            <valueValidityDetectionForced>false</valueValidityDetectionForced>
-        </fieldsCustomization>
-        <fieldsCustomization>
-            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e55</uniqueIdentifier>
-            <specificProperties/>
-            <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c77</uniqueIdentifier>
-                <caption>Orders</caption>
-                <name>Orders</name>
-            </category>
-            <categoryCaption>Orders</categoryCaption>
-            <categoryName>Orders</categoryName>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <encapsulationFieldName>topRow</encapsulationFieldName>
-            <fieldName>totalOnHold</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-797b</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <applicationCustomization>
-                    <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-797a</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </applicationCustomization>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-            <valueValidityDetectionForced>false</valueValidityDetectionForced>
-        </fieldsCustomization>
-        <fieldsCustomization>
-            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e52</uniqueIdentifier>
-            <specificProperties/>
-            <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c76</uniqueIdentifier>
-                <caption>Customers</caption>
-                <name>Customers</name>
-            </category>
-            <categoryCaption>Customers</categoryCaption>
-            <categoryName>Customers</categoryName>
-            <hidden>false</hidden>
-            <displayAreaVerticalFilling>true</displayAreaVerticalFilling>
-            <displayAreaVerticalWeight>1.0</displayAreaVerticalWeight>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>customers</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e50</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <applicationCustomization>
-                    <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e51</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </applicationCustomization>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-            <valueValidityDetectionForced>false</valueValidityDetectionForced>
-        </fieldsCustomization>
-        <fieldsCustomization>
-            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4f</uniqueIdentifier>
-            <specificProperties/>
-            <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c75</uniqueIdentifier>
-                <caption>Menus</caption>
-                <name>Menus</name>
-            </category>
-            <categoryCaption>Menus</categoryCaption>
-            <categoryName>Menus</categoryName>
-            <hidden>false</hidden>
-            <displayAreaVerticalFilling>true</displayAreaVerticalFilling>
-            <displayAreaVerticalWeight>1.0</displayAreaVerticalWeight>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>menus</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4d</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <applicationCustomization>
-                    <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4e</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </applicationCustomization>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-            <valueValidityDetectionForced>false</valueValidityDetectionForced>
-        </fieldsCustomization>
-        <fieldsCustomization>
-            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4c</uniqueIdentifier>
-            <specificProperties/>
-            <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c74</uniqueIdentifier>
-                <caption>Settings</caption>
-                <name>Settings</name>
-            </category>
-            <categoryCaption>Settings</categoryCaption>
-            <categoryName>Settings</categoryName>
-            <hidden>false</hidden>
-            <displayAreaVerticalFilling>true</displayAreaVerticalFilling>
-            <displayAreaVerticalWeight>1.0</displayAreaVerticalWeight>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>settings</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4a</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <applicationCustomization>
-                    <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4b</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </applicationCustomization>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-            <valueValidityDetectionForced>false</valueValidityDetectionForced>
-        </fieldsCustomization>
-        <fieldsCustomization>
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e49</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c73</uniqueIdentifier>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49d0</uniqueIdentifier>
                 <caption>Packages</caption>
                 <name>Packages</name>
             </category>
@@ -407,80 +293,10 @@
             <valueValidityDetectionForced>false</valueValidityDetectionForced>
         </fieldsCustomization>
         <fieldsCustomization>
-            <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-79bf</uniqueIdentifier>
-            <specificProperties/>
-            <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c72</uniqueIdentifier>
-                <caption>Orders</caption>
-                <name>Orders</name>
-            </category>
-            <categoryCaption>Orders</categoryCaption>
-            <categoryName>Orders</categoryName>
-            <hidden>false</hidden>
-            <customFieldCaption></customFieldCaption>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>topRow</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>true</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-79bd</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <applicationCustomization>
-                    <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-79be</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </applicationCustomization>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-            <valueValidityDetectionForced>false</valueValidityDetectionForced>
-        </fieldsCustomization>
-        <fieldsCustomization>
-            <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-748f</uniqueIdentifier>
-            <specificProperties/>
-            <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c71</uniqueIdentifier>
-                <caption>Orders</caption>
-                <name>Orders</name>
-            </category>
-            <categoryCaption>Orders</categoryCaption>
-            <categoryName>Orders</categoryName>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <encapsulationFieldName>titleRow</encapsulationFieldName>
-            <fieldName>textOf-java.util.List-getFilteredOrders-java.lang.String</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-7450</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <applicationCustomization>
-                    <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-744f</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </applicationCustomization>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-            <valueValidityDetectionForced>false</valueValidityDetectionForced>
-        </fieldsCustomization>
-        <fieldsCustomization>
             <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-748c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c70</uniqueIdentifier>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49cf</uniqueIdentifier>
                 <caption>Orders</caption>
                 <name>Orders</name>
             </category>
@@ -539,10 +355,81 @@
             <valueValidityDetectionForced>false</valueValidityDetectionForced>
         </fieldsCustomization>
         <fieldsCustomization>
+            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4c</uniqueIdentifier>
+            <specificProperties/>
+            <category>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49ce</uniqueIdentifier>
+                <caption>Settings</caption>
+                <name>Settings</name>
+            </category>
+            <categoryCaption>Settings</categoryCaption>
+            <categoryName>Settings</categoryName>
+            <hidden>false</hidden>
+            <displayAreaVerticalFilling>true</displayAreaVerticalFilling>
+            <displayAreaVerticalWeight>1.0</displayAreaVerticalWeight>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>settings</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4a</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <applicationCustomization>
+                    <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4b</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </applicationCustomization>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
+            <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-748f</uniqueIdentifier>
+            <specificProperties/>
+            <category>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49cd</uniqueIdentifier>
+                <caption>Orders</caption>
+                <name>Orders</name>
+            </category>
+            <categoryCaption>Orders</categoryCaption>
+            <categoryName>Orders</categoryName>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>titleRow</encapsulationFieldName>
+            <fieldName>textOf-java.util.List-getFilteredOrders-java.lang.String</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-7450</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <applicationCustomization>
+                    <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-744f</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </applicationCustomization>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
             <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-7469</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c6f</uniqueIdentifier>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49cc</uniqueIdentifier>
                 <caption>Orders</caption>
                 <name>Orders</name>
             </category>
@@ -577,7 +464,7 @@
             <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-7463</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c6e</uniqueIdentifier>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49cb</uniqueIdentifier>
                 <caption>Orders</caption>
                 <name>Orders</name>
             </category>
@@ -609,33 +496,173 @@
             <valueValidityDetectionForced>false</valueValidityDetectionForced>
         </fieldsCustomization>
         <fieldsCustomization>
-            <uniqueIdentifier>-7d804fad:19a163fc371:-546e</uniqueIdentifier>
+            <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-79bf</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c6d</uniqueIdentifier>
-                <caption>Sign Out</caption>
-                <name>Sign Out</name>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49ca</uniqueIdentifier>
+                <caption>Orders</caption>
+                <name>Orders</name>
             </category>
-            <categoryCaption>Sign Out</categoryCaption>
-            <categoryName>Sign Out</categoryName>
+            <categoryCaption>Orders</categoryCaption>
+            <categoryName>Orders</categoryName>
             <hidden>false</hidden>
             <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>logOutBox</fieldName>
+            <fieldName>topRow</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <getterGenerated>false</getterGenerated>
             <nullReplacement>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-546c</uniqueIdentifier>
+                <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-79bd</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldExported>false</nullStatusFieldExported>
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
                 <applicationCustomization>
-                    <uniqueIdentifier>-7d804fad:19a163fc371:-546d</uniqueIdentifier>
+                    <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-79be</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </applicationCustomization>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
+            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e5b</uniqueIdentifier>
+            <specificProperties/>
+            <category>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49c9</uniqueIdentifier>
+                <caption>Orders</caption>
+                <name>Orders</name>
+            </category>
+            <categoryCaption>Orders</categoryCaption>
+            <categoryName>Orders</categoryName>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>topRow</encapsulationFieldName>
+            <fieldName>totalDelivered</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-79a8</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <applicationCustomization>
+                    <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-79a7</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </applicationCustomization>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
+            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e55</uniqueIdentifier>
+            <specificProperties/>
+            <category>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49c8</uniqueIdentifier>
+                <caption>Orders</caption>
+                <name>Orders</name>
+            </category>
+            <categoryCaption>Orders</categoryCaption>
+            <categoryName>Orders</categoryName>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>topRow</encapsulationFieldName>
+            <fieldName>totalOnHold</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-797b</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <applicationCustomization>
+                    <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-797a</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </applicationCustomization>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
+            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e65</uniqueIdentifier>
+            <specificProperties/>
+            <category>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49c7</uniqueIdentifier>
+                <caption>Orders</caption>
+                <name>Orders</name>
+            </category>
+            <categoryCaption>Orders</categoryCaption>
+            <categoryName>Orders</categoryName>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>topRow</encapsulationFieldName>
+            <fieldName>totalOrder</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-78eb</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <applicationCustomization>
+                    <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-78ea</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </applicationCustomization>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+            <valueValidityDetectionForced>false</valueValidityDetectionForced>
+        </fieldsCustomization>
+        <fieldsCustomization>
+            <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e58</uniqueIdentifier>
+            <specificProperties/>
+            <category>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49c6</uniqueIdentifier>
+                <caption>Orders</caption>
+                <name>Orders</name>
+            </category>
+            <categoryCaption>Orders</categoryCaption>
+            <categoryName>Orders</categoryName>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>topRow</encapsulationFieldName>
+            <fieldName>totalPending</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-78e3</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <applicationCustomization>
+                    <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-78e2</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </applicationCustomization>
@@ -699,7 +726,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e46</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c6c</uniqueIdentifier>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49c5</uniqueIdentifier>
                 <caption>Sign Out</caption>
                 <name>Sign Out</name>
             </category>
@@ -724,7 +751,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e42</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-7d804fad:19a163fc371:-c6b</uniqueIdentifier>
+                <uniqueIdentifier>3d0e8ec7:19b76a94b0b:-49c4</uniqueIdentifier>
                 <caption>Orders</caption>
                 <name>Orders</name>
             </category>
@@ -747,6 +774,7 @@
                 <hidden>false</hidden>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>text</parameterName>
+                <valueContextual>false</valueContextual>
             </parametersCustomization>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>true</returnValueFieldGenerated>
