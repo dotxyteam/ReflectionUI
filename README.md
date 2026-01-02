@@ -275,7 +275,7 @@ https://github.com/dotxyteam/ReflectionUI/blob/master/custom-ui/examples/src/mai
 
 ## Support for teamwork
 
-It is provided through the class xy.reflect.ui.control.swing.customizer.MultiSwingCustomizer (read the Javadoc for more information).
+It is provided through the class [xy.reflect.ui.control.swing.customizer.MultiSwingCustomizer](https://github.com/dotxyteam/ReflectionUI/blob/master/custom-ui/src/main/java/xy/reflect/ui/control/swing/customizer/MultiSwingCustomizer.java) (read the Javadoc for more information).
 
 # DRUIM Philosophy
 
