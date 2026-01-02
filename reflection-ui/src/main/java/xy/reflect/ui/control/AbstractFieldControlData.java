@@ -3,7 +3,6 @@
  */
 package xy.reflect.ui.control;
 
-import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
@@ -12,7 +11,6 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.factory.FieldAlternativeConstructorsInstaller;
@@ -74,7 +72,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 
 	@Override
 	public Runnable getLastFormRefreshStateRestorationJob() {
-		if(getObject() == null) {
+		if (getObject() == null) {
 			return null;
 		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
@@ -89,8 +87,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 		if (field.getAlternativeConstructors(object) != null) {
 			result = new FieldAlternativeConstructorsInstaller(reflectionUI, object, field).wrapTypeInfo(result);
 		}
-		final List<IMethodInfo> alternativeListItemConstructors = field.getAlternativeListItemConstructors(object);
-		if (alternativeListItemConstructors != null) {
+		if (field.getAlternativeListItemConstructors(object) != null) {
 			result = new FieldAlternativeListItemConstructorsInstaller(reflectionUI, object, field)
 					.wrapTypeInfo(result);
 		}
