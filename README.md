@@ -283,7 +283,7 @@ When using a reflected UI builder (like ReflectionUI), developers may tend to re
 
 Developers also have the ability to emulate the behavior of complex graphical components directly in their model/controller classes. This would provide greater flexibility, which is desirable in certain circumstances. For example, a video player could be emulated by reflectively rendering a simple object having a periodically refreshed "current frame" image field, and some playback control methods (start, stop, fast-forward, etc).
 
-The approaches leading to the production of user interfaces may therefore evolve slightly, and class models adapted to this way of producing user interfaces (via reflection) may become more widespread. This is why the term *DRUIM (Domain-Reflective User Interface Modeling)* is proposed here.
+The approaches leading to the production of user interfaces may therefore evolve slightly, and class models adapted to this way of producing user interfaces (via reflection) may become more widespread. This is why the term *DRUIM (Domain Reflective User Interface Modeling)* is proposed here.
 
 # Support
 
