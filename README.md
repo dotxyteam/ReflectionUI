@@ -93,7 +93,7 @@ ReflectionUI:
     <dependency>
     <groupId>com.github.dotxyteam</groupId>
     <artifactId>reflection-ui</artifactId>
-    <version>6.0.1</version>
+    <version>LATEST</version>
     </dependency>
 
 CustomUI:
@@ -101,7 +101,7 @@ CustomUI:
     <dependency>
     <groupId>com.github.dotxyteam</groupId>
     <artifactId>custom-ui</artifactId>
-    <version>6.0.1</version>
+    <version>LATEST</version>
     </dependency>
 
 # Documentation
