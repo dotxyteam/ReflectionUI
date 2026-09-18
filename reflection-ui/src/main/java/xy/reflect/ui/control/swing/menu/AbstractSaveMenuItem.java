@@ -40,14 +40,18 @@ public abstract class AbstractSaveMenuItem extends AbstractFileMenuItem {
 		File result = super.retrieveFile();
 		if (result != null) {
 			if (result.exists()) {
-				if (!swingRenderer.openQuestionDialog(menuBarOwner,
-						"The file '" + result.getPath() + "' already exists.\nDo you want to replace it?",
-						fileBrowserConfiguration.actionTitle, "OK", "Cancel")) {
+				if (!openOverwritingQuestionDialog(result)) {
 					result = null;
 				}
 			}
 		}
 		return result;
+	}
+
+	protected boolean openOverwritingQuestionDialog(File file) {
+		return swingRenderer.openQuestionDialog(menuBarOwner,
+				"The file '" + file.getPath() + "' already exists.\nDo you want to replace it?",
+				fileBrowserConfiguration.actionTitle, "OK", "Cancel");
 	}
 
 }
