@@ -622,7 +622,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				bufferedFieldControlData.returningValue(value, new Runnable() {
 					@Override
 					public void run() {
-						result[0] = createEmbeddedFormControl(swingRenderer, finalControlInput);
+						result[0] = createEmbeddedFormControl(finalControlInput);
 					}
 				});
 				return result[0];
@@ -649,7 +649,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		return new DialogAccessControl(swingRenderer, controlInput);
 	}
 
-	protected Component createEmbeddedFormControl(SwingRenderer swingRenderer2, IFieldControlInput controlInput) {
+	protected Component createEmbeddedFormControl(IFieldControlInput controlInput) {
 		return new EmbeddedFormControl(swingRenderer, controlInput);
 	}
 

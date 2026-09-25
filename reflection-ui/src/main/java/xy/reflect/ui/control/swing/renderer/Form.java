@@ -173,8 +173,6 @@ public class Form extends ImagePanel {
 
 		}
 	}
-	
-	
 
 	protected RenderingContext createRenderingContext() {
 		return new FormRenderingContext(this);
@@ -528,6 +526,7 @@ public class Form extends ImagePanel {
 		currentValidationTask = swingRenderer.getReflectionUI().getValidationErrorRegistry()
 				.createValidationTask(new Runnable() {
 					boolean completedValidationStatusReported = false;
+					BetterFutureTask<Boolean> task = currentValidationTask;
 
 					@Override
 					public void run() {
@@ -559,7 +558,6 @@ public class Form extends ImagePanel {
 
 					void scheduleOngoingValidationStatusDisplay() {
 						swingRenderer.getDelayedUpdateExecutorService().submit(new Runnable() {
-							BetterFutureTask<Boolean> task = currentValidationTask;
 
 							@Override
 							public void run() {
@@ -1609,13 +1607,15 @@ public class Form extends ImagePanel {
 	 * this method.
 	 */
 	public void ensureNoCurrentValidationTask() {
-		if ((currentValidationTask != null) && !currentValidationTask.isDone()) {
+		BetterFutureTask<Boolean> task = currentValidationTask;
+		if ((task != null) && !task.isDone()) {
 			try {
-				currentValidationTask.cancelRepeatedlyAndWait(100);
+				task.cancelRepeatedlyAndWait(100);
 			} catch (InterruptedException e) {
 				throw new ReflectionUIError(e);
 			}
 		}
+
 	}
 
 	protected void createMembersControlPlaceHolders() {
