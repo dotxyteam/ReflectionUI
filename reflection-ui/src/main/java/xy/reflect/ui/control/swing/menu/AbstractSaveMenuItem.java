@@ -50,7 +50,8 @@ public abstract class AbstractSaveMenuItem extends AbstractFileMenuItem {
 
 	protected boolean openOverwritingQuestionDialog(File file) {
 		return swingRenderer.openQuestionDialog(menuBarOwner,
-				"The file '" + file.getPath() + "' already exists.\nDo you want to replace it?",
+				"The " + (file.isDirectory() ? "directory" : "file") + " '" + file.getPath()
+						+ "' already exists.\nDo you want to replace it?",
 				fileBrowserConfiguration.actionTitle, "OK", "Cancel");
 	}
 
