@@ -14,9 +14,8 @@ import xy.reflect.ui.info.type.ITypeInfo;
  * {@link IMethodInfo#invoke(Object, InvocationData)}, ...), to information
  * about the display context of the current component.
  * 
- * Note that the the contextual information is cached. If it cannot be found
- * locally, then its search is delegated to the parent
- * ({@link RenderingContext#getParent()}) (if any).
+ * If the contextual information cannot be found locally, then its search is
+ * delegated to the parent ({@link RenderingContext#getParent()}) (if any).
  * 
  * The implementations are normally provided by the renderers.
  * 
@@ -28,8 +27,7 @@ public abstract class RenderingContext {
 	protected abstract Object findObjectLocally(ITypeInfo type);
 
 	protected RenderingContext parent;
-	protected Map<ITypeInfo, Object> currentObjectCache = createCurrentObjectCache();
-
+	
 	protected RenderingContext(RenderingContext parent) {
 		this.parent = parent;
 	}
@@ -55,19 +53,12 @@ public abstract class RenderingContext {
 	 *         highest in the hierarchy is returned.
 	 */
 	public Object getObject(ITypeInfo type) {
-		synchronized (currentObjectCache) {
-			if (currentObjectCache.containsKey(type)) {
-				return currentObjectCache.get(type);
-			} else {
-				Object result = findObjectLocally(type);
-				if (result == null) {
-					if (parent != null) {
-						result = parent.getObject(type);
-					}
-				}
-				currentObjectCache.put(type, result);
-				return result;
+		Object result = findObjectLocally(type);
+		if (result == null) {
+			if (parent != null) {
+				result = parent.getObject(type);
 			}
 		}
+		return result;
 	}
 }
